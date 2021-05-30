@@ -1,0 +1,13 @@
+{
+  "name": "showstats",
+  "version-string": "0.0.0.1",
+  "description": "An info page",
+  "homepage": "https://github.com/mlthelama/ShowStats",
+  "license": "MIT",
+  "dependencies": [
+    "boost-atomic",
+    "boost-stl-interfaces",
+    "span-lite",
+    "spdlog"
+  ]
+}
