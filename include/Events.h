@@ -1,4 +1,4 @@
-#include "RE/Skyrim.h"
+#pragma once
 
 namespace Events
 {

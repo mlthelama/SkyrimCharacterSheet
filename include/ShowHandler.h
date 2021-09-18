@@ -1,11 +1,12 @@
 #pragma once
+
 class ShowHandler
 {
 public:
 	static ShowHandler* GetSingleton();
 	//maybe add save/load
 
-	void LogValues();
+	void ShowWindow();
 
 private:
 	using Lock = std::recursive_mutex;
@@ -18,6 +19,8 @@ private:
 
 	ShowHandler& operator=(const ShowHandler&) = delete;
 	ShowHandler& operator=(ShowHandler&&) = delete;
+
+	void Show();
 
 	mutable Lock _lock;
 };

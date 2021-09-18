@@ -15,10 +15,27 @@ ValueMap Player::GatherValues()
 {
 	ValueMap playerValues;
 	RE::PlayerCharacter* player = RE::PlayerCharacter::GetSingleton();
-	//make const
-	playerValues["name"] = player->GetName();
-	playerValues["health"] = std::to_string(player->GetActorValue(RE::ActorValue::kHealth));
-	playerValues["resistFrost"] = std::to_string(player->GetActorValue(RE::ActorValue::kResistFrost));
+	//maybe add factions too, someday
+	playerValues[constants::name] = player->GetName();
+	playerValues[constants::race] = player->GetRace()->GetFullName();
+	playerValues[constants::level] = std::to_string(player->GetLevel());
+	playerValues[constants::perkCount] = std::to_string(player->perkCount);
+	playerValues[constants::height] = getStringValueFromFloat(player->GetHeight());
+	playerValues[constants::equipedWeight] = getStringValueFromFloat(player->equippedWeight);
+	playerValues[constants::weight] = getStringValueFromFloat(player->GetWeight());
+	playerValues[constants::armor] = getStringValueFromFloat(player->armorRating);
+	playerValues[constants::damage] = getStringValueFromFloat(0); //fix me maybe
+	playerValues[constants::skillTrainingsThisLevel] = std::to_string(player->skillTrainingsThisLevel);
+	//playerValues[constants::defaultClass] = player->defaultClass->GetFullName();
+
+	/*
+	RE::BGSDefaultObjectManager* defaultObject = RE::BGSDefaultObjectManager::GetSingleton();
+	playerValues["test"] = defaultObject->GetObject(RE::DEFAULT_OBJECT::kPlayerIsVampireVariable)->GetName();
+	*/
+	//add here health, magicka, stamina, skill values, ...
+	for (const auto& [key, value] : staticValues) { //std::underlying_type_t<RE::ActorValue>>
+		playerValues[key] = getStringValueFromFloat(player->GetActorValue(value));
+	}
 	PrintValues(playerValues);
 
 	return playerValues;
@@ -27,8 +44,13 @@ ValueMap Player::GatherValues()
 void Player::PrintValues(ValueMap& p_map)
 {
 	for (const auto& [key, value] : p_map) {
-		logger::trace("{} = {}", key, value);
+		logger::trace("{} = {}"sv, key, value);
 	}
+}
+
+std::string Player::getStringValueFromFloat( float x )
+{
+	return std::to_string(round(x * 100.0) / 100.0);
 }
 
 Player::Player() :

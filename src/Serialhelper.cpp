@@ -1,5 +1,5 @@
-#include "Serialhelper.h"
-#include "Events.h"
+#include "serialhelper.h"
+#include "events.h"
 
 namespace Serialhelper
 {

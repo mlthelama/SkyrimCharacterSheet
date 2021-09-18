@@ -1,5 +1,6 @@
-#include "Events.h"
-#include "ShowHandler.h"
+#include "events.h"
+#include "showhandler.h"
+#include "scaleform/statsmenu.h"
 
 namespace Events
 {
@@ -46,13 +47,18 @@ namespace Events
 
 			auto key = button->idCode;
 			//auto device = button->device;
-			logger::trace("button code {}", key);
+			logger::trace("button code {}"sv, key);
 
-			logger::info("event input {}, set {}", key, _key);
+			logger::info("event input {}, set {}"sv, key, _key);
 			if (key == _key) {
 				//do shit
-				auto showHandler = ShowHandler::GetSingleton();
-				showHandler->LogValues();
+				/*close also triggers the is open check*/
+				if (Scaleform::StatsMenu::IsMenuOpen()) {
+					Scaleform::StatsMenu::Close();
+				} else {
+					auto showHandler = ShowHandler::GetSingleton();
+					showHandler->ShowWindow();
+				}
 				break;
 			}
 		}

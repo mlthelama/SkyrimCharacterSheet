@@ -1,5 +1,4 @@
 #pragma once
-#include "ShowHandler.h"
 
 namespace hooks
 {

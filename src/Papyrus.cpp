@@ -1,6 +1,5 @@
-#include "Papyrus.h"
-#include "Events.h"
-#include "SKSE/API.h"
+#include "papyrus.h"
+#include "events.h"
 
 namespace Papyrus
 {
@@ -29,6 +28,7 @@ namespace Papyrus
 	void Register() {
 		auto papyrus = SKSE::GetPapyrusInterface();
 		papyrus->Register(ShowStats::Register);
+		
 		logger::info("Registered papyrus functions");
 	}
 
