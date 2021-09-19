@@ -4,8 +4,9 @@ set(sources ${sources}
 	src/events.cpp
 	src/papyrus.cpp
 	src/serialhelper.cpp
-	src/showHandler.cpp
+	src/showhandler.cpp
 	src/hooks.cpp
 	src/player.cpp
-	src/scaleform.cpp
+	src/scaleform/scaleform.cpp
+	src/scaleform/statsmenu.cpp
 )

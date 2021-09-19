@@ -1,6 +1,7 @@
 #pragma once
 
 #include "scaleform/statsmenu.h"
+#include "player.h"
 
 namespace Scaleform
 {
@@ -17,8 +18,7 @@ namespace Scaleform
 		logger::info("Registered {}"sv, MENU_NAME);
 	}
 
-	void StatsMenu::Open()
-	{
+	void StatsMenu::Open() {
 		if (!StatsMenu::IsMenuOpen()) {
 			RE::UIMessageQueue* msgQueue = RE::UIMessageQueue::GetSingleton();
 			msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kShow, nullptr);
@@ -28,16 +28,14 @@ namespace Scaleform
 	}
 
 
-	void StatsMenu::Close()
-	{
+	void StatsMenu::Close() {
 		if (StatsMenu::IsMenuOpen()) {
 			RE::UIMessageQueue* msgQueue = RE::UIMessageQueue::GetSingleton();
 			msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
 		}
 	}
 
-	StatsMenu::StatsMenu()
-	{
+	StatsMenu::StatsMenu() {
 		using Context = RE::UserEvents::INPUT_CONTEXT_ID;
 		using Flag = RE::UI_MENU_FLAGS;
 
@@ -71,8 +69,7 @@ namespace Scaleform
 
 	}
 
-	void StatsMenu::AdvanceMovie(float a_interval, std::uint32_t a_currentTime)
-	{
+	void StatsMenu::AdvanceMovie(float a_interval, std::uint32_t a_currentTime) {
 		//std::uint32_t currentFrame = _view->GetCurrentFrame();
 
 		logger::trace("interval {}, currenttime {}"sv, a_interval, a_currentTime);
@@ -104,23 +101,21 @@ namespace Scaleform
 		//_view->GotoFrame(nextFrame);
 	}
 
-	RE::UI_MESSAGE_RESULTS StatsMenu::ProcessMessage(RE::UIMessage& a_message)
-	{
+	RE::UI_MESSAGE_RESULTS StatsMenu::ProcessMessage(RE::UIMessage& a_message) {
 		if (a_message.menu == StatsMenu::MENU_NAME) {
 			return RE::UI_MESSAGE_RESULTS::kHandled;
 		}
 		return RE::UI_MESSAGE_RESULTS::kPassOn;
 	}
 
-	void StatsMenu::InitExtensions()
-	{
+	void StatsMenu::InitExtensions() {
 		const RE::GFxValue boolean(true);
 		bool success;
 
 		success = _view->SetVariable("_global.gfxExtensions", boolean);
 		assert(success);
-		success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
-		assert(success);
+		/*success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
+		assert(success);*/
 	}
 
 	bool StatsMenu::IsMenuOpen() {
@@ -130,5 +125,63 @@ namespace Scaleform
 		logger::info("Menu {} is open {}"sv, MENU_NAME, isOpen);
 
 		return isOpen;
+	}
+
+	void StatsMenu::PostCreate() {
+		StatsMenu::OnOpen();
+	}
+
+	void StatsMenu::OnOpen() {
+
+		using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
+		std::array objects{
+			element_t{ std::ref(_rootObj), "_root.rootObj"sv },
+			element_t{ std::ref(_title), "_root.rootObj.title"sv },
+			element_t{ std::ref(_itemList), "_root.rootObj.itemList"sv },
+		};
+
+		for (const auto& [object, path] : objects) {
+			auto& instance = object.get().GetInstance();
+			[[maybe_unused]] const auto success = _view->GetVariable(std::addressof(instance), path.data());
+			assert(success && instance.IsObject());
+		}
+
+		//_rootObj.Visible(false);
+
+		_title.AutoSize(CLIK::Object{ "left" });
+		//_title.Visible(false);
+
+		//StatsMenu::UpdateStatsList();
+
+		_view->CreateArray(std::addressof(_itemListProvider));
+		_itemList.DataProvider(CLIK::Array{ _itemListProvider });
+
+		StatsMenu::UpdateTitle();
+		StatsMenu::UpdateStatsList();
+	}
+
+	void StatsMenu::UpdateTitle() {
+		_title.HTMLText(TITLE_NAME);
+		_title.Visible(true);
+	}
+
+	void StatsMenu::UpdateStatsList()
+	{
+		Player* playerinfo = Player::GetSingleton();
+		ValueMap playerValues = playerinfo->getValues();
+
+		std::string item;
+		for (const auto& [key, value] : playerValues) {
+			item = fmt::format("{} = {}", key, value);
+			_itemListImpl.push_back(item);
+		}
+
+		RE::GFxValue obj;
+		for (const auto& elem : _itemListImpl) {
+			obj.SetString(elem);
+			_itemListProvider.PushBack(obj);
+		}
+
+		//_rootObj.Visible(true);
 	}
 }

@@ -4,9 +4,22 @@ set(headers ${headers}
 	include/events.h
 	include/papyrus.h
 	include/serialhelper.h
-	include/showHandler.h
+	include/showhandler.h
 	include/hooks.h
 	include/player.h
 	include/constants.h
-	include/scaleform.h
+	include/scaleform/scaleform.h
+	include/scaleform/statsmenu.h
+	include/CLIK/Array.h
+	include/CLIK/GFx/Controls/Button.h
+	include/CLIK/GFx/Controls/ButtonBar.h
+	include/CLIK/GFx/Controls/CoreList.h
+	include/CLIK/GFx/Controls/DropdownMenu.h
+	include/CLIK/GFx/Controls/ScrollingList.h
+	include/CLIK/GFx/Controls/Slider.h
+	include/CLIK/GFx/Controls/TextInput.h
+	include/CLIK/GFx/Core/UIComponent.h
+	include/CLIK/MovieClip.h
+	include/CLIK/Object.h
+	include/CLIK/TextField.h
 )
