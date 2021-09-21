@@ -7,13 +7,13 @@ public:
 	static Player* GetSingleton();
 	//maybe add save/load
 
-	ValueMap getValues();
+	constants::ValueMap getValues();
 
 private:
-	ValueMap GatherValues();
-	void PrintValues(ValueMap& p_map);
+	constants::ValueMap GatherValues();
+	void PrintValues(constants::ValueMap& p_map);
 
-	static const inline ActorMap staticValues = {
+	static const inline constants::ActorMap staticValues = {
 		{ constants::health, RE::ActorValue::kHealth },
 		{ constants::healthRate, RE::ActorValue::kHealRate },
 		{ constants::healthRateMult, RE::ActorValue::kHealRateMult },

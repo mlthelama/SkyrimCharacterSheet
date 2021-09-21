@@ -60,6 +60,8 @@ namespace Events
 					showHandler->ShowWindow();
 				}
 				break;
+			} else if (key == RE::BSWin32KeyboardDevice::Key::kEscape && Scaleform::StatsMenu::IsMenuOpen()) {
+				Scaleform::StatsMenu::Close();
 			}
 		}
 		return EventResult::kContinue;
