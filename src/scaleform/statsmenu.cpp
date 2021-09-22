@@ -72,15 +72,6 @@ namespace Scaleform
 
 		logger::trace("interval {}, currenttime {}"sv, a_interval, a_currentTime);
 
-		/*if (!GetCombatAlertOverlayCount()) {
-			RE::UIMessageQueue* msgQueue = RE::UIMessageQueue::GetSingleton();
-			msgQueue->AddMessage(StatsMenu::MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
-		}*/
-
-		/*
-		RE::UIMessageQueue* msgQueue = RE::UIMessageQueue::GetSingleton();
-		msgQueue->AddMessage(StatsMenu::MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
-		*/
 
 		/*RE::PlayerCharacter* player = RE::PlayerCharacter::GetSingleton();
 		if (player && currentFrame == 120) {
@@ -95,8 +86,6 @@ namespace Scaleform
 
 		_view->SetVisible(true);
 
-		//std::uint32_t nextFrame = currentFrame == 120 ? 1 : currentFrame + 1;
-		//_view->GotoFrame(nextFrame);
 		std::uint32_t nextFrame = currentFrame == 120 ? 1 : currentFrame + 1;
 		_view->GotoFrame(nextFrame);
 	}
@@ -145,9 +134,10 @@ namespace Scaleform
 			element_t{ std::ref(_attackHeader), "_root.rootObj.playerAttackHeader"sv },
 			element_t{ std::ref(_perksHeader), "_root.rootObj.playerPerksHeader"sv },
 			element_t{ std::ref(_defenceHeader), "_root.rootObj.playerDefenceHeader"sv },
-			//element_t{ std::ref(_playerItemList), "_root.rootObj.playerItemList"sv }
-			element_t{ std::ref(_playerItemList), "_root.rootObj.playerArea.playerItemList"sv }
-			//element_t{ std::ref(_itemList), "_root.rootObj.itemList"sv },
+			element_t{ std::ref(_playerItemList), "_root.rootObj.playerItemList"sv },
+			element_t{ std::ref(_defenceItemList), "_root.rootObj.defenceItemList"sv },
+			element_t{ std::ref(_attackItemList), "_root.rootObj.attackItemList"sv },
+			element_t{ std::ref(_perksItemList), "_root.rootObj.perksItemList"sv }
 		};
 
 		for (const auto& [object, path] : objects) {
@@ -158,19 +148,21 @@ namespace Scaleform
 
 		_rootObj.Visible(false);
 
+		_view->CreateArray(std::addressof(_playerItemListProvider));
+		_playerItemList.DataProvider(CLIK::Array{ _playerItemListProvider });
+
+		_view->CreateArray(std::addressof(_defenceItemListProvider));
+		_defenceItemList.DataProvider(CLIK::Array{ _defenceItemListProvider });
+
+		_view->CreateArray(std::addressof(_attackItemListProvider));
+		_attackItemList.DataProvider(CLIK::Array{ _attackItemListProvider });
+
+		_view->CreateArray(std::addressof(_perksItemListProvider));
+		_perksItemList.DataProvider(CLIK::Array{ _perksItemListProvider });
+
 		UpdateTitle();
 		UpdateHeaders();
 		UpdateStatsList();
-
-		//_view->CreateArray(std::addressof(_itemListProvider));
-		//_itemList.DataProvider(CLIK::Array{ _itemListProvider });
-
-		//_view->CreateArray(std::addressof(_playerItemListProvider));
-		//_playerItemList.DataProvider(CLIK::Array{ _playerItemListProvider });
-		//_playerItemList.SelectedIndex(0);
-		//_playerItemList.LabelField(TITLE_NAME);
-		//_playerItemList.Visible(true);
-		
 
 		_view->SetVisible(true);
 
@@ -191,6 +183,7 @@ namespace Scaleform
 		text = p_key;
 		text += ": ";
 		text += p_value;
+		//text += p_value.substr(p_value.find(".") + 1);
 
 		return text;
 	}
@@ -205,30 +198,32 @@ namespace Scaleform
 		updateText(_perksHeader, constants::headerPerksName);
 		updateText(_defenceHeader, constants::headerDefenceName);
 	}
-
-	void StatsMenu::updateList(CLIK::GFx::Controls::ScrollingList& p_scroll, CLIK::Array& p_arr) {
-		p_scroll.DataProvider(p_arr);
-		p_scroll.Visible(true);
-
-		logger::trace("ListCount {}, ArrayCount {}"sv, p_scroll.RowCount(), p_arr.Length());
-	}
 	
-	//void StatsMenu::AddToList(std::vector<RE::GFxValue>& p_vector, RE::GFxValue p_value) {
-		//p_vector.push_back(p_value);
-	void StatsMenu::AddToList(CLIK::Array& p_arr, CLIK::Object p_obj) {
-		p_arr.Push(p_obj);
+	RE::GFxValue StatsMenu::buildGFxValue(std::string p_val) {
+		RE::GFxValue value;
+		_view->CreateObject(std::addressof(value));
+		value.SetMember("displayName", { static_cast<std::string_view>(p_val) });
+		return value;
 	}
-	
 
 	void StatsMenu::UpdateStatsList()
 	{
 		Player* playerinfo = Player::GetSingleton();
 		constants::ValueMap playerValues = playerinfo->getValues();
 
-		CLIK::Array valuesArray(_view);
-		CLIK::Object str;
-		for (const auto& [key, value] : playerValues) {
+		_playerItemListProvider.ClearElements();
+		_defenceItemListProvider.ClearElements();
+		_attackItemListProvider.ClearElements();
+		_perksItemListProvider.ClearElements();
 
+		_playerItemList.Invalidate();
+		_defenceItemList.Invalidate();
+		_attackItemList.Invalidate();
+		_perksItemList.Invalidate();
+
+		/* todo add different handling for stats with mutliplier health, perks, ...*/
+		for (const auto& [key, value] : playerValues) {
+			logger::trace("processing {}"sv, buildText(constants::getName(key), value));
 			switch (key) {
 			case constants::name:
 				updateText(_name, buildText(constants::getName(key), value));
@@ -244,44 +239,76 @@ namespace Scaleform
 				break;
 			case constants::height:
 			case constants::carryWeight:
-				//obj.SetString(buildText(constants::getName(key), value));
-				//AddToList(_playerItemListImpl, obj);
-				str = buildText(constants::getName(key), value);
-				AddToList(valuesArray, str);
+			case constants::equipedWeight:
+			case constants::inventoryWeight:
+			case constants::weight:
+			case constants::skillTrainingsThisLevel:
+			case constants::dragonSouls:
+			case constants::shoutRecoveryMult:
+			case constants::movementNoiseMult:
+				_playerItemListProvider.PushBack(buildGFxValue(buildText(constants::getName(key), value)));
+				logger::trace("{} added to playerItemList"sv, constants::getName(key));
+				break;
+			case constants::absorbChance:
+			case constants::armor:
+			case constants::combatHealthRegenMultiply:
+			case constants::resistDamage:
+			case constants::resistDisease:
+			case constants::resistFire:
+			case constants::resistFrost:
+			case constants::resistMagic:
+			case constants::resistPoison:
+			case constants::resistShock:
+			case constants::health:
+			case constants::healthRate:
+			case constants::healthRateMult:
+			case constants::magicka:
+			case constants::magickaRate:
+			case constants::magickaRateMult:
+			case constants::stamina:
+			case constants::staminaRate:
+			case constants::staminaRateMult:
+				_defenceItemListProvider.PushBack(buildGFxValue(buildText(constants::getName(key), value)));
+				logger::trace("{} added to defenceItemList"sv, constants::getName(key));
+				break;
+			case constants::unarmedDamage:
+			case constants::weaponSpeedMult:
+			case constants::meleeDamage:
+			case constants::damage:
+			case constants::criticalChance:
+			case constants::bowSpeedBonus:
+			case constants::attackDamageMult:
+				_attackItemListProvider.PushBack(buildGFxValue(buildText(constants::getName(key), value)));
+				logger::trace("{} added to attackItemList"sv, constants::getName(key));
+				break;
+			case constants::alchemy:
+			case constants::alteration:
+			case constants::archery:
+			case constants::block:
+			case constants::conjuration:
+			case constants::enchanting:
+			case constants::heavyArmor:
+			case constants::illusion:
+			case constants::lightArmor:
+			case constants::lockpicking:
+			case constants::oneHanded:
+			case constants::pickpocket:
+			case constants::restoration:
+			case constants::smithing:
+			case constants::sneak:
+			case constants::speech:
+			case constants::twoHanded:
+				_perksItemListProvider.PushBack(buildGFxValue(buildText(constants::getName(key), value)));
+				logger::trace("{} added to perksItemList"sv, constants::getName(key));
 				break;
 			default:
 				break;
 			}
 		}
+		_playerItemList.InvalidateData();
+		_defenceItemList.InvalidateData();
+		_attackItemList.InvalidateData();
+		_perksItemList.InvalidateData();
 
-		
-
-		updateList(_playerItemList, valuesArray);
-
-		/*_playerItemList.DataProvider(valuesArray);
-		_playerItemList.Visible(true);
-		*/
-
-		//updateText
-		/*
-		std::string_view item;
-		RE::GFxValue obj;
-		for (const auto& [key, value] : playerValues) {
-			item = fmt::format("{} = {}", key, value);
-			_itemListImpl.push_back(std::make_unique<RE::GFxValue>(item));
-			logger::trace("{}"sv, item);
-		}
-
-		logger::trace("List size {}"sv, _itemListImpl.size());
-
-		//_itemListProvider.ClearElements();
-		for (const auto& elem : _itemListImpl) {
-			_itemListProvider.PushBack(elem.get());
-			logger::trace("{}"sv, elem->GetString());
-		}
-		_itemList.InvalidateData();
-
-
-		*/
 	}
 }

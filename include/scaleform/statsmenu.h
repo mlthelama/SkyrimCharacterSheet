@@ -49,17 +49,16 @@ namespace Scaleform
 		CLIK::TextField _defenceHeader;
 
 		CLIK::GFx::Controls::ScrollingList _playerItemList;
-		//RE::GFxValue _playerItemListProvider;
-		//std::vector<RE::GFxValue> _playerItemListImpl;
+		RE::GFxValue _playerItemListProvider;
 
-		//CLIK::GFx::Controls::ScrollingList _itemList;
-		//RE::GFxValue _itemListProvider;
-		//std::vector<std::unique_ptr<Items::Item>> _itemListImpl;
-		//std::vector<std::unique_ptr<std::string>> _itemListImpl;
-		//std::vector<std::string> _itemListImpl;
-		//std::vector<RE::GFxValue> _itemListImpl;
-		//std::vector<std::unique_ptr<RE::GFxValue>> _itemListImpl;
-		//std::vector<std::pair<RE::GFxValue*, std::string>> _itemListImpl;
+		CLIK::GFx::Controls::ScrollingList _defenceItemList;
+		RE::GFxValue _defenceItemListProvider;
+
+		CLIK::GFx::Controls::ScrollingList _attackItemList;
+		RE::GFxValue _attackItemListProvider;
+
+		CLIK::GFx::Controls::ScrollingList _perksItemList;
+		RE::GFxValue _perksItemListProvider;
 
 		void OnOpen();
 
@@ -71,10 +70,7 @@ namespace Scaleform
 
 		void UpdateHeaders();
 
-		void updateList(CLIK::GFx::Controls::ScrollingList& p_scroll, CLIK::Array& p_arr);
-
-		//void AddToList(std::vector<RE::GFxValue>& p_vector, RE::GFxValue p_value);
-		void AddToList(CLIK::Array& p_arr, CLIK::Object p_obj);
+		RE::GFxValue buildGFxValue(std::string p_val);
 
 		void UpdateStatsList();
 	};
