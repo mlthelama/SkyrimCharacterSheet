@@ -8,6 +8,7 @@ set(headers ${headers}
 	include/hooks.h
 	include/player.h
 	include/constants.h
+	include/settings.h
 	include/scaleform/scaleform.h
 	include/scaleform/statsmenu.h
 	include/CLIK/Array.h

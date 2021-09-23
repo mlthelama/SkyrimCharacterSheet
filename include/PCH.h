@@ -10,6 +10,7 @@
 #include <spdlog/sinks/msvc_sink.h>
 #endif
 
+#include "AutoTOML.hpp"
 
 using namespace std::literals;
 
@@ -24,3 +25,6 @@ namespace stl
 namespace logger = SKSE::log;
 
 #define DLLEXPORT __declspec(dllexport)
+
+#include "version.h"
+#include "settings.h"

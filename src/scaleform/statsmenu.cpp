@@ -39,7 +39,7 @@ namespace Scaleform
 
 		auto menu = static_cast<RE::IMenu*>(this);
 		auto scaleformManager = RE::BSScaleformManager::GetSingleton();
-		[[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu, FILE_NAME, RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void { logger::trace("{}"sv, a_def->GetFileAttributes()); });
+		[[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu, FILE_NAME, RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void { logger::trace("{}"sv, a_def->GetFrameRate()); });
 		assert(success);
 		_view = menu->uiMovie;
 		_view->SetMouseCursorCount(0);
@@ -130,14 +130,20 @@ namespace Scaleform
 			element_t{ std::ref(_level), "_root.rootObj.bottomBar.level"sv },
 			element_t{ std::ref(_race), "_root.rootObj.bottomBar.race"sv },
 			element_t{ std::ref(_perks), "_root.rootObj.bottomBar.perks"sv },
+			element_t{ std::ref(_beast), "_root.rootObj.bottomBar.beast"sv },
+			element_t{ std::ref(_xp), "_root.rootObj.bottomBar.xp"sv },
 			element_t{ std::ref(_valuesHeader), "_root.rootObj.playerValuesHeader"sv },
 			element_t{ std::ref(_attackHeader), "_root.rootObj.playerAttackHeader"sv },
-			element_t{ std::ref(_perksHeader), "_root.rootObj.playerPerksHeader"sv },
+			element_t{ std::ref(_perksMagicHeader), "_root.rootObj.playerPerksMagicHeader"sv },
 			element_t{ std::ref(_defenceHeader), "_root.rootObj.playerDefenceHeader"sv },
+			element_t{ std::ref(_perksWarriorHeader), "_root.rootObj.playerPerksWarriorHeader"sv },
+			element_t{ std::ref(_perksThiefHeader), "_root.rootObj.playerPerksThiefHeader"sv },
 			element_t{ std::ref(_playerItemList), "_root.rootObj.playerItemList"sv },
 			element_t{ std::ref(_defenceItemList), "_root.rootObj.defenceItemList"sv },
 			element_t{ std::ref(_attackItemList), "_root.rootObj.attackItemList"sv },
-			element_t{ std::ref(_perksItemList), "_root.rootObj.perksItemList"sv }
+			element_t{ std::ref(_perksMagicItemList), "_root.rootObj.perksMagicItemList"sv },
+			element_t{ std::ref(_perksWarriorItemList), "_root.rootObj.perksWarriorItemList"sv },
+			element_t{ std::ref(_perksThiefItemList), "_root.rootObj.perksThiefItemList"sv }
 		};
 
 		for (const auto& [object, path] : objects) {
@@ -157,8 +163,14 @@ namespace Scaleform
 		_view->CreateArray(std::addressof(_attackItemListProvider));
 		_attackItemList.DataProvider(CLIK::Array{ _attackItemListProvider });
 
-		_view->CreateArray(std::addressof(_perksItemListProvider));
-		_perksItemList.DataProvider(CLIK::Array{ _perksItemListProvider });
+		_view->CreateArray(std::addressof(_perksMagicItemListProvider));
+		_perksMagicItemList.DataProvider(CLIK::Array{ _perksMagicItemListProvider });
+
+		_view->CreateArray(std::addressof(_perksWarriorItemListProvider));
+		_perksWarriorItemList.DataProvider(CLIK::Array{ _perksWarriorItemListProvider });
+
+		_view->CreateArray(std::addressof(_perksThiefItemListProvider));
+		_perksThiefItemList.DataProvider(CLIK::Array{ _perksThiefItemListProvider });
 
 		UpdateTitle();
 		UpdateHeaders();
@@ -179,8 +191,16 @@ namespace Scaleform
 
 		text = p_key;
 		text += ": ";
-		text += p_value;
-		//text += p_value.substr(p_value.find(".") + 1);
+		if (p_value.find(".") != std::string::npos) {
+			auto s = p_value.substr(p_value.find(".") + 1, 2);
+			if (std::count(s.begin(), s.end(), '0') == 2 ) {
+				text += p_value.substr(0, p_value.find("."));
+			} else {
+				text += p_value.substr(0, p_value.find(".") + 3);
+			}
+		} else {
+			text += p_value;
+		}
 
 		return text;
 	}
@@ -192,8 +212,10 @@ namespace Scaleform
 	void StatsMenu::UpdateHeaders() {
 		updateText(_valuesHeader, constants::headerValuesName);
 		updateText(_attackHeader, constants::headerAttackName);
-		updateText(_perksHeader, constants::headerPerksName);
+		updateText(_perksMagicHeader, constants::headerPerksMagicName);
 		updateText(_defenceHeader, constants::headerDefenceName);
+		updateText(_perksWarriorHeader, constants::headerPerksWarriorName);
+		updateText(_perksThiefHeader, constants::headerPerksThiefName);
 	}
 	
 	RE::GFxValue StatsMenu::buildGFxValue(std::string p_val) {
@@ -210,28 +232,38 @@ namespace Scaleform
 		_playerItemListProvider.ClearElements();
 		_defenceItemListProvider.ClearElements();
 		_attackItemListProvider.ClearElements();
-		_perksItemListProvider.ClearElements();
+		_perksMagicItemListProvider.ClearElements();
+		_perksWarriorItemListProvider.ClearElements();
+		_perksThiefItemListProvider.ClearElements();
 
 		_playerItemList.Invalidate();
 		_defenceItemList.Invalidate();
 		_attackItemList.Invalidate();
-		_perksItemList.Invalidate();
+		_perksMagicItemList.Invalidate();
+		_perksWarriorItemList.Invalidate();
+		_perksThiefItemList.Invalidate();
 
 		/* todo add different handling for stats with mutliplier health, perks, ...*/
 		for (const auto& [key, value] : playerValues) {
-			logger::trace("processing {}"sv, buildText(constants::getName(key), value));
+			logger::trace("processing {}"sv, buildText(playerinfo->getValueName(key), value));
 			switch (key) {
 			case constants::name:
-				updateText(_name, buildText(constants::getName(key), value));
+				updateText(_name, buildText(playerinfo->getValueName(key), value));
 				break;
 			case constants::level:
-				updateText(_level, buildText(constants::getName(key), value));
+				updateText(_level, buildText(playerinfo->getValueName(key), value));
 				break;
 			case constants::race:
-				updateText(_race, buildText(constants::getName(key), value));
+				updateText(_race, buildText(playerinfo->getValueName(key), value));
 				break;
 			case constants::perkCount:
-				updateText(_perks, buildText(constants::getName(key), value));
+				updateText(_perks, buildText(playerinfo->getValueName(key), value));
+				break;
+			case constants::beast:
+				updateText(_beast, buildText(playerinfo->getValueName(key), value));
+				break;
+			case constants::xp:
+				updateText(_xp, buildText(playerinfo->getValueName(key), value));
 				break;
 			case constants::height:
 			case constants::carryWeight:
@@ -242,8 +274,9 @@ namespace Scaleform
 			case constants::dragonSouls:
 			case constants::shoutRecoveryMult:
 			case constants::movementNoiseMult:
-				_playerItemListProvider.PushBack(buildGFxValue(buildText(constants::getName(key), value)));
-				logger::trace("{} added to playerItemList"sv, constants::getName(key));
+			case constants::speedMult:
+				_playerItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				logger::trace("{} added to playerItemList"sv, playerinfo->getValueName(key));
 				break;
 			case constants::absorbChance:
 			case constants::armor:
@@ -264,8 +297,8 @@ namespace Scaleform
 			case constants::stamina:
 			case constants::staminaRate:
 			case constants::staminaRateMult:
-				_defenceItemListProvider.PushBack(buildGFxValue(buildText(constants::getName(key), value)));
-				logger::trace("{} added to defenceItemList"sv, constants::getName(key));
+				_defenceItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				logger::trace("{} added to defenceItemList"sv, playerinfo->getValueName(key));
 				break;
 			case constants::unarmedDamage:
 			case constants::weaponSpeedMult:
@@ -274,37 +307,66 @@ namespace Scaleform
 			case constants::criticalChance:
 			case constants::bowSpeedBonus:
 			case constants::attackDamageMult:
-				_attackItemListProvider.PushBack(buildGFxValue(buildText(constants::getName(key), value)));
-				logger::trace("{} added to attackItemList"sv, constants::getName(key));
+				_attackItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				logger::trace("{} added to attackItemList"sv, playerinfo->getValueName(key));
 				break;
-			case constants::alchemy:
 			case constants::alteration:
-			case constants::archery:
-			case constants::block:
 			case constants::conjuration:
 			case constants::enchanting:
-			case constants::heavyArmor:
 			case constants::illusion:
-			case constants::lightArmor:
-			case constants::lockpicking:
-			case constants::oneHanded:
-			case constants::pickpocket:
 			case constants::restoration:
+			case constants::destruction:
+			case constants::alterationPowerMod:
+			case constants::conjurationPowerMod:
+			case constants::enchantingPowerMod:
+			case constants::illusionPowerMod:
+			case constants::restorationPowerMod:
+			case constants::destructionPowerMod:
+				_perksMagicItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				logger::trace("{} added to perksMagicItemList"sv, playerinfo->getValueName(key));
+				break;
 			case constants::smithing:
+			case constants::twoHanded:
+			case constants::oneHanded:
+			case constants::lightArmor:
+			case constants::heavyArmor:
+			case constants::block:
+			case constants::smithingPowerMod:
+			case constants::twoHandedPowerMod:
+			case constants::oneHandedPowerMod:
+			case constants::lightArmorPowerMod:
+			case constants::heavyArmorPowerMod:
+			case constants::blockPowerMod:
+				_perksWarriorItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				logger::trace("{} added to perksWarriorItemList"sv, playerinfo->getValueName(key));
+				break;
 			case constants::sneak:
 			case constants::speech:
-			case constants::twoHanded:
-				_perksItemListProvider.PushBack(buildGFxValue(buildText(constants::getName(key), value)));
-				logger::trace("{} added to perksItemList"sv, constants::getName(key));
+			case constants::pickpocket:
+			case constants::lockpicking:
+			case constants::archery:
+			case constants::alchemy:
+			case constants::sneakPowerMod:
+			case constants::speechPowerMod:
+			case constants::pickpocketPowerMod:
+			case constants::lockpickingPowerMod:
+			case constants::archeryPowerMod:
+			case constants::alchemyPowerMod:
+				_perksThiefItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				logger::trace("{} added to perksThiefItemList"sv, playerinfo->getValueName(key));
 				break;
 			default:
+				logger::trace("not handeled {}"sv, buildText(playerinfo->getValueName(key), value));
 				break;
 			}
 		}
 		_playerItemList.InvalidateData();
 		_defenceItemList.InvalidateData();
 		_attackItemList.InvalidateData();
-		_perksItemList.InvalidateData();
+		_perksMagicItemList.InvalidateData();
+		_perksWarriorItemList.InvalidateData();
+		_perksThiefItemList.InvalidateData();
 
+		playerValues.clear();
 	}
 }

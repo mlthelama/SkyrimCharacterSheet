@@ -5,9 +5,10 @@ class Player
 {
 public:
 	static Player* GetSingleton();
-	//maybe add save/load
 
 	constants::ValueMap getValues();
+
+	std::string getValueName(constants::StatsValue p_val);
 
 private:
 	constants::ValueMap GatherValues();
@@ -87,6 +88,14 @@ private:
 	};
 
 	std::string getStringValueFromFloat(float x);
+
+	constants::ShowMap showMap;
+	constants::StatsValueMap nameMap;
+	void loadSettings();
+
+	boolean showValue(constants::StatsValue p_val);
+
+	void addToValues(constants::ValueMap& p_map, constants::StatsValue p_key, std::string p_value);
 
 	using Lock = std::recursive_mutex;
 	using Locker = std::lock_guard<Lock>;

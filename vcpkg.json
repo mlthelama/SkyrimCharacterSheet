@@ -5,6 +5,7 @@
   "homepage": "https://github.com/mlthelama/ShowStats",
   "license": "MIT",
   "dependencies": [
+	"autotoml",
     "boost-atomic",
     "boost-stl-interfaces",
     "span-lite",

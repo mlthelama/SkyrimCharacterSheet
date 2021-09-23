@@ -1,15 +1,15 @@
-﻿#include "version.h"
-#include "papyrus.h"
+﻿#include "papyrus.h"
 #include "events.h"
 #include "serialhelper.h"
 #include "hooks.h"
 #include "scaleform/scaleform.h"
+#include "constants.h"
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
 {
 	switch (a_msg->type) {
 	case SKSE::MessagingInterface::kDataLoaded:
-		logger::info("Data loaded");
+		logger::info("Data loaded"sv);
 		Events::SinkEventHandlers();
 		Scaleform::Register();
 		break;
@@ -71,14 +71,27 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
 	logger::info("ShowStats loaded"sv);
-
+	Settings::load();
 	SKSE::Init(a_skse);
+
+
+	switch (*Settings::logLevel) {
+	case constants::logTrace:
+		spdlog::set_level(spdlog::level::trace);
+		spdlog::flush_on(spdlog::level::trace);
+		break;
+	case constants::logDebug:
+		spdlog::set_level(spdlog::level::debug);
+		spdlog::flush_on(spdlog::level::debug);
+	case constants::logInfo:
+		spdlog::set_level(spdlog::level::info);
+		spdlog::flush_on(spdlog::level::info);
+	}
 
 	auto messaging = SKSE::GetMessagingInterface();
 	if (!messaging->RegisterListener("SKSE", MessageHandler)) {
 		return false;
 	}
-
 	//not needed for now
 	//hooks::install();
 

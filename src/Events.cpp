@@ -61,9 +61,7 @@ namespace Events
 				break;
 			} else if (key == RE::BSWin32KeyboardDevice::Key::kEscape && Scaleform::StatsMenu::IsMenuOpen()) {
 				Scaleform::StatsMenu::Close();
-			} /*else if (Scaleform::StatsMenu::IsMenuOpen()) {
-				logger::trace("menu {} is open, Ignore other input"sv, Scaleform::StatsMenu::MENU_NAME);
-			}*/
+			}
 		}
 		return EventResult::kContinue;
 	}

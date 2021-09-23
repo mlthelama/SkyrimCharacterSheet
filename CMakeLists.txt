@@ -94,6 +94,7 @@ endif()
 add_subdirectory("extern/CommonLibSSE" CommonLibSSE)
 
 find_package(spdlog REQUIRED CONFIG)
+find_package(AutoTOML REQUIRED CONFIG)
 
 # ---- Add source files ----
 
@@ -126,6 +127,7 @@ add_library(
 	${sources}
 	${CMAKE_CURRENT_BINARY_DIR}/version.rc
 	.clang-format
+	ShowStats.toml
 )
 
 target_compile_features(
@@ -144,6 +146,7 @@ target_include_directories(
 target_link_libraries(
 	${PROJECT_NAME}
 	PRIVATE
+		AutoTOML::AutoTOML
 		CommonLibSSE::CommonLibSSE
 		spdlog::spdlog
 )
