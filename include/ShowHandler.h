@@ -20,7 +20,5 @@ private:
 	ShowHandler& operator=(const ShowHandler&) = delete;
 	ShowHandler& operator=(ShowHandler&&) = delete;
 
-	void Show();
-
 	mutable Lock _lock;
 };

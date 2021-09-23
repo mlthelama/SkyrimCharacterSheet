@@ -165,19 +165,16 @@ namespace Scaleform
 		UpdateStatsList();
 
 		_view->SetVisible(true);
-
 		_rootObj.Visible(true);
 	}
 
-	void StatsMenu::updateText(CLIK::TextField p_field, std::string_view p_string)
-	{
+	void StatsMenu::updateText(CLIK::TextField p_field, std::string_view p_string) {
 		p_field.AutoSize(CLIK::Object{ "left" });
 		p_field.HTMLText(p_string);
 		p_field.Visible(true);
 	}
 
-	std::string StatsMenu::buildText(std::string p_key, std::string p_value)
-	{
+	std::string StatsMenu::buildText(std::string p_key, std::string p_value) {
 		std::string text;
 
 		text = p_key;
@@ -206,8 +203,7 @@ namespace Scaleform
 		return value;
 	}
 
-	void StatsMenu::UpdateStatsList()
-	{
+	void StatsMenu::UpdateStatsList() {
 		Player* playerinfo = Player::GetSingleton();
 		constants::ValueMap playerValues = playerinfo->getValues();
 

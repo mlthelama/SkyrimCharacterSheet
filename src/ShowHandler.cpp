@@ -10,14 +10,6 @@ ShowHandler* ShowHandler::GetSingleton() {
 void ShowHandler::ShowWindow() {
 	logger::trace("Gather Value and Show Window");
 	Locker locker(_lock);
-	//Player* playerinfo = Player::GetSingleton();
-	//ValueMap playerValues = playerinfo->getValues();
-	//ShowHandler::Show(playerinfo->getValues());
-	ShowHandler::Show();
-	
-}
-
-void ShowHandler::Show() {
 
 	RE::DebugNotification("Showing menu and information now.");
 

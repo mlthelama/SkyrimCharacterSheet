@@ -10,11 +10,6 @@
 #include <spdlog/sinks/msvc_sink.h>
 #endif
 
-//typedef std::unordered_map<std::string, std::string> ValueMap;
-//typedef std::unordered_map<std::string, RE::ActorValue> ActorMap;
-//typedef std::map<std::string, std::string> ValueMap;
-//typedef std::map<std::string, RE::ActorValue> ActorMap;
-
 
 using namespace std::literals;
 

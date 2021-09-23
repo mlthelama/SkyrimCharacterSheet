@@ -21,13 +21,13 @@ namespace Serialhelper
 		for (std::size_t i = 0, j = size - 2; i < size, ++i; --j) {
 			sign[j] = iterator[i];
 		}
-		logger::trace("got code {}, sign is {}", p_typeCode, sign);
+		logger::trace("got code {}, sign is {}"sv, p_typeCode, sign);
 		return sign;
 	}
 
 	void LoadCallback(SKSE::SerializationInterface* p_int)
 	{
-		logger::trace("starting to load data");
+		logger::trace("starting to load data"sv);
 		auto keyManager = Events::KeyManager::GetSingleton();
 		keyManager->Clear();
 
@@ -37,7 +37,7 @@ namespace Serialhelper
 
 		while (p_int->GetNextRecordInfo(type, version, length)) {
 			if (version != kShowStatsSerialVersion) {
-				logger::error("failed to load data. Read v(%u), expected v(%u) for type (%s)", version, kShowStatsSerialVersion, DecodeTypeCode(type).c_str());
+				logger::error("failed to load data. Read v{}, expected v{} for type {}"sv, version, kShowStatsSerialVersion, DecodeTypeCode(type).c_str());
 			}
 
 			switch (type) {
@@ -47,30 +47,30 @@ namespace Serialhelper
 				}
 				break;
 			default:
-				logger::error("found unknown type (%s)", DecodeTypeCode(type).c_str());
+				logger::error("found unknown type {}"sv, DecodeTypeCode(type).c_str());
 				break;
 			}
 		}
-		logger::info("finished loading data");
+		logger::info("finished loading data"sv);
 	}
 
 	void SaveCallback(SKSE::SerializationInterface* p_int)
 	{
-		logger::trace("starting to save data");
+		logger::trace("starting to save data"sv);
 		auto keyManager = Events::KeyManager::GetSingleton();
 		if (!keyManager->Save(p_int, kKeyManager, kShowStatsSerialVersion)) {
-			logger::error("failed to save KeyManager");
+			logger::error("failed to save KeyManager"sv);
 		}
 
-		logger::info("finished saving data");
+		logger::info("finished saving data"sv);
 	}
 
 	void Install() {
-		logger::trace("installing serialhelper");
+		logger::trace("installing serialhelper"sv);
 		auto serialization = SKSE::GetSerializationInterface();
 		serialization->SetUniqueID(kShowStatsSerialVersion);
 		serialization->SetSaveCallback(SaveCallback);
 		serialization->SetLoadCallback(LoadCallback);
-		logger::trace("finished serialhelper");
+		logger::trace("finished serialhelper"sv);
 	}
 }

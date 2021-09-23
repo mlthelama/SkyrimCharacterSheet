@@ -2,11 +2,6 @@
 
 namespace constants
 {
-	//typedef std::unordered_map<std::string, std::string> ValueMap;
-	//typedef std::unordered_map<std::string, RE::ActorValue> ActorMap;
-	//typedef std::map<constants::ActorValue, std::string> ValueMap;
-	//typedef std::map<std::string, RE::ActorValue> ActorMap;
-
 	enum StatsValue
 	{
 		name,

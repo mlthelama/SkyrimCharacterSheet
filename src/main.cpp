@@ -70,7 +70,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
-	logger::info("ShowStats loaded");
+	logger::info("ShowStats loaded"sv);
 
 	SKSE::Init(a_skse);
 

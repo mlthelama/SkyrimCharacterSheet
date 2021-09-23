@@ -390,7 +390,6 @@ FodyWeavers.xsd
 #additional
 out/
 build/
-extern/
 swf/gfx/
 swf/*.swf
 swf/*.html
