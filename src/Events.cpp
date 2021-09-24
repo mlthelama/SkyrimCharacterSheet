@@ -51,7 +51,6 @@ namespace Events
 			logger::info("event input {}, set {}"sv, key, _key);
 			if (key == _key) {
 				//do shit
-				/*close also triggers the is open check*/
 				if (Scaleform::StatsMenu::IsMenuOpen()) {
 					Scaleform::StatsMenu::Close();
 				} else {

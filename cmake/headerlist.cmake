@@ -1,16 +1,4 @@
 set(headers ${headers}
-	include/PCH.h
-	include/version.h
-	include/events.h
-	include/papyrus.h
-	include/serialhelper.h
-	include/showhandler.h
-	include/hooks.h
-	include/player.h
-	include/constants.h
-	include/settings.h
-	include/scaleform/scaleform.h
-	include/scaleform/statsmenu.h
 	include/CLIK/Array.h
 	include/CLIK/GFx/Controls/Button.h
 	include/CLIK/GFx/Controls/ButtonBar.h
@@ -23,4 +11,16 @@ set(headers ${headers}
 	include/CLIK/MovieClip.h
 	include/CLIK/Object.h
 	include/CLIK/TextField.h
+	include/PCH.h
+	include/constants.h
+	include/events.h
+	include/hooks.h
+	include/papyrus.h
+	include/player.h
+	include/scaleform/scaleform.h
+	include/scaleform/statsmenu.h
+	include/serialhelper.h
+	include/settings.h
+	include/showhandler.h
+	include/version.h
 )

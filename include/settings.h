@@ -34,14 +34,11 @@ struct Settings
 	static inline bSetting damage{ "showStats"s, "damage"s, true };
 	static inline bSetting skillTrainingsThisLevel{ "showStats"s, "skillTrainingsThisLevel"s, true };
 	static inline bSetting health{ "showStats"s, "health"s, true };
-	static inline bSetting healthRate{ "showStats"s, "healthRate"s, true };
-	static inline bSetting healthRateMult{ "showStats"s, "healthRateMult"s, true };
+	static inline bSetting healthRate{ "showStats"s, "healthRatePer"s, true };
 	static inline bSetting magicka{ "showStats"s, "magicka"s, true };
-	static inline bSetting magickaRate{ "showStats"s, "magickaRate"s, true };
-	static inline bSetting magickaRateMult{ "showStats"s, "magickaRateMult"s, true };
+	static inline bSetting magickaRate{ "showStats"s, "magickaRatePer"s, true };
 	static inline bSetting stamina{ "showStats"s, "stamina"s, true };
-	static inline bSetting staminaRate{ "showStats"s, "staminaRate"s, true };
-	static inline bSetting staminaRateMult{ "showStats"s, "staminaRateMult"s, true };
+	static inline bSetting staminaRate{ "showStats"s, "staminaRatePer"s, true };
 	static inline bSetting resistDamage{ "showStats"s, "resistDamage"s, true };
 	static inline bSetting resistDisease{ "showStats"s, "resistDisease"s, true };
 	static inline bSetting resistPoison{ "showStats"s, "resistPoison"s, true };
@@ -101,6 +98,7 @@ struct Settings
 	static inline bSetting attackDamageMult{ "showStats"s, "attackDamageMult"s, true };
 	static inline bSetting beast{ "showStats"s, "beast"s, true };
 	static inline bSetting xp{ "showStats"s, "xp"s, true };
+	static inline bSetting reflectDamage{ "showStats"s, "reflectDamage"s, true };
 
 	static inline sSetting nameString { "showStatsName"s, "name"s, "<undef>" };
 	static inline sSetting raceString { "showStatsName"s, "race"s, "<undef>" };
@@ -113,14 +111,11 @@ struct Settings
 	static inline sSetting damageString{ "showStatsName"s, "damage"s, "<undef>" };
 	static inline sSetting skillTrainingsThisLevelString{ "showStatsName"s, "skillTrainingsThisLevel"s, "<undef>" };
 	static inline sSetting healthString{ "showStatsName"s, "health"s, "<undef>" };
-	static inline sSetting healthRateString{ "showStatsName"s, "healthRate"s, "<undef>" };
-	static inline sSetting healthRateMultString{ "showStatsName"s, "healthRateMult"s, "<undef>" };
+	static inline sSetting healthRateString{ "showStatsName"s, "healthRatePer"s, "<undef>" };
 	static inline sSetting magickaString{ "showStatsName"s, "magicka"s, "<undef>" };
-	static inline sSetting magickaRateString{ "showStatsName"s, "magickaRate"s, "<undef>" };
-	static inline sSetting magickaRateMultString{ "showStatsName"s, "magickaRateMult"s, "<undef>" };
+	static inline sSetting magickaRateString{ "showStatsName"s, "magickaRatePer"s, "<undef>" };
 	static inline sSetting staminaString{ "showStatsName"s, "stamina"s, "<undef>" };
-	static inline sSetting staminaRateString{ "showStatsName"s, "staminaRate"s, "<undef>" };
-	static inline sSetting staminaRateMultString{ "showStatsName"s, "staminaRateMult"s, "<undef>" };
+	static inline sSetting staminaRateString{ "showStatsName"s, "staminaRatePer"s, "<undef>" };
 	static inline sSetting resistDamageString{ "showStatsName"s, "resistDamage"s, "<undef>" };
 	static inline sSetting resistDiseaseString{ "showStatsName"s, "resistDisease"s, "<undef>" };
 	static inline sSetting resistPoisonString{ "showStatsName"s, "resistPoison"s, "<undef>" };
@@ -180,6 +175,10 @@ struct Settings
 	static inline sSetting attackDamageMultString{ "showStatsName"s, "attackDamageMult"s, "<undef>" };
 	static inline sSetting beastString{ "showStatsName"s, "beast"s, "<undef>" };
 	static inline sSetting xpString{ "showStatsName"s, "xp"s, "<undef>" };
+	static inline sSetting reflectDamageString{ "showStatsName"s, "reflectDamage"s, "<undef>" };
 
 	static inline iSetting logLevel{"General"s, "logLevel"s, 0};
+
+	static inline sSetting vampireString{ "showBeastName"s, "vampire"s, "<undef>" };
+	static inline sSetting werewolfString{ "showBeastName"s, "werewolf"s, "<undef>" };
 };

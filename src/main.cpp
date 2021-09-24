@@ -83,9 +83,11 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	case constants::logDebug:
 		spdlog::set_level(spdlog::level::debug);
 		spdlog::flush_on(spdlog::level::debug);
+		break;
 	case constants::logInfo:
 		spdlog::set_level(spdlog::level::info);
 		spdlog::flush_on(spdlog::level::info);
+		break;
 	}
 
 	auto messaging = SKSE::GetMessagingInterface();

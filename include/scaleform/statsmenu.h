@@ -2,6 +2,7 @@
 #include "CLIK/Array.h"
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
+#include "constants.h"
 
 namespace Scaleform
 {
@@ -30,6 +31,8 @@ namespace Scaleform
 		void PostCreate() override;
 	private:
 		StatsMenu();
+
+		using Stats = constants::StatsValue;
 
 		RE::GPtr<RE::GFxMovieView> _view;
 		bool _isActive = false;
@@ -83,5 +86,11 @@ namespace Scaleform
 		RE::GFxValue buildGFxValue(std::string p_val);
 
 		void UpdateStatsList();
+
+		void ClearProviders();
+
+		void InvalidateItemLists();
+
+		void InvalidateDataItemLists();
 	};
 }

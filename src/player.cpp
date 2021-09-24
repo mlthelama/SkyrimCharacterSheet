@@ -18,24 +18,72 @@ constants::ValueMap Player::GatherValues()
 	loadSettings();
 	//maybe add factions too, someday
 
-	addToValues(playerValues, constants::StatsValue::name, player->GetName());
-	addToValues(playerValues, constants::StatsValue::race, player->GetRace()->GetFullName());
-	addToValues(playerValues, constants::StatsValue::level, std::to_string(player->GetLevel()));
-	addToValues(playerValues, constants::StatsValue::perkCount, std::to_string(player->perkCount));
-	addToValues(playerValues, constants::StatsValue::height, getStringValueFromFloat(player->GetHeight()));
-	addToValues(playerValues, constants::StatsValue::equipedWeight, getStringValueFromFloat(player->GetWeight()));
-	addToValues(playerValues, constants::StatsValue::armor, getStringValueFromFloat(player->armorRating));
-	addToValues(playerValues, constants::StatsValue::damage, getStringValueFromFloat(0));
-	addToValues(playerValues, constants::StatsValue::skillTrainingsThisLevel, std::to_string(player->skillTrainingsThisLevel));
-	/*to do add xp and beast (vampire, werewolf)*/
-	addToValues(playerValues, constants::StatsValue::beast, "yes");
-	addToValues(playerValues, constants::StatsValue::xp, "yes");
+	//player->currentProcess->GetEquippedLeftHand()
+	//player->currentProcess->GetEquippedRightHand()
+	//player
 
+	//player->currentProcess->GetEquippedLeftHand()->
+	//logger::trace("")
+	//player->skills->data->xp
+	//logger::trace("XP {}"sv, std::to_string(player->skills->data->xp));
+
+	//player->GetEquippedEntryData(false) //right hand
+	//logger::trace("{}"sv, 
+	//player->GetDamage(player->GetEquippedEntryData(false));
+	logger::trace("Right Damage {}"sv, std::to_string(player->GetDamage(player->GetEquippedEntryData(false))));
+	logger::trace("Left Damage {}"sv, std::to_string(player->GetDamage(player->GetEquippedEntryData(true))));
+
+	//const auto thiefGuild = RE::TESForm::LookupByID<RE::TESFaction>(formid)
 	/*
-	RE::BGSDefaultObjectManager* defaultObject = RE::BGSDefaultObjectManager::GetSingleton();
-	playerValues["test"] = defaultObject->GetObject(RE::DEFAULT_OBJECT::kPlayerIsVampireVariable)->GetName();
-	*/
+	for (const auto& [faction, v2] : player->factionOwnerFriendsMap) {
+		//logger::trace("faction name full {}, playable {}, objectName {}"sv, faction->GetFullName(), faction->GetPlayable(), faction->GetObjectTypeName());
+		if (player->IsInFaction(faction)) {
+			logger::trace("faction name full {}, playable {}, objectName {}"sv, faction->GetFullName(), faction->GetPlayable(), faction->GetObjectTypeName());
+			auto rankData = faction->rankData;
+			for (auto it = rankData.begin(); it != rankData.end(); ++it) {
+				//auto i = std::distance(rankData.begin(), it);
+				auto i = *it;
+				logger::trace("rank {}"sv, i->femaleRankTitle);
+			}
+		}
+	}*/
+
+	addToValues(playerValues, Stats::name, player->GetName());
+	addToValues(playerValues, Stats::race, player->GetRace()->GetFullName());
+	addToValues(playerValues, Stats::level, std::to_string(player->GetLevel()));
+	addToValues(playerValues, Stats::perkCount, std::to_string(player->perkCount));
+	addToValues(playerValues, Stats::height, getStringValueFromFloat(player->GetHeight()));
+	addToValues(playerValues, Stats::equipedWeight, getStringValueFromFloat(player->GetWeight()));
+	addToValues(playerValues, Stats::armor, getStringValueFromFloat(player->armorRating));
+	addToValues(playerValues, Stats::damage, getStringValueFromFloat(0));
+	addToValues(playerValues, Stats::skillTrainingsThisLevel, std::to_string(player->skillTrainingsThisLevel));
+	/*to do add xp and beast (vampire, werewolf)*/
+
+
+	addToValues(playerValues, Stats::beast, getBeast(
+		player->GetActorValue(RE::ActorValue::kVampirePerks),
+		player->GetActorValue(RE::ActorValue::kWerewolfPerks)
+	));
+	addToValues(playerValues, Stats::xp, "yes");
+
+	addToValues(playerValues, Stats::healthRatePer, getStringValueFromFloat(
+		calculateValue(player->GetActorValue(RE::ActorValue::kHealRateMult), 
+			player->GetActorValue(RE::ActorValue::kHealRate)
+		))
+	);
+	addToValues(playerValues, Stats::magickaRatePer, getStringValueFromFloat(
+		calculateValue(player->GetActorValue(RE::ActorValue::kMagickaRateMult), 
+			player->GetActorValue(RE::ActorValue::kMagickaRate)
+		))
+	);
+	addToValues(playerValues, Stats::staminaRatePer, getStringValueFromFloat(
+		calculateValue(player->GetActorValue(RE::ActorValue::kStaminaRateMult), 
+			player->GetActorValue(RE::ActorValue::KStaminaRate)
+		))
+	);
+
 	//add here health, magicka, stamina, skill values, ...
+	/* maybe add advance for skills as well = xp*/
 	for (const auto& [key, value] : staticValues) {
 		if (showValue(key)) {
 			playerValues[key] = getStringValueFromFloat(player->GetActorValue(value));
@@ -60,176 +108,171 @@ std::string Player::getStringValueFromFloat( float x )
 
 void Player::loadSettings() {
 	showMap = {
-		{ constants::StatsValue::name, *Settings::name },
-		{ constants::StatsValue::race, *Settings::race },
-		{ constants::StatsValue::level, *Settings::level },
-		{ constants::StatsValue::perkCount, *Settings::perkCount },
-		{ constants::StatsValue::height, *Settings::height },
-		{ constants::StatsValue::equipedWeight, *Settings::equipedWeight },
-		{ constants::StatsValue::weight, *Settings::weight },
-		{ constants::StatsValue::armor, *Settings::armor },
-		{ constants::StatsValue::damage, *Settings::damage },
-		{ constants::StatsValue::skillTrainingsThisLevel, *Settings::skillTrainingsThisLevel },
-		{ constants::StatsValue::health, *Settings::health },
+		{ Stats::name, *Settings::name },
+		{ Stats::race, *Settings::race },
+		{ Stats::level, *Settings::level },
+		{ Stats::perkCount, *Settings::perkCount },
+		{ Stats::height, *Settings::height },
+		{ Stats::equipedWeight, *Settings::equipedWeight },
+		{ Stats::weight, *Settings::weight },
+		{ Stats::armor, *Settings::armor },
+		{ Stats::damage, *Settings::damage },
+		{ Stats::skillTrainingsThisLevel, *Settings::skillTrainingsThisLevel },
+		{ Stats::health, *Settings::health },
 
-		{ constants::StatsValue::healthRate, *Settings::healthRate },
-		{ constants::StatsValue::healthRateMult, *Settings::healthRateMult },
-		{ constants::StatsValue::magicka, *Settings::magicka },
-		{ constants::StatsValue::magickaRate, *Settings::magickaRate },
-		{ constants::StatsValue::magickaRateMult, *Settings::magickaRateMult },
-		{ constants::StatsValue::stamina, *Settings::stamina },
-		{ constants::StatsValue::staminaRate, *Settings::staminaRate },
-		{ constants::StatsValue::staminaRateMult, *Settings::staminaRateMult },
+		{ Stats::healthRatePer, *Settings::healthRate },
+		{ Stats::magicka, *Settings::magicka },
+		{ Stats::magickaRatePer, *Settings::magickaRate },
+		{ Stats::stamina, *Settings::stamina },
+		{ Stats::staminaRatePer, *Settings::staminaRate },
 
-		{ constants::StatsValue::resistDamage, *Settings::resistDamage },
-		{ constants::StatsValue::resistDisease, *Settings::resistDisease },
-		{ constants::StatsValue::resistPoison, *Settings::resistPoison },
-		{ constants::StatsValue::resistFire, *Settings::resistFire },
-		{ constants::StatsValue::resistShock, *Settings::resistShock },
-		{ constants::StatsValue::resistFrost, *Settings::resistFrost },
-		{ constants::StatsValue::resistMagic, *Settings::resistMagic },
+		{ Stats::resistDamage, *Settings::resistDamage },
+		{ Stats::resistDisease, *Settings::resistDisease },
+		{ Stats::resistPoison, *Settings::resistPoison },
+		{ Stats::resistFire, *Settings::resistFire },
+		{ Stats::resistShock, *Settings::resistShock },
+		{ Stats::resistFrost, *Settings::resistFrost },
+		{ Stats::resistMagic, *Settings::resistMagic },
 
-		{ constants::StatsValue::oneHanded, *Settings::oneHanded },
-		{ constants::StatsValue::twoHanded, *Settings::twoHanded },
-		{ constants::StatsValue::archery, *Settings::archery },
-		{ constants::StatsValue::block, *Settings::block },
-		{ constants::StatsValue::smithing, *Settings::smithing },
-		{ constants::StatsValue::heavyArmor, *Settings::heavyArmor },
-		{ constants::StatsValue::lightArmor, *Settings::lightArmor },
-		{ constants::StatsValue::pickpocket, *Settings::pickpocket },
-		{ constants::StatsValue::lockpicking, *Settings::lockpicking },
-		{ constants::StatsValue::sneak, *Settings::sneak },
-		{ constants::StatsValue::alchemy, *Settings::alchemy },
-		{ constants::StatsValue::speech, *Settings::speech },
-		{ constants::StatsValue::enchanting, *Settings::enchanting },
-		{ constants::StatsValue::alteration, *Settings::alteration },
-		{ constants::StatsValue::conjuration, *Settings::conjuration },
-		{ constants::StatsValue::destruction, *Settings::destruction },
-		{ constants::StatsValue::illusion, *Settings::illusion },
-		{ constants::StatsValue::restoration, *Settings::restoration },
+		{ Stats::oneHanded, *Settings::oneHanded },
+		{ Stats::twoHanded, *Settings::twoHanded },
+		{ Stats::archery, *Settings::archery },
+		{ Stats::block, *Settings::block },
+		{ Stats::smithing, *Settings::smithing },
+		{ Stats::heavyArmor, *Settings::heavyArmor },
+		{ Stats::lightArmor, *Settings::lightArmor },
+		{ Stats::pickpocket, *Settings::pickpocket },
+		{ Stats::lockpicking, *Settings::lockpicking },
+		{ Stats::sneak, *Settings::sneak },
+		{ Stats::alchemy, *Settings::alchemy },
+		{ Stats::speech, *Settings::speech },
+		{ Stats::enchanting, *Settings::enchanting },
+		{ Stats::alteration, *Settings::alteration },
+		{ Stats::conjuration, *Settings::conjuration },
+		{ Stats::destruction, *Settings::destruction },
+		{ Stats::illusion, *Settings::illusion },
+		{ Stats::restoration, *Settings::restoration },
 
-		{ constants::StatsValue::oneHandedPowerMod, *Settings::oneHandedPowerMod },
-		{ constants::StatsValue::twoHandedPowerMod, *Settings::twoHandedPowerMod },
-		{ constants::StatsValue::archeryPowerMod, *Settings::archeryPowerMod },
-		{ constants::StatsValue::blockPowerMod, *Settings::blockPowerMod },
-		{ constants::StatsValue::smithingPowerMod, *Settings::smithingPowerMod },
-		{ constants::StatsValue::heavyArmorPowerMod, *Settings::heavyArmorPowerMod },
-		{ constants::StatsValue::lightArmorPowerMod, *Settings::lightArmorPowerMod },
-		{ constants::StatsValue::pickpocketPowerMod, *Settings::pickpocketPowerMod },
-		{ constants::StatsValue::lockpickingPowerMod, *Settings::lockpickingPowerMod },
-		{ constants::StatsValue::sneakPowerMod, *Settings::sneakPowerMod },
-		{ constants::StatsValue::alchemyPowerMod, *Settings::alchemyPowerMod },
-		{ constants::StatsValue::speechPowerMod, *Settings::speechPowerMod },
-		{ constants::StatsValue::enchantingPowerMod, *Settings::enchantingPowerMod },
-		{ constants::StatsValue::alterationPowerMod, *Settings::alterationPowerMod },
-		{ constants::StatsValue::conjurationPowerMod, *Settings::conjurationPowerMod },
-		{ constants::StatsValue::destructionPowerMod, *Settings::destructionPowerMod },
-		{ constants::StatsValue::illusionPowerMod, *Settings::illusionPowerMod },
-		{ constants::StatsValue::restorationPowerMod, *Settings::restorationPowerMod },
+		{ Stats::oneHandedPowerMod, *Settings::oneHandedPowerMod },
+		{ Stats::twoHandedPowerMod, *Settings::twoHandedPowerMod },
+		{ Stats::archeryPowerMod, *Settings::archeryPowerMod },
+		{ Stats::blockPowerMod, *Settings::blockPowerMod },
+		{ Stats::smithingPowerMod, *Settings::smithingPowerMod },
+		{ Stats::heavyArmorPowerMod, *Settings::heavyArmorPowerMod },
+		{ Stats::lightArmorPowerMod, *Settings::lightArmorPowerMod },
+		{ Stats::pickpocketPowerMod, *Settings::pickpocketPowerMod },
+		{ Stats::lockpickingPowerMod, *Settings::lockpickingPowerMod },
+		{ Stats::sneakPowerMod, *Settings::sneakPowerMod },
+		{ Stats::alchemyPowerMod, *Settings::alchemyPowerMod },
+		{ Stats::speechPowerMod, *Settings::speechPowerMod },
+		{ Stats::enchantingPowerMod, *Settings::enchantingPowerMod },
+		{ Stats::alterationPowerMod, *Settings::alterationPowerMod },
+		{ Stats::conjurationPowerMod, *Settings::conjurationPowerMod },
+		{ Stats::destructionPowerMod, *Settings::destructionPowerMod },
+		{ Stats::illusionPowerMod, *Settings::illusionPowerMod },
+		{ Stats::restorationPowerMod, *Settings::restorationPowerMod },
 
-		{ constants::StatsValue::speedMult, *Settings::speedMult },
-		{ constants::StatsValue::inventoryWeight, *Settings::inventoryWeight },
-		{ constants::StatsValue::carryWeight, *Settings::carryWeight },
-		{ constants::StatsValue::criticalChance, *Settings::criticalChance },
-		{ constants::StatsValue::meleeDamage, *Settings::meleeDamage },
-		{ constants::StatsValue::unarmedDamage, *Settings::unarmedDamage },
-		{ constants::StatsValue::absorbChance, *Settings::absorbChance },
-		{ constants::StatsValue::weaponSpeedMult, *Settings::weaponSpeedMult },
-		{ constants::StatsValue::bowSpeedBonus, *Settings::bowSpeedBonus },
-		{ constants::StatsValue::shoutRecoveryMult, *Settings::shoutRecoveryMult },
-		{ constants::StatsValue::movementNoiseMult, *Settings::movementNoiseMult },
-		{ constants::StatsValue::dragonSouls, *Settings::dragonSouls },
-		{ constants::StatsValue::combatHealthRegenMultiply, *Settings::combatHealthRegenMultiply },
-		{ constants::StatsValue::attackDamageMult, *Settings::attackDamageMult },
-		{ constants::StatsValue::beast, *Settings::beast },
-		{ constants::StatsValue::xp, *Settings::xp }
-
+		{ Stats::speedMult, *Settings::speedMult },
+		{ Stats::inventoryWeight, *Settings::inventoryWeight },
+		{ Stats::carryWeight, *Settings::carryWeight },
+		{ Stats::criticalChance, *Settings::criticalChance },
+		{ Stats::meleeDamage, *Settings::meleeDamage },
+		{ Stats::unarmedDamage, *Settings::unarmedDamage },
+		{ Stats::absorbChance, *Settings::absorbChance },
+		{ Stats::weaponSpeedMult, *Settings::weaponSpeedMult },
+		{ Stats::bowSpeedBonus, *Settings::bowSpeedBonus },
+		{ Stats::shoutRecoveryMult, *Settings::shoutRecoveryMult },
+		{ Stats::movementNoiseMult, *Settings::movementNoiseMult },
+		{ Stats::dragonSouls, *Settings::dragonSouls },
+		{ Stats::combatHealthRegenMultiply, *Settings::combatHealthRegenMultiply },
+		{ Stats::attackDamageMult, *Settings::attackDamageMult },
+		{ Stats::beast, *Settings::beast },
+		{ Stats::xp, *Settings::xp },
+		{ Stats::reflectDamage, *Settings::reflectDamage }
 	};
 
 	nameMap = {
-		{ constants::StatsValue::name, *Settings::nameString },
-		{ constants::StatsValue::race, *Settings::raceString },
-		{ constants::StatsValue::level, *Settings::levelString },
-		{ constants::StatsValue::perkCount, *Settings::perkCountString },
-		{ constants::StatsValue::height, *Settings::heightString },
-		{ constants::StatsValue::equipedWeight, *Settings::equipedWeightString },
-		{ constants::StatsValue::weight, *Settings::weightString },
-		{ constants::StatsValue::armor, *Settings::armorString },
-		{ constants::StatsValue::damage, *Settings::damageString },
-		{ constants::StatsValue::skillTrainingsThisLevel, *Settings::skillTrainingsThisLevelString },
-		{ constants::StatsValue::health, *Settings::healthString },
+		{ Stats::name, *Settings::nameString },
+		{ Stats::race, *Settings::raceString },
+		{ Stats::level, *Settings::levelString },
+		{ Stats::perkCount, *Settings::perkCountString },
+		{ Stats::height, *Settings::heightString },
+		{ Stats::equipedWeight, *Settings::equipedWeightString },
+		{ Stats::weight, *Settings::weightString },
+		{ Stats::armor, *Settings::armorString },
+		{ Stats::damage, *Settings::damageString },
+		{ Stats::skillTrainingsThisLevel, *Settings::skillTrainingsThisLevelString },
+		{ Stats::health, *Settings::healthString },
 
-		{ constants::StatsValue::healthRate, *Settings::healthRateString },
-		{ constants::StatsValue::healthRateMult, *Settings::healthRateMultString },
-		{ constants::StatsValue::magicka, *Settings::magickaString },
-		{ constants::StatsValue::magickaRate, *Settings::magickaRateString },
-		{ constants::StatsValue::magickaRateMult, *Settings::magickaRateMultString },
-		{ constants::StatsValue::stamina, *Settings::staminaString },
-		{ constants::StatsValue::staminaRate, *Settings::staminaRateString },
-		{ constants::StatsValue::staminaRateMult, *Settings::staminaRateMultString },
+		{ Stats::healthRatePer, *Settings::healthRateString },
+		{ Stats::magicka, *Settings::magickaString },
+		{ Stats::magickaRatePer, *Settings::magickaRateString },
+		{ Stats::stamina, *Settings::staminaString },
+		{ Stats::staminaRatePer, *Settings::staminaRateString },
 
-		{ constants::StatsValue::resistDamage, *Settings::resistDamageString },
-		{ constants::StatsValue::resistDisease, *Settings::resistDiseaseString },
-		{ constants::StatsValue::resistPoison, *Settings::resistPoisonString },
-		{ constants::StatsValue::resistFire, *Settings::resistFireString },
-		{ constants::StatsValue::resistShock, *Settings::resistShockString },
-		{ constants::StatsValue::resistFrost, *Settings::resistFrostString },
-		{ constants::StatsValue::resistMagic, *Settings::resistMagicString },
+		{ Stats::resistDamage, *Settings::resistDamageString },
+		{ Stats::resistDisease, *Settings::resistDiseaseString },
+		{ Stats::resistPoison, *Settings::resistPoisonString },
+		{ Stats::resistFire, *Settings::resistFireString },
+		{ Stats::resistShock, *Settings::resistShockString },
+		{ Stats::resistFrost, *Settings::resistFrostString },
+		{ Stats::resistMagic, *Settings::resistMagicString },
 
-		{ constants::StatsValue::oneHanded, *Settings::oneHandedString },
-		{ constants::StatsValue::twoHanded, *Settings::twoHandedString },
-		{ constants::StatsValue::archery, *Settings::archeryString },
-		{ constants::StatsValue::block, *Settings::blockString },
-		{ constants::StatsValue::smithing, *Settings::smithingString },
-		{ constants::StatsValue::heavyArmor, *Settings::heavyArmorString },
-		{ constants::StatsValue::lightArmor, *Settings::lightArmorString },
-		{ constants::StatsValue::pickpocket, *Settings::pickpocketString },
-		{ constants::StatsValue::lockpicking, *Settings::lockpickingString },
-		{ constants::StatsValue::sneak, *Settings::sneakString },
-		{ constants::StatsValue::alchemy, *Settings::alchemyString },
-		{ constants::StatsValue::speech, *Settings::speechString },
-		{ constants::StatsValue::enchanting, *Settings::enchantingString },
-		{ constants::StatsValue::alteration, *Settings::alterationString },
-		{ constants::StatsValue::conjuration, *Settings::conjurationString },
-		{ constants::StatsValue::destruction, *Settings::destructionString },
-		{ constants::StatsValue::illusion, *Settings::illusionString },
-		{ constants::StatsValue::restoration, *Settings::restorationString },
+		{ Stats::oneHanded, *Settings::oneHandedString },
+		{ Stats::twoHanded, *Settings::twoHandedString },
+		{ Stats::archery, *Settings::archeryString },
+		{ Stats::block, *Settings::blockString },
+		{ Stats::smithing, *Settings::smithingString },
+		{ Stats::heavyArmor, *Settings::heavyArmorString },
+		{ Stats::lightArmor, *Settings::lightArmorString },
+		{ Stats::pickpocket, *Settings::pickpocketString },
+		{ Stats::lockpicking, *Settings::lockpickingString },
+		{ Stats::sneak, *Settings::sneakString },
+		{ Stats::alchemy, *Settings::alchemyString },
+		{ Stats::speech, *Settings::speechString },
+		{ Stats::enchanting, *Settings::enchantingString },
+		{ Stats::alteration, *Settings::alterationString },
+		{ Stats::conjuration, *Settings::conjurationString },
+		{ Stats::destruction, *Settings::destructionString },
+		{ Stats::illusion, *Settings::illusionString },
+		{ Stats::restoration, *Settings::restorationString },
 
-		{ constants::StatsValue::oneHandedPowerMod, *Settings::oneHandedPowerModString },
-		{ constants::StatsValue::twoHandedPowerMod, *Settings::twoHandedPowerModString },
-		{ constants::StatsValue::archeryPowerMod, *Settings::archeryPowerModString },
-		{ constants::StatsValue::blockPowerMod, *Settings::blockPowerModString },
-		{ constants::StatsValue::smithingPowerMod, *Settings::smithingPowerModString },
-		{ constants::StatsValue::heavyArmorPowerMod, *Settings::heavyArmorPowerModString },
-		{ constants::StatsValue::lightArmorPowerMod, *Settings::lightArmorPowerModString },
-		{ constants::StatsValue::pickpocketPowerMod, *Settings::pickpocketPowerModString },
-		{ constants::StatsValue::lockpickingPowerMod, *Settings::lockpickingPowerModString },
-		{ constants::StatsValue::sneakPowerMod, *Settings::sneakPowerModString },
-		{ constants::StatsValue::alchemyPowerMod, *Settings::alchemyPowerModString },
-		{ constants::StatsValue::speechPowerMod, *Settings::speechPowerModString },
-		{ constants::StatsValue::enchantingPowerMod, *Settings::enchantingPowerModString },
-		{ constants::StatsValue::alterationPowerMod, *Settings::alterationPowerModString },
-		{ constants::StatsValue::conjurationPowerMod, *Settings::conjurationPowerModString },
-		{ constants::StatsValue::destructionPowerMod, *Settings::destructionPowerModString },
-		{ constants::StatsValue::illusionPowerMod, *Settings::illusionPowerModString },
-		{ constants::StatsValue::restorationPowerMod, *Settings::restorationPowerModString },
+		{ Stats::oneHandedPowerMod, *Settings::oneHandedPowerModString },
+		{ Stats::twoHandedPowerMod, *Settings::twoHandedPowerModString },
+		{ Stats::archeryPowerMod, *Settings::archeryPowerModString },
+		{ Stats::blockPowerMod, *Settings::blockPowerModString },
+		{ Stats::smithingPowerMod, *Settings::smithingPowerModString },
+		{ Stats::heavyArmorPowerMod, *Settings::heavyArmorPowerModString },
+		{ Stats::lightArmorPowerMod, *Settings::lightArmorPowerModString },
+		{ Stats::pickpocketPowerMod, *Settings::pickpocketPowerModString },
+		{ Stats::lockpickingPowerMod, *Settings::lockpickingPowerModString },
+		{ Stats::sneakPowerMod, *Settings::sneakPowerModString },
+		{ Stats::alchemyPowerMod, *Settings::alchemyPowerModString },
+		{ Stats::speechPowerMod, *Settings::speechPowerModString },
+		{ Stats::enchantingPowerMod, *Settings::enchantingPowerModString },
+		{ Stats::alterationPowerMod, *Settings::alterationPowerModString },
+		{ Stats::conjurationPowerMod, *Settings::conjurationPowerModString },
+		{ Stats::destructionPowerMod, *Settings::destructionPowerModString },
+		{ Stats::illusionPowerMod, *Settings::illusionPowerModString },
+		{ Stats::restorationPowerMod, *Settings::restorationPowerModString },
 
-		{ constants::StatsValue::speedMult, *Settings::speedMultString },
-		{ constants::StatsValue::inventoryWeight, *Settings::inventoryWeightString },
-		{ constants::StatsValue::carryWeight, *Settings::carryWeightString },
-		{ constants::StatsValue::criticalChance, *Settings::criticalChanceString },
-		{ constants::StatsValue::meleeDamage, *Settings::meleeDamageString },
-		{ constants::StatsValue::unarmedDamage, *Settings::unarmedDamageString },
-		{ constants::StatsValue::absorbChance, *Settings::absorbChanceString },
-		{ constants::StatsValue::weaponSpeedMult, *Settings::weaponSpeedMultString },
-		{ constants::StatsValue::bowSpeedBonus, *Settings::bowSpeedBonusString },
-		{ constants::StatsValue::shoutRecoveryMult, *Settings::shoutRecoveryMultString },
-		{ constants::StatsValue::movementNoiseMult, *Settings::movementNoiseMultString },
-		{ constants::StatsValue::dragonSouls, *Settings::dragonSoulsString },
-		{ constants::StatsValue::combatHealthRegenMultiply, *Settings::combatHealthRegenMultiplyString },
-		{ constants::StatsValue::attackDamageMult, *Settings::attackDamageMultString },
-		{ constants::StatsValue::beast, *Settings::beastString },
-		{ constants::StatsValue::xp, *Settings::xpString }
+		{ Stats::speedMult, *Settings::speedMultString },
+		{ Stats::inventoryWeight, *Settings::inventoryWeightString },
+		{ Stats::carryWeight, *Settings::carryWeightString },
+		{ Stats::criticalChance, *Settings::criticalChanceString },
+		{ Stats::meleeDamage, *Settings::meleeDamageString },
+		{ Stats::unarmedDamage, *Settings::unarmedDamageString },
+		{ Stats::absorbChance, *Settings::absorbChanceString },
+		{ Stats::weaponSpeedMult, *Settings::weaponSpeedMultString },
+		{ Stats::bowSpeedBonus, *Settings::bowSpeedBonusString },
+		{ Stats::shoutRecoveryMult, *Settings::shoutRecoveryMultString },
+		{ Stats::movementNoiseMult, *Settings::movementNoiseMultString },
+		{ Stats::dragonSouls, *Settings::dragonSoulsString },
+		{ Stats::combatHealthRegenMultiply, *Settings::combatHealthRegenMultiplyString },
+		{ Stats::attackDamageMult, *Settings::attackDamageMultString },
+		{ Stats::beast, *Settings::beastString },
+		{ Stats::xp, *Settings::xpString },
+		{ Stats::reflectDamage, *Settings::reflectDamageString }
 	};
 
 }
@@ -256,6 +299,19 @@ std::string Player::getValueName(constants::StatsValue p_val) {
 		return it->second;
 	}
 	return constants::undefined;
+}
+
+float Player::calculateValue(float p_rm, float p_r) {
+	return (p_rm * p_r) /100;
+}
+
+std::string Player::getBeast(float p_vamp, float p_were) {
+	if (p_vamp > 0) {
+		return *Settings::vampireString;
+	} else if (p_were > 0) {
+		return *Settings::werewolfString;
+	}
+	return " ";
 }
 
 Player::Player() :

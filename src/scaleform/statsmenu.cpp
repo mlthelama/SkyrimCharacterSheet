@@ -48,20 +48,6 @@ namespace Scaleform
 		menu->inputContext = Context::kNone;
 		//InitExtensions();
 
-		/*
-		RE::PlayerCharacter* player = RE::PlayerCharacter::GetSingleton();
-		if (player) {
-			if (player->IsInCombat()) {
-				_isActive = true;
-				_view->SetVisible(true);
-			} else if (!player->IsInCombat()) {
-				_isActive = false;
-				_view->SetVisible(false);
-			}
-		}
-
-		_view->SetPause(true);
-		*/
 		_isActive = true;
 		_view->SetVisible(true);
 
@@ -71,18 +57,6 @@ namespace Scaleform
 		std::uint32_t currentFrame = _view->GetCurrentFrame();
 
 		logger::trace("interval {}, currenttime {}"sv, a_interval, a_currentTime);
-
-
-		/*RE::PlayerCharacter* player = RE::PlayerCharacter::GetSingleton();
-		if (player && currentFrame == 120) {
-			if (player->IsInCombat() && !_isActive) {
-				_isActive = true;
-				_view->SetVisible(true);
-			} else if (!player->IsInCombat() && _isActive) {
-				_isActive = false;
-				_view->SetVisible(false);
-			}
-		}*/
 
 		_view->SetVisible(true);
 
@@ -228,130 +202,118 @@ namespace Scaleform
 	void StatsMenu::UpdateStatsList() {
 		Player* playerinfo = Player::GetSingleton();
 		constants::ValueMap playerValues = playerinfo->getValues();
+		
+		ClearProviders();
 
-		_playerItemListProvider.ClearElements();
-		_defenceItemListProvider.ClearElements();
-		_attackItemListProvider.ClearElements();
-		_perksMagicItemListProvider.ClearElements();
-		_perksWarriorItemListProvider.ClearElements();
-		_perksThiefItemListProvider.ClearElements();
-
-		_playerItemList.Invalidate();
-		_defenceItemList.Invalidate();
-		_attackItemList.Invalidate();
-		_perksMagicItemList.Invalidate();
-		_perksWarriorItemList.Invalidate();
-		_perksThiefItemList.Invalidate();
+		InvalidateItemLists();
 
 		/* todo add different handling for stats with mutliplier health, perks, ...*/
 		for (const auto& [key, value] : playerValues) {
 			logger::trace("processing {}"sv, buildText(playerinfo->getValueName(key), value));
 			switch (key) {
-			case constants::name:
+			case Stats::name:
 				updateText(_name, buildText(playerinfo->getValueName(key), value));
 				break;
-			case constants::level:
+			case Stats::level:
 				updateText(_level, buildText(playerinfo->getValueName(key), value));
 				break;
-			case constants::race:
+			case Stats::race:
 				updateText(_race, buildText(playerinfo->getValueName(key), value));
 				break;
-			case constants::perkCount:
+			case Stats::perkCount:
 				updateText(_perks, buildText(playerinfo->getValueName(key), value));
 				break;
-			case constants::beast:
+			case Stats::beast:
 				updateText(_beast, buildText(playerinfo->getValueName(key), value));
 				break;
-			case constants::xp:
+			case Stats::xp:
 				updateText(_xp, buildText(playerinfo->getValueName(key), value));
 				break;
-			case constants::height:
-			case constants::carryWeight:
-			case constants::equipedWeight:
-			case constants::inventoryWeight:
-			case constants::weight:
-			case constants::skillTrainingsThisLevel:
-			case constants::dragonSouls:
-			case constants::shoutRecoveryMult:
-			case constants::movementNoiseMult:
-			case constants::speedMult:
+			case Stats::height:
+			case Stats::carryWeight:
+			case Stats::equipedWeight:
+			case Stats::inventoryWeight:
+			case Stats::weight:
+			case Stats::skillTrainingsThisLevel:
+			case Stats::dragonSouls:
+			case Stats::shoutRecoveryMult:
+			case Stats::movementNoiseMult:
+			case Stats::speedMult:
 				_playerItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
 				logger::trace("{} added to playerItemList"sv, playerinfo->getValueName(key));
 				break;
-			case constants::absorbChance:
-			case constants::armor:
-			case constants::combatHealthRegenMultiply:
-			case constants::resistDamage:
-			case constants::resistDisease:
-			case constants::resistFire:
-			case constants::resistFrost:
-			case constants::resistMagic:
-			case constants::resistPoison:
-			case constants::resistShock:
-			case constants::health:
-			case constants::healthRate:
-			case constants::healthRateMult:
-			case constants::magicka:
-			case constants::magickaRate:
-			case constants::magickaRateMult:
-			case constants::stamina:
-			case constants::staminaRate:
-			case constants::staminaRateMult:
+			case Stats::absorbChance:
+			case Stats::armor:
+			case Stats::combatHealthRegenMultiply:
+			case Stats::resistDamage:
+			case Stats::resistDisease:
+			case Stats::resistFire:
+			case Stats::resistFrost:
+			case Stats::resistMagic:
+			case Stats::resistPoison:
+			case Stats::resistShock:
+			case Stats::health:
+			case Stats::healthRatePer:
+			case Stats::magicka:
+			case Stats::magickaRatePer:
+			case Stats::stamina:
+			case Stats::staminaRatePer:
+			case Stats::reflectDamage:
 				_defenceItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
 				logger::trace("{} added to defenceItemList"sv, playerinfo->getValueName(key));
 				break;
-			case constants::unarmedDamage:
-			case constants::weaponSpeedMult:
-			case constants::meleeDamage:
-			case constants::damage:
-			case constants::criticalChance:
-			case constants::bowSpeedBonus:
-			case constants::attackDamageMult:
+			case Stats::unarmedDamage:
+			case Stats::weaponSpeedMult:
+			case Stats::meleeDamage:
+			case Stats::damage:
+			case Stats::criticalChance:
+			case Stats::bowSpeedBonus:
+			case Stats::attackDamageMult:
 				_attackItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
 				logger::trace("{} added to attackItemList"sv, playerinfo->getValueName(key));
 				break;
-			case constants::alteration:
-			case constants::conjuration:
-			case constants::enchanting:
-			case constants::illusion:
-			case constants::restoration:
-			case constants::destruction:
-			case constants::alterationPowerMod:
-			case constants::conjurationPowerMod:
-			case constants::enchantingPowerMod:
-			case constants::illusionPowerMod:
-			case constants::restorationPowerMod:
-			case constants::destructionPowerMod:
+			case Stats::alteration:
+			case Stats::conjuration:
+			case Stats::enchanting:
+			case Stats::illusion:
+			case Stats::restoration:
+			case Stats::destruction:
+			case Stats::alterationPowerMod:
+			case Stats::conjurationPowerMod:
+			case Stats::enchantingPowerMod:
+			case Stats::illusionPowerMod:
+			case Stats::restorationPowerMod:
+			case Stats::destructionPowerMod:
 				_perksMagicItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
 				logger::trace("{} added to perksMagicItemList"sv, playerinfo->getValueName(key));
 				break;
-			case constants::smithing:
-			case constants::twoHanded:
-			case constants::oneHanded:
-			case constants::lightArmor:
-			case constants::heavyArmor:
-			case constants::block:
-			case constants::smithingPowerMod:
-			case constants::twoHandedPowerMod:
-			case constants::oneHandedPowerMod:
-			case constants::lightArmorPowerMod:
-			case constants::heavyArmorPowerMod:
-			case constants::blockPowerMod:
+			case Stats::smithing:
+			case Stats::twoHanded:
+			case Stats::oneHanded:
+			case Stats::lightArmor:
+			case Stats::heavyArmor:
+			case Stats::block:
+			case Stats::smithingPowerMod:
+			case Stats::twoHandedPowerMod:
+			case Stats::oneHandedPowerMod:
+			case Stats::lightArmorPowerMod:
+			case Stats::heavyArmorPowerMod:
+			case Stats::blockPowerMod:
 				_perksWarriorItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
 				logger::trace("{} added to perksWarriorItemList"sv, playerinfo->getValueName(key));
 				break;
-			case constants::sneak:
-			case constants::speech:
-			case constants::pickpocket:
-			case constants::lockpicking:
-			case constants::archery:
-			case constants::alchemy:
-			case constants::sneakPowerMod:
-			case constants::speechPowerMod:
-			case constants::pickpocketPowerMod:
-			case constants::lockpickingPowerMod:
-			case constants::archeryPowerMod:
-			case constants::alchemyPowerMod:
+			case Stats::sneak:
+			case Stats::speech:
+			case Stats::pickpocket:
+			case Stats::lockpicking:
+			case Stats::archery:
+			case Stats::alchemy:
+			case Stats::sneakPowerMod:
+			case Stats::speechPowerMod:
+			case Stats::pickpocketPowerMod:
+			case Stats::lockpickingPowerMod:
+			case Stats::archeryPowerMod:
+			case Stats::alchemyPowerMod:
 				_perksThiefItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
 				logger::trace("{} added to perksThiefItemList"sv, playerinfo->getValueName(key));
 				break;
@@ -360,13 +322,35 @@ namespace Scaleform
 				break;
 			}
 		}
+
+		InvalidateDataItemLists();
+		playerValues.clear();
+	}
+
+	void StatsMenu::ClearProviders() {
+		_playerItemListProvider.ClearElements();
+		_defenceItemListProvider.ClearElements();
+		_attackItemListProvider.ClearElements();
+		_perksMagicItemListProvider.ClearElements();
+		_perksWarriorItemListProvider.ClearElements();
+		_perksThiefItemListProvider.ClearElements();
+	}
+
+	void StatsMenu::InvalidateItemLists() {
+		_playerItemList.Invalidate();
+		_defenceItemList.Invalidate();
+		_attackItemList.Invalidate();
+		_perksMagicItemList.Invalidate();
+		_perksWarriorItemList.Invalidate();
+		_perksThiefItemList.Invalidate();
+	}
+
+	void StatsMenu::InvalidateDataItemLists() {
 		_playerItemList.InvalidateData();
 		_defenceItemList.InvalidateData();
 		_attackItemList.InvalidateData();
 		_perksMagicItemList.InvalidateData();
 		_perksWarriorItemList.InvalidateData();
 		_perksThiefItemList.InvalidateData();
-
-		playerValues.clear();
 	}
 }

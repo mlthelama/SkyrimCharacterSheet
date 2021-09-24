@@ -1,0 +1,1 @@
+python archive_artifacts.py --name ShowStats --src-dir /e/try/ShowStats/src/skse64/ShowStats-CommonLibSSE/ --dll /e/try/ShowStats/src/skse64/ShowStats-CommonLibSSE/build/Release/ShowStats.dll --pdb /e/try/ShowStats/src/skse64/ShowStats-CommonLibSSE/build/Release/ShowStats.pdb

@@ -2,7 +2,7 @@
 
 namespace constants
 {
-	enum StatsValue
+	enum class StatsValue
 	{
 		name,
 		race,
@@ -15,14 +15,11 @@ namespace constants
 		damage,
 		skillTrainingsThisLevel,
 		health,
-		healthRate,
-		healthRateMult,
+		healthRatePer,
 		magicka,
-		magickaRate,
-		magickaRateMult,
+		magickaRatePer,
 		stamina,
-		staminaRate,
-		staminaRateMult,
+		staminaRatePer,
 		resistDamage,
 		resistDisease,
 		resistPoison,
@@ -81,7 +78,8 @@ namespace constants
 		combatHealthRegenMultiply,
 		attackDamageMult,
 		beast,
-		xp
+		xp,
+		reflectDamage
 	};
 
 	typedef std::map<constants::StatsValue, std::string> StatsValueMap;
