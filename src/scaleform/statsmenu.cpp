@@ -20,6 +20,7 @@ namespace Scaleform
 
 	void StatsMenu::Open() {
 		if (!StatsMenu::IsMenuOpen()) {
+			logger::info("Open Menu {}"sv, MENU_NAME);
 			RE::UIMessageQueue* msgQueue = RE::UIMessageQueue::GetSingleton();
 			msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kShow, nullptr);
 		}
@@ -28,6 +29,7 @@ namespace Scaleform
 
 	void StatsMenu::Close() {
 		if (StatsMenu::IsMenuOpen()) {
+			logger::info("Close Menu {}"sv, MENU_NAME);
 			RE::UIMessageQueue* msgQueue = RE::UIMessageQueue::GetSingleton();
 			msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
 		}
@@ -152,6 +154,8 @@ namespace Scaleform
 
 		_view->SetVisible(true);
 		_rootObj.Visible(true);
+
+		logger::info("Shown all Values for Menu {}"sv, MENU_NAME);
 	}
 
 	void StatsMenu::updateText(CLIK::TextField p_field, std::string_view p_string) {
@@ -284,6 +288,12 @@ namespace Scaleform
 			case Stats::illusionPowerMod:
 			case Stats::restorationPowerMod:
 			case Stats::destructionPowerMod:
+			case Stats::alterationMod:
+			case Stats::conjurationMod:
+			case Stats::enchantingMod:
+			case Stats::illusionMod:
+			case Stats::restorationMod:
+			case Stats::destructionMod:
 				_perksMagicItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
 				logger::trace("{} added to perksMagicItemList"sv, playerinfo->getValueName(key));
 				break;
@@ -299,6 +309,12 @@ namespace Scaleform
 			case Stats::lightArmorPowerMod:
 			case Stats::heavyArmorPowerMod:
 			case Stats::blockPowerMod:
+			case Stats::smithingMod:
+			case Stats::twoHandedMod:
+			case Stats::oneHandedMod:
+			case Stats::lightArmorMod:
+			case Stats::heavyArmorMod:
+			case Stats::blockMod:
 				_perksWarriorItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
 				logger::trace("{} added to perksWarriorItemList"sv, playerinfo->getValueName(key));
 				break;
@@ -314,11 +330,17 @@ namespace Scaleform
 			case Stats::lockpickingPowerMod:
 			case Stats::archeryPowerMod:
 			case Stats::alchemyPowerMod:
+			case Stats::sneakingMod:
+			case Stats::speechcraftMod:
+			case Stats::pickpocketMod:
+			case Stats::lockpickingMod:
+			case Stats::marksmanMod:
+			case Stats::alchemyMod:
 				_perksThiefItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
 				logger::trace("{} added to perksThiefItemList"sv, playerinfo->getValueName(key));
 				break;
 			default:
-				logger::trace("not handeled {}"sv, buildText(playerinfo->getValueName(key), value));
+				logger::warn("not handeled {}"sv, buildText(playerinfo->getValueName(key), value));
 				break;
 			}
 		}

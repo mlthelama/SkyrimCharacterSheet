@@ -99,6 +99,24 @@ struct Settings
 	static inline bSetting beast{ "showStats"s, "beast"s, true };
 	static inline bSetting xp{ "showStats"s, "xp"s, true };
 	static inline bSetting reflectDamage{ "showStats"s, "reflectDamage"s, true };
+	static inline bSetting oneHandedMod{ "showStats"s, "oneHandedMod"s, true };
+	static inline bSetting twoHandedMod{ "showStats"s, "twoHandedMod"s, true };
+	static inline bSetting archeryMod{ "showStats"s, "archeryMod"s, true };
+	static inline bSetting blockMod{ "showStats"s, "blockMod"s, true };
+	static inline bSetting smithingMod{ "showStats"s, "smithingMod"s, true };
+	static inline bSetting heavyArmorMod{ "showStats"s, "heavyArmorMod"s, true };
+	static inline bSetting lightArmorMod{ "showStats"s, "lightArmorMod"s, true };
+	static inline bSetting pickpocketMod{ "showStats"s, "pickpocketMod"s, true };
+	static inline bSetting lockpickingMod{ "showStats"s, "lockpickingMod"s, true };
+	static inline bSetting sneakMod{ "showStats"s, "sneakMod"s, true };
+	static inline bSetting alchemyMod{ "showStats"s, "alchemyMod"s, true };
+	static inline bSetting speechMod{ "showStats"s, "speechMod"s, true };
+	static inline bSetting enchantingMod{ "showStats"s, "enchantingMod"s, true };
+	static inline bSetting alterationMod{ "showStats"s, "alterationMod"s, true };
+	static inline bSetting conjurationMod{ "showStats"s, "conjurationMod"s, true };
+	static inline bSetting destructionMod{ "showStats"s, "destructionMod"s, true };
+	static inline bSetting illusionMod{ "showStats"s, "illusionMod"s, true };
+	static inline bSetting restorationMod{ "showStats"s, "restorationMod"s, true };
 
 	static inline sSetting nameString { "showStatsName"s, "name"s, "<undef>" };
 	static inline sSetting raceString { "showStatsName"s, "race"s, "<undef>" };
@@ -176,6 +194,24 @@ struct Settings
 	static inline sSetting beastString{ "showStatsName"s, "beast"s, "<undef>" };
 	static inline sSetting xpString{ "showStatsName"s, "xp"s, "<undef>" };
 	static inline sSetting reflectDamageString{ "showStatsName"s, "reflectDamage"s, "<undef>" };
+	static inline sSetting oneHandedModString{ "showStatsName"s, "oneHandedMod"s, "<undef>" };
+	static inline sSetting twoHandedModString{ "showStatsName"s, "twoHandedMod"s, "<undef>" };
+	static inline sSetting archeryModString{ "showStatsName"s, "archeryMod"s, "<undef>" };
+	static inline sSetting blockModString{ "showStatsName"s, "blockMod"s, "<undef>" };
+	static inline sSetting smithingModString{ "showStatsName"s, "smithingMod"s, "<undef>" };
+	static inline sSetting heavyArmorModString{ "showStatsName"s, "heavyArmorMod"s, "<undef>" };
+	static inline sSetting lightArmorModString{ "showStatsName"s, "lightArmorMod"s, "<undef>" };
+	static inline sSetting pickpocketModString{ "showStatsName"s, "pickpocketMod"s, "<undef>" };
+	static inline sSetting lockpickingModString{ "showStatsName"s, "lockpickingMod"s, "<undef>" };
+	static inline sSetting sneakModString{ "showStatsName"s, "sneakMod"s, "<undef>" };
+	static inline sSetting alchemyModString{ "showStatsName"s, "alchemyMod"s, "<undef>" };
+	static inline sSetting speechModString{ "showStatsName"s, "speechMod"s, "<undef>" };
+	static inline sSetting enchantingModString{ "showStatsName"s, "enchantingMod"s, "<undef>" };
+	static inline sSetting alterationModString{ "showStatsName"s, "alterationMod"s, "<undef>" };
+	static inline sSetting conjurationModString{ "showStatsName"s, "conjurationMod"s, "<undef>" };
+	static inline sSetting destructionModString{ "showStatsName"s, "destructionMod"s, "<undef>" };
+	static inline sSetting illusionModString{ "showStatsName"s, "illusionMod"s, "<undef>" };
+	static inline sSetting restorationModString{ "showStatsName"s, "restorationMod"s, "<undef>" };
 
 	static inline iSetting logLevel{"General"s, "logLevel"s, 0};
 

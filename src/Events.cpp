@@ -48,9 +48,10 @@ namespace Events
 			//auto device = button->device;
 			logger::trace("button code {}"sv, key);
 
-			logger::info("event input {}, set {}"sv, key, _key);
+			logger::trace("event input {}, set {}"sv, key, _key);
 			if (key == _key) {
 				//do shit
+				logger::info("configured Key ({}) pressed"sv, key);
 				if (Scaleform::StatsMenu::IsMenuOpen()) {
 					Scaleform::StatsMenu::Close();
 				} else {
@@ -59,6 +60,9 @@ namespace Events
 				}
 				break;
 			} else if (key == RE::BSWin32KeyboardDevice::Key::kEscape && Scaleform::StatsMenu::IsMenuOpen()) {
+				Scaleform::StatsMenu::Close();
+			} else if (Scaleform::StatsMenu::IsMenuOpen()) {
+				/*should do it*/
 				Scaleform::StatsMenu::Close();
 			}
 		}

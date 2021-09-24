@@ -79,7 +79,25 @@ namespace constants
 		attackDamageMult,
 		beast,
 		xp,
-		reflectDamage
+		reflectDamage,
+		oneHandedMod,
+		twoHandedMod,
+		marksmanMod,
+		blockMod,
+		smithingMod,
+		heavyArmorMod,
+		lightArmorMod,
+		pickpocketMod,
+		lockpickingMod,
+		sneakingMod,
+		alchemyMod,
+		speechcraftMod,
+		alterationMod,
+		conjurationMod,
+		destructionMod,
+		illusionMod,
+		restorationMod,
+		enchantingMod
 	};
 
 	typedef std::map<constants::StatsValue, std::string> StatsValueMap;

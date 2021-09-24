@@ -11,8 +11,9 @@ constants::ValueMap Player::getValues()
 	return GatherValues();
 }
 
-constants::ValueMap Player::GatherValues()
-{
+constants::ValueMap Player::GatherValues() {
+	logger::trace("Gather Values to Show ..."sv);
+
 	constants::ValueMap playerValues;
 	RE::PlayerCharacter* player = RE::PlayerCharacter::GetSingleton();
 	loadSettings();
@@ -94,15 +95,13 @@ constants::ValueMap Player::GatherValues()
 	return playerValues;
 }
 
-void Player::PrintValues(constants::ValueMap& p_map)
-{
+void Player::PrintValues(constants::ValueMap& p_map) {
 	for (const auto& [key, value] : p_map) {
 		logger::trace("{} = {}"sv, getValueName(key), value);
 	}
 }
 
-std::string Player::getStringValueFromFloat( float x )
-{
+std::string Player::getStringValueFromFloat( float x ) {
 	return std::to_string(round(x * 100.0) / 100.0);
 }
 
@@ -188,7 +187,26 @@ void Player::loadSettings() {
 		{ Stats::attackDamageMult, *Settings::attackDamageMult },
 		{ Stats::beast, *Settings::beast },
 		{ Stats::xp, *Settings::xp },
-		{ Stats::reflectDamage, *Settings::reflectDamage }
+
+		{ Stats::reflectDamage, *Settings::reflectDamage },
+		{ Stats::oneHandedMod, *Settings::oneHandedMod },
+		{ Stats::twoHandedMod, *Settings::twoHandedMod },
+		{ Stats::marksmanMod, *Settings::archeryMod },
+		{ Stats::blockMod, *Settings::blockMod },
+		{ Stats::smithingMod, *Settings::smithingMod },
+		{ Stats::heavyArmorMod, *Settings::heavyArmorMod },
+		{ Stats::lightArmorMod, *Settings::lightArmorMod },
+		{ Stats::pickpocketMod, *Settings::pickpocketMod },
+		{ Stats::lockpickingMod, *Settings::lockpickingMod },
+		{ Stats::sneakingMod, *Settings::sneakMod },
+		{ Stats::alchemyMod, *Settings::alchemyMod },
+		{ Stats::speechcraftMod, *Settings::speechMod },
+		{ Stats::enchantingMod, *Settings::enchantingMod },
+		{ Stats::alterationMod, *Settings::alterationMod },
+		{ Stats::conjurationMod, *Settings::conjurationMod },
+		{ Stats::destructionMod, *Settings::destructionMod },
+		{ Stats::illusionMod, *Settings::illusionMod },
+		{ Stats::restorationMod, *Settings::restorationMod }
 	};
 
 	nameMap = {
@@ -272,7 +290,26 @@ void Player::loadSettings() {
 		{ Stats::attackDamageMult, *Settings::attackDamageMultString },
 		{ Stats::beast, *Settings::beastString },
 		{ Stats::xp, *Settings::xpString },
-		{ Stats::reflectDamage, *Settings::reflectDamageString }
+
+		{ Stats::reflectDamage, *Settings::reflectDamageString },
+		{ Stats::oneHandedMod, *Settings::oneHandedModString },
+		{ Stats::twoHandedMod, *Settings::twoHandedModString },
+		{ Stats::marksmanMod, *Settings::archeryModString },
+		{ Stats::blockMod, *Settings::blockModString },
+		{ Stats::smithingMod, *Settings::smithingModString },
+		{ Stats::heavyArmorMod, *Settings::heavyArmorModString },
+		{ Stats::lightArmorMod, *Settings::lightArmorModString },
+		{ Stats::pickpocketMod, *Settings::pickpocketModString },
+		{ Stats::lockpickingMod, *Settings::lockpickingModString },
+		{ Stats::sneakingMod, *Settings::sneakModString },
+		{ Stats::alchemyMod, *Settings::alchemyModString },
+		{ Stats::speechcraftMod, *Settings::speechModString },
+		{ Stats::enchantingMod, *Settings::enchantingModString },
+		{ Stats::alterationMod, *Settings::alterationModString },
+		{ Stats::conjurationMod, *Settings::conjurationModString },
+		{ Stats::destructionMod, *Settings::destructionModString },
+		{ Stats::illusionMod, *Settings::illusionModString },
+		{ Stats::restorationMod, *Settings::restorationModString },
 	};
 
 }
@@ -311,7 +348,7 @@ std::string Player::getBeast(float p_vamp, float p_were) {
 	} else if (p_were > 0) {
 		return *Settings::werewolfString;
 	}
-	return " ";
+	return "";
 }
 
 Player::Player() :

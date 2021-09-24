@@ -82,7 +82,27 @@ private:
 		{ Stats::dragonSouls, RE::ActorValue::kDragonSouls },
 		{ Stats::combatHealthRegenMultiply, RE::ActorValue::kCombatHealthRegenMultiply },
 		{ Stats::attackDamageMult, RE::ActorValue::kAttackDamageMult },
-		{ Stats::reflectDamage, RE::ActorValue::kReflectDamage }
+		{ Stats::reflectDamage, RE::ActorValue::kReflectDamage },
+
+		{ Stats::oneHandedMod, RE::ActorValue::kOneHandedModifier },
+		{ Stats::twoHandedMod, RE::ActorValue::kTwoHandedModifier },
+		{ Stats::marksmanMod, RE::ActorValue::kMarksmanModifier },
+		{ Stats::blockMod, RE::ActorValue::kBlockModifier },
+		{ Stats::smithingMod, RE::ActorValue::kSmithingModifier },
+		{ Stats::heavyArmorMod, RE::ActorValue::kHeavyArmorModifier },
+		{ Stats::lightArmorMod, RE::ActorValue::kLightArmorModifier },
+		{ Stats::pickpocketMod, RE::ActorValue::kPickpocketModifier },
+		{ Stats::lockpickingMod, RE::ActorValue::kLockpickingModifier },
+		{ Stats::sneakingMod, RE::ActorValue::kSneakingModifier },
+		{ Stats::alchemyMod, RE::ActorValue::kAlchemyModifier },
+		{ Stats::speechcraftMod, RE::ActorValue::kSpeechcraftModifier },
+		{ Stats::alterationMod, RE::ActorValue::kAlterationModifier },
+		{ Stats::conjurationMod, RE::ActorValue::kConjurationModifier },
+		{ Stats::destructionMod, RE::ActorValue::kDestructionModifier },
+		{ Stats::illusionMod, RE::ActorValue::kIllusionModifier },
+		{ Stats::restorationMod, RE::ActorValue::kRestorationModifier },
+		{ Stats::enchantingMod, RE::ActorValue::kEnchantingModifier }
+
 	};
 
 	std::string getStringValueFromFloat(float x);

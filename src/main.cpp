@@ -71,7 +71,12 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
 	logger::info("ShowStats loaded"sv);
-	Settings::load();
+	try {
+		Settings::load();
+	} catch (const std::exception& e) {
+		logger::warn("failed to load setting {}"sv, e.what());
+	}
+	
 	SKSE::Init(a_skse);
 
 
