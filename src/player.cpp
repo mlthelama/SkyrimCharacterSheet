@@ -18,11 +18,15 @@ constants::ValueMap Player::GatherValues() {
 	RE::PlayerCharacter* player = RE::PlayerCharacter::GetSingleton();
 	loadSettings();
 
-	if (player->GetEquippedEntryData(false)->GetObject()->GetFormType() == RE::FormType::Ammo) {
-		logger::trace("Item {} is arrow"sv, player->GetEquippedEntryData(false)->GetDisplayName());
-		addToValues(playerValues, Stats::damageArrow, getStringValueFromFloat(
-			player->GetDamage(player->GetEquippedEntryData(false)))
-		);
+	equip = player->GetEquippedEntryData(false);
+
+	if (equip != nullptr) {
+		if (equip->GetObject()->GetFormType() == RE::FormType::Ammo) {
+			logger::trace("Item {} is arrow"sv, player->GetEquippedEntryData(false)->GetDisplayName());
+			addToValues(playerValues, Stats::damageArrow, getStringValueFromFloat(
+				player->GetDamage(player->GetEquippedEntryData(false)))
+			);
+		}
 	}
 
 	//auto test = player->currentProcess->processLevel;

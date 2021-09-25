@@ -118,6 +118,8 @@ private:
 	RE::InventoryEntryData* rightHand;
 	RE::InventoryEntryData* leftHand;
 
+	RE::InventoryEntryData* equip;
+
 	RE::FormID leftFormID = 0;
 	RE::FormID rightFormID = 0;
 
