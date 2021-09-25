@@ -17,23 +17,42 @@ constants::ValueMap Player::GatherValues() {
 	constants::ValueMap playerValues;
 	RE::PlayerCharacter* player = RE::PlayerCharacter::GetSingleton();
 	loadSettings();
+
+	if (player->GetEquippedEntryData(false)->GetObject()->GetFormType() == RE::FormType::Ammo) {
+		logger::trace("Item {} is arrow"sv, player->GetEquippedEntryData(false)->GetDisplayName());
+		addToValues(playerValues, Stats::damageArrow, getStringValueFromFloat(
+			player->GetDamage(player->GetEquippedEntryData(false)))
+		);
+	}
+
+	//auto test = player->currentProcess->processLevel;
+	rightHand = player->currentProcess->middleHigh->rightHand;
+	leftHand = player->currentProcess->middleHigh->leftHand;
+
+	leftDamage = 0;
+	rightDamage = 0;
+	if (rightHand != nullptr) {
+		rightDamage = player->GetDamage(rightHand);
+		logger::trace("Right Name {}, Right Weapon Damage {}"sv, rightHand->GetDisplayName(), rightDamage);
+		rightFormID = rightHand->GetObject()->GetFormID();
+	}
+	if (leftHand != nullptr) {
+		leftDamage = player->GetDamage(leftHand);
+		logger::trace("Left Name {}, Left Weapon Damage {}"sv, leftHand->GetDisplayName(), leftDamage);
+		leftFormID = leftHand->GetObject()->GetFormID();
+	}
+
+	/*currently not working if both hands have the same weapon, should be fixed*/
+	if (rightFormID != 0 && leftFormID == 0) {
+		addToValues(playerValues, Stats::damage, getStringValueFromFloat(rightDamage));
+	} else if ((rightFormID != leftFormID) || (rightFormID == leftFormID)) {
+		addToValues(playerValues, Stats::damageRight, getStringValueFromFloat(rightDamage));
+		if (leftDamage != 0) {
+			addToValues(playerValues, Stats::damageLeft, getStringValueFromFloat(leftDamage));
+		}
+	}
+
 	//maybe add factions too, someday
-
-	//player->currentProcess->GetEquippedLeftHand()
-	//player->currentProcess->GetEquippedRightHand()
-	//player
-
-	//player->currentProcess->GetEquippedLeftHand()->
-	//logger::trace("")
-	//player->skills->data->xp
-	//logger::trace("XP {}"sv, std::to_string(player->skills->data->xp));
-
-	//player->GetEquippedEntryData(false) //right hand
-	//logger::trace("{}"sv, 
-	//player->GetDamage(player->GetEquippedEntryData(false));
-	logger::trace("Right Damage {}"sv, std::to_string(player->GetDamage(player->GetEquippedEntryData(false))));
-	logger::trace("Left Damage {}"sv, std::to_string(player->GetDamage(player->GetEquippedEntryData(true))));
-
 	//const auto thiefGuild = RE::TESForm::LookupByID<RE::TESFaction>(formid)
 	/*
 	for (const auto& [faction, v2] : player->factionOwnerFriendsMap) {
@@ -56,16 +75,14 @@ constants::ValueMap Player::GatherValues() {
 	addToValues(playerValues, Stats::height, getStringValueFromFloat(player->GetHeight()));
 	addToValues(playerValues, Stats::equipedWeight, getStringValueFromFloat(player->GetWeight()));
 	addToValues(playerValues, Stats::armor, getStringValueFromFloat(player->armorRating));
-	addToValues(playerValues, Stats::damage, getStringValueFromFloat(0));
 	addToValues(playerValues, Stats::skillTrainingsThisLevel, std::to_string(player->skillTrainingsThisLevel));
-	/*to do add xp and beast (vampire, werewolf)*/
-
 
 	addToValues(playerValues, Stats::beast, getBeast(
 		player->GetActorValue(RE::ActorValue::kVampirePerks),
 		player->GetActorValue(RE::ActorValue::kWerewolfPerks)
 	));
-	addToValues(playerValues, Stats::xp, "yes");
+	/*todo fix*/
+	addToValues(playerValues, Stats::xp, "");
 
 	addToValues(playerValues, Stats::healthRatePer, getStringValueFromFloat(
 		calculateValue(player->GetActorValue(RE::ActorValue::kHealRateMult), 
@@ -82,6 +99,9 @@ constants::ValueMap Player::GatherValues() {
 			player->GetActorValue(RE::ActorValue::KStaminaRate)
 		))
 	);
+	addToValues(playerValues, Stats::movementNoiseMult, getStringValueFromFloat(
+		player->GetActorValue(RE::ActorValue::kMovementNoiseMult) * 100
+	));
 
 	//add here health, magicka, stamina, skill values, ...
 	/* maybe add advance for skills as well = xp*/
@@ -206,7 +226,11 @@ void Player::loadSettings() {
 		{ Stats::conjurationMod, *Settings::conjurationMod },
 		{ Stats::destructionMod, *Settings::destructionMod },
 		{ Stats::illusionMod, *Settings::illusionMod },
-		{ Stats::restorationMod, *Settings::restorationMod }
+		{ Stats::restorationMod, *Settings::restorationMod },
+
+		{ Stats::damageArrow, *Settings::damageArrow },
+		{ Stats::damageRight, *Settings::damageRight },
+		{ Stats::damageLeft, *Settings::damageLeft }
 	};
 
 	nameMap = {
@@ -310,8 +334,118 @@ void Player::loadSettings() {
 		{ Stats::destructionMod, *Settings::destructionModString },
 		{ Stats::illusionMod, *Settings::illusionModString },
 		{ Stats::restorationMod, *Settings::restorationModString },
+
+		{ Stats::damageArrow, *Settings::damageArrowString },
+		{ Stats::damageRight, *Settings::damageRightString },
+		{ Stats::damageLeft, *Settings::damageLeftString }
 	};
 
+	nameEndingMap = {
+		{ Stats::name, *Settings::nameStringEnding },
+		{ Stats::race, *Settings::raceStringEnding },
+		{ Stats::level, *Settings::levelStringEnding },
+		{ Stats::perkCount, *Settings::perkCountStringEnding },
+		{ Stats::height, *Settings::heightStringEnding },
+		{ Stats::equipedWeight, *Settings::equipedWeightStringEnding },
+		{ Stats::weight, *Settings::weightStringEnding },
+		{ Stats::armor, *Settings::armorStringEnding },
+		{ Stats::damage, *Settings::damageStringEnding },
+		{ Stats::skillTrainingsThisLevel, *Settings::skillTrainingsThisLevelStringEnding },
+		{ Stats::health, *Settings::healthStringEnding },
+
+		{ Stats::healthRatePer, *Settings::healthRateStringEnding },
+		{ Stats::magicka, *Settings::magickaStringEnding },
+		{ Stats::magickaRatePer, *Settings::magickaRateStringEnding },
+		{ Stats::stamina, *Settings::staminaStringEnding },
+		{ Stats::staminaRatePer, *Settings::staminaRateStringEnding },
+
+		{ Stats::resistDamage, *Settings::resistDamageStringEnding },
+		{ Stats::resistDisease, *Settings::resistDiseaseStringEnding },
+		{ Stats::resistPoison, *Settings::resistPoisonStringEnding },
+		{ Stats::resistFire, *Settings::resistFireStringEnding },
+		{ Stats::resistShock, *Settings::resistShockStringEnding },
+		{ Stats::resistFrost, *Settings::resistFrostStringEnding },
+		{ Stats::resistMagic, *Settings::resistMagicStringEnding },
+
+		{ Stats::oneHanded, *Settings::oneHandedStringEnding },
+		{ Stats::twoHanded, *Settings::twoHandedStringEnding },
+		{ Stats::archery, *Settings::archeryStringEnding },
+		{ Stats::block, *Settings::blockStringEnding },
+		{ Stats::smithing, *Settings::smithingStringEnding },
+		{ Stats::heavyArmor, *Settings::heavyArmorStringEnding },
+		{ Stats::lightArmor, *Settings::lightArmorStringEnding },
+		{ Stats::pickpocket, *Settings::pickpocketStringEnding },
+		{ Stats::lockpicking, *Settings::lockpickingStringEnding },
+		{ Stats::sneak, *Settings::sneakStringEnding },
+		{ Stats::alchemy, *Settings::alchemyStringEnding },
+		{ Stats::speech, *Settings::speechStringEnding },
+		{ Stats::enchanting, *Settings::enchantingStringEnding },
+		{ Stats::alteration, *Settings::alterationStringEnding },
+		{ Stats::conjuration, *Settings::conjurationStringEnding },
+		{ Stats::destruction, *Settings::destructionStringEnding },
+		{ Stats::illusion, *Settings::illusionStringEnding },
+		{ Stats::restoration, *Settings::restorationStringEnding },
+
+		{ Stats::oneHandedPowerMod, *Settings::oneHandedPowerModStringEnding },
+		{ Stats::twoHandedPowerMod, *Settings::twoHandedPowerModStringEnding },
+		{ Stats::archeryPowerMod, *Settings::archeryPowerModStringEnding },
+		{ Stats::blockPowerMod, *Settings::blockPowerModStringEnding },
+		{ Stats::smithingPowerMod, *Settings::smithingPowerModStringEnding },
+		{ Stats::heavyArmorPowerMod, *Settings::heavyArmorPowerModStringEnding },
+		{ Stats::lightArmorPowerMod, *Settings::lightArmorPowerModStringEnding },
+		{ Stats::pickpocketPowerMod, *Settings::pickpocketPowerModStringEnding },
+		{ Stats::lockpickingPowerMod, *Settings::lockpickingPowerModStringEnding },
+		{ Stats::sneakPowerMod, *Settings::sneakPowerModStringEnding },
+		{ Stats::alchemyPowerMod, *Settings::alchemyPowerModStringEnding },
+		{ Stats::speechPowerMod, *Settings::speechPowerModStringEnding },
+		{ Stats::enchantingPowerMod, *Settings::enchantingPowerModStringEnding },
+		{ Stats::alterationPowerMod, *Settings::alterationPowerModStringEnding },
+		{ Stats::conjurationPowerMod, *Settings::conjurationPowerModStringEnding },
+		{ Stats::destructionPowerMod, *Settings::destructionPowerModStringEnding },
+		{ Stats::illusionPowerMod, *Settings::illusionPowerModStringEnding },
+		{ Stats::restorationPowerMod, *Settings::restorationPowerModStringEnding },
+
+		{ Stats::speedMult, *Settings::speedMultStringEnding },
+		{ Stats::inventoryWeight, *Settings::inventoryWeightStringEnding },
+		{ Stats::carryWeight, *Settings::carryWeightStringEnding },
+		{ Stats::criticalChance, *Settings::criticalChanceStringEnding },
+		{ Stats::meleeDamage, *Settings::meleeDamageStringEnding },
+		{ Stats::unarmedDamage, *Settings::unarmedDamageStringEnding },
+		{ Stats::absorbChance, *Settings::absorbChanceStringEnding },
+		{ Stats::weaponSpeedMult, *Settings::weaponSpeedMultStringEnding },
+		{ Stats::bowSpeedBonus, *Settings::bowSpeedBonusStringEnding },
+		{ Stats::shoutRecoveryMult, *Settings::shoutRecoveryMultStringEnding },
+		{ Stats::movementNoiseMult, *Settings::movementNoiseMultStringEnding },
+		{ Stats::dragonSouls, *Settings::dragonSoulsStringEnding },
+		{ Stats::combatHealthRegenMultiply, *Settings::combatHealthRegenMultiplyStringEnding },
+		{ Stats::attackDamageMult, *Settings::attackDamageMultStringEnding },
+		{ Stats::beast, *Settings::beastStringEnding },
+		{ Stats::xp, *Settings::xpStringEnding },
+
+		{ Stats::reflectDamage, *Settings::reflectDamageStringEnding },
+		{ Stats::oneHandedMod, *Settings::oneHandedModStringEnding },
+		{ Stats::twoHandedMod, *Settings::twoHandedModStringEnding },
+		{ Stats::marksmanMod, *Settings::archeryModStringEnding },
+		{ Stats::blockMod, *Settings::blockModStringEnding },
+		{ Stats::smithingMod, *Settings::smithingModStringEnding },
+		{ Stats::heavyArmorMod, *Settings::heavyArmorModStringEnding },
+		{ Stats::lightArmorMod, *Settings::lightArmorModStringEnding },
+		{ Stats::pickpocketMod, *Settings::pickpocketModStringEnding },
+		{ Stats::lockpickingMod, *Settings::lockpickingModStringEnding },
+		{ Stats::sneakingMod, *Settings::sneakModStringEnding },
+		{ Stats::alchemyMod, *Settings::alchemyModStringEnding },
+		{ Stats::speechcraftMod, *Settings::speechModStringEnding },
+		{ Stats::enchantingMod, *Settings::enchantingModStringEnding },
+		{ Stats::alterationMod, *Settings::alterationModStringEnding },
+		{ Stats::conjurationMod, *Settings::conjurationModStringEnding },
+		{ Stats::destructionMod, *Settings::destructionModStringEnding },
+		{ Stats::illusionMod, *Settings::illusionModStringEnding },
+		{ Stats::restorationMod, *Settings::restorationModStringEnding },
+
+		{ Stats::damageArrow, *Settings::damageArrowStringEnding },
+		{ Stats::damageRight, *Settings::damageRightStringEnding },
+		{ Stats::damageLeft, *Settings::damageLeftStringEnding }
+	};
 }
 
 boolean Player::showValue(constants::StatsValue p_val) {
@@ -349,6 +483,15 @@ std::string Player::getBeast(float p_vamp, float p_were) {
 		return *Settings::werewolfString;
 	}
 	return "";
+}
+
+std::string Player::getValueEnding(constants::StatsValue p_val) {
+	auto it = nameEndingMap.find(p_val);
+
+	if (it != nameEndingMap.end()) {
+		return it->second;
+	}
+	return constants::undefined;
 }
 
 Player::Player() :

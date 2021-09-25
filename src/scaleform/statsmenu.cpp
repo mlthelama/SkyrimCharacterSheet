@@ -164,11 +164,13 @@ namespace Scaleform
 		p_field.Visible(true);
 	}
 
-	std::string StatsMenu::buildText(std::string p_key, std::string p_value) {
+	std::string StatsMenu::buildText(std::string p_key, std::string p_value, std::string p_ending) {
 		std::string text;
 
 		text = p_key;
-		text += ": ";
+		if (p_value.size() > 0) {
+			text += ": ";
+		}
 		if (p_value.find(".") != std::string::npos) {
 			auto s = p_value.substr(p_value.find(".") + 1, 2);
 			if (std::count(s.begin(), s.end(), '0') == 2 ) {
@@ -179,6 +181,8 @@ namespace Scaleform
 		} else {
 			text += p_value;
 		}
+
+		text += p_ending;
 
 		return text;
 	}
@@ -213,25 +217,27 @@ namespace Scaleform
 
 		/* todo add different handling for stats with mutliplier health, perks, ...*/
 		for (const auto& [key, value] : playerValues) {
-			logger::trace("processing {}"sv, buildText(playerinfo->getValueName(key), value));
+			logger::trace("processing {}"sv, buildText(playerinfo->getValueName(
+				key), value, playerinfo->getValueEnding(key))
+			);
 			switch (key) {
 			case Stats::name:
-				updateText(_name, buildText(playerinfo->getValueName(key), value));
+				updateText(_name, buildText(playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)));
 				break;
 			case Stats::level:
-				updateText(_level, buildText(playerinfo->getValueName(key), value));
+				updateText(_level, buildText(playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)));
 				break;
 			case Stats::race:
-				updateText(_race, buildText(playerinfo->getValueName(key), value));
+				updateText(_race, buildText(playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)));
 				break;
 			case Stats::perkCount:
-				updateText(_perks, buildText(playerinfo->getValueName(key), value));
+				updateText(_perks, buildText(playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)));
 				break;
 			case Stats::beast:
-				updateText(_beast, buildText(playerinfo->getValueName(key), value));
+				updateText(_beast, buildText(playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)));
 				break;
 			case Stats::xp:
-				updateText(_xp, buildText(playerinfo->getValueName(key), value));
+				updateText(_xp, buildText(playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)));
 				break;
 			case Stats::height:
 			case Stats::carryWeight:
@@ -243,7 +249,9 @@ namespace Scaleform
 			case Stats::shoutRecoveryMult:
 			case Stats::movementNoiseMult:
 			case Stats::speedMult:
-				_playerItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				_playerItemListProvider.PushBack(buildGFxValue(buildText(
+					playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)))
+				);
 				logger::trace("{} added to playerItemList"sv, playerinfo->getValueName(key));
 				break;
 			case Stats::absorbChance:
@@ -263,7 +271,9 @@ namespace Scaleform
 			case Stats::stamina:
 			case Stats::staminaRatePer:
 			case Stats::reflectDamage:
-				_defenceItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				_defenceItemListProvider.PushBack(buildGFxValue(buildText(
+					playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)))
+				);
 				logger::trace("{} added to defenceItemList"sv, playerinfo->getValueName(key));
 				break;
 			case Stats::unarmedDamage:
@@ -273,7 +283,12 @@ namespace Scaleform
 			case Stats::criticalChance:
 			case Stats::bowSpeedBonus:
 			case Stats::attackDamageMult:
-				_attackItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+			case Stats::damageArrow:
+			case Stats::damageRight:
+			case Stats::damageLeft:
+				_attackItemListProvider.PushBack(buildGFxValue(buildText(
+					playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)))
+				);
 				logger::trace("{} added to attackItemList"sv, playerinfo->getValueName(key));
 				break;
 			case Stats::alteration:
@@ -294,7 +309,9 @@ namespace Scaleform
 			case Stats::illusionMod:
 			case Stats::restorationMod:
 			case Stats::destructionMod:
-				_perksMagicItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				_perksMagicItemListProvider.PushBack(buildGFxValue(buildText(
+					playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)))
+				);
 				logger::trace("{} added to perksMagicItemList"sv, playerinfo->getValueName(key));
 				break;
 			case Stats::smithing:
@@ -315,7 +332,9 @@ namespace Scaleform
 			case Stats::lightArmorMod:
 			case Stats::heavyArmorMod:
 			case Stats::blockMod:
-				_perksWarriorItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				_perksWarriorItemListProvider.PushBack(buildGFxValue(buildText(
+					playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)))
+				);
 				logger::trace("{} added to perksWarriorItemList"sv, playerinfo->getValueName(key));
 				break;
 			case Stats::sneak:
@@ -336,11 +355,15 @@ namespace Scaleform
 			case Stats::lockpickingMod:
 			case Stats::marksmanMod:
 			case Stats::alchemyMod:
-				_perksThiefItemListProvider.PushBack(buildGFxValue(buildText(playerinfo->getValueName(key), value)));
+				_perksThiefItemListProvider.PushBack(buildGFxValue(buildText(
+					playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)))
+				);
 				logger::trace("{} added to perksThiefItemList"sv, playerinfo->getValueName(key));
 				break;
 			default:
-				logger::warn("not handeled {}"sv, buildText(playerinfo->getValueName(key), value));
+				logger::warn("not handeled {}"sv, buildText(
+					playerinfo->getValueName(key), value, playerinfo->getValueEnding(key)
+				));
 				break;
 			}
 		}

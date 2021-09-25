@@ -10,6 +10,8 @@ public:
 
 	std::string getValueName(constants::StatsValue p_val);
 
+	std::string getValueEnding(constants::StatsValue p_val);
+
 private:
 	using Stats = constants::StatsValue;
 
@@ -78,7 +80,6 @@ private:
 		{ Stats::weaponSpeedMult, RE::ActorValue::kWeaponSpeedMult },
 		{ Stats::bowSpeedBonus, RE::ActorValue::kBowSpeedBonus },
 		{ Stats::shoutRecoveryMult, RE::ActorValue::kShoutRecoveryMult },
-		{ Stats::movementNoiseMult, RE::ActorValue::kMovementNoiseMult },
 		{ Stats::dragonSouls, RE::ActorValue::kDragonSouls },
 		{ Stats::combatHealthRegenMultiply, RE::ActorValue::kCombatHealthRegenMultiply },
 		{ Stats::attackDamageMult, RE::ActorValue::kAttackDamageMult },
@@ -109,6 +110,17 @@ private:
 
 	constants::ShowMap showMap;
 	constants::StatsValueMap nameMap;
+	constants::StatsValueMap nameEndingMap;
+
+	float leftDamage;
+	float rightDamage;
+
+	RE::InventoryEntryData* rightHand;
+	RE::InventoryEntryData* leftHand;
+
+	RE::FormID leftFormID = 0;
+	RE::FormID rightFormID = 0;
+
 	void loadSettings();
 
 	boolean showValue(constants::StatsValue p_val);

@@ -28,3 +28,7 @@ namespace logger = SKSE::log;
 
 #include "version.h"
 #include "settings.h"
+
+#ifdef _MSC_VER
+#undef GetObject
+#endif

@@ -97,7 +97,10 @@ namespace constants
 		destructionMod,
 		illusionMod,
 		restorationMod,
-		enchantingMod
+		enchantingMod,
+		damageArrow,
+		damageRight,
+		damageLeft
 	};
 
 	typedef std::map<constants::StatsValue, std::string> StatsValueMap;

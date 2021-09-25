@@ -77,7 +77,7 @@ namespace Scaleform
 
 		void updateText(CLIK::TextField p_field, std::string_view p_string);
 
-		std::string buildText(std::string p_key, std::string p_value);
+		std::string buildText(std::string p_key, std::string p_value, std::string p_ending);
 
 		void UpdateTitle();
 

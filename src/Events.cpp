@@ -61,7 +61,7 @@ namespace Events
 				break;
 			} else if (key == RE::BSWin32KeyboardDevice::Key::kEscape && Scaleform::StatsMenu::IsMenuOpen()) {
 				Scaleform::StatsMenu::Close();
-			} else if (Scaleform::StatsMenu::IsMenuOpen()) {
+			} else if (Scaleform::StatsMenu::IsMenuOpen() && *Settings::closeOnEveryButtonPress) {
 				/*should do it*/
 				Scaleform::StatsMenu::Close();
 			}
