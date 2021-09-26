@@ -18,6 +18,9 @@ namespace Events
 		uint32_t GetKey() const;
 		void SetKey(uint32_t p_key);
 	private:
+
+		std::uint32_t GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key);
+
 		using Lock = std::recursive_mutex;
 		using Locker = std::lock_guard<Lock>;
 
@@ -25,7 +28,9 @@ namespace Events
 		{
 			kInvalid = static_cast<uint32_t>(-1),
 			//maybe remove
-			kKeyboardOffset = 0
+			kKeyboardOffset = 0,
+			kMouseOffset = 256,
+			kGamepadOffset = 266
 		};
 		KeyManager();
 		KeyManager(const KeyManager&) = delete;

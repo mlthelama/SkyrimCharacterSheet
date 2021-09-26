@@ -133,6 +133,8 @@ private:
 
 	std::string getBeast(float p_vamp, float p_were);
 
+	std::int32_t getFaction(RE::Actor* a_actor);
+
 	using Lock = std::recursive_mutex;
 	using Locker = std::lock_guard<Lock>;
 

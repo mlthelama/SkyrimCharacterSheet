@@ -2,8 +2,7 @@
 
 namespace constants
 {
-	enum class StatsValue
-	{
+	enum class StatsValue {
 		name,
 		race,
 		level,
@@ -100,7 +99,15 @@ namespace constants
 		enchantingMod,
 		damageArrow,
 		damageRight,
-		damageLeft
+		damageLeft,
+		darkbrotherHood,
+		thiefsGuild,
+		orcFriend,
+		collegeOfWinterhold,
+		companions,
+		imperialLegion,
+		stormcloaks,
+		greybeard
 	};
 
 	typedef std::map<constants::StatsValue, std::string> StatsValueMap;
@@ -120,4 +127,22 @@ namespace constants
 	const int32_t logTrace = 0;
 	const int32_t logDebug = 1;
 	const int32_t logInfo = 2;
+
+	
+	/*we might need a map here*/
+	inline static std::vector<RE::FormID> factionList = { 0x00048362 //companions
+		, 0x0001BDB3 //dark brotherhood
+		, 0x0001F259 //college of winterhold
+		, 0x00024029 //orc friend/kin
+		, 0x00029DA9 //Thiefs Guild
+		, 0x0002BF9A //Imperial Legion
+		, 0x0002BF9B //Sons of Skyrim, Stormcloaks
+		, 0x0002C6C8 //Greybeard
+		, 0x0004135B //dark brotherhood, again?
+		//, 0x00103372 //archmage ?
+		, 0x00072834 //blades, player might not be in there
+		//, 0x001070DD //harbringer
+		, 0x02003375 //dawnguard
+		, 0x02003376 //vampire
+	};
 };

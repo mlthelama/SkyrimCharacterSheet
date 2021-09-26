@@ -56,22 +56,10 @@ constants::ValueMap Player::GatherValues() {
 		}
 	}
 
-	//maybe add factions too, someday
-	//const auto thiefGuild = RE::TESForm::LookupByID<RE::TESFaction>(formid)
-	/*
-	for (const auto& [faction, v2] : player->factionOwnerFriendsMap) {
-		//logger::trace("faction name full {}, playable {}, objectName {}"sv, faction->GetFullName(), faction->GetPlayable(), faction->GetObjectTypeName());
-		if (player->IsInFaction(faction)) {
-			logger::trace("faction name full {}, playable {}, objectName {}"sv, faction->GetFullName(), faction->GetPlayable(), faction->GetObjectTypeName());
-			auto rankData = faction->rankData;
-			for (auto it = rankData.begin(); it != rankData.end(); ++it) {
-				//auto i = std::distance(rankData.begin(), it);
-				auto i = *it;
-				logger::trace("rank {}"sv, i->femaleRankTitle);
-			}
-		}
-	}*/
-
+	/* commend out not needed for current build
+	auto ret = getFaction(player);
+	logger::trace("faction return {}"sv, ret);
+	*/
 	addToValues(playerValues, Stats::name, player->GetName());
 	addToValues(playerValues, Stats::race, player->GetRace()->GetFullName());
 	addToValues(playerValues, Stats::level, std::to_string(player->GetLevel()));
@@ -130,6 +118,8 @@ std::string Player::getStringValueFromFloat( float x ) {
 }
 
 void Player::loadSettings() {
+	/*rework into one list with key and [value, value, value]*/
+	/*rework into class struct*/
 	showMap = {
 		{ Stats::name, *Settings::name },
 		{ Stats::race, *Settings::race },
@@ -496,6 +486,46 @@ std::string Player::getValueEnding(constants::StatsValue p_val) {
 		return it->second;
 	}
 	return constants::undefined;
+}
+
+std::int32_t Player::getFaction(RE::Actor* a_actor) {
+	std::int32_t x = -1;
+
+	/*build into list*/
+	auto sex = a_actor->GetActorBase()->GetSex();
+
+	//a_actor->VisitFactions([&x](RE::TESFaction* a_faction, std::int8_t a_rank) {
+	a_actor->VisitFactions([&](RE::TESFaction* a_faction, std::int8_t a_rank) {
+		if (a_faction && a_rank > -1) {
+			const std::string name(a_faction->GetName());
+			const RE::FormID formID(a_faction->GetFormID());
+			RE::BSSimpleList rankData(a_faction->rankData);
+
+			if (find(constants::factionList.begin(), constants::factionList.end(), formID) != constants::factionList.end()) {
+				logger::info("name {}, formId {}, rank {}"sv, name, formID, a_rank);
+				std::string rank;
+
+				for (auto it = rankData.begin(); it != rankData.end(); ++it) {
+					auto index = std::distance(rankData.begin(), it);
+					auto i = *it;
+					if (index == a_rank) {
+						
+						if (sex == RE::SEXES::SEX::kFemale) {
+							rank = i->femaleRankTitle;
+						}
+						if ((rank.empty() || rank.size() == 0) || sex == RE::SEXES::SEX::kMale) {
+							rank = i->maleRankTitle;
+						}
+						logger::info("Name {}, Rankname {}"sv, name, rank);
+					}
+				}
+				/*if rank is empty here then we need to fill it by ourselfs*/
+			}
+		}
+		return false;
+	});
+
+	return x;
 }
 
 Player::Player() :

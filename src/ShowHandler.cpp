@@ -11,8 +11,9 @@ void ShowHandler::ShowWindow() {
 	logger::trace("Gather Value and Show Window");
 	Locker locker(_lock);
 
-	RE::DebugNotification("Showing menu and information now.");
-
+	if (*Settings::logLevel == constants::logTrace) {
+		RE::DebugNotification("Showing menu and information now.");
+	}
 	Scaleform::StatsMenu::Open();
 }
 

@@ -39,13 +39,27 @@ namespace Events
 				continue;
 			}
 
-			//maybefix so mouse btn works as well
-			if (!button->IsDown() || button->device != RE::INPUT_DEVICE::kKeyboard) {
+			auto key = button->idCode;
+			//auto device = button->device;
+			switch (button->device.get()) {
+			case DeviceType::kMouse:
+				key += kMouseOffset;
+				break;
+			case DeviceType::kKeyboard:
+				key += kKeyboardOffset;
+				break;
+			case DeviceType::kGamepad:
+				key = GetGamepadIndex((RE::BSWin32GamepadDevice::Key)key);
+				break;
+			default:
 				continue;
 			}
 
-			auto key = button->idCode;
-			//auto device = button->device;
+			auto controlMap = RE::ControlMap::GetSingleton();
+			if (ui->GameIsPaused() || !controlMap->IsMovementControlsEnabled()) {
+				continue;
+			}
+
 			logger::trace("button code {}"sv, key);
 
 			logger::trace("event input {}, set {}"sv, key, _key);
@@ -61,9 +75,11 @@ namespace Events
 				break;
 			} else if (key == RE::BSWin32KeyboardDevice::Key::kEscape && Scaleform::StatsMenu::IsMenuOpen()) {
 				Scaleform::StatsMenu::Close();
+				break;
 			} else if (Scaleform::StatsMenu::IsMenuOpen() && *Settings::closeOnEveryButtonPress) {
 				/*should do it*/
 				Scaleform::StatsMenu::Close();
+				break;
 			}
 		}
 		return EventResult::kContinue;
@@ -109,6 +125,69 @@ namespace Events
 	{
 		Locker locker(_lock);
 		_key = p_key;
+	}
+
+	
+	std::uint32_t KeyManager::GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key)
+	{
+		using Key = RE::BSWin32GamepadDevice::Key;
+
+		std::uint32_t index;
+		switch (a_key) {
+		case Key::kUp:
+			index = 0;
+			break;
+		case Key::kDown:
+			index = 1;
+			break;
+		case Key::kLeft:
+			index = 2;
+			break;
+		case Key::kRight:
+			index = 3;
+			break;
+		case Key::kStart:
+			index = 4;
+			break;
+		case Key::kBack:
+			index = 5;
+			break;
+		case Key::kLeftThumb:
+			index = 6;
+			break;
+		case Key::kRightThumb:
+			index = 7;
+			break;
+		case Key::kLeftShoulder:
+			index = 8;
+			break;
+		case Key::kRightShoulder:
+			index = 9;
+			break;
+		case Key::kA:
+			index = 10;
+			break;
+		case Key::kB:
+			index = 11;
+			break;
+		case Key::kX:
+			index = 12;
+			break;
+		case Key::kY:
+			index = 13;
+			break;
+		case Key::kLeftTrigger:
+			index = 14;
+			break;
+		case Key::kRightTrigger:
+			index = 15;
+			break;
+		default:
+			index = kInvalid;
+			break;
+		}
+
+		return index != kInvalid ? index + kGamepadOffset : kInvalid;
 	}
 
 	KeyManager::KeyManager() :
