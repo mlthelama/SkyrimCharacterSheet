@@ -6,7 +6,7 @@ namespace Events
 {
 	KeyManager* KeyManager::GetSingleton() {
 		static KeyManager singleton;
-		return std::addressof(singleton);
+		return addressof(singleton);
 	}
 
 	auto KeyManager::ProcessEvent(RE::InputEvent* const* p_event, [[maybe_unused]] RE::BSTEventSource<RE::InputEvent*>* p_eventSource)
@@ -40,7 +40,6 @@ namespace Events
 			}
 
 			auto key = button->idCode;
-			//auto device = button->device;
 			switch (button->device.get()) {
 			case DeviceType::kMouse:
 				key += kMouseOffset;
@@ -128,11 +127,10 @@ namespace Events
 	}
 
 	
-	std::uint32_t KeyManager::GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key)
-	{
+	uint32_t KeyManager::GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key) {
 		using Key = RE::BSWin32GamepadDevice::Key;
 
-		std::uint32_t index;
+		uint32_t index;
 		switch (a_key) {
 		case Key::kUp:
 			index = 0;

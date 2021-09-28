@@ -4,7 +4,7 @@
 
 ShowHandler* ShowHandler::GetSingleton() {
 	static ShowHandler singleton;
-	return std::addressof(singleton);
+	return addressof(singleton);
 }
 
 void ShowHandler::ShowWindow() {

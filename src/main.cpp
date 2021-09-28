@@ -19,7 +19,7 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
 {
 #ifndef NDEBUG
-	auto sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
+	auto sink = make_shared<spdlog::sinks::msvc_sink_mt>();
 #else
 	auto path = logger::log_directory();
 	if (!path) {
@@ -27,10 +27,10 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 	}
 
 	*path /= "ShowStats.log"sv;
-	auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
+	auto sink = make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
 #endif
 
-	auto log = std::make_shared<spdlog::logger>("global log"s, std::move(sink));
+	auto log = make_shared<spdlog::logger>("global log"s, move(sink));
 
 #ifndef NDEBUG
 	log->set_level(spdlog::level::trace);
@@ -43,7 +43,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 #endif
 
 
-	spdlog::set_default_logger(std::move(log));
+	spdlog::set_default_logger(move(log));
 	spdlog::set_pattern("%g(%#): [%^%l%$] %v"s);
 
 	logger::info("ShowStats v{}"sv, version_string);
@@ -73,7 +73,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	logger::info("ShowStats loaded"sv);
 	try {
 		Settings::load();
-	} catch (const std::exception& e) {
+	} catch (const exception& e) {
 		logger::warn("failed to load setting {}"sv, e.what());
 	}
 	

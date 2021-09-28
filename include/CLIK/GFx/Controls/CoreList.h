@@ -27,7 +27,7 @@ namespace CLIK
 				{}
 
 				CoreList(super&& a_rhs) :
-					super(std::move(a_rhs))
+					super(move(a_rhs))
 				{}
 
 				~CoreList() = default;
@@ -44,12 +44,12 @@ namespace CLIK
 
 				CoreList& operator=(super&& a_rhs)
 				{
-					super::operator=(std::move(a_rhs));
+					super::operator=(move(a_rhs));
 					return *this;
 				}
 
-				std::string ItemRenderer() const { return GetString("itemRenderer"); }
-				void ItemRenderer(std::string_view a_itemRenderer) { SetString("itemRenderer", a_itemRenderer); }
+				string ItemRenderer() const { return GetString("itemRenderer"); }
+				void ItemRenderer(string_view a_itemRenderer) { SetString("itemRenderer", a_itemRenderer); }
 
 				Object DataProvider() const { return GetObject("dataProvider"); }
 				void DataProvider(const Object& a_dataProvider) { SetObject("dataProvider", a_dataProvider); }
@@ -65,7 +65,7 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kIndex] = a_index;
 					assert(args[kIndex].IsNumber());
@@ -75,13 +75,13 @@ namespace CLIK
 					assert(success);
 				}
 
-				std::string LabelField() const { return GetString("labelField"); }
-				void LabelField(std::string_view a_labelField) { SetString("labelField", a_labelField); }
+				string LabelField() const { return GetString("labelField"); }
+				void LabelField(string_view a_labelField) { SetString("labelField", a_labelField); }
 
 				//Function& LabelFunction() const;
 				//void LabelFunction(Function& a_labelFunction);
 
-				std::string ItemToLabel(Object& a_item)
+				string ItemToLabel(Object& a_item)
 				{
 					enum
 					{
@@ -89,14 +89,14 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kItem] = a_item.GetInstance();
 					assert(args[kItem].IsObject());
 
 					RE::GFxValue str;
 					[[maybe_unused]] const auto success =
-						Invoke("itemToLabel", std::addressof(str), args.data(), args.size());
+						Invoke("itemToLabel", addressof(str), args.data(), args.size());
 					assert(success);
 
 					return str.GetString();
@@ -121,7 +121,7 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kValue] = a_value.GetInstance();
 					assert(args[kValue].IsArray());
@@ -131,14 +131,14 @@ namespace CLIK
 					assert(success);
 				}
 
-				std::string RendererInstanceName() const { return GetString("rendererInstanceName"); }
-				void RendererInstanceName(std::string_view a_rendererInstanceName) { SetString("rendererInstanceName", a_rendererInstanceName); }
+				string RendererInstanceName() const { return GetString("rendererInstanceName"); }
+				void RendererInstanceName(string_view a_rendererInstanceName) { SetString("rendererInstanceName", a_rendererInstanceName); }
 
-				std::string ToString()
+				string ToString()
 				{
 					RE::GFxValue str;
 					[[maybe_unused]] const auto success =
-						Invoke("toString", std::addressof(str));
+						Invoke("toString", addressof(str));
 					assert(success);
 					return str.GetString();
 				}

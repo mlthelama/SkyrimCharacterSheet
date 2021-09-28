@@ -21,7 +21,7 @@ namespace CLIK
 		{}
 
 		Array(super&& a_rhs) :
-			super(std::move(a_rhs))
+			super(move(a_rhs))
 		{}
 
 		Array(const RE::GFxValue& a_rhs) :
@@ -31,7 +31,7 @@ namespace CLIK
 		}
 
 		Array(RE::GFxValue&& a_rhs) :
-			super(std::move(a_rhs))
+			super(move(a_rhs))
 		{
 			assert(IsArray());
 		}
@@ -39,7 +39,7 @@ namespace CLIK
 		Array(RE::GPtr<RE::GFxMovieView> a_rhs) :
 			super()
 		{
-			CreateArray(std::move(a_rhs));
+			CreateArray(move(a_rhs));
 		}
 
 		~Array() = default;
@@ -56,7 +56,7 @@ namespace CLIK
 
 		Array& operator=(super&& a_rhs)
 		{
-			super::operator=(std::move(a_rhs));
+			super::operator=(move(a_rhs));
 			return *this;
 		}
 
@@ -69,14 +69,14 @@ namespace CLIK
 
 		Array& operator=(RE::GFxValue&& a_rhs)
 		{
-			super::operator=(std::move(a_rhs));
+			super::operator=(move(a_rhs));
 			assert(IsArray());
 			return *this;
 		}
 
 		Array& operator=(RE::GPtr<RE::GFxMovieView> a_rhs)
 		{
-			CreateArray(std::move(a_rhs));
+			CreateArray(move(a_rhs));
 			return *this;
 		}
 
@@ -91,7 +91,7 @@ namespace CLIK
 		void Length(double a_length) { SetNumber("length", a_length); }
 
 		// methods
-		Array Concat(std::optional<std::reference_wrapper<Object>> a_value)
+		Array Concat(optional<reference_wrapper<Object>> a_value)
 		{
 			RE::GFxValue arr;
 
@@ -102,24 +102,24 @@ namespace CLIK
 					kNumArgs
 				};
 
-				std::array<RE::GFxValue, kNumArgs> args;
+				array<RE::GFxValue, kNumArgs> args;
 
 				args[kValue] = a_value->get().GetInstance();
 				assert(args[kValue].IsObject());
 
 				[[maybe_unused]] const auto success =
-					Invoke("concat", std::addressof(arr), args.data(), args.size());
+					Invoke("concat", addressof(arr), args.data(), args.size());
 				assert(success);
 			} else {
 				[[maybe_unused]] const auto success =
-					Invoke("concat", std::addressof(arr), nullptr, 0);
+					Invoke("concat", addressof(arr), nullptr, 0);
 				assert(success);
 			}
 
 			return Array(arr);
 		}
 
-		std::string Join(std::optional<std::string_view> a_delimiter)
+		string Join(optional<string_view> a_delimiter)
 		{
 			enum
 			{
@@ -127,8 +127,8 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
-			std::size_t size = 0;
+			array<RE::GFxValue, kNumArgs> args;
+			size_t size = 0;
 
 			if (a_delimiter) {
 				args[kDelimiter] = *a_delimiter;
@@ -139,7 +139,7 @@ namespace CLIK
 			auto data = size > 0 ? args.data() : nullptr;
 			RE::GFxValue str;
 			[[maybe_unused]] const auto success =
-				Invoke("join", std::addressof(str), data, size);
+				Invoke("join", addressof(str), data, size);
 			assert(success);
 
 			return str.GetString();
@@ -149,7 +149,7 @@ namespace CLIK
 		{
 			RE::GFxValue object;
 			[[maybe_unused]] const auto success =
-				Invoke("pop", std::addressof(object));
+				Invoke("pop", addressof(object));
 			assert(success);
 			return Object(object);
 		}
@@ -162,13 +162,13 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kValue] = a_value.GetInstance();
 
 			RE::GFxValue number;
 			[[maybe_unused]] const auto success =
-				Invoke("push", std::addressof(number), args.data(), args.size());
+				Invoke("push", addressof(number), args.data(), args.size());
 			assert(success);
 
 			return number.GetNumber();
@@ -185,12 +185,12 @@ namespace CLIK
 		{
 			RE::GFxValue object;
 			[[maybe_unused]] const auto success =
-				Invoke("shift", std::addressof(object));
+				Invoke("shift", addressof(object));
 			assert(success);
 			return Object(object);
 		}
 
-		void Splice(double a_startIndex, std::optional<double> a_deleteCount, std::optional<Object> a_value)
+		void Splice(double a_startIndex, optional<double> a_deleteCount, optional<Object> a_value)
 		{
 			enum
 			{
@@ -200,8 +200,8 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
-			std::size_t size = 1;
+			array<RE::GFxValue, kNumArgs> args;
+			size_t size = 1;
 
 			args[kStartIndex] = a_startIndex;
 			assert(args[kStartIndex].IsNumber());

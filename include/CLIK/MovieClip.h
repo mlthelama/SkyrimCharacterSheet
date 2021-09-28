@@ -21,7 +21,7 @@ namespace CLIK
 		{}
 
 		MovieClip(super&& a_rhs) :
-			super(std::move(a_rhs))
+			super(move(a_rhs))
 		{}
 
 		~MovieClip() = default;
@@ -38,7 +38,7 @@ namespace CLIK
 
 		MovieClip& operator=(super&& a_rhs)
 		{
-			super::operator=(std::move(a_rhs));
+			super::operator=(move(a_rhs));
 			return *this;
 		}
 
@@ -54,7 +54,7 @@ namespace CLIK
 
 		double Currentframe() const { return GetNumber("_currentframe"); }
 
-		std::string Droptarget() const { return GetString("_droptarget"); }
+		string Droptarget() const { return GetString("_droptarget"); }
 
 		bool Enabled() const { return GetBoolean("enabled"); }
 		void Enabled(bool a_enabled) { SetBoolean("enabled", a_enabled); }
@@ -85,8 +85,8 @@ namespace CLIK
 		//ContextMenu Menu() const;
 		//void Menu(const ContextMenu& a_menu);
 
-		std::string Name() const { return GetString("_name"); }
-		void Name(std::string_view a_name) { SetString("_name", a_name); }
+		string Name() const { return GetString("_name"); }
+		void Name(string_view a_name) { SetString("_name", a_name); }
 
 		double OpaqueBackground() const { return GetNumber("opaqueBackground"); }
 		void OpaqueBackground(double a_opaqueBackground) { SetNumber("opaqueBackground", a_opaqueBackground); }
@@ -94,8 +94,8 @@ namespace CLIK
 		MovieClip Parent() const { return GetObject("_parent"); }
 		void Parent(const MovieClip& a_parent) { SetObject("_parent", a_parent); }
 
-		std::string Quality() const { return GetString("_quality"); }
-		void Quality(std::string_view a_quality) { SetString("_quality", a_quality); }
+		string Quality() const { return GetString("_quality"); }
+		void Quality(string_view a_quality) { SetString("_quality", a_quality); }
 
 		double Rotation() const { return GetNumber("_rotation"); }
 		void Rotation(double a_rotation) { SetNumber("_rotation", a_rotation); }
@@ -118,7 +118,7 @@ namespace CLIK
 		double TabIndex() const { return GetNumber("tabIndex"); }
 		void TabIndex(double a_tabIndex) { SetNumber("tabIndex", a_tabIndex); }
 
-		std::string Target() const { return GetString("_target"); }
+		string Target() const { return GetString("_target"); }
 
 		double TotalFrames() const { return GetNumber("_totalframes"); }
 
@@ -128,7 +128,7 @@ namespace CLIK
 		//Transform Transform() const;
 		//void Transform(const Transform& a_transform);
 
-		std::string URL() const { return GetString("_url"); }
+		string URL() const { return GetString("_url"); }
 
 		bool UseHandCursor() const { return GetBoolean("useHandCursor"); }
 		void UseHandCursor(bool a_useHandCursor) { SetBoolean("useHandCursor", a_useHandCursor); }

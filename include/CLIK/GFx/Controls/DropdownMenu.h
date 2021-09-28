@@ -25,7 +25,7 @@ namespace CLIK
 				{}
 
 				DropdownMenu(super&& a_rhs) :
-					super(std::move(a_rhs))
+					super(move(a_rhs))
 				{}
 
 				~DropdownMenu() = default;
@@ -42,7 +42,7 @@ namespace CLIK
 
 				DropdownMenu& operator=(super&& a_rhs)
 				{
-					super::operator=(std::move(a_rhs));
+					super::operator=(move(a_rhs));
 					return *this;
 				}
 
@@ -67,13 +67,13 @@ namespace CLIK
 				double SelectedIndex() const { return GetNumber("selectedIndex"); }
 				void SelectedIndex(double a_selectedIndex) { SetNumber("selectedIndex", a_selectedIndex); }
 
-				std::string LabelField() const { return GetString("labelField"); }
-				void LabelField(std::string_view a_selectedIndex) { SetString("labelField", a_selectedIndex); }
+				string LabelField() const { return GetString("labelField"); }
+				void LabelField(string_view a_selectedIndex) { SetString("labelField", a_selectedIndex); }
 
 				//Function LabelFunction() const;
 				//void LabelFunction(const Function& a_labelFunction);
 
-				std::string ItemToLabel(Object& a_item)
+				string ItemToLabel(Object& a_item)
 				{
 					enum
 					{
@@ -81,13 +81,13 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kItem] = a_item.GetInstance();
 
 					RE::GFxValue str;
 					[[maybe_unused]] const auto success =
-						Invoke("itemToLabel", std::addressof(str), args.data(), args.size());
+						Invoke("itemToLabel", addressof(str), args.data(), args.size());
 					assert(success);
 
 					return str.GetString();
@@ -123,7 +123,7 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kWidth] = a_width;
 					assert(args[kWidth].IsNumber());
@@ -145,11 +145,11 @@ namespace CLIK
 					assert(success);
 				}
 
-				std::string ToString()
+				string ToString()
 				{
 					RE::GFxValue str;
 					[[maybe_unused]] const auto success =
-						Invoke("toString", std::addressof(str));
+						Invoke("toString", addressof(str));
 					assert(success);
 					return str.GetString();
 				}

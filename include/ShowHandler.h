@@ -9,8 +9,8 @@ public:
 	void ShowWindow();
 
 private:
-	using Lock = std::recursive_mutex;
-	using Locker = std::lock_guard<Lock>;
+	using Lock = recursive_mutex;
+	using Locker = lock_guard<Lock>;
 
 	ShowHandler();
 	ShowHandler(const ShowHandler&) = delete;

@@ -9,11 +9,11 @@ namespace Scaleform
 	class StatsMenu : public RE::IMenu
 	{
 	public:
-		static constexpr std::string_view MENU_NAME = "ShowStats";
-		static constexpr std::string_view FILE_NAME = "ShowStats";
-		static constexpr std::string_view TITLE_NAME = "$ShowStats";
+		static constexpr string_view MENU_NAME = "ShowStats";
+		static constexpr string_view FILE_NAME = "ShowStats";
+		static constexpr string_view TITLE_NAME = "$ShowStats";
 
-		void AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;
+		void AdvanceMovie(float a_interval, uint32_t a_currentTime) override;
 		RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override;
 
 		void InitExtensions();
@@ -75,22 +75,20 @@ namespace Scaleform
 
 		void OnOpen();
 
-		void updateText(CLIK::TextField p_field, std::string_view p_string);
-
-		std::string buildText(std::string p_key, std::string p_value, std::string p_ending);
+		void updateText(CLIK::TextField p_field, string_view p_string);
 
 		void UpdateTitle();
 
 		void UpdateHeaders();
 
-		RE::GFxValue buildGFxValue(std::string p_val);
-
-		void UpdateStatsList();
+		RE::GFxValue buildGFxValue(string p_val);
 
 		void ClearProviders();
 
 		void InvalidateItemLists();
 
 		void InvalidateDataItemLists();
+
+		void UpdateLists();
 	};
 }

@@ -16,12 +16,12 @@ struct Settings
 				setting->load(table);
 			}
 		} catch (const toml::parse_error& ex) {
-			std::ostringstream ss;
+			ostringstream ss;
 			ss << "Error parsing file \'" << *ex.source().path << "\':\n"
 			   << '\t' << ex.description() << '\n'
 			   << "\t\t(" << ex.source().begin << ')';
 			logger::error(ss.str());
-			throw std::runtime_error("failed to load settings"s);
+			throw runtime_error("failed to load settings"s);
 		}
 	}
 

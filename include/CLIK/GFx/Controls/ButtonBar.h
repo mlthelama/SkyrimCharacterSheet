@@ -25,7 +25,7 @@ namespace CLIK
 				{}
 
 				ButtonBar(super&& a_rhs) :
-					super(std::move(a_rhs))
+					super(move(a_rhs))
 				{}
 
 				~ButtonBar() = default;
@@ -42,7 +42,7 @@ namespace CLIK
 
 				ButtonBar& operator=(super&& a_rhs)
 				{
-					super::operator=(std::move(a_rhs));
+					super::operator=(move(a_rhs));
 					return *this;
 				}
 
@@ -59,17 +59,17 @@ namespace CLIK
 					assert(success);
 				}
 
-				std::string ItemRenderer() { return GetString("itemRenderer"); }
-				void ItemRenderer(std::string_view a_value) { return SetString("itemRenderer", std::move(a_value)); }
+				string ItemRenderer() { return GetString("itemRenderer"); }
+				void ItemRenderer(string_view a_value) { return SetString("itemRenderer", move(a_value)); }
 
 				double Spacing() { return GetNumber("spacing"); }
 				void Spacing(double a_value) { return SetNumber("spacing", a_value); }
 
-				std::string Direction() { return GetString("direction"); }
-				void Direction(std::string_view a_value) { return SetString("direction", a_value); }
+				string Direction() { return GetString("direction"); }
+				void Direction(string_view a_value) { return SetString("direction", a_value); }
 
-				std::string AutoSize() { return GetString("autoSize"); }
-				void AutoSize(std::string_view a_value) { return SetString("autoSize", a_value); }
+				string AutoSize() { return GetString("autoSize"); }
+				void AutoSize(string_view a_value) { return SetString("autoSize", a_value); }
 
 				double ButtonWidth() { return GetNumber("buttonWidth"); }
 				void ButtonWidth(double a_value) { return SetNumber("buttonWidth", a_value); }
@@ -81,13 +81,13 @@ namespace CLIK
 
 				Object Data() { return GetObject("data"); }
 
-				std::string LabelField() { return GetString("labelField"); }
-				void LabelField(std::string_view a_value) { return SetString("labelField", a_value); }
+				string LabelField() { return GetString("labelField"); }
+				void LabelField(string_view a_value) { return SetString("labelField", a_value); }
 
 				// CLIK::Function LabelFunction() { return GetObject("labelFunction"); }
 				// void LabelFunction(CLIK::Function a_value) { return SetObject("labelFunction", a_value); }
 
-				std::string ItemToLabel(Object a_item)
+				string ItemToLabel(Object a_item)
 				{
 					enum
 					{
@@ -95,14 +95,14 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kItem] = a_item.GetInstance();
 					assert(args[kItem].IsObject());
 
 					RE::GFxValue str;
 					[[maybe_unused]] const auto success =
-						Invoke("itemToLabel", std::addressof(str), args.data(), args.size());
+						Invoke("itemToLabel", addressof(str), args.data(), args.size());
 					assert(success);
 
 					return str.GetString();
@@ -110,11 +110,11 @@ namespace CLIK
 
 				//bool handleInput(CLIK::GFx::UI::InputDetails a_details, CLIK::Array a_pathToFocus);
 
-				std::string ToString()
+				string ToString()
 				{
 					RE::GFxValue str;
 					[[maybe_unused]] const auto success =
-						Invoke("toString", std::addressof(str));
+						Invoke("toString", addressof(str));
 					assert(success);
 					return str.GetString();
 				}

@@ -19,10 +19,10 @@ namespace Events
 		void SetKey(uint32_t p_key);
 	private:
 
-		std::uint32_t GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key);
+		uint32_t GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key);
 
-		using Lock = std::recursive_mutex;
-		using Locker = std::lock_guard<Lock>;
+		using Lock = recursive_mutex;
+		using Locker = lock_guard<Lock>;
 
 		enum : uint32_t
 		{

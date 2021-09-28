@@ -21,7 +21,7 @@ namespace CLIK
 		{}
 
 		TextField(super&& a_rhs) :
-			super(std::move(a_rhs))
+			super(move(a_rhs))
 		{}
 
 		~TextField() = default;
@@ -38,7 +38,7 @@ namespace CLIK
 
 		TextField& operator=(super&& a_rhs)
 		{
-			super::operator=(std::move(a_rhs));
+			super::operator=(move(a_rhs));
 			return *this;
 		}
 
@@ -46,8 +46,8 @@ namespace CLIK
 		double Alpha() const { return GetNumber("_alpha"); }
 		void Alpha(double a_alpha) { SetNumber("_alpha", a_alpha); }
 
-		std::string AntiAliasType() const { return GetString("antiAliasType"); }
-		void AntiAliasType(std::string_view a_antiAliasType) { SetString("antiAliasType", a_antiAliasType); }
+		string AntiAliasType() const { return GetString("antiAliasType"); }
+		void AntiAliasType(string_view a_antiAliasType) { SetString("antiAliasType", a_antiAliasType); }
 
 		Object AutoSize() const { return GetObject("autoSize"); }
 		void AutoSize(const Object& a_autoSize) { SetObject("autoSize", a_autoSize); }
@@ -75,8 +75,8 @@ namespace CLIK
 		//Array Filters() const;
 		//void Filters(Array& a_filters);
 
-		std::string GridFitType() const { return GetString("gridFitType"); }
-		void GridFitType(std::string_view a_gridFitType) { SetString("gridFitType", a_gridFitType); }
+		string GridFitType() const { return GetString("gridFitType"); }
+		void GridFitType(string_view a_gridFitType) { SetString("gridFitType", a_gridFitType); }
 
 		double Height() const { return GetNumber("_height"); }
 		void Height(double a_height) { SetNumber("_height", a_height); }
@@ -90,8 +90,8 @@ namespace CLIK
 		bool HTML() const { return GetBoolean("html"); }
 		void HTML(bool a_html) { SetBoolean("html", a_html); }
 
-		std::string HTMLText() const { return GetString("htmlText"); }
-		void HTMLText(std::string_view a_htmlText) { SetString("htmlText", a_htmlText); }
+		string HTMLText() const { return GetString("htmlText"); }
+		void HTMLText(string_view a_htmlText) { SetString("htmlText", a_htmlText); }
 
 		double Length() const { return GetNumber("length"); }
 
@@ -110,8 +110,8 @@ namespace CLIK
 		bool Multiline() const { return GetBoolean("multiline"); }
 		void Multiline(bool a_multiline) { SetBoolean("multiline", a_multiline); }
 
-		std::string Name() const { return GetString("_name"); }
-		void Name(std::string_view a_name) { SetString("_name", a_name); }
+		string Name() const { return GetString("_name"); }
+		void Name(string_view a_name) { SetString("_name", a_name); }
 
 		//MovieClip Parent() const;
 		//void Parent(const MovieClip& a_parent);
@@ -119,11 +119,11 @@ namespace CLIK
 		bool Password() const { return GetBoolean("password"); }
 		void Password(bool a_password) { SetBoolean("password", a_password); }
 
-		std::string Quality() const { return GetString("_quality"); }
-		void Quality(std::string_view a_quality) { SetString("_quality", a_quality); }
+		string Quality() const { return GetString("_quality"); }
+		void Quality(string_view a_quality) { SetString("_quality", a_quality); }
 
-		std::string Restrict() const { return GetString("restrict"); }
-		void Restrict(std::string_view a_restrict) { SetString("restrict", a_restrict); }
+		string Restrict() const { return GetString("restrict"); }
+		void Restrict(string_view a_restrict) { SetString("restrict", a_restrict); }
 
 		double Rotation() const { return GetNumber("_rotation"); }
 		void Rotation(double a_rotation) { SetNumber("_rotation", a_rotation); }
@@ -149,10 +149,10 @@ namespace CLIK
 		double TabIndex() const { return GetNumber("tabIndex"); }
 		void TabIndex(double a_tabIndex) { SetNumber("tabIndex", a_tabIndex); }
 
-		std::string Target() const { return GetString("_target"); }
+		string Target() const { return GetString("_target"); }
 
-		std::string Text() const { return GetString("text"); }
-		void Text(std::string_view a_text) { SetString("text", a_text); }
+		string Text() const { return GetString("text"); }
+		void Text(string_view a_text) { SetString("text", a_text); }
 
 		double TextColor() const { return GetNumber("textColor"); }
 		void TextColor(double a_textColor) { SetNumber("textColor", a_textColor); }
@@ -166,13 +166,13 @@ namespace CLIK
 		double Thickness() const { return GetNumber("thickness"); }
 		void Thickness(double a_thickness) { SetNumber("thickness", a_thickness); }
 
-		std::string Type() const { return GetString("type"); }
-		void Type(std::string_view a_type) { SetString("type", a_type); }
+		string Type() const { return GetString("type"); }
+		void Type(string_view a_type) { SetString("type", a_type); }
 
-		std::string URL() const { return GetString("_url"); }
+		string URL() const { return GetString("_url"); }
 
-		std::string Variable() const { return GetString("variable"); }
-		void Variable(std::string_view a_variable) { SetString("variable", a_variable); }
+		string Variable() const { return GetString("variable"); }
+		void Variable(string_view a_variable) { SetString("variable", a_variable); }
 
 		bool Visible() const { return GetBoolean("_visible"); }
 		void Visible(bool a_visible) { SetBoolean("_visible", a_visible); }
@@ -208,14 +208,14 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kListener] = a_listener.GetInstance();
 			assert(args[kListener].IsObject());
 
 			RE::GFxValue boolean;
 			[[maybe_unused]] const auto success =
-				Invoke("addListener", std::addressof(boolean), args.data(), kNumArgs);
+				Invoke("addListener", addressof(boolean), args.data(), kNumArgs);
 			assert(success);
 
 			return boolean.GetBool();
@@ -225,14 +225,14 @@ namespace CLIK
 		{
 			RE::GFxValue number;
 			[[maybe_unused]] const auto success =
-				Invoke("getDepth", std::addressof(number));
+				Invoke("getDepth", addressof(number));
 			assert(success);
 
 			return number.GetNumber();
 		}
 
 		//TextFormat GetNewTextFormat();
-		//TextFormat GetTextFormat(std::optional<double> a_beginIndex, std::optional<double> a_endIndex);
+		//TextFormat GetTextFormat(optional<double> a_beginIndex, optional<double> a_endIndex);
 
 		bool RemoveListener(Object& a_listener)
 		{
@@ -242,14 +242,14 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kListener] = a_listener.GetInstance();
 			assert(args[kListener].IsObject());
 
 			RE::GFxValue boolean;
 			[[maybe_unused]] const auto success =
-				Invoke("removeListener", std::addressof(boolean), args.data(), args.size());
+				Invoke("removeListener", addressof(boolean), args.data(), args.size());
 			assert(success);
 
 			return boolean.GetBool();
@@ -262,7 +262,7 @@ namespace CLIK
 			assert(success);
 		}
 
-		void ReplaceSel(std::string_view a_newText)
+		void ReplaceSel(string_view a_newText)
 		{
 			enum
 			{
@@ -270,7 +270,7 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kNewText] = a_newText;
 			assert(args[kNewText].IsString());
@@ -280,7 +280,7 @@ namespace CLIK
 			assert(success);
 		}
 
-		void ReplaceText(double a_beginIndex, double a_endIndex, std::string_view a_newText)
+		void ReplaceText(double a_beginIndex, double a_endIndex, string_view a_newText)
 		{
 			enum
 			{
@@ -290,7 +290,7 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kBeginIndex] = a_beginIndex;
 			assert(args[kBeginIndex].IsNumber());
@@ -308,7 +308,7 @@ namespace CLIK
 
 		//void SetNewTextFormat(TextFormat& a_tf);
 
-		//void SetTextFormat(std::optional<double> a_beginIndex, std::optional<double> a_endIndex, TextFormat& a_textFormat);;
+		//void SetTextFormat(optional<double> a_beginIndex, optional<double> a_endIndex, TextFormat& a_textFormat);;
 
 		// gfx properties
 		bool AutoFit() const { return GetBoolean("autoFit"); }
@@ -362,17 +362,17 @@ namespace CLIK
 		double FontScaleFactor() const { return GetNumber("fontScaleFactor"); }
 		void FontScaleFactor(double a_fontScaleFactor) { SetNumber("fontScaleFactor", a_fontScaleFactor); }
 
-		std::string TextAutoSize() const { return GetString("textAutoSize"); }
-		void TextAutoSize(std::string_view a_textAutoSize) { SetString("textAutoSize", a_textAutoSize); }
+		string TextAutoSize() const { return GetString("textAutoSize"); }
+		void TextAutoSize(string_view a_textAutoSize) { SetString("textAutoSize", a_textAutoSize); }
 
-		std::string VerticalAlign() const { return GetString("verticalAlign"); }
-		void VerticalAlign(std::string_view a_verticalAlign) { SetString("verticalAlign", a_verticalAlign); }
+		string VerticalAlign() const { return GetString("verticalAlign"); }
+		void VerticalAlign(string_view a_verticalAlign) { SetString("verticalAlign", a_verticalAlign); }
 
-		std::string VerticalAutoSize() const { return GetString("verticalAutoSize"); }
-		void VerticalAutoSize(std::string_view a_verticalAutoSize) { SetString("verticalAutoSize", a_verticalAutoSize); }
+		string VerticalAutoSize() const { return GetString("verticalAutoSize"); }
+		void VerticalAutoSize(string_view a_verticalAutoSize) { SetString("verticalAutoSize", a_verticalAutoSize); }
 
 		// gfx methods
-		void AppendText(std::string_view a_newText)
+		void AppendText(string_view a_newText)
 		{
 			enum
 			{
@@ -380,7 +380,7 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kNewText] = a_newText;
 			assert(args[kNewText].IsString());
@@ -390,7 +390,7 @@ namespace CLIK
 			assert(success);
 		}
 
-		void AppendHtml(std::string_view a_newHtml)
+		void AppendHtml(string_view a_newHtml)
 		{
 			enum
 			{
@@ -398,7 +398,7 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kNewHtml] = a_newHtml;
 			assert(args[kNewHtml].IsString());
@@ -420,7 +420,7 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kX] = a_x;
 			assert(args[kX].IsNumber());
@@ -430,7 +430,7 @@ namespace CLIK
 
 			RE::GFxValue number;
 			[[maybe_unused]] const auto success =
-				Invoke("getCharIndexAtPoint", std::addressof(number), args.data(), args.size());
+				Invoke("getCharIndexAtPoint", addressof(number), args.data(), args.size());
 			assert(success);
 
 			return number.GetNumber();
@@ -444,14 +444,14 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kCharIndex] = a_charIndex;
 			assert(args[kCharIndex].IsNumber());
 
 			RE::GFxValue number;
 			[[maybe_unused]] const auto success =
-				Invoke("getFirstCharInParagraph", std::addressof(number), args.data(), args.size());
+				Invoke("getFirstCharInParagraph", addressof(number), args.data(), args.size());
 			assert(success);
 
 			return number.GetNumber();
@@ -466,7 +466,7 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kX] = a_x;
 			assert(args[kX].IsNumber());
@@ -476,7 +476,7 @@ namespace CLIK
 
 			RE::GFxValue number;
 			[[maybe_unused]] const auto success =
-				Invoke("getLineIndexAtPoint", std::addressof(number), args.data(), args.size());
+				Invoke("getLineIndexAtPoint", addressof(number), args.data(), args.size());
 			assert(success);
 
 			return number.GetNumber();
@@ -490,14 +490,14 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kLineIndex] = a_lineIndex;
 			assert(args[kLineIndex].IsNumber());
 
 			RE::GFxValue number;
 			[[maybe_unused]] const auto success =
-				Invoke("getLineLength", std::addressof(number), args.data(), args.size());
+				Invoke("getLineLength", addressof(number), args.data(), args.size());
 			assert(success);
 
 			return number.GetNumber();
@@ -511,14 +511,14 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kLineIndex] = a_lineIndex;
 			assert(args[kLineIndex].IsNumber());
 
 			RE::GFxValue object;
 			[[maybe_unused]] const auto success =
-				Invoke("getLineMetrics", std::addressof(object), args.data(), args.size());
+				Invoke("getLineMetrics", addressof(object), args.data(), args.size());
 			assert(success);
 
 			return Object(object);
@@ -532,20 +532,20 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kLineIndex] = a_lineIndex;
 			assert(args[kLineIndex].IsNumber());
 
 			RE::GFxValue number;
 			[[maybe_unused]] const auto success =
-				Invoke("getLineOffset", std::addressof(number), args.data(), args.size());
+				Invoke("getLineOffset", addressof(number), args.data(), args.size());
 			assert(success);
 
 			return number.GetNumber();
 		}
 
-		std::string GetLineText(double a_lineIndex)
+		string GetLineText(double a_lineIndex)
 		{
 			enum
 			{
@@ -553,14 +553,14 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kLineIndex] = a_lineIndex;
 			assert(args[kLineIndex].IsNumber());
 
 			RE::GFxValue str;
 			[[maybe_unused]] const auto success =
-				Invoke("getLineText", std::addressof(str), args.data(), args.size());
+				Invoke("getLineText", addressof(str), args.data(), args.size());
 			assert(success);
 
 			return str.GetString();
@@ -576,7 +576,7 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kRichClipboard] = a_richClipboard;
 			assert(args[kRichClipboard].IsBool());
@@ -602,7 +602,7 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kRichClipboard] = a_richClipboard;
 			assert(args[kRichClipboard].IsBool());
@@ -628,7 +628,7 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kRichClipboard] = a_richClipboard;
 			assert(args[kRichClipboard].IsBool());

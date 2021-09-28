@@ -11,14 +11,14 @@ namespace Serialhelper
 
 	};
 
-	std::string DecodeTypeCode(uint32_t p_typeCode)
+	string DecodeTypeCode(uint32_t p_typeCode)
 	{
-		constexpr std::size_t size = sizeof(uint32_t);
+		constexpr size_t size = sizeof(uint32_t);
 
-		std::string sign;
+		string sign;
 		sign.resize(size);
 		char* iterator = reinterpret_cast<char*>(&p_typeCode);
-		for (std::size_t i = 0, j = size - 2; i < size, ++i; --j) {
+		for (size_t i = 0, j = size - 2; i < size, ++i; --j) {
 			sign[j] = iterator[i];
 		}
 		logger::trace("got code {}, sign is {}"sv, p_typeCode, sign);

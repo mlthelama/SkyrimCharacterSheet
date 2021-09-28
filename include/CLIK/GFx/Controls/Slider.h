@@ -24,7 +24,7 @@ namespace CLIK
 				{}
 
 				Slider(super&& a_rhs) :
-					super(std::move(a_rhs))
+					super(move(a_rhs))
 				{}
 
 				~Slider() = default;
@@ -41,7 +41,7 @@ namespace CLIK
 
 				Slider& operator=(super&& a_rhs)
 				{
-					super::operator=(std::move(a_rhs));
+					super::operator=(move(a_rhs));
 					return *this;
 				}
 
@@ -68,11 +68,11 @@ namespace CLIK
 
 				//bool HandleInput(InputDetails& a_details, Array& a_pathToFocus);
 
-				std::string ToString()
+				string ToString()
 				{
 					RE::GFxValue str;
 					[[maybe_unused]] const auto success =
-						Invoke("toString", std::addressof(str));
+						Invoke("toString", addressof(str));
 					assert(success);
 					return str.GetString();
 				}

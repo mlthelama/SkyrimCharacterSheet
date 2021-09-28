@@ -25,7 +25,7 @@ namespace CLIK
 				{}
 
 				TextInput(super&& a_rhs) :
-					super(std::move(a_rhs))
+					super(move(a_rhs))
 				{}
 
 				~TextInput() = default;
@@ -42,18 +42,18 @@ namespace CLIK
 
 				TextInput& operator=(super&& a_rhs)
 				{
-					super::operator=(std::move(a_rhs));
+					super::operator=(move(a_rhs));
 					return *this;
 				}
 
-				std::string TextID() const { return GetString("textID"); }
-				void TextID(std::string_view a_textID) { SetString("textID", a_textID); }
+				string TextID() const { return GetString("textID"); }
+				void TextID(string_view a_textID) { SetString("textID", a_textID); }
 
-				std::string Text() const { return GetString("text"); }
-				void Text(std::string_view a_text) { SetString("text", a_text); }
+				string Text() const { return GetString("text"); }
+				void Text(string_view a_text) { SetString("text", a_text); }
 
-				std::string HTMLText() const { return GetString("htmlText"); }
-				void HTMLText(std::string_view a_htmlText) { SetString("htmlText", a_htmlText); }
+				string HTMLText() const { return GetString("htmlText"); }
+				void HTMLText(string_view a_htmlText) { SetString("htmlText", a_htmlText); }
 
 				bool Editable() const { return GetBoolean("editable"); }
 				void Editable(bool a_editable) { SetBoolean("editable", a_editable); }
@@ -67,7 +67,7 @@ namespace CLIK
 				bool Disabled() const { return GetBoolean("disabled"); }
 				void Disabled(bool a_disabled) { SetBoolean("disabled", a_disabled); }
 
-				void AppendText(std::string_view a_text)
+				void AppendText(string_view a_text)
 				{
 					enum
 					{
@@ -75,7 +75,7 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kText] = a_text;
 					assert(args[kText].IsString());
@@ -85,7 +85,7 @@ namespace CLIK
 					assert(success);
 				}
 
-				void AppendHTML(std::string_view a_text)
+				void AppendHTML(string_view a_text)
 				{
 					enum
 					{
@@ -93,7 +93,7 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kText] = a_text;
 					assert(args[kText].IsString());
@@ -110,11 +110,11 @@ namespace CLIK
 
 				//bool handleInput(InputDetails& a_details, Array& a_pathToFocus);
 
-				std::string ToString()
+				string ToString()
 				{
 					RE::GFxValue str;
 					[[maybe_unused]] const auto success =
-						Invoke("toString", std::addressof(str));
+						Invoke("toString", addressof(str));
 					assert(success);
 					return str.GetString();
 				}

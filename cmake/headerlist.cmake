@@ -22,5 +22,6 @@ set(headers ${headers}
 	include/serialhelper.h
 	include/settings.h
 	include/showhandler.h
+	include/stats/statholder.h
 	include/version.h
 )

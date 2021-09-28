@@ -18,10 +18,10 @@ namespace CLIK
 		Object(Object&& a_rhs) :
 			_instance()
 		{
-			SetInstance(std::move(a_rhs));
+			SetInstance(move(a_rhs));
 		}
 
-		explicit Object(std::nullptr_t) :
+		explicit Object(nullptr_t) :
 			_instance()
 		{
 			SetInstance(nullptr);
@@ -45,7 +45,7 @@ namespace CLIK
 			SetInstance(a_rhs);
 		}
 
-		explicit Object(std::string_view a_rhs) :
+		explicit Object(string_view a_rhs) :
 			_instance()
 		{
 			SetInstance(a_rhs);
@@ -57,7 +57,7 @@ namespace CLIK
 			SetInstance(a_rhs);
 		}
 
-		explicit Object(std::wstring_view a_rhs) :
+		explicit Object(wstring_view a_rhs) :
 			_instance()
 		{
 			SetInstance(a_rhs);
@@ -73,7 +73,7 @@ namespace CLIK
 		explicit Object(RE::GFxValue&& a_rhs) :
 			_instance()
 		{
-			SetInstance(std::move(a_rhs));
+			SetInstance(move(a_rhs));
 			assert(IsObject());
 		}
 
@@ -87,11 +87,11 @@ namespace CLIK
 
 		Object& operator=(Object&& a_rhs)
 		{
-			SetInstance(std::move(a_rhs));
+			SetInstance(move(a_rhs));
 			return *this;
 		}
 
-		Object& operator=(std::nullptr_t)
+		Object& operator=(nullptr_t)
 		{
 			SetInstance(nullptr);
 			return *this;
@@ -115,7 +115,7 @@ namespace CLIK
 			return *this;
 		}
 
-		Object& operator=(std::string_view a_rhs)
+		Object& operator=(string_view a_rhs)
 		{
 			SetInstance(a_rhs);
 			return *this;
@@ -127,7 +127,7 @@ namespace CLIK
 			return *this;
 		}
 
-		Object& operator=(std::wstring_view a_rhs)
+		Object& operator=(wstring_view a_rhs)
 		{
 			SetInstance(a_rhs);
 			return *this;
@@ -142,7 +142,7 @@ namespace CLIK
 
 		Object& operator=(RE::GFxValue&& a_rhs)
 		{
-			SetInstance(std::move(a_rhs));
+			SetInstance(move(a_rhs));
 			assert(IsObject());
 			return *this;
 		}
@@ -158,8 +158,8 @@ namespace CLIK
 		void Resolve(Object& a_resolve) { SetObject("__resolve", a_resolve); }
 
 		// methods
-		//bool AddProperty(std::string_view a_name, Function& a_getter, Function& a_setter);
-		bool HasOwnProperty(std::string_view a_name)
+		//bool AddProperty(string_view a_name, Function& a_getter, Function& a_setter);
+		bool HasOwnProperty(string_view a_name)
 		{
 			enum
 			{
@@ -167,20 +167,20 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kName] = a_name;
 			assert(args[kName].IsString());
 
 			RE::GFxValue boolean;
 			[[maybe_unused]] const auto success =
-				Invoke("hasOwnProperty", std::addressof(boolean), args.data(), args.size());
+				Invoke("hasOwnProperty", addressof(boolean), args.data(), args.size());
 			assert(success);
 
 			return boolean.GetBool();
 		}
 
-		bool IsPropertyEnumerable(std::string_view a_name)
+		bool IsPropertyEnumerable(string_view a_name)
 		{
 			enum
 			{
@@ -188,14 +188,14 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kName] = a_name;
 			assert(args[kName].IsString());
 
 			RE::GFxValue boolean;
 			[[maybe_unused]] const auto success =
-				Invoke("isPropertyEnumerable", std::addressof(boolean), args.data(), args.size());
+				Invoke("isPropertyEnumerable", addressof(boolean), args.data(), args.size());
 			assert(success);
 
 			return boolean.GetBool();
@@ -209,21 +209,21 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kTheClass] = a_theClass._instance;
 			assert(args[kTheClass].IsObject());
 
 			RE::GFxValue boolean;
 			[[maybe_unused]] const auto success =
-				Invoke("isPrototypeOf", std::addressof(boolean), args.data(), args.size());
+				Invoke("isPrototypeOf", addressof(boolean), args.data(), args.size());
 			assert(success);
 
 			return boolean.GetBool();
 		}
 
-		//bool Watch(std::string_view a_name, Function& a_callback, Object& a_userData);
-		bool Unwatch(std::string_view a_name)
+		//bool Watch(string_view a_name, Function& a_callback, Object& a_userData);
+		bool Unwatch(string_view a_name)
 		{
 			enum
 			{
@@ -231,24 +231,24 @@ namespace CLIK
 				kNumArgs
 			};
 
-			std::array<RE::GFxValue, kNumArgs> args;
+			array<RE::GFxValue, kNumArgs> args;
 
 			args[kName] = a_name;
 			assert(args[kName].IsString());
 
 			RE::GFxValue boolean;
 			[[maybe_unused]] const auto success =
-				Invoke("unwatch", std::addressof(boolean), args.data(), args.size());
+				Invoke("unwatch", addressof(boolean), args.data(), args.size());
 			assert(success);
 
 			return boolean.GetBool();
 		}
 
-		std::string ToString()
+		string ToString()
 		{
 			RE::GFxValue str;
 			[[maybe_unused]] const auto success =
-				Invoke("toString", std::addressof(str));
+				Invoke("toString", addressof(str));
 			assert(success);
 			return str.GetString();
 		}
@@ -257,7 +257,7 @@ namespace CLIK
 		{
 			RE::GFxValue object;
 			[[maybe_unused]] const auto success =
-				Invoke("valueOf", std::addressof(object));
+				Invoke("valueOf", addressof(object));
 			assert(success);
 			return Object(object);
 		}
@@ -297,7 +297,7 @@ namespace CLIK
 			return Object(object);
 		}
 
-		std::string GetString(const char* a_path) const
+		string GetString(const char* a_path) const
 		{
 			RE::GFxValue str;
 			[[maybe_unused]] const auto success =
@@ -308,7 +308,7 @@ namespace CLIK
 
 		void CreateArray(RE::GPtr<RE::GFxMovieView> a_view)
 		{
-			a_view->CreateArray(std::addressof(_instance));
+			a_view->CreateArray(addressof(_instance));
 			assert(IsArray());
 		}
 
@@ -335,7 +335,7 @@ namespace CLIK
 			assert(success);
 		}
 
-		void SetString(const char* a_path, std::string_view a_string)
+		void SetString(const char* a_path, string_view a_string)
 		{
 			RE::GFxValue str(a_string);
 			[[maybe_unused]] const auto success =
@@ -343,28 +343,28 @@ namespace CLIK
 			assert(success);
 		}
 
-		void SetInstance(std::nullptr_t) { _instance = nullptr; }
+		void SetInstance(nullptr_t) { _instance = nullptr; }
 		void SetInstance(double a_val) { _instance = a_val; }
 		void SetInstance(bool a_val) { _instance = a_val; }
 		void SetInstance(const char* a_val) { _instance = a_val; }
-		void SetInstance(std::string_view a_val) { _instance = a_val; }
+		void SetInstance(string_view a_val) { _instance = a_val; }
 		void SetInstance(const wchar_t* a_val) { _instance = a_val; }
-		void SetInstance(std::wstring_view a_val) { _instance = a_val; }
+		void SetInstance(wstring_view a_val) { _instance = a_val; }
 		void SetInstance(const RE::GFxValue& a_val) { _instance = a_val; }
-		void SetInstance(RE::GFxValue&& a_val) { _instance = std::move(a_val); }
+		void SetInstance(RE::GFxValue&& a_val) { _instance = move(a_val); }
 
 	private:
 		void SetInstance(const Object& a_val)
 		{
-			if (this != std::addressof(a_val)) {
+			if (this != addressof(a_val)) {
 				_instance = a_val._instance;
 			}
 		}
 
 		void SetInstance(Object&& a_val)
 		{
-			if (this != std::addressof(a_val)) {
-				_instance = std::move(a_val._instance);
+			if (this != addressof(a_val)) {
+				_instance = move(a_val._instance);
 			}
 		}
 

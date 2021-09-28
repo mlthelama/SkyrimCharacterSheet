@@ -25,7 +25,7 @@ namespace CLIK
 				{}
 
 				UIComponent(super&& a_rhs) :
-					super(std::move(a_rhs))
+					super(move(a_rhs))
 				{}
 
 				~UIComponent() = default;
@@ -42,7 +42,7 @@ namespace CLIK
 
 				UIComponent& operator=(super&& a_rhs)
 				{
-					super::operator=(std::move(a_rhs));
+					super::operator=(move(a_rhs));
 					return *this;
 				}
 
@@ -67,7 +67,7 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kWidth] = a_width;
 					assert(args[kWidth].IsNumber());
@@ -102,11 +102,11 @@ namespace CLIK
 					assert(success);
 				}
 
-				std::string ToString()
+				string ToString()
 				{
 					RE::GFxValue str;
 					[[maybe_unused]] const auto success =
-						Invoke("toString", std::addressof(str));
+						Invoke("toString", addressof(str));
 					assert(success);
 					return str.GetString();
 				}
@@ -119,7 +119,7 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kEvent] = a_event.GetInstance();
 					assert(args[kEvent].IsObject());

@@ -110,19 +110,14 @@ namespace constants
 		greybeard
 	};
 
-	typedef std::map<constants::StatsValue, std::string> StatsValueMap;
-	typedef std::map<constants::StatsValue, RE::ActorValue> ActorMap;
-	typedef std::map<constants::StatsValue, std::string> ValueMap;
-	typedef std::map<constants::StatsValue, boolean> ShowMap;
+	const string undefined = "<undef>";
 
-	const std::string undefined = "<undef>";
-
-	const std::string headerValuesName = "$ShowStats_Player";
-	const std::string headerAttackName = "$ShowStats_Attack";
-	const std::string headerDefenceName = "$ShowStats_Defence";
-	const std::string headerPerksMagicName = "$ShowStats_PerksMagic";
-	const std::string headerPerksThiefName = "$ShowStats_PerksThief";
-	const std::string headerPerksWarriorName = "$ShowStats_PerksWarrior";
+	const string headerValuesName = "$ShowStats_Player";
+	const string headerAttackName = "$ShowStats_Attack";
+	const string headerDefenceName = "$ShowStats_Defence";
+	const string headerPerksMagicName = "$ShowStats_PerksMagic";
+	const string headerPerksThiefName = "$ShowStats_PerksThief";
+	const string headerPerksWarriorName = "$ShowStats_PerksWarrior";
 
 	const int32_t logTrace = 0;
 	const int32_t logDebug = 1;
@@ -130,7 +125,7 @@ namespace constants
 
 	
 	/*we might need a map here*/
-	inline static std::vector<RE::FormID> factionList = { 0x00048362 //companions
+	inline static vector<RE::FormID> factionList = { 0x00048362 //companions
 		, 0x0001BDB3 //dark brotherhood
 		, 0x0001F259 //college of winterhold
 		, 0x00024029 //orc friend/kin

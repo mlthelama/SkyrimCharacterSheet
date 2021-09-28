@@ -12,14 +12,17 @@
 
 #include "AutoTOML.hpp"
 
-using namespace std::literals;
+
+using namespace std;
+
+using namespace literals;
 
 namespace stl
 {
 	//using namespace SKSE::stl;
 	using namespace SKSE::util;
 
-	constexpr std::string_view safe_string(const char* a_str) { return a_str ? a_str : ""sv; }
+	constexpr string_view safe_string(const char* a_str) { return a_str ? a_str : ""sv; }
 }
 
 namespace logger = SKSE::log;

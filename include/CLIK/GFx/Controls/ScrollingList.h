@@ -25,7 +25,7 @@ namespace CLIK
 				{}
 
 				ScrollingList(super&& a_rhs) :
-					super(std::move(a_rhs))
+					super(move(a_rhs))
 				{}
 
 				~ScrollingList() = default;
@@ -42,7 +42,7 @@ namespace CLIK
 
 				ScrollingList& operator=(super&& a_rhs)
 				{
-					super::operator=(std::move(a_rhs));
+					super::operator=(move(a_rhs));
 					return *this;
 				}
 
@@ -69,7 +69,7 @@ namespace CLIK
 						kNumArgs
 					};
 
-					std::array<RE::GFxValue, kNumArgs> args;
+					array<RE::GFxValue, kNumArgs> args;
 
 					args[kIndex] = a_index;
 					assert(args[kIndex].IsNumber());
@@ -93,11 +93,11 @@ namespace CLIK
 
 				double AvailableWidth() const { return GetNumber("availableWidth"); }
 
-				std::string ToString()
+				string ToString()
 				{
 					RE::GFxValue str;
 					[[maybe_unused]] const auto success =
-						Invoke("toString", std::addressof(str));
+						Invoke("toString", addressof(str));
 					assert(success);
 					return str.GetString();
 				}
