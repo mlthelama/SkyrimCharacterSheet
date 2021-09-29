@@ -120,8 +120,15 @@ struct Settings
 	static inline bSetting illusionMod{ "showStats"s, "illusionMod"s, true };
 	static inline bSetting restorationMod{ "showStats"s, "restorationMod"s, true };
 	static inline bSetting damageArrow{ "showStats"s, "damageArrow"s, true };
-	static inline bSetting damageRight{ "showStats"s, "damageRight"s, true };
 	static inline bSetting damageLeft{ "showStats"s, "damageLeft"s, true };
+	static inline bSetting leftWeaponSpeedMult{ "showStats"s, "leftWeaponSpeedMult"s, true };
+	static inline bSetting rightItemCharge{ "showStats"s, "rightItemCharge"s, true };
+	static inline bSetting leftItemCharge{ "showStats"s, "leftItemCharge"s, true };
+	static inline bSetting armorPerks{ "showStats"s, "armorPerks"s, true };
+	static inline bSetting mass{ "showStats"s, "mass"s, true };
+	static inline bSetting bowStaggerBonus{ "showStats"s, "bowStaggerBonus"s, true };
+	static inline bSetting bypassVendorKeywordCheck{ "showStats"s, "bypassVendorKeywordCheck"s, true };
+	static inline bSetting bypassVendorStolenCheck{ "showStats"s, "bypassVendorStolenCheck"s, true };
 
 	static inline sSetting nameString { "showStatsName"s, "name"s, constants::undefined };
 	static inline sSetting raceString { "showStatsName"s, "race"s, constants::undefined };
@@ -218,8 +225,16 @@ struct Settings
 	static inline sSetting illusionModString{ "showStatsName"s, "illusionMod"s, constants::undefined };
 	static inline sSetting restorationModString{ "showStatsName"s, "restorationMod"s, constants::undefined };
 	static inline sSetting damageArrowString{ "showStatsName"s, "damageArrow"s, constants::undefined };
-	static inline sSetting damageRightString{ "showStatsName"s, "damageRight"s, constants::undefined };
 	static inline sSetting damageLeftString{ "showStatsName"s, "damageLeft"s, constants::undefined };
+	static inline sSetting leftWeaponSpeedMultString{ "showStatsName"s, "leftWeaponSpeedMult"s, constants::undefined };
+	static inline sSetting rightItemChargeString{ "showStatsName"s, "rightItemCharge"s, constants::undefined };
+	static inline sSetting leftItemChargStringe{ "showStatsName"s, "leftItemCharge"s, constants::undefined };
+	static inline sSetting armorPerksString{ "showStatsName"s, "armorPerks"s, constants::undefined };
+	static inline sSetting massString{ "showStatsName"s, "mass"s, constants::undefined };
+	static inline sSetting bowStaggerBonusString{ "showStatsName"s, "bowStaggerBonus"s, constants::undefined };
+	static inline sSetting bypassVendorKeywordCheckString{ "showStatsName"s, "bypassVendorKeywordCheck"s, constants::undefined };
+	static inline sSetting bypassVendorStolenCheckString{ "showStatsName"s, "bypassVendorStolenCheck"s, constants::undefined };
+
 
 	static inline sSetting nameStringEnding{ "showStatsEnding"s, "name"s, constants::undefined };
 	static inline sSetting raceStringEnding{ "showStatsEnding"s, "race"s, constants::undefined };
@@ -316,8 +331,15 @@ struct Settings
 	static inline sSetting illusionModStringEnding{ "showStatsEnding"s, "illusionMod"s, constants::undefined };
 	static inline sSetting restorationModStringEnding{ "showStatsEnding"s, "restorationMod"s, constants::undefined };
 	static inline sSetting damageArrowStringEnding{ "showStatsEnding"s, "damageArrow"s, constants::undefined };
-	static inline sSetting damageRightStringEnding{ "showStatsEnding"s, "damageRight"s, constants::undefined };
 	static inline sSetting damageLeftStringEnding{ "showStatsEnding"s, "damageLeft"s, constants::undefined };
+	static inline sSetting leftWeaponSpeedMultStringEnding{ "showStatsEnding"s, "leftWeaponSpeedMult"s, constants::undefined };
+	static inline sSetting rightItemChargeStringEnding{ "showStatsEnding"s, "rightItemCharge"s, constants::undefined };
+	static inline sSetting leftItemChargStringeEnding{ "showStatsEnding"s, "leftItemCharge"s, constants::undefined };
+	static inline sSetting armorPerksStringEnding{ "showStatsEnding"s, "armorPerks"s, constants::undefined };
+	static inline sSetting massStringEnding{ "showStatsEnding"s, "mass"s, constants::undefined };
+	static inline sSetting bowStaggerBonusStringEnding{ "showStatsEnding"s, "bowStaggerBonus"s, constants::undefined };
+	static inline sSetting bypassVendorKeywordCheckStringEnding{ "showStatsEnding"s, "bypassVendorKeywordCheck"s, constants::undefined };
+	static inline sSetting bypassVendorStolenCheckStringEnding{ "showStatsEnding"s, "bypassVendorStolenCheck"s, constants::undefined };
 
 	static inline iSetting logLevel{"General"s, "logLevel"s, 0};
 	static inline bSetting closeOnEveryButtonPress{ "General"s, "closeOnEveryButtonPress", true };

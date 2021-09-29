@@ -107,7 +107,15 @@ namespace constants
 		companions,
 		imperialLegion,
 		stormcloaks,
-		greybeard
+		greybeard,
+		leftWeaponSpeedMult,
+		rightItemCharge,
+		leftItemCharge,
+		armorPerks,
+		mass,
+		bowStaggerBonus,
+		bypassVendorKeywordCheck,
+		bypassVendorStolenCheck
 	};
 
 	const string undefined = "<undef>";
@@ -140,4 +148,20 @@ namespace constants
 		, 0x02003375 //dawnguard
 		, 0x02003376 //vampire
 	};
+
+	inline static string cutString(string p_value) {
+		string text;
+		if (p_value.find(".") != string::npos) {
+			auto s = p_value.substr(p_value.find(".") + 1, 2);
+			if (count(s.begin(), s.end(), '0') == 2) {
+				text += p_value.substr(0, p_value.find("."));
+			} else {
+				text += p_value.substr(0, p_value.find(".") + 3);
+			}
+		} else {
+			text += p_value;
+		}
+		return text;
+	}
+
 };

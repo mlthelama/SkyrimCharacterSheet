@@ -90,5 +90,7 @@ namespace Scaleform
 		void InvalidateDataItemLists();
 
 		void UpdateLists();
+
+		void updateBottom();
 	};
 }

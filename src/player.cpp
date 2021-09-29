@@ -6,24 +6,25 @@ Player* Player::GetSingleton()
 	return addressof(singleton);
 }
 
-string Player::getStringValueFromFloat( float x ) {
+string Player::getStringValueFromFloat(float x) {
 	return to_string(round(x * 100.0) / 100.0);
 }
 
 float Player::calculateValue(float p_rm, float p_r) {
-	return (p_rm * p_r) /100;
+	return (p_rm * p_r) / 100;
 }
 
 string Player::getBeast(float p_vamp, float p_were) {
 	if (p_vamp > 0) {
 		return *Settings::vampireString;
-	} else if (p_were > 0) {
+	}
+	else if (p_were > 0) {
 		return *Settings::werewolfString;
 	}
 	return "";
 }
 
-int32_t Player::getFaction(RE::Actor* a_actor) {
+int32_t Player::getFaction(RE::Actor* &a_actor) {
 	int32_t x = -1;
 
 	/*build into list*/
@@ -44,7 +45,7 @@ int32_t Player::getFaction(RE::Actor* a_actor) {
 					auto index = distance(rankData.begin(), it);
 					auto i = *it;
 					if (index == a_rank) {
-						
+
 						if (sex == RE::SEXES::SEX::kFemale) {
 							rank = i->femaleRankTitle;
 						}
@@ -58,12 +59,12 @@ int32_t Player::getFaction(RE::Actor* a_actor) {
 			}
 		}
 		return false;
-	});
+		});
 
 	return x;
 }
 
-string Player::getArrowDamage(RE::PlayerCharacter* p_player) {
+string Player::getArrowDamage(RE::PlayerCharacter* &p_player) {
 	RE::InventoryEntryData* equip = p_player->GetEquippedEntryData(false);
 
 	if (equip != nullptr) {
@@ -75,12 +76,13 @@ string Player::getArrowDamage(RE::PlayerCharacter* p_player) {
 	return "";
 }
 
-string Player::getDamage(RE::PlayerCharacter* p_player, boolean p_left) {
+string Player::getDamage(RE::PlayerCharacter* &p_player, boolean p_left) {
 	RE::InventoryEntryData* hand;
 	float damage = -1;
 	if (p_left) {
 		hand = p_player->currentProcess->middleHigh->leftHand;
-	} else {
+	}
+	else {
 		hand = p_player->currentProcess->middleHigh->rightHand;
 	}
 
@@ -91,93 +93,124 @@ string Player::getDamage(RE::PlayerCharacter* p_player, boolean p_left) {
 	return (damage == -1) ? "" : getStringValueFromFloat(damage);
 }
 
-const vector<StatHolders::StatItem> Player::getPlayerValues() {
+const vector<StatHolders::StatItem*> Player::getPlayerValues() {
 	logger::trace("Gather Values to Show ..."sv);
 	RE::PlayerCharacter* player = RE::PlayerCharacter::GetSingleton();
 
-	StatHolders::Filler filler;
+	StatHolders::Filler* filler = StatHolders::Filler::GetSingleton();
 	statList.clear();
-	filler.doVector(statList);
+
+	filler->doVector(statList);
 	for (auto& element : statList) {
-		if (!element.getShow()) {
+		if (!element->getShow()) {
 			continue;
 		}
 
-		if (element.getActor() != RE::ActorValue::kNone) {
-			element.setValue(getStringValueFromFloat(player->GetActorValue(element.getActor())));
+		if (element->getActor() != RE::ActorValue::kNone) {
+			element->setValue(getStringValueFromFloat(player->GetActorValue(element->getActor())));
 		} else {
-			switch (element.getName()) {
+			switch (element->getName()) {
 			case Stats::name:
-				element.setValue(player->GetName());
+				element->setValue(player->GetName());
 				break;
 			case Stats::race:
-				element.setValue(player->GetRace()->GetFullName());
+				element->setValue(player->GetRace()->GetFullName());
 				break;
 			case Stats::level:
-				element.setValue(to_string(player->GetLevel()));
+				element->setValue(to_string(player->GetLevel()));
 				break;
 			case Stats::perkCount:
-				element.setValue(to_string(player->perkCount));
+				element->setValue(to_string(player->perkCount));
 				break;
 			case Stats::height:
-				element.setValue(getStringValueFromFloat(player->GetHeight()));
+				element->setValue(getStringValueFromFloat(player->GetHeight()));
 				break;
 			case Stats::equipedWeight:
-				element.setValue(getStringValueFromFloat(player->GetWeight()));
+				element->setValue(getStringValueFromFloat(player->GetWeight()));
 				break;
 			case Stats::armor:
-				element.setValue(getStringValueFromFloat(player->armorRating));
+				element->setValue(getStringValueFromFloat(player->armorRating));
 				break;
 			case Stats::skillTrainingsThisLevel:
-				element.setValue(to_string(player->skillTrainingsThisLevel));
+				element->setValue(to_string(player->skillTrainingsThisLevel));
 				break;
 			case Stats::damageArrow:
-				element.setValue(getArrowDamage(player));
+				element->setValue(getArrowDamage(player));
 				break;
 			case Stats::damage:
-			case Stats::damageRight:  //remove
-				element.setValue(getDamage(player, false));
+				element->setValue(getDamage(player, false));
 				break;
 			case Stats::damageLeft:
-				element.setValue(getDamage(player, true));
+				element->setValue(getDamage(player, true));
 				break;
 			case Stats::beast:
-				element.setValue(getBeast(
+				element->setValue(getBeast(
 					player->GetActorValue(RE::ActorValue::kVampirePerks),
 					player->GetActorValue(RE::ActorValue::kWerewolfPerks)));
 				break;
 			case Stats::healthRatePer:
-				element.setValue(getStringValueFromFloat(calculateValue(
+				element->setValue(getStringValueFromFloat(calculateValue(
 					player->GetActorValue(RE::ActorValue::kHealRateMult),
 					player->GetActorValue(RE::ActorValue::kHealRate))));
 				break;
 			case Stats::magickaRatePer:
-				element.setValue(getStringValueFromFloat(calculateValue(
+				element->setValue(getStringValueFromFloat(calculateValue(
 					player->GetActorValue(RE::ActorValue::kMagickaRateMult),
 					player->GetActorValue(RE::ActorValue::kMagickaRate))));
 				break;
 			case Stats::staminaRatePer:
-				element.setValue(getStringValueFromFloat(calculateValue(
+				element->setValue(getStringValueFromFloat(calculateValue(
 					player->GetActorValue(RE::ActorValue::kStaminaRateMult),
 					player->GetActorValue(RE::ActorValue::KStaminaRate))));
 				break;
 			case Stats::movementNoiseMult:
-				element.setValue(getStringValueFromFloat(player->GetActorValue(RE::ActorValue::kMovementNoiseMult) * 100));
+				element->setValue(getStringValueFromFloat(player->GetActorValue(RE::ActorValue::kMovementNoiseMult) * 100));
 				break;
 			case Stats::xp:
-				element.setValue("");
+				element->setValue(getXP(player));
 				break;
 			case Stats::weight:
-				element.setValue(getStringValueFromFloat(player->GetWeight()));
+				element->setValue(getStringValueFromFloat(player->GetWeight()));
+				break;
+			case Stats::weaponSpeedMult:
+				element->setValue(handleWeaponSpeed(player, false));
+				break;
+			case Stats::leftWeaponSpeedMult:
+				element->setValue(handleWeaponSpeed(player, true));
 				break;
 			default:
-				logger::warn("unhandeled stat, name {}, displayName {}"sv, element.getName(), element.getDisplayName());
+				logger::warn("unhandeled stat, name {}, displayName {}"sv, element->getName(), element->getDisplayName());
 				break;
 			}
 		}
 	}
 
+	filler->PrintStatsVector(statList);
 	return statList;
+}
+
+string Player::handleWeaponSpeed(RE::PlayerCharacter* &p_player, boolean p_left) {
+	RE::InventoryEntryData* hand;
+	float speed = -1;
+	if (p_left) {
+		hand = p_player->currentProcess->middleHigh->leftHand;
+	} else {
+		hand = p_player->currentProcess->middleHigh->rightHand;
+	}
+
+	//could also get other weapon stats that way
+	if (hand != nullptr) {
+		auto weapon = static_cast<RE::TESObjectWEAP*>(hand->GetObject());
+		speed = weapon->GetSpeed();
+		logger::trace("Name {}, Weapon Speed {}, Left {}"sv, hand->GetDisplayName(), speed, p_left);
+	}
+	return (speed == -1) ? "" : getStringValueFromFloat(speed);
+}
+
+string Player::getXP(RE::PlayerCharacter* &p_player) {
+	return constants::cutString(getStringValueFromFloat(p_player->skills->data->xp)) 
+		+ "/" 
+		+ constants::cutString(getStringValueFromFloat(p_player->skills->data->levelThreshold));
 }
 
 Player::Player() :

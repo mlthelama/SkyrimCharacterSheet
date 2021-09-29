@@ -7,7 +7,7 @@ class Player
 public:
 	static Player* GetSingleton();
 
-	const vector<StatHolders::StatItem> getPlayerValues();
+	const vector<StatHolders::StatItem*> getPlayerValues();
 
 private:
 	using Stats = constants::StatsValue;
@@ -18,13 +18,17 @@ private:
 
 	string getBeast(float p_vamp, float p_were);
 
-	int32_t getFaction(RE::Actor* a_actor);
+	int32_t getFaction(RE::Actor* &a_actor);
 
-	vector<StatHolders::StatItem> statList;
+	vector<StatHolders::StatItem*> statList;
 
-	string getArrowDamage(RE::PlayerCharacter* p_player);
+	string getArrowDamage(RE::PlayerCharacter* &p_player);
 
-	string getDamage(RE::PlayerCharacter* p_player, boolean p_left);
+	string getDamage(RE::PlayerCharacter* &p_player, boolean p_left);
+
+	string handleWeaponSpeed(RE::PlayerCharacter* &p_player, boolean p_left);
+
+	string getXP(RE::PlayerCharacter*& p_player);
 
 	using Lock = recursive_mutex;
 	using Locker = lock_guard<Lock>;
