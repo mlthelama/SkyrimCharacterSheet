@@ -9,4 +9,6 @@ set(sources ${sources}
 	src/scaleform/statsmenu.cpp
 	src/serialhelper.cpp
 	src/showhandler.cpp
+	src/stats/statfiller.cpp
+	src/stats/statholder.cpp
 )

@@ -16,6 +16,12 @@ project(
 )
 
 configure_file(
+	${CMAKE_CURRENT_SOURCE_DIR}/cmake/Version.h.in
+	${CMAKE_CURRENT_BINARY_DIR}/include/Version.h
+	@ONLY
+)
+
+configure_file(
 	${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.rc.in
 	${CMAKE_CURRENT_BINARY_DIR}/version.rc
 	@ONLY
@@ -101,21 +107,20 @@ find_package(AutoTOML REQUIRED CONFIG)
 include(cmake/headerlist.cmake)
 include(cmake/sourcelist.cmake)
 
-#set(headers
-	#src/PCH.h
-#)
-
-#set(sources
-	#src/main.cpp
-	#src/PCH.cpp
-#)
-
 source_group(
 	TREE
 		${CMAKE_CURRENT_SOURCE_DIR}
 	FILES
 		${headers}
 		${sources}
+)
+
+
+source_group(
+	TREE
+		${CMAKE_CURRENT_BINARY_DIR}
+	FILES
+		${CMAKE_CURRENT_BINARY_DIR}/include/Version.h
 )
 
 # ---- Create DLL ----
@@ -125,6 +130,7 @@ add_library(
 	SHARED
 	${headers}
 	${sources}
+	${CMAKE_CURRENT_BINARY_DIR}/include/Version.h
 	${CMAKE_CURRENT_BINARY_DIR}/version.rc
 	.clang-format
 	ShowStats.toml
@@ -141,6 +147,7 @@ target_include_directories(
 	PRIVATE
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 		${CMAKE_CURRENT_SOURCE_DIR}/include
+		${CMAKE_CURRENT_BINARY_DIR}/include
 )
 
 target_link_libraries(

@@ -4,6 +4,7 @@
 #include "hooks.h"
 #include "scaleform/scaleform.h"
 #include "constants.h"
+#include "version.h"
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
 {
@@ -46,12 +47,12 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 	spdlog::set_default_logger(move(log));
 	spdlog::set_pattern("%g(%#): [%^%l%$] %v"s);
 
-	logger::info("ShowStats v{}"sv, version_string);
+	logger::info("ShowStats v{}"sv, Version::NAME);
 	
 
 	a_info->infoVersion = SKSE::PluginInfo::kVersion;
 	a_info->name = "ShowStats";
-	a_info->version = version_major;
+	a_info->version = Version::MAJOR;
 
 	if (a_skse->IsEditor()) {
 		logger::critical("Loaded in editor, marking as incompatible"sv);

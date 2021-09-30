@@ -92,5 +92,6 @@ namespace Scaleform
 		void UpdateLists();
 
 		void updateBottom();
+
 	};
 }

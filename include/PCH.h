@@ -29,7 +29,7 @@ namespace logger = SKSE::log;
 
 #define DLLEXPORT __declspec(dllexport)
 
-#include "version.h"
+#include "Version.h"
 #include "settings.h"
 
 #ifdef _MSC_VER

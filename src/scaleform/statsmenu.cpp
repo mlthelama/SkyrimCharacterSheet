@@ -5,13 +5,11 @@
 
 namespace Scaleform
 {
-	RE::IMenu* StatsMenu::Creator()
-	{
+	RE::IMenu* StatsMenu::Creator() {
 		return new StatsMenu();
 	}
 
-	void StatsMenu::Register()
-	{
+	void StatsMenu::Register() {
 		auto ui = RE::UI::GetSingleton();
 		ui->Register(MENU_NAME, Creator);
 
@@ -21,7 +19,7 @@ namespace Scaleform
 	void StatsMenu::Open() {
 		if (!StatsMenu::IsMenuOpen()) {
 			logger::debug("Open Menu {}"sv, MENU_NAME);
-			RE::UIMessageQueue* msgQueue = RE::UIMessageQueue::GetSingleton();
+			auto msgQueue = RE::UIMessageQueue::GetSingleton();
 			msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kShow, nullptr);
 		}
 	}
@@ -30,7 +28,7 @@ namespace Scaleform
 	void StatsMenu::Close() {
 		if (StatsMenu::IsMenuOpen()) {
 			logger::debug("Close Menu {}"sv, MENU_NAME);
-			RE::UIMessageQueue* msgQueue = RE::UIMessageQueue::GetSingleton();
+			auto msgQueue = RE::UIMessageQueue::GetSingleton();
 			msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
 		}
 	}
@@ -56,13 +54,13 @@ namespace Scaleform
 	}
 
 	void StatsMenu::AdvanceMovie(float a_interval, uint32_t a_currentTime) {
-		uint32_t currentFrame = _view->GetCurrentFrame();
+		auto currentFrame = _view->GetCurrentFrame();
 
 		logger::trace("interval {}, currenttime {}"sv, a_interval, a_currentTime);
 
 		_view->SetVisible(true);
 
-		uint32_t nextFrame = currentFrame == 120 ? 1 : currentFrame + 1;
+		auto nextFrame = currentFrame == 120 ? 1 : currentFrame + 1;
 		_view->GotoFrame(nextFrame);
 	}
 
@@ -85,7 +83,7 @@ namespace Scaleform
 
 	bool StatsMenu::IsMenuOpen() {
 		auto ui = RE::UI::GetSingleton();
-		bool isOpen = ui->IsMenuOpen(MENU_NAME);
+		auto isOpen = ui->IsMenuOpen(MENU_NAME);
 
 		logger::trace("Menu {} is open {}"sv, MENU_NAME, isOpen);
 
@@ -215,42 +213,43 @@ namespace Scaleform
 
 
 	void StatsMenu::UpdateLists() {
-		Player* playerinfo = Player::GetSingleton();
+		auto playerinfo = Player::GetSingleton();
 
 		ClearProviders();
 		InvalidateItemLists();
-		vector<StatHolders::StatItem*> playerValues = playerinfo->getPlayerValues();
+
+		auto playerValues = playerinfo->getPlayerValues();
 
 		for (auto& element : playerValues) {
 
-			if (!element->getShow() 
-				|| element->getGuiText().empty() 
-				|| element->getGuiText() == "" 
-				|| element->getValue().empty()
-				|| element->getValue() == ""
+			if (!element.getShow() 
+				|| element.getGuiText().empty() 
+				|| element.getGuiText() == "" 
+				|| element.getValue().empty()
+				|| element.getValue() == ""
 			) {
 				continue;
 			}
 
-			logger::trace("processing name {}, displayName {}"sv, element->getName(), element->getGuiText());
-			switch (element->getName()) {
+			logger::trace("processing name {}, displayName {}"sv, element.getName(), element.getGuiText());
+			switch (element.getName()) {
 			case Stats::name:
-				updateText(_name, element->getGuiText());
+				updateText(_name, element.getGuiText());
 				break;
 			case Stats::level:
-				updateText(_level, element->getGuiText());
+				updateText(_level, element.getGuiText());
 				break;
 			case Stats::race:
-				updateText(_race, element->getGuiText());
+				updateText(_race, element.getGuiText());
 				break;
 			case Stats::perkCount:
-				updateText(_perks, element->getGuiText());
+				updateText(_perks, element.getGuiText());
 				break;
 			case Stats::beast:
-				updateText(_beast, element->getGuiText());
+				updateText(_beast, element.getGuiText());
 				break;
 			case Stats::xp:
-				updateText(_xp, element->getGuiText());
+				updateText(_xp, element.getGuiText());
 				break;
 			case Stats::height:
 			case Stats::carryWeight:
@@ -273,8 +272,8 @@ namespace Scaleform
 			case Stats::mass:
 			case Stats::bypassVendorKeywordCheck:
 			case Stats::bypassVendorStolenCheck:
-				_playerItemListProvider.PushBack(buildGFxValue(element->getGuiText()));
-				logger::trace("added to playerItemList name {}, displayName {}"sv, element->getName(), element->getGuiText());
+				_playerItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
+				logger::trace("added to playerItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
 				break;
 			case Stats::absorbChance:
 			case Stats::armor:
@@ -294,8 +293,8 @@ namespace Scaleform
 			case Stats::staminaRatePer:
 			case Stats::reflectDamage:
 			case Stats::armorPerks:
-				_defenceItemListProvider.PushBack(buildGFxValue(element->getGuiText()));
-				logger::trace("added to defenceItemList name {}, displayName {}"sv, element->getName(), element->getGuiText());
+				_defenceItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
+				logger::trace("added to defenceItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
 				break;
 			case Stats::unarmedDamage:
 			case Stats::weaponSpeedMult:
@@ -311,8 +310,8 @@ namespace Scaleform
 			case Stats::rightItemCharge:
 			case Stats::leftItemCharge:
 			case Stats::bowStaggerBonus:
-				_attackItemListProvider.PushBack(buildGFxValue(element->getGuiText()));
-				logger::trace("added to attackItemList name {}, displayName {}"sv, element->getName(), element->getGuiText());
+				_attackItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
+				logger::trace("added to attackItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
 				break;
 			case Stats::alteration:
 			case Stats::conjuration:
@@ -332,8 +331,8 @@ namespace Scaleform
 			case Stats::illusionMod:
 			case Stats::restorationMod:
 			case Stats::destructionMod:
-				_perksMagicItemListProvider.PushBack(buildGFxValue(element->getGuiText()));
-				logger::trace("added to perksMagicItemList name {}, displayName {}"sv, element->getName(), element->getGuiText());
+				_perksMagicItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
+				logger::trace("added to perksMagicItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
 				break;
 			case Stats::smithing:
 			case Stats::twoHanded:
@@ -353,8 +352,8 @@ namespace Scaleform
 			case Stats::lightArmorMod:
 			case Stats::heavyArmorMod:
 			case Stats::blockMod:
-				_perksWarriorItemListProvider.PushBack(buildGFxValue(element->getGuiText()));
-				logger::trace("added to perksWarriorItemList name {}, displayName {}"sv, element->getName(), element->getGuiText());
+				_perksWarriorItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
+				logger::trace("added to perksWarriorItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
 				break;
 			case Stats::sneak:
 			case Stats::speech:
@@ -374,11 +373,11 @@ namespace Scaleform
 			case Stats::lockpickingMod:
 			case Stats::marksmanMod:
 			case Stats::alchemyMod:
-				_perksThiefItemListProvider.PushBack(buildGFxValue(element->getGuiText()));
-				logger::trace("added to perksThiefItemList name {}, displayName {}"sv, element->getName(), element->getGuiText());
+				_perksThiefItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
+				logger::trace("added to perksThiefItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
 				break;
 			default:
-				logger::warn("not handeled name {}, displayName {}"sv, element->getName(), element->getGuiText());
+				logger::warn("not handeled name {}, displayName {}"sv, element.getName(), element.getGuiText());
 				break;
 			}
 		}
