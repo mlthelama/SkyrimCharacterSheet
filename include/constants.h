@@ -130,8 +130,29 @@ namespace constants
 	const int32_t logTrace = 0;
 	const int32_t logDebug = 1;
 	const int32_t logInfo = 2;
-
 	
+	enum class MenuValue {
+		//mNone = static_cast<underlying_type_t<MenuValue>>(0),
+		mNone = 0,
+		mPlayer = 1,
+		mDefence = 2,
+		mAttack = 3,
+		mMagic = 4,
+		mWarrior = 5,
+		mThief = 6
+	};
+
+	/* config can not work with enums, so lets map it*/
+	inline static map<int64_t, MenuValue> configMenu = {
+		{ static_cast<int64_t>(MenuValue::mNone), MenuValue::mNone },
+		{ static_cast<int64_t>(MenuValue::mPlayer), MenuValue::mPlayer },
+		{ static_cast<int64_t>(MenuValue::mDefence), MenuValue::mDefence },
+		{ static_cast<int64_t>(MenuValue::mAttack), MenuValue::mAttack },
+		{ static_cast<int64_t>(MenuValue::mMagic), MenuValue::mMagic },
+		{ static_cast<int64_t>(MenuValue::mWarrior), MenuValue::mWarrior },
+		{ static_cast<int64_t>(MenuValue::mThief), MenuValue::mThief },
+	};
+
 	/*we might need a map here*/
 	inline static vector<RE::FormID> factionList = { 0x00048362 //companions
 		, 0x0001BDB3 //dark brotherhood
@@ -141,7 +162,7 @@ namespace constants
 		, 0x0002BF9A //Imperial Legion
 		, 0x0002BF9B //Sons of Skyrim, Stormcloaks
 		, 0x0002C6C8 //Greybeard
-		, 0x0004135B //dark brotherhood, again?
+		//, 0x0004135B //dark brotherhood, again?
 		//, 0x00103372 //archmage ?
 		, 0x00072834 //blades, player might not be in there
 		//, 0x001070DD //harbringer

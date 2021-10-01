@@ -29,6 +29,15 @@ namespace Scaleform
 		static bool IsMenuOpen();
 
 		void PostCreate() override;
+
+
+		StatsMenu(const StatsMenu&) = delete;
+		StatsMenu(StatsMenu&&) = delete;
+
+		~StatsMenu() = default;
+
+		StatsMenu& operator=(const StatsMenu&) = delete;
+		StatsMenu& operator=(StatsMenu&&) = delete;
 	private:
 		StatsMenu();
 
@@ -36,7 +45,6 @@ namespace Scaleform
 
 		RE::GPtr<RE::GFxMovieView> _view;
 		bool _isActive = false;
-
 
 		CLIK::MovieClip _rootObj;
 		CLIK::TextField _title;
@@ -73,6 +81,15 @@ namespace Scaleform
 		CLIK::GFx::Controls::ScrollingList _perksThiefItemList;
 		RE::GFxValue _perksThiefItemListProvider;
 
+		map<constants::MenuValue, RE::GFxValue&> menuMap = {
+			{ constants::MenuValue::mPlayer, _playerItemListProvider },
+			{ constants::MenuValue::mDefence, _defenceItemListProvider },
+			{ constants::MenuValue::mAttack, _attackItemListProvider },
+			{ constants::MenuValue::mMagic, _perksMagicItemListProvider },
+			{ constants::MenuValue::mWarrior, _perksWarriorItemListProvider },
+			{ constants::MenuValue::mThief, _perksThiefItemListProvider },
+		};
+
 		void OnOpen();
 
 		void updateText(CLIK::TextField p_field, string_view p_string);
@@ -92,6 +109,5 @@ namespace Scaleform
 		void UpdateLists();
 
 		void updateBottom();
-
 	};
 }

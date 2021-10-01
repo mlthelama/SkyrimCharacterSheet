@@ -1,37 +1,68 @@
 #pragma once
 #include "stats/statholder.h"
 
+
 StatItem::StatItem(constants::StatsValue p_name,
 	RE::ActorValue p_actor,
 	string p_display_name,
 	string p_ending,
-	boolean p_show)
-{
+	boolean p_show
+) {
 	this->setName(p_name);
 	this->setActor(p_actor);
 	this->setDisplayName(p_display_name);
 	this->setEnding(p_ending);
 	this->setShow(p_show);
+	this->setMenu(constants::MenuValue::mNone);
+	this->setStaticText(false);
+
 	this->value.clear();
 	this->guiText.clear();
-	this->setStaticText(false);
-};
+
+	this->logItem();
+}
 
 StatItem::StatItem(constants::StatsValue p_name,
 	RE::ActorValue p_actor,
 	string p_display_name,
 	string p_ending,
 	boolean p_show,
-	boolean p_static_text)
-{
+	constants::MenuValue p_menu
+) { 
 	this->setName(p_name);
 	this->setActor(p_actor);
 	this->setDisplayName(p_display_name);
 	this->setEnding(p_ending);
 	this->setShow(p_show);
+	this->setMenu(p_menu);
+	this->setStaticText(false);
+
 	this->value.clear();
 	this->guiText.clear();
+
+	this->logItem();
+};
+
+StatItem::StatItem(constants::StatsValue p_name, 
+	RE::ActorValue p_actor, 
+	string p_display_name,	
+	string p_ending, 
+	boolean p_show, 
+	constants::MenuValue p_menu,
+	boolean p_static_text
+) {
+	this->setName(p_name);
+	this->setActor(p_actor);
+	this->setDisplayName(p_display_name);
+	this->setEnding(p_ending);
+	this->setShow(p_show);
+	this->setMenu(p_menu);
 	this->setStaticText(p_static_text);
+
+	this->value.clear();
+	this->guiText.clear();
+
+	this->logItem();
 };
 
 void StatItem::setName(constants::StatsValue p_name) { name = p_name; }
@@ -44,6 +75,7 @@ RE::ActorValue StatItem::getActor() { return actor; }
 
 void StatItem::setValue(string p_value) {
 	value = p_value;
+	logger::trace("set Value {} for name {} display {}"sv, p_value, name, displayName);
 	buildText();
 }
 
@@ -69,6 +101,9 @@ void StatItem::setStaticText(boolean p_static_text) { staticText = p_static_text
 
 boolean StatItem::getStaticText() { return staticText; }
 
+void StatItem::setMenu(constants::MenuValue p_menu) { menu = p_menu; }
+
+constants::MenuValue StatItem::getMenu() { return menu; }
 
 void StatItem::buildText() {
 	if (!value.empty() && !displayName.empty() && !show) {
@@ -85,4 +120,18 @@ void StatItem::buildText() {
 	guiText += (staticText) ? value : constants::cutString(value);
 
 	guiText += ending;
+}
+
+void StatItem::logItem() {
+	logger::trace("name {}, actor {}, value {}, displayname ({}), ending {}, show {}, guiText ({}), ST {}, menu {}"sv,
+		name,
+		actor,
+		value,
+		displayName,
+		ending,
+		show,
+		guiText,
+		staticText,
+		menu
+	);
 }

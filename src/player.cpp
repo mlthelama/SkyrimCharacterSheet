@@ -57,6 +57,9 @@ int32_t Player::getFaction(RE::Actor* &a_actor) {
 					}
 				}
 				/*if rank is empty here then we need to fill it by ourselfs*/
+				if (rank.empty()) {
+					rank = "Member";
+				}
 			}
 		}
 		return false;
@@ -101,6 +104,7 @@ const vector<StatItem> Player::getPlayerValues() {
 
 	auto statList = filler->getData();
 	for (auto& element : statList) {
+		logger::trace("start working name {}, fill values, if needed ..."sv, element.getName());
 		if (!element.getShow()) {
 			continue;
 		}

@@ -64,7 +64,7 @@ namespace Events
 			logger::trace("event input {}, set {}"sv, key, _key);
 			if (key == _key) {
 				//do shit
-				logger::info("configured Key ({}) pressed"sv, key);
+				logger::debug("configured Key ({}) pressed"sv, key);
 				if (Scaleform::StatsMenu::IsMenuOpen()) {
 					Scaleform::StatsMenu::Close();
 				} else {

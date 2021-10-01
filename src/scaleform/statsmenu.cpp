@@ -39,7 +39,7 @@ namespace Scaleform
 
 		auto menu = static_cast<RE::IMenu*>(this);
 		auto scaleformManager = RE::BSScaleformManager::GetSingleton();
-		[[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu, FILE_NAME, RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void { logger::trace("{}"sv, a_def->GetFrameRate()); });
+		[[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu, FILE_NAME, RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void { logger::trace("FPS: {}"sv, a_def->GetFrameRate()); });
 		assert(success);
 		_view = menu->uiMovie;
 		_view->SetMouseCursorCount(0);
@@ -231,7 +231,7 @@ namespace Scaleform
 				continue;
 			}
 
-			logger::trace("processing name {}, displayName {}"sv, element.getName(), element.getGuiText());
+			logger::trace("processing name {}, displayName {}, menu {}"sv, element.getName(), element.getGuiText(), element.getMenu());
 			switch (element.getName()) {
 			case Stats::name:
 				updateText(_name, element.getGuiText());
@@ -272,9 +272,6 @@ namespace Scaleform
 			case Stats::mass:
 			case Stats::bypassVendorKeywordCheck:
 			case Stats::bypassVendorStolenCheck:
-				_playerItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
-				logger::trace("added to playerItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
-				break;
 			case Stats::absorbChance:
 			case Stats::armor:
 			case Stats::combatHealthRegenMultiply:
@@ -293,9 +290,6 @@ namespace Scaleform
 			case Stats::staminaRatePer:
 			case Stats::reflectDamage:
 			case Stats::armorPerks:
-				_defenceItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
-				logger::trace("added to defenceItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
-				break;
 			case Stats::unarmedDamage:
 			case Stats::weaponSpeedMult:
 			case Stats::meleeDamage:
@@ -310,9 +304,6 @@ namespace Scaleform
 			case Stats::rightItemCharge:
 			case Stats::leftItemCharge:
 			case Stats::bowStaggerBonus:
-				_attackItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
-				logger::trace("added to attackItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
-				break;
 			case Stats::alteration:
 			case Stats::conjuration:
 			case Stats::enchanting:
@@ -331,9 +322,6 @@ namespace Scaleform
 			case Stats::illusionMod:
 			case Stats::restorationMod:
 			case Stats::destructionMod:
-				_perksMagicItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
-				logger::trace("added to perksMagicItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
-				break;
 			case Stats::smithing:
 			case Stats::twoHanded:
 			case Stats::oneHanded:
@@ -352,9 +340,6 @@ namespace Scaleform
 			case Stats::lightArmorMod:
 			case Stats::heavyArmorMod:
 			case Stats::blockMod:
-				_perksWarriorItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
-				logger::trace("added to perksWarriorItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
-				break;
 			case Stats::sneak:
 			case Stats::speech:
 			case Stats::pickpocket:
@@ -373,8 +358,10 @@ namespace Scaleform
 			case Stats::lockpickingMod:
 			case Stats::marksmanMod:
 			case Stats::alchemyMod:
-				_perksThiefItemListProvider.PushBack(buildGFxValue(element.getGuiText()));
-				logger::trace("added to perksThiefItemList name {}, displayName {}"sv, element.getName(), element.getGuiText());
+				if (element.getMenu() != constants::MenuValue::mNone) {
+					menuMap.find(element.getMenu())->second.PushBack(buildGFxValue(element.getGuiText()));
+					logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, element.getMenu(), element.getName(), element.getGuiText());
+				}
 				break;
 			default:
 				logger::warn("not handeled name {}, displayName {}"sv, element.getName(), element.getGuiText());
