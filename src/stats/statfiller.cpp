@@ -31,7 +31,7 @@ vector<StatItem> Filler::getData() {
 		{ StatsValue::staminaRatePer, ActorValue::kNone, *Settings::staminaRateString, *Settings::staminaRateStringEnding, *Settings::staminaRate, getMenu(*Settings::staminaRateMenu) },
 		{ StatsValue::resistDamage, ActorValue::kDamageResist, *Settings::resistDamageString, *Settings::resistDamageStringEnding, *Settings::resistDamage, getMenu(*Settings::resistDamageMenu) },
 		{ StatsValue::resistDisease, ActorValue::kResistDisease, *Settings::resistDiseaseString, *Settings::resistDiseaseStringEnding, *Settings::resistDisease, getMenu(*Settings::resistDiseaseMenu) },
-		{ StatsValue::resistPoison, ActorValue::kPoisonResist, *Settings::restorationModString, *Settings::resistPoisonStringEnding, *Settings::resistPoison, getMenu(*Settings::resistPoisonMenu) },
+		{ StatsValue::resistPoison, ActorValue::kPoisonResist, *Settings::resistPoisonString, *Settings::resistPoisonStringEnding, *Settings::resistPoison, getMenu(*Settings::resistPoisonMenu) },
 		{ StatsValue::resistFire, ActorValue::kResistFire, *Settings::resistFireString, *Settings::resistFireStringEnding, *Settings::resistFire, getMenu(*Settings::resistFireMenu) },
 		{ StatsValue::resistShock, ActorValue::kResistShock, *Settings::resistShockString, *Settings::resistShockStringEnding, *Settings::resistShock, getMenu(*Settings::resistShockMenu) },
 		{ StatsValue::resistFrost, ActorValue::kResistFrost, *Settings::resistFrostString, *Settings::resistFrostStringEnding, *Settings::resistFrost, getMenu(*Settings::resistFrostMenu) },

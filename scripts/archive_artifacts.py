@@ -11,7 +11,7 @@ def make_rel_archive(a_args):
 		os.path.join(a_args.src_dir, "ShowStats.toml"),
 		"SKSE/Plugins/ShowStats.toml")
 	archive.write(
-		os.path.join(a_args.src_dir, "swf", "ShowStats.swf"),
+		os.path.join(a_args.src_dir, "swf", "standard", "ShowStats.swf"),
 		"Interface/ShowStats.swf")
 	archive.write(
 		os.path.join(a_args.src_dir, "interface", "Translations", "ShowStats_english.txt"),
