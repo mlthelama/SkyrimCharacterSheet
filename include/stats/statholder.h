@@ -29,6 +29,16 @@ public:
 		boolean p_static_text
 	);
 
+	StatItem(constants::StatsValue p_name,
+		RE::ActorValue p_actor,
+		string p_display_name,
+		string p_ending,
+		boolean p_show,
+		constants::MenuValue p_menu,
+		int32_t p_value_multiplier
+	);
+
+
 	void setName(constants::StatsValue p_name);
 
 	constants::StatsValue getName();
@@ -65,6 +75,9 @@ public:
 
 	constants::MenuValue getMenu();
 
+	void setValueMultiplier(int32_t p_value_multiplier);
+
+	int32_t getValueMultiplier();
 
 	StatItem() = delete;
 	StatItem(const StatItem&) = default;
@@ -85,6 +98,7 @@ private:
 	string guiText;
 	boolean staticText = false;
 	constants::MenuValue menu = constants::MenuValue::mNone;
+	int32_t valueMultiplier = 1;
 
 	void buildText();
 

@@ -25,7 +25,7 @@ string Player::getBeast(float p_vamp, float p_were) {
 	return "";
 }
 
-int32_t Player::getFaction(RE::Actor* &a_actor) {
+int32_t Player::getFaction(RE::Actor* a_actor) {
 	int32_t x = -1;
 
 	/*build into list*/
@@ -102,6 +102,9 @@ const vector<StatItem> Player::getPlayerValues() {
 	auto player = RE::PlayerCharacter::GetSingleton();
 	auto filler = Filler::GetSingleton();
 
+	/*auto fac = getFaction(player);
+	logger::trace(to_string(fac));*/
+
 	auto statList = filler->getData();
 	for (auto& element : statList) {
 		logger::trace("start working name {}, fill values, if needed ..."sv, element.getName());
@@ -110,7 +113,7 @@ const vector<StatItem> Player::getPlayerValues() {
 		}
 
 		if (element.getActor() != RE::ActorValue::kNone) {
-			element.setValue(getStringValueFromFloat(player->GetActorValue(element.getActor())));
+			element.setValue(getStringValueFromFloat(player->GetActorValue(element.getActor()) * element.getValueMultiplier() ));
 		} else {
 			switch (element.getName()) {
 			case Stats::name:
@@ -149,25 +152,26 @@ const vector<StatItem> Player::getPlayerValues() {
 			case Stats::beast:
 				element.setValue(getBeast(
 					player->GetActorValue(RE::ActorValue::kVampirePerks),
-					player->GetActorValue(RE::ActorValue::kWerewolfPerks)));
+					player->GetActorValue(RE::ActorValue::kWerewolfPerks)
+				));
 				break;
 			case Stats::healthRatePer:
 				element.setValue(getStringValueFromFloat(calculateValue(
 					player->GetActorValue(RE::ActorValue::kHealRateMult),
-					player->GetActorValue(RE::ActorValue::kHealRate))));
+					player->GetActorValue(RE::ActorValue::kHealRate))
+				));
 				break;
 			case Stats::magickaRatePer:
 				element.setValue(getStringValueFromFloat(calculateValue(
 					player->GetActorValue(RE::ActorValue::kMagickaRateMult),
-					player->GetActorValue(RE::ActorValue::kMagickaRate))));
+					player->GetActorValue(RE::ActorValue::kMagickaRate))
+				));
 				break;
 			case Stats::staminaRatePer:
 				element.setValue(getStringValueFromFloat(calculateValue(
 					player->GetActorValue(RE::ActorValue::kStaminaRateMult),
-					player->GetActorValue(RE::ActorValue::KStaminaRate))));
-				break;
-			case Stats::movementNoiseMult:
-				element.setValue(getStringValueFromFloat(player->GetActorValue(RE::ActorValue::kMovementNoiseMult) * 100));
+					player->GetActorValue(RE::ActorValue::KStaminaRate))
+				));
 				break;
 			case Stats::xp:
 				element.setValue(getXP(player));

@@ -188,15 +188,51 @@ namespace Events
 		return index != kInvalid ? index + kGamepadOffset : kInvalid;
 	}
 
+	void KeyManager::Sink() {
+		auto deviceManager = RE::BSInputDeviceManager::GetSingleton();
+		deviceManager->AddEventSink(KeyManager::GetSingleton());
+	}
+
 	KeyManager::KeyManager() :
 		_lock(),
 		_key(kInvalid)
 	{}
 
-	void SinkEventHandlers()
+    auto MenuHandler::GetSingleton() -> MenuHandler* {
+		static MenuHandler singleton;
+		return addressof(singleton);
+	}
+
+	void MenuHandler::Sink() {
+		auto ui = RE::UI::GetSingleton();
+		ui->AddEventSink(static_cast<RE::BSTEventSink<RE::MenuOpenCloseEvent>*>(MenuHandler::GetSingleton()));
+	}
+
+	auto MenuHandler::ProcessEvent(RE::MenuOpenCloseEvent const* a_event, [[maybe_unused]] RE::BSTEventSource<RE::MenuOpenCloseEvent>* a_eventSource) 
+		-> EventResult
 	{
-		auto deviceManager = RE::BSInputDeviceManager::GetSingleton();
-		deviceManager->AddEventSink(KeyManager::GetSingleton());
-		logger::info("Added Input Event");
+		if (a_event == nullptr) {
+			return EventResult::kContinue;
+		}
+
+		logger::trace("Menu name {}"sv, a_event->menuName);
+		if (Scaleform::StatsMenu::IsMenuOpen() && a_event->menuName != Scaleform::StatsMenu::MENU_NAME && a_event->opening) {
+			logger::debug("Menu name {} is opening, {} is open, close it"sv, a_event->menuName, Scaleform::StatsMenu::MENU_NAME);
+
+			Scaleform::StatsMenu::Close();
+		}
+
+		return EventResult::kContinue;
+	}
+
+	MenuHandler::MenuHandler(){}
+
+	void SinkEventHandlers() {
+
+		KeyManager::Sink();
+		logger::info("Added Input Event"sv);
+
+		MenuHandler::Sink();
+		logger::info("Registered Menu Event"sv);
 	}
 }

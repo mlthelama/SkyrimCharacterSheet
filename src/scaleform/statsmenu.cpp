@@ -46,7 +46,7 @@ namespace Scaleform
 		menu->menuFlags |= Flag::kAllowSaving;
 		menu->depthPriority = 11;
 		menu->inputContext = Context::kNone;
-		//InitExtensions();
+		InitExtensions();
 
 		_isActive = true;
 		_view->SetVisible(true);
@@ -210,7 +210,6 @@ namespace Scaleform
 		_perksWarriorItemList.InvalidateData();
 		_perksThiefItemList.InvalidateData();
 	}
-
 
 	void StatsMenu::UpdateLists() {
 		auto playerinfo = Player::GetSingleton();

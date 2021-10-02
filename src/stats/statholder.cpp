@@ -65,6 +65,30 @@ StatItem::StatItem(constants::StatsValue p_name,
 	this->logItem();
 };
 
+StatItem::StatItem(constants::StatsValue p_name,
+	RE::ActorValue p_actor,
+	string p_display_name,
+	string p_ending,
+	boolean p_show,
+	constants::MenuValue p_menu,
+	int32_t p_value_multiplier
+) {
+	this->setName(p_name);
+	this->setActor(p_actor);
+	this->setDisplayName(p_display_name);
+	this->setEnding(p_ending);
+	this->setShow(p_show);
+	this->setMenu(p_menu);
+	this->setValueMultiplier(p_value_multiplier);
+
+	this->setStaticText(false);
+
+	this->value.clear();
+	this->guiText.clear();
+
+	this->logItem();
+};
+
 void StatItem::setName(constants::StatsValue p_name) { name = p_name; }
 
 constants::StatsValue StatItem::getName() { return name; }
@@ -105,6 +129,10 @@ void StatItem::setMenu(constants::MenuValue p_menu) { menu = p_menu; }
 
 constants::MenuValue StatItem::getMenu() { return menu; }
 
+void StatItem::setValueMultiplier(int32_t p_value_multiplier) { valueMultiplier = p_value_multiplier; }
+
+int32_t StatItem::getValueMultiplier() { return valueMultiplier; }
+
 void StatItem::buildText() {
 	if (!value.empty() && !displayName.empty() && !show) {
 		return;
@@ -123,7 +151,7 @@ void StatItem::buildText() {
 }
 
 void StatItem::logItem() {
-	logger::trace("name {}, actor {}, value {}, displayname ({}), ending {}, show {}, guiText ({}), ST {}, menu {}"sv,
+	logger::trace("name {}, actor {}, value {}, displayname ({}), ending {}, show {}, guiText ({}), ST {}, menu {}, VMP {}"sv,
 		name,
 		actor,
 		value,
@@ -132,6 +160,7 @@ void StatItem::logItem() {
 		show,
 		guiText,
 		staticText,
-		menu
+		menu,
+		valueMultiplier
 	);
 }

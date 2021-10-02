@@ -2,8 +2,7 @@
 
 namespace Events
 {
-	class KeyManager : public RE::BSTEventSink<RE::InputEvent*>
-	{
+	class KeyManager : public RE::BSTEventSink<RE::InputEvent*> {
 	public:
 		using EventResult = RE::BSEventNotifyControl;
 
@@ -17,6 +16,8 @@ namespace Events
 		void Clear();
 		uint32_t GetKey() const;
 		void SetKey(uint32_t p_key);
+
+		static void Sink();
 	private:
 
 		uint32_t GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key);
@@ -27,7 +28,6 @@ namespace Events
 		enum : uint32_t
 		{
 			kInvalid = static_cast<uint32_t>(-1),
-			//maybe remove
 			kKeyboardOffset = 0,
 			kMouseOffset = 256,
 			kGamepadOffset = 266
@@ -43,6 +43,25 @@ namespace Events
 		mutable Lock _lock;
 		uint32_t _key;
 
+	};
+
+	class MenuHandler : public RE::BSTEventSink<RE::MenuOpenCloseEvent> {
+	public:
+		using EventResult = RE::BSEventNotifyControl;
+
+		static MenuHandler* GetSingleton();
+
+		static void Sink();
+
+		auto ProcessEvent(RE::MenuOpenCloseEvent const* a_event, [[maybe_unused]] RE::BSTEventSource<RE::MenuOpenCloseEvent>* a_eventSource) -> EventResult;
+
+		MenuHandler();
+		MenuHandler(const MenuHandler&) = delete;
+		MenuHandler(MenuHandler&&) = delete;
+		virtual ~MenuHandler() = default;
+
+		MenuHandler& operator=(const MenuHandler&) = delete;
+		MenuHandler& operator=(MenuHandler&&) = delete;
 	};
 
 	//maybe add event sing when player char changes values we care about

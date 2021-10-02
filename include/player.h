@@ -18,7 +18,7 @@ private:
 
 	string getBeast(float p_vamp, float p_were);
 
-	int32_t getFaction(RE::Actor* &a_actor);
+	int32_t getFaction(RE::Actor* a_actor);
 
 	string getArrowDamage(RE::PlayerCharacter* &p_player);
 
