@@ -12,13 +12,15 @@ public:
 private:
 	using Stats = constants::StatsValue;
 
+	map<constants::StatsValue, string> factionRankMap;
+
 	string getStringValueFromFloat(float x);
 
 	float calculateValue(float p_rm, float p_r);
 
 	string getBeast(float p_vamp, float p_were);
 
-	int32_t getFaction(RE::Actor* a_actor);
+	void getFaction(RE::Actor* a_actor);
 
 	string getArrowDamage(RE::PlayerCharacter* &p_player);
 
@@ -27,6 +29,8 @@ private:
 	string handleWeaponSpeed(RE::PlayerCharacter* &p_player, boolean p_left);
 
 	string getXP(RE::PlayerCharacter*& p_player);
+
+	string getRank(constants::StatsValue p_stat);
 
 	Player() = default;
 	Player(const Player&) = delete;

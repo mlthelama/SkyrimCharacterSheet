@@ -154,7 +154,7 @@ namespace constants
 	};
 
 	/*we might need a map here*/
-	inline static vector<RE::FormID> factionList = { 0x00048362 //companions
+	/*inline static vector<RE::FormID> factionList = { 0x00048362 //companions
 		, 0x0001BDB3 //dark brotherhood
 		, 0x0001F259 //college of winterhold
 		, 0x00024029 //orc friend/kin
@@ -168,6 +168,17 @@ namespace constants
 		//, 0x001070DD //harbringer
 		, 0x02003375 //dawnguard
 		, 0x02003376 //vampire
+	};*/
+
+	inline static map<RE::FormID, StatsValue> factionMap = {
+		{ 0x00048362, StatsValue::companions },
+		{ 0x0001BDB3, StatsValue::darkbrotherHood },
+		{ 0x0001F259, StatsValue::collegeOfWinterhold },
+		{ 0x00024029, StatsValue::orcFriend },
+		{ 0x00029DA9, StatsValue::thiefsGuild },
+		{ 0x0002BF9A, StatsValue::imperialLegion },
+		{ 0x0002BF9B, StatsValue::stormcloaks },
+		{ 0x0002C6C8, StatsValue::greybeard }
 	};
 
 	inline static string cutString(string p_value) {

@@ -1,6 +1,8 @@
 [General]
 logLevel = 2 # 0 trace; 1 debug; 2 info
 closeOnEveryButtonPress = false # otherwise menu just closes at ESC and binded key
+closeOnOtherMenuOpen = true
+showFactions = false #WIP
 
 [showBeastName]
 vampire = "Vampire"
@@ -217,6 +219,14 @@ mass = "Mass"
 bowStaggerBonus = "Bow Stagger Bonus"
 bypassVendorKeywordCheck = "Vendor any Item"
 bypassVendorStolenCheck = "Vendor stolen Item"
+companions = "Companions"
+darkbrotherHood = "The Dark Brotherhood"
+collegeOfWinterhold = "College of Winterhold"
+orcFriend = "Blood-Kin of the Orcs"
+thiefsGuild = "Thieves' Guild"
+imperialLegion = "Imperial Legion"
+stormcloaks = "Stormcloaks" #sons of skyrim
+greybeard = "The Greybeards"
 
 [showStatsEnding]
 name = ""
@@ -423,3 +433,19 @@ mass = 1
 bowStaggerBonus = 3
 bypassVendorKeywordCheck = 1
 bypassVendorStolenCheck = 1
+companions = 1
+darkbrotherHood = 1
+collegeOfWinterhold = 1
+orcFriend = 1
+thiefsGuild = 1
+imperialLegion = 1
+stormcloaks = 1
+greybeard = 1
+
+[showStatsMultiplier]
+weaponSpeedMult = 1 #0 will not work, cause math you know
+shoutRecoveryMult = 100
+movementNoiseMult = 100
+combatHealthRegenMultiply = 100
+leftWeaponSpeedMult = 1
+armorPerks = 100
