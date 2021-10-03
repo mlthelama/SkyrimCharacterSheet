@@ -35,7 +35,8 @@ public:
 		string p_ending,
 		boolean p_show,
 		constants::MenuValue p_menu,
-		int32_t p_value_multiplier
+		boolean p_static_text, 
+		int64_t p_value_multiplier
 	);
 
 
@@ -75,9 +76,9 @@ public:
 
 	constants::MenuValue getMenu();
 
-	void setValueMultiplier(int32_t p_value_multiplier);
+	void setValueMultiplier(int64_t p_value_multiplier);
 
-	int32_t getValueMultiplier();
+	int64_t getValueMultiplier();
 
 	StatItem() = delete;
 	StatItem(const StatItem&) = default;
@@ -98,7 +99,7 @@ private:
 	string guiText;
 	boolean staticText = false;
 	constants::MenuValue menu = constants::MenuValue::mNone;
-	int32_t valueMultiplier = 1;
+	int64_t valueMultiplier = 1;
 
 	void buildText();
 

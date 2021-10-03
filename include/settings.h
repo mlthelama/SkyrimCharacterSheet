@@ -129,6 +129,7 @@ struct Settings
 	static inline bSetting bowStaggerBonus{ "showStats"s, "bowStaggerBonus"s, true };
 	static inline bSetting bypassVendorKeywordCheck{ "showStats"s, "bypassVendorKeywordCheck"s, true };
 	static inline bSetting bypassVendorStolenCheck{ "showStats"s, "bypassVendorStolenCheck"s, true };
+	//factions handeled by a general setting
 
 	static inline sSetting nameString { "showStatsName"s, "name"s, constants::undefined };
 	static inline sSetting raceString { "showStatsName"s, "race"s, constants::undefined };
@@ -234,6 +235,14 @@ struct Settings
 	static inline sSetting bowStaggerBonusString{ "showStatsName"s, "bowStaggerBonus"s, constants::undefined };
 	static inline sSetting bypassVendorKeywordCheckString{ "showStatsName"s, "bypassVendorKeywordCheck"s, constants::undefined };
 	static inline sSetting bypassVendorStolenCheckString{ "showStatsName"s, "bypassVendorStolenCheck"s, constants::undefined };
+	static inline sSetting companionsString{ "showStatsName"s, "companions"s, constants::undefined };
+	static inline sSetting darkbrotherHoodString{ "showStatsName"s, "darkbrotherHood"s, constants::undefined };
+	static inline sSetting collegeOfWinterholdString{ "showStatsName"s, "collegeOfWinterhold"s, constants::undefined };
+	static inline sSetting orcFriendString{ "showStatsName"s, "orcFriend"s, constants::undefined };
+	static inline sSetting thiefsGuildString{ "showStatsName"s, "thiefsGuild"s, constants::undefined };
+	static inline sSetting imperialLegionString{ "showStatsName"s, "imperialLegion"s, constants::undefined };
+	static inline sSetting stormcloaksString{ "showStatsName"s, "stormcloaks"s, constants::undefined };
+	static inline sSetting greybeardString{ "showStatsName"s, "greybeard"s, constants::undefined };
 
 	static inline sSetting nameStringEnding{ "showStatsEnding"s, "name"s, constants::undefined };
 	static inline sSetting raceStringEnding{ "showStatsEnding"s, "race"s, constants::undefined };
@@ -339,6 +348,7 @@ struct Settings
 	static inline sSetting bowStaggerBonusStringEnding{ "showStatsEnding"s, "bowStaggerBonus"s, constants::undefined };
 	static inline sSetting bypassVendorKeywordCheckStringEnding{ "showStatsEnding"s, "bypassVendorKeywordCheck"s, constants::undefined };
 	static inline sSetting bypassVendorStolenCheckStringEnding{ "showStatsEnding"s, "bypassVendorStolenCheck"s, constants::undefined };
+	//factions do not need a ending
 
 	static inline iSetting heightMenu{ "showStatsMenu"s, "height"s, 0 };
 	static inline iSetting equipedWeightMenu{ "showStatsMenu"s, "equipedWeight"s, 0 };
@@ -438,10 +448,26 @@ struct Settings
 	static inline iSetting bowStaggerBonusMenu{ "showStatsMenu"s, "bowStaggerBonus"s, 0 };
 	static inline iSetting bypassVendorKeywordCheckMenu{ "showStatsMenu"s, "bypassVendorKeywordCheck"s, 0 };
 	static inline iSetting bypassVendorStolenCheckMenu{ "showStatsMenu"s, "bypassVendorStolenCheck"s, 0 };
+	static inline iSetting companionsMenu{ "showStatsMenu"s, "companions"s, 0 };
+	static inline iSetting darkbrotherHoodMenu{ "showStatsMenu"s, "darkbrotherHood"s, 0 };
+	static inline iSetting collegeOfWinterholdMenu{ "showStatsMenu"s, "collegeOfWinterhold"s, 0 };
+	static inline iSetting orcFriendMenu{ "showStatsMenu"s, "orcFriend"s, 0 };
+	static inline iSetting thiefsGuildMenu{ "showStatsMenu"s, "thiefsGuild"s, 0 };
+	static inline iSetting imperialLegionMenu{ "showStatsMenu"s, "imperialLegion"s, 0 };
+	static inline iSetting stormcloaksMenu{ "showStatsMenu"s, "stormcloaks"s, 0 };
+	static inline iSetting greybeardMenu{ "showStatsMenu"s, "greybeard"s, 0 };
 
+	static inline iSetting weaponSpeedMultMult{ "showStatsMultiplier"s, "weaponSpeedMult"s, 1 };
+	static inline iSetting shoutRecoveryMultMult{ "showStatsMultiplier"s, "shoutRecoveryMult"s, 1 };
+	static inline iSetting movementNoiseMultMult{ "showStatsMultiplier"s, "movementNoiseMult"s, 1 };
+	static inline iSetting combatHealthRegenMultiplyMult{ "showStatsMultiplier"s, "combatHealthRegenMultiply"s, 1 };
+	static inline iSetting leftWeaponSpeedMultMult{ "showStatsMultiplier"s, "leftWeaponSpeedMult"s, 1 };
+	static inline iSetting armorPerksMult{ "showStatsMultiplier"s, "armorPerks"s, 1 };
 
 	static inline iSetting logLevel{"General"s, "logLevel"s, 0};
-	static inline bSetting closeOnEveryButtonPress{ "General"s, "closeOnEveryButtonPress", true };
+	static inline bSetting closeOnEveryButtonPress{ "General"s, "closeOnEveryButtonPress"s, true };
+	static inline bSetting closeOnOtherMenuOpen{ "General"s, "closeOnOtherMenuOpen"s, true };
+	static inline bSetting showFactions{ "General"s, "showFactions"s, true };
 
 	static inline sSetting vampireString{ "showBeastName"s, "vampire"s, constants::undefined };
 	static inline sSetting werewolfString{ "showBeastName"s, "werewolf"s, constants::undefined };

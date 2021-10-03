@@ -81,20 +81,20 @@ vector<StatItem> Filler::getData() {
 		{ StatsValue::absorbChance, ActorValue::kAbsorbChance, *Settings::absorbChanceString, *Settings::absorbChanceStringEnding, *Settings::absorbChance, getMenu(*Settings::absorbChanceMenu) },
 		//we will not set the actor value kWeaponSpeedMult and kLeftWeaponSpeedMultiply here, because some genius thought it is nice that the value 0 and 1 means 100%
 		// https://en.uesp.net/wiki/Skyrim_Mod:Actor_Value_Indices as documented here
-		{ StatsValue::weaponSpeedMult, ActorValue::kNone, *Settings::weaponSpeedMultString, *Settings::weaponSpeedMultStringEnding, *Settings::weaponSpeedMult, getMenu(*Settings::weaponSpeedMultMenu) },
-		{ StatsValue::leftWeaponSpeedMult, ActorValue::kNone, *Settings::leftWeaponSpeedMultString, *Settings::leftWeaponSpeedMultStringEnding, *Settings::leftWeaponSpeedMult, getMenu(*Settings::leftWeaponSpeedMultMenu) },
+		{ StatsValue::weaponSpeedMult, ActorValue::kNone, *Settings::weaponSpeedMultString, *Settings::weaponSpeedMultStringEnding, *Settings::weaponSpeedMult, getMenu(*Settings::weaponSpeedMultMenu), false, getMultiplier(*Settings::weaponSpeedMultMult) },
+		{ StatsValue::leftWeaponSpeedMult, ActorValue::kNone, *Settings::leftWeaponSpeedMultString, *Settings::leftWeaponSpeedMultStringEnding, *Settings::leftWeaponSpeedMult, getMenu(*Settings::leftWeaponSpeedMultMenu), false, getMultiplier(*Settings::leftWeaponSpeedMultMult) },
 		{ StatsValue::rightItemCharge, ActorValue::kRightItemCharge, *Settings::rightItemChargeString, *Settings::rightItemChargeStringEnding, *Settings::rightItemCharge, getMenu(*Settings::rightItemChargeMenu) },
 		{ StatsValue::leftItemCharge, ActorValue::kLeftItemCharge, *Settings::leftItemChargStringe, *Settings::leftItemChargStringeEnding, *Settings::leftItemCharge, getMenu(*Settings::leftItemChargeMenu) },
-		{ StatsValue::armorPerks, ActorValue::kArmorPerks, *Settings::armorPerksString, *Settings::armorPerksStringEnding, *Settings::armorPerks, getMenu(*Settings::armorPerksMenu), 100 },
+		{ StatsValue::armorPerks, ActorValue::kArmorPerks, *Settings::armorPerksString, *Settings::armorPerksStringEnding, *Settings::armorPerks, getMenu(*Settings::armorPerksMenu), false, getMultiplier(*Settings::armorPerksMult) },
 		{ StatsValue::mass, ActorValue::kMass, *Settings::massString, *Settings::massStringEnding, *Settings::mass, getMenu(*Settings::massMenu) },
 		{ StatsValue::bowStaggerBonus, ActorValue::kBowStaggerBonus, *Settings::bowStaggerBonusString, *Settings::bowStaggerBonusStringEnding, *Settings::bowStaggerBonus, getMenu(*Settings::bowStaggerBonusMenu) },
 		{ StatsValue::bypassVendorKeywordCheck, ActorValue::kBypassVendorKeywordCheck, *Settings::bypassVendorKeywordCheckString, *Settings::bypassVendorKeywordCheckStringEnding, *Settings::bypassVendorKeywordCheck, getMenu(*Settings::bypassVendorKeywordCheckMenu) },
 		{ StatsValue::bypassVendorStolenCheck, ActorValue::kBypassVendorStolenCheck, *Settings::bypassVendorStolenCheckString, *Settings::bypassVendorStolenCheckStringEnding, *Settings::bypassVendorStolenCheck, getMenu(*Settings::bypassVendorStolenCheckMenu) },
 		{ StatsValue::bowSpeedBonus, ActorValue::kBowSpeedBonus, *Settings::bowSpeedBonusString, *Settings::bowSpeedBonusStringEnding, *Settings::bowSpeedBonus, getMenu(*Settings::bowSpeedBonusMenu) },
-		{ StatsValue::shoutRecoveryMult, ActorValue::kShoutRecoveryMult, *Settings::shoutRecoveryMultString, *Settings::shoutRecoveryMultStringEnding, *Settings::shoutRecoveryMult, getMenu(*Settings::shoutRecoveryMultMenu), 100 },
-		{ StatsValue::movementNoiseMult, ActorValue::kMovementNoiseMult, *Settings::movementNoiseMultString, *Settings::movementNoiseMultStringEnding, *Settings::movementNoiseMult, getMenu(*Settings::movementNoiseMultMenu), 100 },
+		{ StatsValue::shoutRecoveryMult, ActorValue::kShoutRecoveryMult, *Settings::shoutRecoveryMultString, *Settings::shoutRecoveryMultStringEnding, *Settings::shoutRecoveryMult, getMenu(*Settings::shoutRecoveryMultMenu), false, getMultiplier(*Settings::shoutRecoveryMultMult) },
+		{ StatsValue::movementNoiseMult, ActorValue::kMovementNoiseMult, *Settings::movementNoiseMultString, *Settings::movementNoiseMultStringEnding, *Settings::movementNoiseMult, getMenu(*Settings::movementNoiseMultMenu), false, getMultiplier(*Settings::movementNoiseMultMult) },
 		{ StatsValue::dragonSouls, ActorValue::kDragonSouls, *Settings::dragonSoulsString, *Settings::dragonSoulsStringEnding, *Settings::dragonSouls, getMenu(*Settings::dragonSoulsMenu) },
-		{ StatsValue::combatHealthRegenMultiply, ActorValue::kCombatHealthRegenMultiply, *Settings::combatHealthRegenMultiplyString, *Settings::combatHealthRegenMultiplyStringEnding, *Settings::combatHealthRegenMultiply, getMenu(*Settings::combatHealthRegenMultiplyMenu), 100 },
+		{ StatsValue::combatHealthRegenMultiply, ActorValue::kCombatHealthRegenMultiply, *Settings::combatHealthRegenMultiplyString, *Settings::combatHealthRegenMultiplyStringEnding, *Settings::combatHealthRegenMultiply, getMenu(*Settings::combatHealthRegenMultiplyMenu), false, getMultiplier(*Settings::combatHealthRegenMultiplyMult) },
 		{ StatsValue::attackDamageMult, ActorValue::kAttackDamageMult, *Settings::attackDamageMultString, *Settings::attackDamageMultStringEnding, *Settings::attackDamageMult, getMenu(*Settings::attackDamageMultMenu) },
 		{ StatsValue::beast, ActorValue::kNone, *Settings::beastString, *Settings::beastStringEnding, *Settings::beast },
 		{ StatsValue::xp, ActorValue::kNone, *Settings::xpString, *Settings::xpStringEnding, *Settings::xp, constants::MenuValue::mNone, true },
@@ -119,14 +119,14 @@ vector<StatItem> Filler::getData() {
 		{ StatsValue::restorationMod, ActorValue::kRestorationModifier, *Settings::restorationModString, *Settings::restorationModStringEnding, *Settings::restorationMod, getMenu(*Settings::restorationModMenu) },
 		{ StatsValue::damageArrow, ActorValue::kNone, *Settings::damageArrowString, *Settings::damageArrowStringEnding, *Settings::damageArrow, getMenu(*Settings::damageArrowMenu) },
 		{ StatsValue::damageLeft, ActorValue::kNone, *Settings::damageLeftString, *Settings::damageLeftStringEnding, *Settings::damageLeft, getMenu(*Settings::damageLeftMenu) },
-		{ StatsValue::darkbrotherHood, ActorValue::kNone, "", "", false, constants::MenuValue::mNone, false },
-		{ StatsValue::thiefsGuild, ActorValue::kNone, "", "", false, constants::MenuValue::mNone, false },
-		{ StatsValue::orcFriend, ActorValue::kNone, "", "", false, constants::MenuValue::mNone, false },
-		{ StatsValue::collegeOfWinterhold, ActorValue::kNone, "", "", false, constants::MenuValue::mNone, false },
-		{ StatsValue::companions, ActorValue::kNone, "", "", false, constants::MenuValue::mNone, false },
-		{ StatsValue::imperialLegion, ActorValue::kNone, "", "", false, constants::MenuValue::mNone, false },
-		{ StatsValue::stormcloaks, ActorValue::kNone, "", "", false, constants::MenuValue::mNone, false },
-		{ StatsValue::greybeard, ActorValue::kNone, "", "", false, constants::MenuValue::mNone, false },
+		{ StatsValue::darkbrotherHood, ActorValue::kNone, *Settings::darkbrotherHoodString, "", *Settings::showFactions, getMenu(*Settings::darkbrotherHoodMenu), true },
+		{ StatsValue::thiefsGuild, ActorValue::kNone, *Settings::thiefsGuildString, "", *Settings::showFactions, getMenu(*Settings::thiefsGuildMenu), true },
+		{ StatsValue::orcFriend, ActorValue::kNone, *Settings::orcFriendString, "", *Settings::showFactions, getMenu(*Settings::orcFriendMenu), true },
+		{ StatsValue::collegeOfWinterhold, ActorValue::kNone, *Settings::collegeOfWinterholdString, "", *Settings::showFactions, getMenu(*Settings::collegeOfWinterholdMenu), true },
+		{ StatsValue::companions, ActorValue::kNone, *Settings::companionsString, "", *Settings::showFactions, getMenu(*Settings::companionsMenu), true },
+		{ StatsValue::imperialLegion, ActorValue::kNone, *Settings::imperialLegionString, "", *Settings::showFactions, getMenu(*Settings::imperialLegionMenu), true },
+		{ StatsValue::stormcloaks, ActorValue::kNone, *Settings::stormcloaksString, "", *Settings::showFactions, getMenu(*Settings::stormcloaksMenu), true },
+		{ StatsValue::greybeard, ActorValue::kNone, *Settings::greybeardString, "", *Settings::showFactions, getMenu(*Settings::greybeardMenu), true },
 	};
 	logger::debug("Vector Size is {}"sv, Filler::statList.size());
 	return Filler::statList;
@@ -156,5 +156,14 @@ constants::MenuValue Filler::getMenu(int64_t p_menu_id) {
 		return constants::MenuValue::mNone;
 	} else {
 		return constants::configMenu.find(p_menu_id)->second;
+	}
+}
+
+int64_t Filler::getMultiplier(int64_t p_mp) {
+	if (p_mp < 0) {
+		logger::warn("multiplier value {} not supported, using 1"sv, p_mp);
+		return 1;
+	} else {
+		return p_mp;
 	}
 }

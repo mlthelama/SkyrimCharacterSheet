@@ -71,7 +71,8 @@ StatItem::StatItem(constants::StatsValue p_name,
 	string p_ending,
 	boolean p_show,
 	constants::MenuValue p_menu,
-	int32_t p_value_multiplier
+	boolean p_static_text, 
+	int64_t p_value_multiplier
 ) {
 	this->setName(p_name);
 	this->setActor(p_actor);
@@ -79,9 +80,8 @@ StatItem::StatItem(constants::StatsValue p_name,
 	this->setEnding(p_ending);
 	this->setShow(p_show);
 	this->setMenu(p_menu);
+	this->setStaticText(p_static_text);
 	this->setValueMultiplier(p_value_multiplier);
-
-	this->setStaticText(false);
 
 	this->value.clear();
 	this->guiText.clear();
@@ -129,9 +129,9 @@ void StatItem::setMenu(constants::MenuValue p_menu) { menu = p_menu; }
 
 constants::MenuValue StatItem::getMenu() { return menu; }
 
-void StatItem::setValueMultiplier(int32_t p_value_multiplier) { valueMultiplier = p_value_multiplier; }
+void StatItem::setValueMultiplier(int64_t p_value_multiplier) { valueMultiplier = p_value_multiplier; }
 
-int32_t StatItem::getValueMultiplier() { return valueMultiplier; }
+int64_t StatItem::getValueMultiplier() { return valueMultiplier; }
 
 void StatItem::buildText() {
 	if (!value.empty() && !displayName.empty() && !show) {

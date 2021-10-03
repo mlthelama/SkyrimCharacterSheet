@@ -225,14 +225,16 @@ namespace Events
 		return EventResult::kContinue;
 	}
 
-	MenuHandler::MenuHandler(){}
+	MenuHandler::MenuHandler() {}
 
 	void SinkEventHandlers() {
 
 		KeyManager::Sink();
 		logger::info("Added Input Event"sv);
 
-		MenuHandler::Sink();
-		logger::info("Registered Menu Event"sv);
+		if (*Settings::closeOnOtherMenuOpen) {
+			MenuHandler::Sink();
+			logger::info("Registered Menu Event"sv);
+		}
 	}
 }
