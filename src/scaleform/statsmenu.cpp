@@ -1,7 +1,7 @@
 #pragma once
 
 #include "scaleform/statsmenu.h"
-#include "player.h"
+#include "data/player.h"
 
 namespace Scaleform
 {
@@ -169,12 +169,12 @@ namespace Scaleform
 	}
 
 	void StatsMenu::UpdateHeaders() {
-		updateText(_valuesHeader, constants::headerValuesName);
-		updateText(_attackHeader, constants::headerAttackName);
-		updateText(_perksMagicHeader, constants::headerPerksMagicName);
-		updateText(_defenceHeader, constants::headerDefenceName);
-		updateText(_perksWarriorHeader, constants::headerPerksWarriorName);
-		updateText(_perksThiefHeader, constants::headerPerksThiefName);
+		updateText(_valuesHeader, headerValuesName);
+		updateText(_attackHeader, headerAttackName);
+		updateText(_perksMagicHeader, headerPerksMagicName);
+		updateText(_defenceHeader, headerDefenceName);
+		updateText(_perksWarriorHeader, headerPerksWarriorName);
+		updateText(_perksThiefHeader, headerPerksThiefName);
 	}
 	
 	RE::GFxValue StatsMenu::buildGFxValue(string p_val) {
@@ -232,132 +232,136 @@ namespace Scaleform
 
 			logger::trace("processing name {}, displayName {}, menu {}"sv, element.getName(), element.getGuiText(), element.getMenu());
 			switch (element.getName()) {
-			case Stats::name:
+			case StatsValue::name:
 				updateText(_name, element.getGuiText());
 				break;
-			case Stats::level:
+			case StatsValue::level:
 				updateText(_level, element.getGuiText());
 				break;
-			case Stats::race:
+			case StatsValue::race:
 				updateText(_race, element.getGuiText());
 				break;
-			case Stats::perkCount:
+			case StatsValue::perkCount:
 				updateText(_perks, element.getGuiText());
 				break;
-			case Stats::beast:
+			case StatsValue::beast:
 				updateText(_beast, element.getGuiText());
 				break;
-			case Stats::xp:
+			case StatsValue::xp:
 				updateText(_xp, element.getGuiText());
 				break;
-			case Stats::height:
-			case Stats::carryWeight:
-			case Stats::equipedWeight:
-			case Stats::inventoryWeight:
-			case Stats::weight:
-			case Stats::skillTrainingsThisLevel:
-			case Stats::dragonSouls:
-			case Stats::shoutRecoveryMult:
-			case Stats::movementNoiseMult:
-			case Stats::speedMult:
-			case Stats::darkbrotherHood:
-			case Stats::thiefsGuild:
-			case Stats::orcFriend:
-			case Stats::collegeOfWinterhold:
-			case Stats::companions:
-			case Stats::imperialLegion:
-			case Stats::stormcloaks:
-			case Stats::greybeard:
-			case Stats::mass:
-			case Stats::bypassVendorKeywordCheck:
-			case Stats::bypassVendorStolenCheck:
-			case Stats::absorbChance:
-			case Stats::armor:
-			case Stats::combatHealthRegenMultiply:
-			case Stats::resistDamage:
-			case Stats::resistDisease:
-			case Stats::resistFire:
-			case Stats::resistFrost:
-			case Stats::resistMagic:
-			case Stats::resistPoison:
-			case Stats::resistShock:
-			case Stats::health:
-			case Stats::healthRatePer:
-			case Stats::magicka:
-			case Stats::magickaRatePer:
-			case Stats::stamina:
-			case Stats::staminaRatePer:
-			case Stats::reflectDamage:
-			case Stats::armorPerks:
-			case Stats::unarmedDamage:
-			case Stats::weaponSpeedMult:
-			case Stats::meleeDamage:
-			case Stats::damage:
-			case Stats::criticalChance:
-			case Stats::bowSpeedBonus:
-			case Stats::attackDamageMult:
-			case Stats::damageArrow:
-			case Stats::damageRight:
-			case Stats::damageLeft:
-			case Stats::leftWeaponSpeedMult:
-			case Stats::rightItemCharge:
-			case Stats::leftItemCharge:
-			case Stats::bowStaggerBonus:
-			case Stats::alteration:
-			case Stats::conjuration:
-			case Stats::enchanting:
-			case Stats::illusion:
-			case Stats::restoration:
-			case Stats::destruction:
-			case Stats::alterationPowerMod:
-			case Stats::conjurationPowerMod:
-			case Stats::enchantingPowerMod:
-			case Stats::illusionPowerMod:
-			case Stats::restorationPowerMod:
-			case Stats::destructionPowerMod:
-			case Stats::alterationMod:
-			case Stats::conjurationMod:
-			case Stats::enchantingMod:
-			case Stats::illusionMod:
-			case Stats::restorationMod:
-			case Stats::destructionMod:
-			case Stats::smithing:
-			case Stats::twoHanded:
-			case Stats::oneHanded:
-			case Stats::lightArmor:
-			case Stats::heavyArmor:
-			case Stats::block:
-			case Stats::smithingPowerMod:
-			case Stats::twoHandedPowerMod:
-			case Stats::oneHandedPowerMod:
-			case Stats::lightArmorPowerMod:
-			case Stats::heavyArmorPowerMod:
-			case Stats::blockPowerMod:
-			case Stats::smithingMod:
-			case Stats::twoHandedMod:
-			case Stats::oneHandedMod:
-			case Stats::lightArmorMod:
-			case Stats::heavyArmorMod:
-			case Stats::blockMod:
-			case Stats::sneak:
-			case Stats::speech:
-			case Stats::pickpocket:
-			case Stats::lockpicking:
-			case Stats::archery:
-			case Stats::alchemy:
-			case Stats::sneakPowerMod:
-			case Stats::speechPowerMod:
-			case Stats::pickpocketPowerMod:
-			case Stats::lockpickingPowerMod:
-			case Stats::archeryPowerMod:
-			case Stats::alchemyPowerMod:
-			case Stats::sneakingMod:
-			case Stats::speechcraftMod:
-			case Stats::pickpocketMod:
-			case Stats::lockpickingMod:
-			case Stats::marksmanMod:
-			case Stats::alchemyMod:
-				if (element.getMenu() != constants::MenuValue::mNone) {
+			case StatsValue::height:
+			case StatsValue::carryWeight:
+			case StatsValue::equipedWeight:
+			case StatsValue::inventoryWeight:
+			case StatsValue::weight:
+			case StatsValue::skillTrainingsThisLevel:
+			case StatsValue::dragonSouls:
+			case StatsValue::shoutRecoveryMult:
+			case StatsValue::movementNoiseMult:
+			case StatsValue::speedMult:
+			case StatsValue::darkbrotherHood:
+			case StatsValue::thiefsGuild:
+			case StatsValue::orcFriend:
+			case StatsValue::collegeOfWinterhold:
+			case StatsValue::companions:
+			case StatsValue::imperialLegion:
+			case StatsValue::stormcloaks:
+			case StatsValue::greybeard:
+			case StatsValue::bard:
+			case StatsValue::volkiharVampireClan:
+			case StatsValue::dawnguard:
+			case StatsValue::houseTelvanni:
+			case StatsValue::mass:
+			case StatsValue::bypassVendorKeywordCheck:
+			case StatsValue::bypassVendorStolenCheck:
+			case StatsValue::absorbChance:
+			case StatsValue::armor:
+			case StatsValue::combatHealthRegenMultiply:
+			case StatsValue::resistDamage:
+			case StatsValue::resistDisease:
+			case StatsValue::resistFire:
+			case StatsValue::resistFrost:
+			case StatsValue::resistMagic:
+			case StatsValue::resistPoison:
+			case StatsValue::resistShock:
+			case StatsValue::health:
+			case StatsValue::healthRatePer:
+			case StatsValue::magicka:
+			case StatsValue::magickaRatePer:
+			case StatsValue::stamina:
+			case StatsValue::staminaRatePer:
+			case StatsValue::reflectDamage:
+			case StatsValue::armorPerks:
+			case StatsValue::unarmedDamage:
+			case StatsValue::weaponSpeedMult:
+			case StatsValue::meleeDamage:
+			case StatsValue::damage:
+			case StatsValue::criticalChance:
+			case StatsValue::bowSpeedBonus:
+			case StatsValue::attackDamageMult:
+			case StatsValue::damageArrow:
+			case StatsValue::damageRight:
+			case StatsValue::damageLeft:
+			case StatsValue::leftWeaponSpeedMult:
+			case StatsValue::rightItemCharge:
+			case StatsValue::leftItemCharge:
+			case StatsValue::bowStaggerBonus:
+			case StatsValue::alteration:
+			case StatsValue::conjuration:
+			case StatsValue::enchanting:
+			case StatsValue::illusion:
+			case StatsValue::restoration:
+			case StatsValue::destruction:
+			case StatsValue::alterationPowerMod:
+			case StatsValue::conjurationPowerMod:
+			case StatsValue::enchantingPowerMod:
+			case StatsValue::illusionPowerMod:
+			case StatsValue::restorationPowerMod:
+			case StatsValue::destructionPowerMod:
+			case StatsValue::alterationMod:
+			case StatsValue::conjurationMod:
+			case StatsValue::enchantingMod:
+			case StatsValue::illusionMod:
+			case StatsValue::restorationMod:
+			case StatsValue::destructionMod:
+			case StatsValue::smithing:
+			case StatsValue::twoHanded:
+			case StatsValue::oneHanded:
+			case StatsValue::lightArmor:
+			case StatsValue::heavyArmor:
+			case StatsValue::block:
+			case StatsValue::smithingPowerMod:
+			case StatsValue::twoHandedPowerMod:
+			case StatsValue::oneHandedPowerMod:
+			case StatsValue::lightArmorPowerMod:
+			case StatsValue::heavyArmorPowerMod:
+			case StatsValue::blockPowerMod:
+			case StatsValue::smithingMod:
+			case StatsValue::twoHandedMod:
+			case StatsValue::oneHandedMod:
+			case StatsValue::lightArmorMod:
+			case StatsValue::heavyArmorMod:
+			case StatsValue::blockMod:
+			case StatsValue::sneak:
+			case StatsValue::speech:
+			case StatsValue::pickpocket:
+			case StatsValue::lockpicking:
+			case StatsValue::archery:
+			case StatsValue::alchemy:
+			case StatsValue::sneakPowerMod:
+			case StatsValue::speechPowerMod:
+			case StatsValue::pickpocketPowerMod:
+			case StatsValue::lockpickingPowerMod:
+			case StatsValue::archeryPowerMod:
+			case StatsValue::alchemyPowerMod:
+			case StatsValue::sneakingMod:
+			case StatsValue::speechcraftMod:
+			case StatsValue::pickpocketMod:
+			case StatsValue::lockpickingMod:
+			case StatsValue::marksmanMod:
+			case StatsValue::alchemyMod:
+				if (element.getMenu() != MenuValue::mNone) {
 					menuMap.find(element.getMenu())->second.PushBack(buildGFxValue(element.getGuiText()));
 					logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, element.getMenu(), element.getName(), element.getGuiText());
 				}

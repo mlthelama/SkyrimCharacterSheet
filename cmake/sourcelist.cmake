@@ -1,10 +1,11 @@
 set(sources ${sources}
 	src/PCH.cpp
+	src/data/faction.cpp
+	src/data/player.cpp
 	src/events.cpp
 	src/hooks.cpp
 	src/main.cpp
 	src/papyrus.cpp
-	src/player.cpp
 	src/scaleform/scaleform.cpp
 	src/scaleform/statsmenu.cpp
 	src/serialhelper.cpp

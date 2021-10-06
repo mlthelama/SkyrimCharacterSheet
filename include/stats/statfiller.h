@@ -20,9 +20,4 @@ public:
 
 	Filler& operator=(const Filler&) = delete;
 	Filler& operator=(Filler&&) = delete;
-
-private:
-	constants::MenuValue getMenu(int64_t p_menu_id);
-
-	int64_t getMultiplier(int64_t p_mp);
 };

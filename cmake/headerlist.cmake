@@ -13,15 +13,17 @@ set(headers ${headers}
 	include/CLIK/TextField.h
 	include/PCH.h
 	include/constants.h
+	include/data/faction.h
+	include/data/player.h
 	include/events.h
 	include/hooks.h
 	include/papyrus.h
-	include/player.h
 	include/scaleform/scaleform.h
 	include/scaleform/statsmenu.h
 	include/serialhelper.h
-	include/settings.h
+	include/settings/settings.h
 	include/showhandler.h
 	include/stats/statfiller.h
 	include/stats/statholder.h
+	include/utils.h
 )

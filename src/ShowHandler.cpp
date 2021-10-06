@@ -1,5 +1,4 @@
 #include "showhandler.h"
-#include "player.h"
 #include "scaleform/statsmenu.h"
 
 ShowHandler* ShowHandler::GetSingleton() {
@@ -11,7 +10,7 @@ void ShowHandler::ShowWindow() {
 	logger::trace("Gather Value and Show Window");
 	Locker locker(_lock);
 
-	if (*Settings::logLevel == constants::logTrace) {
+	if (*Settings::logLevel == logTrace) {
 		RE::DebugNotification("Showing menu and information now.");
 	}
 	Scaleform::StatsMenu::Open();

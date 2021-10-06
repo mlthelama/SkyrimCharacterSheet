@@ -41,8 +41,6 @@ namespace Scaleform
 	private:
 		StatsMenu();
 
-		using Stats = constants::StatsValue;
-
 		RE::GPtr<RE::GFxMovieView> _view;
 		bool _isActive = false;
 
@@ -81,13 +79,13 @@ namespace Scaleform
 		CLIK::GFx::Controls::ScrollingList _perksThiefItemList;
 		RE::GFxValue _perksThiefItemListProvider;
 
-		map<constants::MenuValue, RE::GFxValue&> menuMap = {
-			{ constants::MenuValue::mPlayer, _playerItemListProvider },
-			{ constants::MenuValue::mDefence, _defenceItemListProvider },
-			{ constants::MenuValue::mAttack, _attackItemListProvider },
-			{ constants::MenuValue::mMagic, _perksMagicItemListProvider },
-			{ constants::MenuValue::mWarrior, _perksWarriorItemListProvider },
-			{ constants::MenuValue::mThief, _perksThiefItemListProvider },
+		map<MenuValue, RE::GFxValue&> menuMap = {
+			{ MenuValue::mPlayer, _playerItemListProvider },
+			{ MenuValue::mDefence, _defenceItemListProvider },
+			{ MenuValue::mAttack, _attackItemListProvider },
+			{ MenuValue::mMagic, _perksMagicItemListProvider },
+			{ MenuValue::mWarrior, _perksWarriorItemListProvider },
+			{ MenuValue::mThief, _perksThiefItemListProvider },
 		};
 
 		void OnOpen();

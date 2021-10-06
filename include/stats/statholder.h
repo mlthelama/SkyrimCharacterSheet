@@ -1,48 +1,47 @@
 #pragma once
 #include "constants.h"
-#include "settings.h"
 
 class StatItem
 {
 public:
-	StatItem(constants::StatsValue p_name,
+	StatItem(StatsValue p_name,
 		RE::ActorValue p_actor,
 		string p_display_name,
 		string p_ending,
 		boolean p_show
 	);
 
-	StatItem(constants::StatsValue p_name,
+	StatItem(StatsValue p_name,
 		RE::ActorValue p_actor,
 		string p_display_name,
 		string p_ending,
 		boolean p_show,
-		constants::MenuValue p_menu
+		MenuValue p_menu
 	);
 
-	StatItem(constants::StatsValue p_name,
+	StatItem(StatsValue p_name,
 		RE::ActorValue p_actor,
 		string p_display_name,
 		string p_ending,
 		boolean p_show,
-		constants::MenuValue p_menu,
+		MenuValue p_menu,
 		boolean p_static_text
 	);
 
-	StatItem(constants::StatsValue p_name,
+	StatItem(StatsValue p_name,
 		RE::ActorValue p_actor,
 		string p_display_name,
 		string p_ending,
 		boolean p_show,
-		constants::MenuValue p_menu,
+		MenuValue p_menu,
 		boolean p_static_text, 
 		int64_t p_value_multiplier
 	);
 
 
-	void setName(constants::StatsValue p_name);
+	void setName(StatsValue p_name);
 
-	constants::StatsValue getName();
+	StatsValue getName();
 
 	void setActor(RE::ActorValue p_actor);
 
@@ -72,9 +71,9 @@ public:
 
 	boolean getStaticText();
 
-	void setMenu(constants::MenuValue p_menu);
+	void setMenu(MenuValue p_menu);
 
-	constants::MenuValue getMenu();
+	MenuValue getMenu();
 
 	void setValueMultiplier(int64_t p_value_multiplier);
 
@@ -90,7 +89,7 @@ public:
 	StatItem& operator=(StatItem&&) = delete;
 
 private:
-	constants::StatsValue name;
+	StatsValue name;
 	RE::ActorValue actor;
 	string value;
 	string displayName;
@@ -98,7 +97,7 @@ private:
 	boolean show;
 	string guiText;
 	boolean staticText = false;
-	constants::MenuValue menu = constants::MenuValue::mNone;
+	MenuValue menu = MenuValue::mNone;
 	int64_t valueMultiplier = 1;
 
 	void buildText();

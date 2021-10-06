@@ -1,9 +1,9 @@
 #pragma once
 #include "stats/statfiller.h"
 
-using StatsValue = constants::StatsValue;
+using StatsValue = StatsValue;
 using ActorValue = RE::ActorValue;
-using Menu = constants::MenuValue;
+using Menu = MenuValue;
 
 Filler* Filler::GetSingleton() {
 	static Filler singleton;
@@ -97,7 +97,7 @@ vector<StatItem> Filler::getData() {
 		{ StatsValue::combatHealthRegenMultiply, ActorValue::kCombatHealthRegenMultiply, *Settings::combatHealthRegenMultiplyString, *Settings::combatHealthRegenMultiplyStringEnding, *Settings::combatHealthRegenMultiply, getMenu(*Settings::combatHealthRegenMultiplyMenu), false, getMultiplier(*Settings::combatHealthRegenMultiplyMult) },
 		{ StatsValue::attackDamageMult, ActorValue::kAttackDamageMult, *Settings::attackDamageMultString, *Settings::attackDamageMultStringEnding, *Settings::attackDamageMult, getMenu(*Settings::attackDamageMultMenu) },
 		{ StatsValue::beast, ActorValue::kNone, *Settings::beastString, *Settings::beastStringEnding, *Settings::beast },
-		{ StatsValue::xp, ActorValue::kNone, *Settings::xpString, *Settings::xpStringEnding, *Settings::xp, constants::MenuValue::mNone, true },
+		{ StatsValue::xp, ActorValue::kNone, *Settings::xpString, *Settings::xpStringEnding, *Settings::xp, MenuValue::mNone, true },
 		{ StatsValue::reflectDamage, ActorValue::kReflectDamage, *Settings::reflectDamageString, *Settings::reflectDamageStringEnding, *Settings::reflectDamage, getMenu(*Settings::reflectDamageMenu) },
 		{ StatsValue::oneHandedMod, ActorValue::kOneHandedModifier, *Settings::oneHandedModString, *Settings::oneHandedModStringEnding, *Settings::oneHandedMod, getMenu(*Settings::oneHandedModMenu) },
 		{ StatsValue::twoHandedMod, ActorValue::kTwoHandedModifier, *Settings::twoHandedModString, *Settings::twoHandedModStringEnding, *Settings::twoHandedMod, getMenu(*Settings::twoHandedModMenu) },
@@ -127,13 +127,18 @@ vector<StatItem> Filler::getData() {
 		{ StatsValue::imperialLegion, ActorValue::kNone, *Settings::imperialLegionString, "", *Settings::showFactions, getMenu(*Settings::imperialLegionMenu), true },
 		{ StatsValue::stormcloaks, ActorValue::kNone, *Settings::stormcloaksString, "", *Settings::showFactions, getMenu(*Settings::stormcloaksMenu), true },
 		{ StatsValue::greybeard, ActorValue::kNone, *Settings::greybeardString, "", *Settings::showFactions, getMenu(*Settings::greybeardMenu), true },
+		{ StatsValue::bard, ActorValue::kNone, *Settings::bardString, "", *Settings::showFactions, getMenu(*Settings::bardMenu), true },
+		{ StatsValue::volkiharVampireClan, ActorValue::kNone, *Settings::volkiharVampireClanString, "", *Settings::showFactions, getMenu(*Settings::volkiharVampireClanMenu), true },
+		{ StatsValue::dawnguard, ActorValue::kNone, *Settings::dawnguardString, "", *Settings::showFactions, getMenu(*Settings::dawnguardMenu), true },
+		{ StatsValue::houseTelvanni, ActorValue::kNone, *Settings::houseTelvanniString, "", *Settings::showFactions, getMenu(*Settings::houseTelvanniMenu), true },
 	};
+
 	logger::debug("Vector Size is {}"sv, Filler::statList.size());
 	return Filler::statList;
 }
 
 void Filler::PrintStatsVector(vector<StatItem>& p_vec) {
-	logger::debug("Vector Size is {}"sv, p_vec.size());
+	logger::trace("Vector Size is {}"sv, p_vec.size());
 	for (auto& element : p_vec) {
 		logger::trace("name {}, actor {}, value {}, displayname ({}), ending {}, show {}, guiText ({}), ST {}, menu {}"sv,
 			element.getName(),
@@ -146,24 +151,5 @@ void Filler::PrintStatsVector(vector<StatItem>& p_vec) {
 			element.getStaticText(),
 			element.getMenu()
 		);
-	}
-}
-
-constants::MenuValue Filler::getMenu(int64_t p_menu_id) {
-	//in case the config value does not match 
-	if (constants::configMenu.find(p_menu_id) == constants::configMenu.end()) {
-		logger::warn("can not find Menu {}"sv, p_menu_id);
-		return constants::MenuValue::mNone;
-	} else {
-		return constants::configMenu.find(p_menu_id)->second;
-	}
-}
-
-int64_t Filler::getMultiplier(int64_t p_mp) {
-	if (p_mp < 0) {
-		logger::warn("multiplier value {} not supported, using 1"sv, p_mp);
-		return 1;
-	} else {
-		return p_mp;
 	}
 }

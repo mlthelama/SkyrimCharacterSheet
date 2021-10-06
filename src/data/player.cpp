@@ -1,18 +1,11 @@
-#include "player.h"
+#include "data/player.h"
 #include "stats/statfiller.h"
+#include "data/faction.h"
 
 Player* Player::GetSingleton()
 {
 	static Player singleton;
 	return addressof(singleton);
-}
-
-string Player::getStringValueFromFloat(float x) {
-	return to_string(round(x * 100.0) / 100.0);
-}
-
-float Player::calculateValue(float p_rm, float p_r) {
-	return (p_rm * p_r) / 100;
 }
 
 string Player::getBeast(float p_vamp, float p_were) {
@@ -23,49 +16,6 @@ string Player::getBeast(float p_vamp, float p_were) {
 		return *Settings::werewolfString;
 	}
 	return "";
-}
-
-void Player::getFaction(RE::Actor* a_actor) {
-	auto sex = a_actor->GetActorBase()->GetSex();
-
-	a_actor->VisitFactions([&](RE::TESFaction* a_faction, int8_t a_rank) {
-		if (a_faction && a_rank > -1) {
-			const auto name(a_faction->GetName());
-			const auto formID(a_faction->GetFormID());
-			auto rankData(a_faction->rankData);
-
-			if (constants::factionMap.find(formID) == constants::factionMap.end()) {
-				logger::trace("name {}, formId {}, rank {} not handeled"sv, name, formID, a_rank);
-			} else {
-				logger::trace("name {}, formId {}, rank {}"sv, name, formID, a_rank);
-				string rank;
-
-				for (auto it = rankData.begin(); it != rankData.end(); ++it) {
-					auto index = distance(rankData.begin(), it);
-					auto i = *it;
-					if (index == a_rank) {
-
-						if (sex == RE::SEXES::SEX::kFemale) {
-							rank = i->femaleRankTitle;
-						}
-						if ((rank.empty() || rank.size() == 0) || sex == RE::SEXES::SEX::kMale) {
-							rank = i->maleRankTitle;
-						}
-						logger::trace("Name {}, Rankname {}"sv, name, rank);
-					}
-				}
-				/*if rank is empty here then we need to fill it by ourselfs*/
-				if (rank.empty()) {
-					rank = "Member";
-				}
-	
-				factionRankMap.insert(pair<constants::StatsValue, string>(constants::factionMap.find(formID)->second, rank));
-			}
-		}
-		return false;
-	});
-
-	logger::trace("got {} items in faction list."sv, factionRankMap.size());
 }
 
 string Player::getArrowDamage(RE::PlayerCharacter* &p_player) {
@@ -101,14 +51,10 @@ const vector<StatItem> Player::getPlayerValues() {
 	logger::trace("Gather Values to Show ..."sv);
 	auto player = RE::PlayerCharacter::GetSingleton();
 	auto filler = Filler::GetSingleton();
+	auto faction = Faction::GetSingleton();
 
 	if (*Settings::showFactions) {
-		factionRankMap.clear();
-		getFaction(player);
-
-		for (const auto& item : factionRankMap) {
-			logger::trace("faction {}, rank {}"sv, item.first, item.second);
-		}
+		faction->getFactions(player);
 	}
 
 	auto statList = filler->getData();
@@ -122,84 +68,88 @@ const vector<StatItem> Player::getPlayerValues() {
 			element.setValue(getStringValueFromFloat(player->GetActorValue(element.getActor()) * element.getValueMultiplier() ));
 		} else {
 			switch (element.getName()) {
-			case Stats::name:
+			case StatsValue::name:
 				element.setValue(player->GetName());
 				break;
-			case Stats::race:
+			case StatsValue::race:
 				element.setValue(player->GetRace()->GetFullName());
 				break;
-			case Stats::level:
+			case StatsValue::level:
 				element.setValue(to_string(player->GetLevel()));
 				break;
-			case Stats::perkCount:
+			case StatsValue::perkCount:
 				element.setValue(to_string(player->perkCount));
 				break;
-			case Stats::height:
+			case StatsValue::height:
 				element.setValue(getStringValueFromFloat(player->GetHeight()));
 				break;
-			case Stats::equipedWeight:
+			case StatsValue::equipedWeight:
 				element.setValue(getStringValueFromFloat(player->GetWeight()));
 				break;
-			case Stats::armor:
+			case StatsValue::armor:
 				element.setValue(getStringValueFromFloat(player->armorRating));
 				break;
-			case Stats::skillTrainingsThisLevel:
+			case StatsValue::skillTrainingsThisLevel:
 				element.setValue(to_string(player->skillTrainingsThisLevel));
 				break;
-			case Stats::damageArrow:
+			case StatsValue::damageArrow:
 				element.setValue(getArrowDamage(player));
 				break;
-			case Stats::damage:
+			case StatsValue::damage:
 				element.setValue(getDamage(player, false));
 				break;
-			case Stats::damageLeft:
+			case StatsValue::damageLeft:
 				element.setValue(getDamage(player, true));
 				break;
-			case Stats::beast:
+			case StatsValue::beast:
 				element.setValue(getBeast(
 					player->GetActorValue(RE::ActorValue::kVampirePerks),
 					player->GetActorValue(RE::ActorValue::kWerewolfPerks)
 				));
 				break;
-			case Stats::healthRatePer:
+			case StatsValue::healthRatePer:
 				element.setValue(getStringValueFromFloat(calculateValue(
 					player->GetActorValue(RE::ActorValue::kHealRateMult),
 					player->GetActorValue(RE::ActorValue::kHealRate))
 				));
 				break;
-			case Stats::magickaRatePer:
+			case StatsValue::magickaRatePer:
 				element.setValue(getStringValueFromFloat(calculateValue(
 					player->GetActorValue(RE::ActorValue::kMagickaRateMult),
 					player->GetActorValue(RE::ActorValue::kMagickaRate))
 				));
 				break;
-			case Stats::staminaRatePer:
+			case StatsValue::staminaRatePer:
 				element.setValue(getStringValueFromFloat(calculateValue(
 					player->GetActorValue(RE::ActorValue::kStaminaRateMult),
 					player->GetActorValue(RE::ActorValue::KStaminaRate))
 				));
 				break;
-			case Stats::xp:
+			case StatsValue::xp:
 				element.setValue(getXP(player));
 				break;
-			case Stats::weight:
+			case StatsValue::weight:
 				element.setValue(getStringValueFromFloat(player->GetWeight()));
 				break;
-			case Stats::weaponSpeedMult:
+			case StatsValue::weaponSpeedMult:
 				element.setValue(handleWeaponSpeed(player, false));
 				break;
-			case Stats::leftWeaponSpeedMult:
+			case StatsValue::leftWeaponSpeedMult:
 				element.setValue(handleWeaponSpeed(player, true));
 				break;
-			case Stats::companions:
-			case Stats::darkbrotherHood:
-			case Stats::collegeOfWinterhold:
-			case Stats::orcFriend:
-			case Stats::thiefsGuild:
-			case Stats::imperialLegion:
-			case Stats::stormcloaks:
-			case Stats::greybeard:
-				element.setValue(getRank(element.getName()));
+			case StatsValue::companions:
+			case StatsValue::darkbrotherHood:
+			case StatsValue::collegeOfWinterhold:
+			case StatsValue::orcFriend:
+			case StatsValue::thiefsGuild:
+			case StatsValue::imperialLegion:
+			case StatsValue::stormcloaks:
+			case StatsValue::greybeard:
+			case StatsValue::bard:
+			case StatsValue::volkiharVampireClan:
+			case StatsValue::dawnguard:
+			case StatsValue::houseTelvanni:
+				element.setValue(faction->getRank(element.getName()));
 				break;
 			default:
 				logger::warn("unhandeled stat, name {}, displayName {}"sv, element.getName(), element.getDisplayName());
@@ -231,15 +181,7 @@ string Player::handleWeaponSpeed(RE::PlayerCharacter* &p_player, boolean p_left)
 }
 
 string Player::getXP(RE::PlayerCharacter* &p_player) {
-	return constants::cutString(getStringValueFromFloat(p_player->skills->data->xp)) 
+	return cutString(getStringValueFromFloat(p_player->skills->data->xp)) 
 		+ "/" 
-		+ constants::cutString(getStringValueFromFloat(p_player->skills->data->levelThreshold));
-}
-
-string Player::getRank(constants::StatsValue p_stat) {
-	if (factionRankMap.find(p_stat) == factionRankMap.end()) {
-		return "";
-	} else {
-		return factionRankMap.find(p_stat)->second;
-	}
+		+ cutString(getStringValueFromFloat(p_player->skills->data->levelThreshold));
 }

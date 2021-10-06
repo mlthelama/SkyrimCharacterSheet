@@ -82,15 +82,15 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 
 
 	switch (*Settings::logLevel) {
-	case constants::logTrace:
+	case logTrace:
 		spdlog::set_level(spdlog::level::trace);
 		spdlog::flush_on(spdlog::level::trace);
 		break;
-	case constants::logDebug:
+	case logDebug:
 		spdlog::set_level(spdlog::level::debug);
 		spdlog::flush_on(spdlog::level::debug);
 		break;
-	case constants::logInfo:
+	case logInfo:
 		spdlog::set_level(spdlog::level::info);
 		spdlog::flush_on(spdlog::level::info);
 		break;

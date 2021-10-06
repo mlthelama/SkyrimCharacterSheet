@@ -2,7 +2,7 @@
 logLevel = 2 # 0 trace; 1 debug; 2 info
 closeOnEveryButtonPress = false # otherwise menu just closes at ESC and binded key
 closeOnOtherMenuOpen = true
-showFactions = false #WIP
+showFactions = false #WIP Should still work
 
 [showBeastName]
 vampire = "Vampire"
@@ -219,14 +219,6 @@ mass = "Mass"
 bowStaggerBonus = "Bow Stagger Bonus"
 bypassVendorKeywordCheck = "Vendor any Item"
 bypassVendorStolenCheck = "Vendor stolen Item"
-companions = "Companions"
-darkbrotherHood = "The Dark Brotherhood"
-collegeOfWinterhold = "College of Winterhold"
-orcFriend = "Blood-Kin of the Orcs"
-thiefsGuild = "Thieves' Guild"
-imperialLegion = "Imperial Legion"
-stormcloaks = "Stormcloaks" #sons of skyrim
-greybeard = "The Greybeards"
 
 [showStatsEnding]
 name = ""
@@ -433,14 +425,6 @@ mass = 1
 bowStaggerBonus = 3
 bypassVendorKeywordCheck = 1
 bypassVendorStolenCheck = 1
-companions = 1
-darkbrotherHood = 1
-collegeOfWinterhold = 1
-orcFriend = 1
-thiefsGuild = 1
-imperialLegion = 1
-stormcloaks = 1
-greybeard = 1
 
 [showStatsMultiplier]
 weaponSpeedMult = 1 #0 will not work, cause math you know
@@ -449,3 +433,50 @@ movementNoiseMult = 100
 combatHealthRegenMultiply = 100
 leftWeaponSpeedMult = 1
 armorPerks = 100
+
+[showStatsFactionNames]
+companions = "Companions"
+darkbrotherHood = "The Dark Brotherhood"
+collegeOfWinterhold = "College of Winterhold"
+orcFriend = "Blood-Kin of the Orcs"
+thiefsGuild = "Thieves' Guild"
+imperialLegion = "Imperial Legion"
+stormcloaks = "Stormcloaks" #sons of skyrim
+greybeard = "The Greybeards"
+bard = "Bards College"
+volkiharVampireClan = "Volkihar Vampire Clan"
+dawnguard = "Dawnguard"
+houseTelvanni = "House Telvanni"
+
+[showStatsFactionMenu]
+companions = 1
+darkbrotherHood = 1
+collegeOfWinterhold = 1
+orcFriend = 1
+thiefsGuild = 1
+imperialLegion = 1
+stormcloaks = 1
+greybeard = 1
+bard = 1
+volkiharVampireClan = 1
+dawnguard = 1
+houseTelvanni = 1
+
+[showStatsFactionRank]
+bard = "Bard"
+assassin = "Assassin"
+listener = "Listener"
+auxiliary = "Auxiliary"
+quaestor = "Quaestor"
+praefect = "Praefect"
+tribune = "Tribune"
+legate = "Legate"
+unblooded = "Unblooded"
+iceVeins = "Ice-Veins"
+boneBreaker = "Bone-Breaker"
+snowHammer = "Snow-Hammer"
+stormblade = "Stormblade"
+vampireLord = "Vampire Lord"
+vampireHunter = "Vampire Hunter"
+honoraryMember = "Honorary Member"
+ysmir = "Ysmir"

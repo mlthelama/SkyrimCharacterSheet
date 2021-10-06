@@ -1,8 +1,9 @@
 #pragma once
 #include "stats/statholder.h"
+#include "utils.h"
 
 
-StatItem::StatItem(constants::StatsValue p_name,
+StatItem::StatItem(StatsValue p_name,
 	RE::ActorValue p_actor,
 	string p_display_name,
 	string p_ending,
@@ -13,7 +14,7 @@ StatItem::StatItem(constants::StatsValue p_name,
 	this->setDisplayName(p_display_name);
 	this->setEnding(p_ending);
 	this->setShow(p_show);
-	this->setMenu(constants::MenuValue::mNone);
+	this->setMenu(MenuValue::mNone);
 	this->setStaticText(false);
 
 	this->value.clear();
@@ -22,12 +23,12 @@ StatItem::StatItem(constants::StatsValue p_name,
 	this->logItem();
 }
 
-StatItem::StatItem(constants::StatsValue p_name,
+StatItem::StatItem(StatsValue p_name,
 	RE::ActorValue p_actor,
 	string p_display_name,
 	string p_ending,
 	boolean p_show,
-	constants::MenuValue p_menu
+	MenuValue p_menu
 ) { 
 	this->setName(p_name);
 	this->setActor(p_actor);
@@ -43,12 +44,12 @@ StatItem::StatItem(constants::StatsValue p_name,
 	this->logItem();
 };
 
-StatItem::StatItem(constants::StatsValue p_name, 
+StatItem::StatItem(StatsValue p_name, 
 	RE::ActorValue p_actor, 
 	string p_display_name,	
 	string p_ending, 
 	boolean p_show, 
-	constants::MenuValue p_menu,
+	MenuValue p_menu,
 	boolean p_static_text
 ) {
 	this->setName(p_name);
@@ -65,12 +66,12 @@ StatItem::StatItem(constants::StatsValue p_name,
 	this->logItem();
 };
 
-StatItem::StatItem(constants::StatsValue p_name,
+StatItem::StatItem(StatsValue p_name,
 	RE::ActorValue p_actor,
 	string p_display_name,
 	string p_ending,
 	boolean p_show,
-	constants::MenuValue p_menu,
+	MenuValue p_menu,
 	boolean p_static_text, 
 	int64_t p_value_multiplier
 ) {
@@ -89,9 +90,9 @@ StatItem::StatItem(constants::StatsValue p_name,
 	this->logItem();
 };
 
-void StatItem::setName(constants::StatsValue p_name) { name = p_name; }
+void StatItem::setName(StatsValue p_name) { name = p_name; }
 
-constants::StatsValue StatItem::getName() { return name; }
+StatsValue StatItem::getName() { return name; }
 
 void StatItem::setActor(RE::ActorValue p_actor) { actor = p_actor; }
 
@@ -125,9 +126,9 @@ void StatItem::setStaticText(boolean p_static_text) { staticText = p_static_text
 
 boolean StatItem::getStaticText() { return staticText; }
 
-void StatItem::setMenu(constants::MenuValue p_menu) { menu = p_menu; }
+void StatItem::setMenu(MenuValue p_menu) { menu = p_menu; }
 
-constants::MenuValue StatItem::getMenu() { return menu; }
+MenuValue StatItem::getMenu() { return menu; }
 
 void StatItem::setValueMultiplier(int64_t p_value_multiplier) { valueMultiplier = p_value_multiplier; }
 
@@ -145,7 +146,7 @@ void StatItem::buildText() {
 		guiText += ": ";
 	}
 
-	guiText += (staticText) ? value : constants::cutString(value);
+	guiText += (staticText) ? value : cutString(value);
 
 	guiText += ending;
 }
