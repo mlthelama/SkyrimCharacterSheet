@@ -15,6 +15,7 @@ set(headers ${headers}
 	include/constants.h
 	include/data/faction.h
 	include/data/player.h
+	include/data/thane.h
 	include/events.h
 	include/hooks.h
 	include/papyrus.h

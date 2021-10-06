@@ -2,7 +2,6 @@
 #include "CLIK/Array.h"
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
-#include "constants.h"
 
 namespace Scaleform
 {

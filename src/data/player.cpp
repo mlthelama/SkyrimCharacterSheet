@@ -1,6 +1,7 @@
 #include "data/player.h"
 #include "stats/statfiller.h"
 #include "data/faction.h"
+#include "data/thane.h"
 
 Player* Player::GetSingleton()
 {
@@ -52,9 +53,13 @@ const vector<StatItem> Player::getPlayerValues() {
 	auto player = RE::PlayerCharacter::GetSingleton();
 	auto filler = Filler::GetSingleton();
 	auto faction = Faction::GetSingleton();
+	auto thane = Thane::GetSingleton();
 
 	if (*Settings::showFactions) {
 		faction->getFactions(player);
+	}
+	if (*Settings::showThanes) {
+		thane->getRegionThanes();
 	}
 
 	auto statList = filler->getData();

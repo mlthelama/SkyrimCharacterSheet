@@ -2,6 +2,7 @@ set(sources ${sources}
 	src/PCH.cpp
 	src/data/faction.cpp
 	src/data/player.cpp
+	src/data/thane.cpp
 	src/events.cpp
 	src/hooks.cpp
 	src/main.cpp

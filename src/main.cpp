@@ -3,8 +3,6 @@
 #include "serialhelper.h"
 #include "hooks.h"
 #include "scaleform/scaleform.h"
-#include "constants.h"
-#include "version.h"
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
 {

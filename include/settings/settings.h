@@ -452,6 +452,7 @@ struct Settings
 	static inline bSetting closeOnEveryButtonPress{ "General"s, "closeOnEveryButtonPress"s, true };
 	static inline bSetting closeOnOtherMenuOpen{ "General"s, "closeOnOtherMenuOpen"s, true };
 	static inline bSetting showFactions{ "General"s, "showFactions"s, true };
+	static inline bSetting showThanes{ "General"s, "showThane"s, true };
 
 	static inline sSetting vampireString{ "showBeastName"s, "vampire"s, undefined };
 	static inline sSetting werewolfString{ "showBeastName"s, "werewolf"s, undefined };

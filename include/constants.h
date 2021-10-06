@@ -117,7 +117,16 @@ enum class StatsValue {
 	bard,
 	volkiharVampireClan,
 	dawnguard,
-	houseTelvanni
+	houseTelvanni,
+	thaneOfEastmarch,
+	thaneOfFalkreath,
+	thaneOfHaafingar,
+	thaneOfHjaalmarch,
+	thaneOfThePale,
+	thaneOfTheReach,
+	thaneOfTheRift,
+	thaneOfWhiterun,
+	thaneOfWinterhold
 };
 
 const string undefined = "<undef>";
@@ -155,11 +164,14 @@ inline static map<int64_t, MenuValue> configMenu = {
 	{ static_cast<int64_t>(MenuValue::mThief), MenuValue::mThief },
 };
 
+typedef map<RE::FormID, StatsValue> formIdValueMap;
+typedef map<StatsValue, string> valueStringMap; //used in faction.h and thane.h
+
 //0x02003376 should be DLC1VampireFaction Volkihar Vampire Clan
 //0x02014217 should be DLC1DawnguardFaction
 //0x04019b8a Staff Maker Faction, but should indicate House Telvanni
 //0x00072834 //blades, player might not be in there
-inline static map<RE::FormID, StatsValue> factionMap = {
+inline static formIdValueMap factionMap = {
 	{ 0x00048362, StatsValue::companions },
 	{ 0x0001BDB3, StatsValue::darkbrotherHood },
 	{ 0x0001F259, StatsValue::collegeOfWinterhold },
@@ -172,4 +184,28 @@ inline static map<RE::FormID, StatsValue> factionMap = {
 	{ 0x02003376, StatsValue::volkiharVampireClan },
 	{ 0x02014217, StatsValue::dawnguard },
 	{ 0x04019B8A, StatsValue::houseTelvanni }
+};
+
+/*
+Thane of Eastmarch 
+Thane of Falkreath 
+Thane of Haafingar 
+Thane of Hjaalmarch 
+Thane of the Pale 
+Thane of the Reach
+Thane of the Rift 
+Thane of Whiterun 
+Thane of Winterhold 
+*/
+//favor/quest thane map 200
+inline static formIdValueMap thaneMap = {
+	{ 0x000A2CA6, StatsValue::thaneOfEastmarch },
+	{ 0x000A34DE, StatsValue::thaneOfFalkreath },
+	{ 0x000A2C9B, StatsValue::thaneOfHaafingar },
+	{ 0x000A34CE, StatsValue::thaneOfHjaalmarch },
+	{ 0x000A34D4, StatsValue::thaneOfThePale },
+	{ 0x000A2C86, StatsValue::thaneOfTheReach },
+	{ 0x00065BDF, StatsValue::thaneOfTheRift },
+	{ 0x000A2C9E, StatsValue::thaneOfWhiterun }, //just if stormcloaks won the war, otherwise MQ104/0002610C/160
+	{ 0x000A34D7, StatsValue::thaneOfWinterhold }
 };

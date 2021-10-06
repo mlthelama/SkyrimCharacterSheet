@@ -1,9 +1,6 @@
 #pragma once
-#include "constants.h"
 
 class Faction{
-	typedef map<StatsValue, string> factionRankMap;
-
 public:
 	static Faction* GetSingleton();
 
@@ -21,7 +18,7 @@ public:
 	Faction& operator=(const Faction&) = delete;
 	Faction& operator=(Faction&&) = delete;
 private:
-	factionRankMap factionRankList;
+	valueStringMap factionRankList;
 
 	void logMap();
 

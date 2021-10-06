@@ -3,6 +3,7 @@ logLevel = 2 # 0 trace; 1 debug; 2 info
 closeOnEveryButtonPress = false # otherwise menu just closes at ESC and binded key
 closeOnOtherMenuOpen = true
 showFactions = false #WIP Should still work
+showThane = false #WIP
 
 [showBeastName]
 vampire = "Vampire"

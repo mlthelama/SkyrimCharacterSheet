@@ -1,5 +1,4 @@
 #pragma once
-
 #include "scaleform/statsmenu.h"
 #include "data/player.h"
 
