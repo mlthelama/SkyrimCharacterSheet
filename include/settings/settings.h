@@ -500,4 +500,24 @@ struct Settings
 	static inline sSetting vampireHunterRank{ "showStatsFactionRank"s, "vampireHunter"s, undefined };
 	static inline sSetting honoraryMemberRank{ "showStatsFactionRank"s, "honoraryMember"s, undefined };
 	static inline sSetting ysmirRank{ "showStatsFactionRank"s, "ysmir"s, undefined };
+
+	static inline iSetting thaneOfEastmarchMenu{ "showStatsThaneMenu"s, "thaneOfEastmarch"s, 0 };
+	static inline iSetting thaneOfFalkreathMenu{ "showStatsThaneMenu"s, "thaneOfFalkreath"s, 0 };
+	static inline iSetting thaneOfHaafingarMenu{ "showStatsThaneMenu"s, "thaneOfHaafingar"s, 0 };
+	static inline iSetting thaneOfHjaalmarchMenu{ "showStatsThaneMenu"s, "thaneOfHjaalmarch"s, 0 };
+	static inline iSetting thaneOfThePaleMenu{ "showStatsThaneMenu"s, "thaneOfThePale"s, 0 };
+	static inline iSetting thaneOfTheReachMenu{ "showStatsThaneMenu"s, "thaneOfTheReach"s, 0 };
+	static inline iSetting thaneOfTheRiftMenu{ "showStatsThaneMenu"s, "thaneOfTheRift"s, 0 };
+	static inline iSetting thaneOfWhiterunMenu{ "showStatsThaneMenu"s, "thaneOfWhiterun"s, 0 };
+	static inline iSetting thaneOfWinterholdMenu{ "showStatsThaneMenu"s, "thaneOfWinterhold"s, 0 };
+
+	static inline sSetting thaneOfEastmarchName{ "showStatsThaneName"s, "thaneOfEastmarch"s, undefined };
+	static inline sSetting thaneOfFalkreathName{ "showStatsThaneName"s, "thaneOfFalkreath"s, undefined };
+	static inline sSetting thaneOfHaafingarName{ "showStatsThaneName"s, "thaneOfHaafingar"s, undefined };
+	static inline sSetting thaneOfHjaalmarchName{ "showStatsThaneName"s, "thaneOfHjaalmarch"s, undefined };
+	static inline sSetting thaneOfThePaleName{ "showStatsThaneName"s, "thaneOfThePale"s, undefined };
+	static inline sSetting thaneOfTheReachName{ "showStatsThaneName"s, "thaneOfTheReach"s, undefined };
+	static inline sSetting thaneOfTheRiftName{ "showStatsThaneName"s, "thaneOfTheRift"s, undefined };
+	static inline sSetting thaneOfWhiterunName{ "showStatsThaneName"s, "thaneOfWhiterun"s, undefined };
+	static inline sSetting thaneOfWinterholdName{ "showStatsThaneName"s, "thaneOfWinterhold"s, undefined };
 };

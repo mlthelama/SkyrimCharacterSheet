@@ -2,8 +2,8 @@
 logLevel = 2 # 0 trace; 1 debug; 2 info
 closeOnEveryButtonPress = false # otherwise menu just closes at ESC and binded key
 closeOnOtherMenuOpen = true
-showFactions = false #WIP Should still work
-showThane = false #WIP
+showFactions = false #WIP, yet Should work
+showThane = false #WIP, yet Should work
 
 [showBeastName]
 vampire = "Vampire"
@@ -481,3 +481,25 @@ vampireLord = "Vampire Lord"
 vampireHunter = "Vampire Hunter"
 honoraryMember = "Honorary Member"
 ysmir = "Ysmir"
+
+[showStatsThaneMenu]
+thaneOfEastmarch = 1
+thaneOfFalkreath = 1
+thaneOfHaafingar = 1
+thaneOfHjaalmarch = 1
+thaneOfThePale = 1
+thaneOfTheReach = 1
+thaneOfTheRift = 1
+thaneOfWhiterun = 1
+thaneOfWinterhold = 1
+
+[showStatsThaneName]
+thaneOfEastmarch = "Thane Of Eastmarch"
+thaneOfFalkreath = "Thane Of Falkreath"
+thaneOfHaafingar = "Thane Of Haafingar"
+thaneOfHjaalmarch = "Thane Of Hjaalmarch"
+thaneOfThePale = "Thane Of The Pale"
+thaneOfTheReach = "Thane Of The Reach"
+thaneOfTheRift = "Thane Of The Rift"
+thaneOfWhiterun = "Thane Of Whiterun"
+thaneOfWinterhold = "Thane Of Winterhold"

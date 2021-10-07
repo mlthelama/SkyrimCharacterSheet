@@ -15,21 +15,21 @@ string Thane::getThane(StatsValue p_stat) {
 
 void Thane::logMap() {
 	for (const auto& item : thaneList) {
-		logger::trace("faction {}, rank {}"sv, item.first, item.second);
+		logger::trace("thane {}, {}"sv, item.first, item.second);
 	}
 }
 
 void Thane::getRegionThanes() {
-
+	//fix spacebar so we do not add a : in statfiller
 	for (const auto& item : thaneMap) {
 		auto questStage = RE::TESForm::LookupByID(item.first)->As<RE::TESQuest>()->currentStage;
 
 		if (questStage == 200) {
-			thaneList.insert(pair<StatsValue, string>(item.second, "Thane"));
+			thaneList.insert(pair<StatsValue, string>(item.second, " "));
 		} else if (item.second == StatsValue::thaneOfWhiterun) {
 			auto whiterunQuestStage = RE::TESForm::LookupByID(0x0002610C)->As<RE::TESQuest>()->currentStage;
 			if (whiterunQuestStage == 200) {
-				thaneList.insert(pair<StatsValue, string>(item.second, "Thane"));
+				thaneList.insert(pair<StatsValue, string>(item.second, " "));
 			}
 		}
 	}

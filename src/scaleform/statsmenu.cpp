@@ -360,6 +360,15 @@ namespace Scaleform
 			case StatsValue::lockpickingMod:
 			case StatsValue::marksmanMod:
 			case StatsValue::alchemyMod:
+			case StatsValue::thaneOfEastmarch:
+			case StatsValue::thaneOfFalkreath:
+			case StatsValue::thaneOfHaafingar:
+			case StatsValue::thaneOfHjaalmarch:
+			case StatsValue::thaneOfThePale:
+			case StatsValue::thaneOfTheReach:
+			case StatsValue::thaneOfTheRift:
+			case StatsValue::thaneOfWhiterun:
+			case StatsValue::thaneOfWinterhold:
 				if (element.getMenu() != MenuValue::mNone) {
 					menuMap.find(element.getMenu())->second.PushBack(buildGFxValue(element.getGuiText()));
 					logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, element.getMenu(), element.getName(), element.getGuiText());

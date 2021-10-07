@@ -156,6 +156,17 @@ const vector<StatItem> Player::getPlayerValues() {
 			case StatsValue::houseTelvanni:
 				element.setValue(faction->getRank(element.getName()));
 				break;
+			case StatsValue::thaneOfEastmarch:
+			case StatsValue::thaneOfFalkreath:
+			case StatsValue::thaneOfHaafingar:
+			case StatsValue::thaneOfHjaalmarch:
+			case StatsValue::thaneOfThePale:
+			case StatsValue::thaneOfTheReach:
+			case StatsValue::thaneOfTheRift:
+			case StatsValue::thaneOfWhiterun:
+			case StatsValue::thaneOfWinterhold:
+				element.setValue(thane->getThane(element.getName()));
+				break;
 			default:
 				logger::warn("unhandeled stat, name {}, displayName {}"sv, element.getName(), element.getDisplayName());
 				break;

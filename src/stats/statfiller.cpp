@@ -119,6 +119,7 @@ vector<StatItem> Filler::getData() {
 		{ StatsValue::restorationMod, ActorValue::kRestorationModifier, *Settings::restorationModString, *Settings::restorationModStringEnding, *Settings::restorationMod, getMenu(*Settings::restorationModMenu) },
 		{ StatsValue::damageArrow, ActorValue::kNone, *Settings::damageArrowString, *Settings::damageArrowStringEnding, *Settings::damageArrow, getMenu(*Settings::damageArrowMenu) },
 		{ StatsValue::damageLeft, ActorValue::kNone, *Settings::damageLeftString, *Settings::damageLeftStringEnding, *Settings::damageLeft, getMenu(*Settings::damageLeftMenu) },
+
 		{ StatsValue::darkbrotherHood, ActorValue::kNone, *Settings::darkbrotherHoodString, "", *Settings::showFactions, getMenu(*Settings::darkbrotherHoodMenu), true },
 		{ StatsValue::thiefsGuild, ActorValue::kNone, *Settings::thiefsGuildString, "", *Settings::showFactions, getMenu(*Settings::thiefsGuildMenu), true },
 		{ StatsValue::orcFriend, ActorValue::kNone, *Settings::orcFriendString, "", *Settings::showFactions, getMenu(*Settings::orcFriendMenu), true },
@@ -131,6 +132,16 @@ vector<StatItem> Filler::getData() {
 		{ StatsValue::volkiharVampireClan, ActorValue::kNone, *Settings::volkiharVampireClanString, "", *Settings::showFactions, getMenu(*Settings::volkiharVampireClanMenu), true },
 		{ StatsValue::dawnguard, ActorValue::kNone, *Settings::dawnguardString, "", *Settings::showFactions, getMenu(*Settings::dawnguardMenu), true },
 		{ StatsValue::houseTelvanni, ActorValue::kNone, *Settings::houseTelvanniString, "", *Settings::showFactions, getMenu(*Settings::houseTelvanniMenu), true },
+
+		{ StatsValue::thaneOfEastmarch, ActorValue::kNone, *Settings::thaneOfEastmarchName, "", *Settings::showThanes, getMenu(*Settings::thaneOfEastmarchMenu), true },
+		{ StatsValue::thaneOfFalkreath, ActorValue::kNone, *Settings::thaneOfFalkreathName, "", *Settings::showThanes, getMenu(*Settings::thaneOfFalkreathMenu), true },
+		{ StatsValue::thaneOfHaafingar, ActorValue::kNone, *Settings::thaneOfHaafingarName, "", *Settings::showThanes, getMenu(*Settings::thaneOfHaafingarMenu), true },
+		{ StatsValue::thaneOfHjaalmarch, ActorValue::kNone, *Settings::thaneOfHjaalmarchName, "", *Settings::showThanes, getMenu(*Settings::thaneOfHjaalmarchMenu), true },
+		{ StatsValue::thaneOfThePale, ActorValue::kNone, *Settings::thaneOfThePaleName, "", *Settings::showThanes, getMenu(*Settings::thaneOfThePaleMenu), true },
+		{ StatsValue::thaneOfTheReach, ActorValue::kNone, *Settings::thaneOfTheReachName, "", *Settings::showThanes, getMenu(*Settings::thaneOfTheReachMenu), true },
+		{ StatsValue::thaneOfTheRift, ActorValue::kNone, *Settings::thaneOfTheRiftName, "", *Settings::showThanes, getMenu(*Settings::thaneOfTheRiftMenu), true },
+		{ StatsValue::thaneOfWhiterun, ActorValue::kNone, *Settings::thaneOfWhiterunName, "", *Settings::showThanes, getMenu(*Settings::thaneOfWhiterunMenu), true },
+		{ StatsValue::thaneOfWinterhold, ActorValue::kNone, *Settings::thaneOfWinterholdName, "", *Settings::showThanes, getMenu(*Settings::thaneOfWinterholdMenu), true },
 	};
 
 	logger::debug("Vector Size is {}"sv, Filler::statList.size());
