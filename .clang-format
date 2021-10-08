@@ -1,6 +1,9 @@
 ﻿---
+
 AccessModifierOffset: -4
 AlignAfterOpenBracket: DontAlign
+#AlignAfterOpenBracket: AlwaysBreak
+#AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: 'false'
 AlignConsecutiveDeclarations: 'false'
 AlignConsecutiveMacros: 'false'
@@ -21,6 +24,8 @@ AlwaysBreakBeforeMultilineStrings: 'true'
 AlwaysBreakTemplateDeclarations: 'Yes'
 BinPackArguments: 'true'
 BinPackParameters: 'true'
+#BinPackArguments: 'false'
+#BinPackParameters: 'false'
 BraceWrapping:
     AfterCaseLabel: 'true'
     AfterClass: 'true'
@@ -37,25 +42,29 @@ BraceWrapping:
     SplitEmptyFunction: 'false'
     SplitEmptyNamespace: 'false'
     SplitEmptyRecord: 'false'
-BreakBeforeBinaryOperators: None
+#BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Custom
 BreakBeforeTernaryOperators: 'false'
 BreakConstructorInitializers: AfterColon
 BreakInheritanceList: AfterColon
 BreakStringLiterals: 'true'
-ColumnLimit: 0
+#ColumnLimit: 0
+ColumnLimit: 120
 CompactNamespaces: 'false'
 ConstructorInitializerAllOnOneLineOrOnePerLine: 'false'
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
+ObjCBlockIndentWidth: 4
 Cpp11BracedListStyle: 'false'
+#Cpp11BracedListStyle: 'true'
 DeriveLineEnding: 'true'
 DerivePointerAlignment: 'false'
 DisableFormat: 'false'
 FixNamespaceComments: 'false'
 IncludeBlocks: Preserve
 IndentCaseBlocks: 'true'
-IndentCaseLabels: 'false'
+#IndentCaseLabels: 'false'
+IndentCaseLabels: 'true'
 IndentGotoLabels: 'false'
 IndentPPDirectives: None
 IndentWidth: 4
@@ -90,6 +99,8 @@ SpacesInSquareBrackets: 'false'
 Standard: c++17
 TabWidth: 4
 UseCRLF: 'true'
-UseTab: Always
+UseTab: Never
+BreakBeforeBraces: Attach
+ExperimentalAutoDetectBinPacking: false
 
 ...

@@ -1,105 +1,82 @@
 #pragma once
 
-class StatItem
-{
+class StatItem {
 public:
-	StatItem(StatsValue p_name,
-		RE::ActorValue p_actor,
-		string p_display_name,
-		string p_ending,
-		boolean p_show
-	);
+    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending,
+        boolean p_show);
 
-	StatItem(StatsValue p_name,
-		RE::ActorValue p_actor,
-		string p_display_name,
-		string p_ending,
-		boolean p_show,
-		MenuValue p_menu
-	);
+    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending,
+        boolean p_show, StatsMenuValue p_menu);
 
-	StatItem(StatsValue p_name,
-		RE::ActorValue p_actor,
-		string p_display_name,
-		string p_ending,
-		boolean p_show,
-		MenuValue p_menu,
-		boolean p_static_text
-	);
+    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending,
+        boolean p_show, StatsMenuValue p_menu, boolean p_static_text);
 
-	StatItem(StatsValue p_name,
-		RE::ActorValue p_actor,
-		string p_display_name,
-		string p_ending,
-		boolean p_show,
-		MenuValue p_menu,
-		boolean p_static_text, 
-		int64_t p_value_multiplier
-	);
+    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending,
+        boolean p_show, StatsMenuValue p_menu, boolean p_static_text, int64_t p_value_multiplier);
 
 
-	void setName(StatsValue p_name);
+    void setName(StatsValue p_name);
 
-	StatsValue getName();
+    StatsValue getName();
 
-	void setActor(RE::ActorValue p_actor);
+    void setActor(RE::ActorValue p_actor);
 
-	RE::ActorValue getActor();
+    RE::ActorValue getActor();
 
-	void setValue(string p_value);
+    void setValue(std::string p_value);
 
-	string getValue();
+    std::string getValue();
 
-	void setDisplayName(string p_display_name);
+    void setDisplayName(std::string p_display_name);
 
-	string getDisplayName();
+    std::string getDisplayName();
 
-	void setEnding(string p_ending);
+    void setEnding(std::string p_ending);
 
-	string getEnding();
+    std::string getEnding();
 
-	void setShow(boolean p_show);
+    void setShow(boolean p_show);
 
-	boolean getShow();
+    boolean getShow();
 
-	void setGuiText(string p_gui_text);
+    void setGuiText(std::string p_gui_text);
 
-	string getGuiText();
+    std::string getGuiText();
 
-	void setStaticText(boolean p_static_text);
+    void setStaticText(boolean p_static_text);
 
-	boolean getStaticText();
+    boolean getStaticText();
 
-	void setMenu(MenuValue p_menu);
+    void setMenu(StatsMenuValue p_menu);
 
-	MenuValue getMenu();
+    StatsMenuValue getMenu();
 
-	void setValueMultiplier(int64_t p_value_multiplier);
+    void setValueMultiplier(int64_t p_value_multiplier);
 
-	int64_t getValueMultiplier();
+    int64_t getValueMultiplier();
 
-	StatItem() = delete;
-	StatItem(const StatItem&) = default;
-	StatItem(StatItem&&) = delete;
+    StatItem() = delete;
+    StatItem(const StatItem&) = default;
+    StatItem(StatItem&&) = delete;
 
-	~StatItem() = default;
+    ~StatItem() = default;
 
-	StatItem& operator=(const StatItem&) = default;
-	StatItem& operator=(StatItem&&) = delete;
+    StatItem& operator=(const StatItem&) = default;
+    StatItem& operator=(StatItem&&) = delete;
 
 private:
-	StatsValue name;
-	RE::ActorValue actor;
-	string value;
-	string displayName;
-	string ending;
-	boolean show;
-	string guiText;
-	boolean staticText = false;
-	MenuValue menu = MenuValue::mNone;
-	int64_t valueMultiplier = 1;
+    StatsValue name;
+    RE::ActorValue actor;
+    std::string value;
+    std::string displayName;
+    std::string ending;
+    boolean show;
+    std::string guiText;
+    boolean staticText = false;
+    StatsMenuValue menu = StatsMenuValue::mNone;
+    int64_t valueMultiplier = 1;
 
-	void buildText();
+    void buildText();
 
-	void logItem();
+    void logItem();
 };

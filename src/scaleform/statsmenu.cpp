@@ -2,395 +2,385 @@
 #include "scaleform/statsmenu.h"
 #include "data/player.h"
 
-namespace Scaleform
-{
-	RE::IMenu* StatsMenu::Creator() {
-		return new StatsMenu();
-	}
+namespace Scaleform {
+    RE::IMenu* StatsMenu::Creator() { return new StatsMenu(); }
 
-	void StatsMenu::Register() {
-		auto ui = RE::UI::GetSingleton();
-		ui->Register(MENU_NAME, Creator);
+    void StatsMenu::Register() {
+        auto ui = RE::UI::GetSingleton();
+        ui->Register(MENU_NAME, Creator);
 
-		logger::info("Registered {}"sv, MENU_NAME);
-	}
+        logger::info("Registered {}"sv, MENU_NAME);
+    }
 
-	void StatsMenu::Open() {
-		if (!StatsMenu::IsMenuOpen()) {
-			logger::debug("Open Menu {}"sv, MENU_NAME);
-			auto msgQueue = RE::UIMessageQueue::GetSingleton();
-			msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kShow, nullptr);
-		}
-	}
+    void StatsMenu::Open() {
+        if (!StatsMenu::IsMenuOpen()) {
+            logger::debug("Open Menu {}"sv, MENU_NAME);
+            auto msgQueue = RE::UIMessageQueue::GetSingleton();
+            msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kShow, nullptr);
+        }
+    }
 
 
-	void StatsMenu::Close() {
-		if (StatsMenu::IsMenuOpen()) {
-			logger::debug("Close Menu {}"sv, MENU_NAME);
-			auto msgQueue = RE::UIMessageQueue::GetSingleton();
-			msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
-		}
-	}
+    void StatsMenu::Close() {
+        if (StatsMenu::IsMenuOpen()) {
+            logger::debug("Close Menu {}"sv, MENU_NAME);
+            auto msgQueue = RE::UIMessageQueue::GetSingleton();
+            msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
+        }
+    }
 
-	StatsMenu::StatsMenu() {
-		using Context = RE::UserEvents::INPUT_CONTEXT_ID;
-		using Flag = RE::UI_MENU_FLAGS;
+    StatsMenu::StatsMenu() {
+        using Context = RE::UserEvents::INPUT_CONTEXT_ID;
+        using Flag = RE::UI_MENU_FLAGS;
 
-		auto menu = static_cast<RE::IMenu*>(this);
-		auto scaleformManager = RE::BSScaleformManager::GetSingleton();
-		[[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu, FILE_NAME, RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void { logger::trace("FPS: {}"sv, a_def->GetFrameRate()); });
-		assert(success);
-		_view = menu->uiMovie;
-		_view->SetMouseCursorCount(0);
-		menu->menuFlags |= Flag::kAllowSaving;
-		menu->depthPriority = 11;
-		menu->inputContext = Context::kNone;
-		InitExtensions();
+        auto menu = static_cast<RE::IMenu*>(this);
+        auto scaleformManager = RE::BSScaleformManager::GetSingleton();
+        [[maybe_unused]] const auto success =
+            scaleformManager->LoadMovieEx(menu, FILE_NAME, RE::BSScaleformManager::ScaleModeType::kExactFit,
+                [](RE::GFxMovieDef* a_def) -> void { logger::trace("FPS: {}"sv, a_def->GetFrameRate()); });
+        assert(success);
+        _view = menu->uiMovie;
+        _view->SetMouseCursorCount(0);
+        menu->menuFlags |= Flag::kAllowSaving;
+        menu->depthPriority = 11;
+        menu->inputContext = Context::kNone;
+        InitExtensions();
 
-		_isActive = true;
-		_view->SetVisible(true);
+        _isActive = true;
+        _view->SetVisible(true);
+    }
 
-	}
+    void StatsMenu::AdvanceMovie(float a_interval, uint32_t a_currentTime) {
+        auto currentFrame = _view->GetCurrentFrame();
 
-	void StatsMenu::AdvanceMovie(float a_interval, uint32_t a_currentTime) {
-		auto currentFrame = _view->GetCurrentFrame();
+        logger::trace("interval {}, currenttime {}"sv, a_interval, a_currentTime);
 
-		logger::trace("interval {}, currenttime {}"sv, a_interval, a_currentTime);
+        _view->SetVisible(true);
 
-		_view->SetVisible(true);
+        auto nextFrame = currentFrame == 120 ? 1 : currentFrame + 1;
+        _view->GotoFrame(nextFrame);
+    }
 
-		auto nextFrame = currentFrame == 120 ? 1 : currentFrame + 1;
-		_view->GotoFrame(nextFrame);
-	}
+    RE::UI_MESSAGE_RESULTS StatsMenu::ProcessMessage(RE::UIMessage& a_message) {
+        if (a_message.menu == StatsMenu::MENU_NAME) {
+            return RE::UI_MESSAGE_RESULTS::kHandled;
+        }
+        return RE::UI_MESSAGE_RESULTS::kPassOn;
+    }
 
-	RE::UI_MESSAGE_RESULTS StatsMenu::ProcessMessage(RE::UIMessage& a_message) {
-		if (a_message.menu == StatsMenu::MENU_NAME) {
-			return RE::UI_MESSAGE_RESULTS::kHandled;
-		}
-		return RE::UI_MESSAGE_RESULTS::kPassOn;
-	}
+    void StatsMenu::InitExtensions() {
+        const RE::GFxValue boolean(true);
+        bool success;
 
-	void StatsMenu::InitExtensions() {
-		const RE::GFxValue boolean(true);
-		bool success;
+        success = _view->SetVariable("_global.gfxExtensions", boolean);
+        assert(success);
+        success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
+        assert(success);
+    }
 
-		success = _view->SetVariable("_global.gfxExtensions", boolean);
-		assert(success);
-		success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
-		assert(success);
-	}
+    bool StatsMenu::IsMenuOpen() {
+        auto ui = RE::UI::GetSingleton();
+        auto isOpen = ui->IsMenuOpen(MENU_NAME);
 
-	bool StatsMenu::IsMenuOpen() {
-		auto ui = RE::UI::GetSingleton();
-		auto isOpen = ui->IsMenuOpen(MENU_NAME);
+        logger::trace("Menu {} is open {}"sv, MENU_NAME, isOpen);
 
-		logger::trace("Menu {} is open {}"sv, MENU_NAME, isOpen);
+        return isOpen;
+    }
 
-		return isOpen;
-	}
+    void StatsMenu::PostCreate() { StatsMenu::OnOpen(); }
 
-	void StatsMenu::PostCreate() {
-		StatsMenu::OnOpen();
-	}
+    void StatsMenu::OnOpen() {
+        using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
+        std::array objects{ element_t{ std::ref(_rootObj), "_root.rootObj"sv },
+            element_t{ std::ref(_title), "_root.rootObj.title"sv },
+            element_t{ std::ref(_name), "_root.rootObj.bottomBar.name"sv },
+            element_t{ std::ref(_level), "_root.rootObj.bottomBar.level"sv },
+            element_t{ std::ref(_race), "_root.rootObj.bottomBar.race"sv },
+            element_t{ std::ref(_perks), "_root.rootObj.bottomBar.perks"sv },
+            element_t{ std::ref(_beast), "_root.rootObj.bottomBar.beast"sv },
+            element_t{ std::ref(_xp), "_root.rootObj.bottomBar.xp"sv },
+            element_t{ std::ref(_valuesHeader), "_root.rootObj.playerValuesHeader"sv },
+            element_t{ std::ref(_attackHeader), "_root.rootObj.playerAttackHeader"sv },
+            element_t{ std::ref(_perksMagicHeader), "_root.rootObj.playerPerksMagicHeader"sv },
+            element_t{ std::ref(_defenceHeader), "_root.rootObj.playerDefenceHeader"sv },
+            element_t{ std::ref(_perksWarriorHeader), "_root.rootObj.playerPerksWarriorHeader"sv },
+            element_t{ std::ref(_perksThiefHeader), "_root.rootObj.playerPerksThiefHeader"sv },
+            element_t{ std::ref(_playerItemList), "_root.rootObj.playerItemList"sv },
+            element_t{ std::ref(_defenceItemList), "_root.rootObj.defenceItemList"sv },
+            element_t{ std::ref(_attackItemList), "_root.rootObj.attackItemList"sv },
+            element_t{ std::ref(_perksMagicItemList), "_root.rootObj.perksMagicItemList"sv },
+            element_t{ std::ref(_perksWarriorItemList), "_root.rootObj.perksWarriorItemList"sv },
+            element_t{ std::ref(_perksThiefItemList), "_root.rootObj.perksThiefItemList"sv } };
 
-	void StatsMenu::OnOpen() {
+        for (const auto& [object, path] : objects) {
+            auto& instance = object.get().GetInstance();
+            [[maybe_unused]] const auto success = _view->GetVariable(std::addressof(instance), path.data());
+            assert(success && instance.IsObject());
+        }
 
-		using element_t = pair<reference_wrapper<CLIK::Object>, string_view>;
-		array objects{
-			element_t{ ref(_rootObj), "_root.rootObj"sv },
-			element_t{ ref(_title), "_root.rootObj.title"sv },
-			element_t{ ref(_name), "_root.rootObj.bottomBar.name"sv },
-			element_t{ ref(_level), "_root.rootObj.bottomBar.level"sv },
-			element_t{ ref(_race), "_root.rootObj.bottomBar.race"sv },
-			element_t{ ref(_perks), "_root.rootObj.bottomBar.perks"sv },
-			element_t{ ref(_beast), "_root.rootObj.bottomBar.beast"sv },
-			element_t{ ref(_xp), "_root.rootObj.bottomBar.xp"sv },
-			element_t{ ref(_valuesHeader), "_root.rootObj.playerValuesHeader"sv },
-			element_t{ ref(_attackHeader), "_root.rootObj.playerAttackHeader"sv },
-			element_t{ ref(_perksMagicHeader), "_root.rootObj.playerPerksMagicHeader"sv },
-			element_t{ ref(_defenceHeader), "_root.rootObj.playerDefenceHeader"sv },
-			element_t{ ref(_perksWarriorHeader), "_root.rootObj.playerPerksWarriorHeader"sv },
-			element_t{ ref(_perksThiefHeader), "_root.rootObj.playerPerksThiefHeader"sv },
-			element_t{ ref(_playerItemList), "_root.rootObj.playerItemList"sv },
-			element_t{ ref(_defenceItemList), "_root.rootObj.defenceItemList"sv },
-			element_t{ ref(_attackItemList), "_root.rootObj.attackItemList"sv },
-			element_t{ ref(_perksMagicItemList), "_root.rootObj.perksMagicItemList"sv },
-			element_t{ ref(_perksWarriorItemList), "_root.rootObj.perksWarriorItemList"sv },
-			element_t{ ref(_perksThiefItemList), "_root.rootObj.perksThiefItemList"sv }
-		};
+        _rootObj.Visible(false);
 
-		for (const auto& [object, path] : objects) {
-			auto& instance = object.get().GetInstance();
-			[[maybe_unused]] const auto success = _view->GetVariable(addressof(instance), path.data());
-			assert(success && instance.IsObject());
-		}
+        _view->CreateArray(std::addressof(_playerItemListProvider));
+        _playerItemList.DataProvider(CLIK::Array{ _playerItemListProvider });
 
-		_rootObj.Visible(false);
+        _view->CreateArray(std::addressof(_defenceItemListProvider));
+        _defenceItemList.DataProvider(CLIK::Array{ _defenceItemListProvider });
 
-		_view->CreateArray(addressof(_playerItemListProvider));
-		_playerItemList.DataProvider(CLIK::Array{ _playerItemListProvider });
+        _view->CreateArray(std::addressof(_attackItemListProvider));
+        _attackItemList.DataProvider(CLIK::Array{ _attackItemListProvider });
 
-		_view->CreateArray(addressof(_defenceItemListProvider));
-		_defenceItemList.DataProvider(CLIK::Array{ _defenceItemListProvider });
+        _view->CreateArray(std::addressof(_perksMagicItemListProvider));
+        _perksMagicItemList.DataProvider(CLIK::Array{ _perksMagicItemListProvider });
 
-		_view->CreateArray(addressof(_attackItemListProvider));
-		_attackItemList.DataProvider(CLIK::Array{ _attackItemListProvider });
+        _view->CreateArray(std::addressof(_perksWarriorItemListProvider));
+        _perksWarriorItemList.DataProvider(CLIK::Array{ _perksWarriorItemListProvider });
 
-		_view->CreateArray(addressof(_perksMagicItemListProvider));
-		_perksMagicItemList.DataProvider(CLIK::Array{ _perksMagicItemListProvider });
+        _view->CreateArray(std::addressof(_perksThiefItemListProvider));
+        _perksThiefItemList.DataProvider(CLIK::Array{ _perksThiefItemListProvider });
 
-		_view->CreateArray(addressof(_perksWarriorItemListProvider));
-		_perksWarriorItemList.DataProvider(CLIK::Array{ _perksWarriorItemListProvider });
+        UpdateTitle();
+        UpdateHeaders();
+        updateBottom();
 
-		_view->CreateArray(addressof(_perksThiefItemListProvider));
-		_perksThiefItemList.DataProvider(CLIK::Array{ _perksThiefItemListProvider });
+        UpdateLists();
 
-		UpdateTitle();
-		UpdateHeaders();
-		updateBottom();
+        _view->SetVisible(true);
+        _rootObj.Visible(true);
 
-		UpdateLists();
+        logger::debug("Shown all Values for Menu {}"sv, MENU_NAME);
+    }
 
-		_view->SetVisible(true);
-		_rootObj.Visible(true);
+    void StatsMenu::updateText(CLIK::TextField p_field, std::string_view p_string) {
+        p_field.AutoSize(CLIK::Object{ "left" });
+        p_field.HTMLText(p_string);
+        p_field.Visible(true);
+    }
 
-		logger::debug("Shown all Values for Menu {}"sv, MENU_NAME);
-	}
+    void StatsMenu::UpdateTitle() { updateText(_title, TITLE_NAME); }
 
-	void StatsMenu::updateText(CLIK::TextField p_field, string_view p_string) {
-		p_field.AutoSize(CLIK::Object{ "left" });
-		p_field.HTMLText(p_string);
-		p_field.Visible(true);
-	}
+    void StatsMenu::UpdateHeaders() {
+        updateText(_valuesHeader, headerValuesName);
+        updateText(_attackHeader, headerAttackName);
+        updateText(_perksMagicHeader, headerPerksMagicName);
+        updateText(_defenceHeader, headerDefenceName);
+        updateText(_perksWarriorHeader, headerPerksWarriorName);
+        updateText(_perksThiefHeader, headerPerksThiefName);
+    }
 
-	void StatsMenu::UpdateTitle() {
-		updateText(_title, TITLE_NAME);
-	}
+    RE::GFxValue StatsMenu::buildGFxValue(std::string p_val) {
+        RE::GFxValue value;
+        _view->CreateObject(std::addressof(value));
+        value.SetMember("displayName", { static_cast<std::string_view>(p_val) });
+        return value;
+    }
 
-	void StatsMenu::UpdateHeaders() {
-		updateText(_valuesHeader, headerValuesName);
-		updateText(_attackHeader, headerAttackName);
-		updateText(_perksMagicHeader, headerPerksMagicName);
-		updateText(_defenceHeader, headerDefenceName);
-		updateText(_perksWarriorHeader, headerPerksWarriorName);
-		updateText(_perksThiefHeader, headerPerksThiefName);
-	}
-	
-	RE::GFxValue StatsMenu::buildGFxValue(string p_val) {
-		RE::GFxValue value;
-		_view->CreateObject(addressof(value));
-		value.SetMember("displayName", { static_cast<string_view>(p_val) });
-		return value;
-	}
+    void StatsMenu::ClearProviders() {
+        _playerItemListProvider.ClearElements();
+        _defenceItemListProvider.ClearElements();
+        _attackItemListProvider.ClearElements();
+        _perksMagicItemListProvider.ClearElements();
+        _perksWarriorItemListProvider.ClearElements();
+        _perksThiefItemListProvider.ClearElements();
+    }
 
-	void StatsMenu::ClearProviders() {
-		_playerItemListProvider.ClearElements();
-		_defenceItemListProvider.ClearElements();
-		_attackItemListProvider.ClearElements();
-		_perksMagicItemListProvider.ClearElements();
-		_perksWarriorItemListProvider.ClearElements();
-		_perksThiefItemListProvider.ClearElements();
-	}
+    void StatsMenu::InvalidateItemLists() {
+        _playerItemList.Invalidate();
+        _defenceItemList.Invalidate();
+        _attackItemList.Invalidate();
+        _perksMagicItemList.Invalidate();
+        _perksWarriorItemList.Invalidate();
+        _perksThiefItemList.Invalidate();
+    }
 
-	void StatsMenu::InvalidateItemLists() {
-		_playerItemList.Invalidate();
-		_defenceItemList.Invalidate();
-		_attackItemList.Invalidate();
-		_perksMagicItemList.Invalidate();
-		_perksWarriorItemList.Invalidate();
-		_perksThiefItemList.Invalidate();
-	}
+    void StatsMenu::InvalidateDataItemLists() {
+        _playerItemList.InvalidateData();
+        _defenceItemList.InvalidateData();
+        _attackItemList.InvalidateData();
+        _perksMagicItemList.InvalidateData();
+        _perksWarriorItemList.InvalidateData();
+        _perksThiefItemList.InvalidateData();
+    }
 
-	void StatsMenu::InvalidateDataItemLists() {
-		_playerItemList.InvalidateData();
-		_defenceItemList.InvalidateData();
-		_attackItemList.InvalidateData();
-		_perksMagicItemList.InvalidateData();
-		_perksWarriorItemList.InvalidateData();
-		_perksThiefItemList.InvalidateData();
-	}
+    void StatsMenu::UpdateLists() {
+        auto playerinfo = Player::GetSingleton();
 
-	void StatsMenu::UpdateLists() {
-		auto playerinfo = Player::GetSingleton();
+        ClearProviders();
+        InvalidateItemLists();
 
-		ClearProviders();
-		InvalidateItemLists();
+        auto playerValues = playerinfo->getPlayerValues();
+        for (auto& element : playerValues) {
+            if (!element->getShow() || element->getGuiText().empty() || element->getGuiText() == "" ||
+                element->getValue().empty() || element->getValue() == "") {
+                continue;
+            }
 
-		auto playerValues = playerinfo->getPlayerValues();
+            logger::trace("processing name {}, displayName {}, menu {}"sv, element->getName(), element->getGuiText(),
+                element->getMenu());
+            switch (element->getName()) {
+                case StatsValue::name:
+                    updateText(_name, element->getGuiText());
+                    break;
+                case StatsValue::level:
+                    updateText(_level, element->getGuiText());
+                    break;
+                case StatsValue::race:
+                    updateText(_race, element->getGuiText());
+                    break;
+                case StatsValue::perkCount:
+                    updateText(_perks, element->getGuiText());
+                    break;
+                case StatsValue::beast:
+                    updateText(_beast, element->getGuiText());
+                    break;
+                case StatsValue::xp:
+                    updateText(_xp, element->getGuiText());
+                    break;
+                case StatsValue::height:
+                case StatsValue::carryWeight:
+                case StatsValue::equipedWeight:
+                case StatsValue::inventoryWeight:
+                case StatsValue::weight:
+                case StatsValue::skillTrainingsThisLevel:
+                case StatsValue::dragonSouls:
+                case StatsValue::shoutRecoveryMult:
+                case StatsValue::movementNoiseMult:
+                case StatsValue::speedMult:
+                case StatsValue::darkbrotherHood:
+                case StatsValue::thiefsGuild:
+                case StatsValue::orcFriend:
+                case StatsValue::collegeOfWinterhold:
+                case StatsValue::companions:
+                case StatsValue::imperialLegion:
+                case StatsValue::stormcloaks:
+                case StatsValue::greybeard:
+                case StatsValue::bard:
+                case StatsValue::volkiharVampireClan:
+                case StatsValue::dawnguard:
+                case StatsValue::houseTelvanni:
+                case StatsValue::mass:
+                case StatsValue::bypassVendorKeywordCheck:
+                case StatsValue::bypassVendorStolenCheck:
+                case StatsValue::absorbChance:
+                case StatsValue::armor:
+                case StatsValue::combatHealthRegenMultiply:
+                case StatsValue::resistDamage:
+                case StatsValue::resistDisease:
+                case StatsValue::resistFire:
+                case StatsValue::resistFrost:
+                case StatsValue::resistMagic:
+                case StatsValue::resistPoison:
+                case StatsValue::resistShock:
+                case StatsValue::health:
+                case StatsValue::healthRatePer:
+                case StatsValue::magicka:
+                case StatsValue::magickaRatePer:
+                case StatsValue::stamina:
+                case StatsValue::staminaRatePer:
+                case StatsValue::reflectDamage:
+                case StatsValue::armorPerks:
+                case StatsValue::unarmedDamage:
+                case StatsValue::weaponSpeedMult:
+                case StatsValue::meleeDamage:
+                case StatsValue::damage:
+                case StatsValue::criticalChance:
+                case StatsValue::bowSpeedBonus:
+                case StatsValue::attackDamageMult:
+                case StatsValue::damageArrow:
+                case StatsValue::damageRight:
+                case StatsValue::damageLeft:
+                case StatsValue::leftWeaponSpeedMult:
+                case StatsValue::rightItemCharge:
+                case StatsValue::leftItemCharge:
+                case StatsValue::bowStaggerBonus:
+                case StatsValue::alteration:
+                case StatsValue::conjuration:
+                case StatsValue::enchanting:
+                case StatsValue::illusion:
+                case StatsValue::restoration:
+                case StatsValue::destruction:
+                case StatsValue::alterationPowerMod:
+                case StatsValue::conjurationPowerMod:
+                case StatsValue::enchantingPowerMod:
+                case StatsValue::illusionPowerMod:
+                case StatsValue::restorationPowerMod:
+                case StatsValue::destructionPowerMod:
+                case StatsValue::alterationMod:
+                case StatsValue::conjurationMod:
+                case StatsValue::enchantingMod:
+                case StatsValue::illusionMod:
+                case StatsValue::restorationMod:
+                case StatsValue::destructionMod:
+                case StatsValue::smithing:
+                case StatsValue::twoHanded:
+                case StatsValue::oneHanded:
+                case StatsValue::lightArmor:
+                case StatsValue::heavyArmor:
+                case StatsValue::block:
+                case StatsValue::smithingPowerMod:
+                case StatsValue::twoHandedPowerMod:
+                case StatsValue::oneHandedPowerMod:
+                case StatsValue::lightArmorPowerMod:
+                case StatsValue::heavyArmorPowerMod:
+                case StatsValue::blockPowerMod:
+                case StatsValue::smithingMod:
+                case StatsValue::twoHandedMod:
+                case StatsValue::oneHandedMod:
+                case StatsValue::lightArmorMod:
+                case StatsValue::heavyArmorMod:
+                case StatsValue::blockMod:
+                case StatsValue::sneak:
+                case StatsValue::speech:
+                case StatsValue::pickpocket:
+                case StatsValue::lockpicking:
+                case StatsValue::archery:
+                case StatsValue::alchemy:
+                case StatsValue::sneakPowerMod:
+                case StatsValue::speechPowerMod:
+                case StatsValue::pickpocketPowerMod:
+                case StatsValue::lockpickingPowerMod:
+                case StatsValue::archeryPowerMod:
+                case StatsValue::alchemyPowerMod:
+                case StatsValue::sneakingMod:
+                case StatsValue::speechcraftMod:
+                case StatsValue::pickpocketMod:
+                case StatsValue::lockpickingMod:
+                case StatsValue::marksmanMod:
+                case StatsValue::alchemyMod:
+                case StatsValue::thaneOfEastmarch:
+                case StatsValue::thaneOfFalkreath:
+                case StatsValue::thaneOfHaafingar:
+                case StatsValue::thaneOfHjaalmarch:
+                case StatsValue::thaneOfThePale:
+                case StatsValue::thaneOfTheReach:
+                case StatsValue::thaneOfTheRift:
+                case StatsValue::thaneOfWhiterun:
+                case StatsValue::thaneOfWinterhold:
+                    if (element->getMenu() != StatsMenuValue::mNone) {
+                        menuMap.find(element->getMenu())->second.PushBack(buildGFxValue(element->getGuiText()));
+                        logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, element->getMenu(),
+                            element->getName(), element->getGuiText());
+                    }
+                    break;
+                default:
+                    logger::warn("not handeled name {}, displayName {}"sv, element->getName(), element->getGuiText());
+                    break;
+            }
+        }
 
-		for (auto& element : playerValues) {
+        playerValues.clear();
+        for (auto& element : playerValues) { element.reset(); }
+        logger::trace("Vector Size is {}"sv, playerValues.size());
 
-			if (!element.getShow() 
-				|| element.getGuiText().empty() 
-				|| element.getGuiText() == "" 
-				|| element.getValue().empty()
-				|| element.getValue() == ""
-			) {
-				continue;
-			}
+        InvalidateDataItemLists();
+    }
 
-			logger::trace("processing name {}, displayName {}, menu {}"sv, element.getName(), element.getGuiText(), element.getMenu());
-			switch (element.getName()) {
-			case StatsValue::name:
-				updateText(_name, element.getGuiText());
-				break;
-			case StatsValue::level:
-				updateText(_level, element.getGuiText());
-				break;
-			case StatsValue::race:
-				updateText(_race, element.getGuiText());
-				break;
-			case StatsValue::perkCount:
-				updateText(_perks, element.getGuiText());
-				break;
-			case StatsValue::beast:
-				updateText(_beast, element.getGuiText());
-				break;
-			case StatsValue::xp:
-				updateText(_xp, element.getGuiText());
-				break;
-			case StatsValue::height:
-			case StatsValue::carryWeight:
-			case StatsValue::equipedWeight:
-			case StatsValue::inventoryWeight:
-			case StatsValue::weight:
-			case StatsValue::skillTrainingsThisLevel:
-			case StatsValue::dragonSouls:
-			case StatsValue::shoutRecoveryMult:
-			case StatsValue::movementNoiseMult:
-			case StatsValue::speedMult:
-			case StatsValue::darkbrotherHood:
-			case StatsValue::thiefsGuild:
-			case StatsValue::orcFriend:
-			case StatsValue::collegeOfWinterhold:
-			case StatsValue::companions:
-			case StatsValue::imperialLegion:
-			case StatsValue::stormcloaks:
-			case StatsValue::greybeard:
-			case StatsValue::bard:
-			case StatsValue::volkiharVampireClan:
-			case StatsValue::dawnguard:
-			case StatsValue::houseTelvanni:
-			case StatsValue::mass:
-			case StatsValue::bypassVendorKeywordCheck:
-			case StatsValue::bypassVendorStolenCheck:
-			case StatsValue::absorbChance:
-			case StatsValue::armor:
-			case StatsValue::combatHealthRegenMultiply:
-			case StatsValue::resistDamage:
-			case StatsValue::resistDisease:
-			case StatsValue::resistFire:
-			case StatsValue::resistFrost:
-			case StatsValue::resistMagic:
-			case StatsValue::resistPoison:
-			case StatsValue::resistShock:
-			case StatsValue::health:
-			case StatsValue::healthRatePer:
-			case StatsValue::magicka:
-			case StatsValue::magickaRatePer:
-			case StatsValue::stamina:
-			case StatsValue::staminaRatePer:
-			case StatsValue::reflectDamage:
-			case StatsValue::armorPerks:
-			case StatsValue::unarmedDamage:
-			case StatsValue::weaponSpeedMult:
-			case StatsValue::meleeDamage:
-			case StatsValue::damage:
-			case StatsValue::criticalChance:
-			case StatsValue::bowSpeedBonus:
-			case StatsValue::attackDamageMult:
-			case StatsValue::damageArrow:
-			case StatsValue::damageRight:
-			case StatsValue::damageLeft:
-			case StatsValue::leftWeaponSpeedMult:
-			case StatsValue::rightItemCharge:
-			case StatsValue::leftItemCharge:
-			case StatsValue::bowStaggerBonus:
-			case StatsValue::alteration:
-			case StatsValue::conjuration:
-			case StatsValue::enchanting:
-			case StatsValue::illusion:
-			case StatsValue::restoration:
-			case StatsValue::destruction:
-			case StatsValue::alterationPowerMod:
-			case StatsValue::conjurationPowerMod:
-			case StatsValue::enchantingPowerMod:
-			case StatsValue::illusionPowerMod:
-			case StatsValue::restorationPowerMod:
-			case StatsValue::destructionPowerMod:
-			case StatsValue::alterationMod:
-			case StatsValue::conjurationMod:
-			case StatsValue::enchantingMod:
-			case StatsValue::illusionMod:
-			case StatsValue::restorationMod:
-			case StatsValue::destructionMod:
-			case StatsValue::smithing:
-			case StatsValue::twoHanded:
-			case StatsValue::oneHanded:
-			case StatsValue::lightArmor:
-			case StatsValue::heavyArmor:
-			case StatsValue::block:
-			case StatsValue::smithingPowerMod:
-			case StatsValue::twoHandedPowerMod:
-			case StatsValue::oneHandedPowerMod:
-			case StatsValue::lightArmorPowerMod:
-			case StatsValue::heavyArmorPowerMod:
-			case StatsValue::blockPowerMod:
-			case StatsValue::smithingMod:
-			case StatsValue::twoHandedMod:
-			case StatsValue::oneHandedMod:
-			case StatsValue::lightArmorMod:
-			case StatsValue::heavyArmorMod:
-			case StatsValue::blockMod:
-			case StatsValue::sneak:
-			case StatsValue::speech:
-			case StatsValue::pickpocket:
-			case StatsValue::lockpicking:
-			case StatsValue::archery:
-			case StatsValue::alchemy:
-			case StatsValue::sneakPowerMod:
-			case StatsValue::speechPowerMod:
-			case StatsValue::pickpocketPowerMod:
-			case StatsValue::lockpickingPowerMod:
-			case StatsValue::archeryPowerMod:
-			case StatsValue::alchemyPowerMod:
-			case StatsValue::sneakingMod:
-			case StatsValue::speechcraftMod:
-			case StatsValue::pickpocketMod:
-			case StatsValue::lockpickingMod:
-			case StatsValue::marksmanMod:
-			case StatsValue::alchemyMod:
-			case StatsValue::thaneOfEastmarch:
-			case StatsValue::thaneOfFalkreath:
-			case StatsValue::thaneOfHaafingar:
-			case StatsValue::thaneOfHjaalmarch:
-			case StatsValue::thaneOfThePale:
-			case StatsValue::thaneOfTheReach:
-			case StatsValue::thaneOfTheRift:
-			case StatsValue::thaneOfWhiterun:
-			case StatsValue::thaneOfWinterhold:
-				if (element.getMenu() != MenuValue::mNone) {
-					menuMap.find(element.getMenu())->second.PushBack(buildGFxValue(element.getGuiText()));
-					logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, element.getMenu(), element.getName(), element.getGuiText());
-				}
-				break;
-			default:
-				logger::warn("not handeled name {}, displayName {}"sv, element.getName(), element.getGuiText());
-				break;
-			}
-		}
-
-		playerValues.clear();
-		InvalidateDataItemLists();
-	}
-
-	void StatsMenu::updateBottom() {
-		//in case something is not set, we do not want to see default swf text
-		updateText(_name, "");
-		updateText(_level, "");
-		updateText(_race, "");
-		updateText(_perks, "");
-		updateText(_beast, "");
-		updateText(_xp, "");
-	}
+    void StatsMenu::updateBottom() {
+        //in case something is not set, we do not want to see default swf text
+        updateText(_name, "");
+        updateText(_level, "");
+        updateText(_race, "");
+        updateText(_perks, "");
+        updateText(_beast, "");
+        updateText(_xp, "");
+    }
 }

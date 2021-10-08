@@ -13,16 +13,15 @@
 #include "AutoTOML.hpp"
 
 
-using namespace std;
+//using namespace std;
 
-using namespace literals;
+using namespace std::literals;
 
-namespace stl
-{
-	//using namespace SKSE::stl;
-	using namespace SKSE::util;
+namespace stl {
+    //using namespace SKSE::stl;
+    using namespace SKSE::util;
 
-	constexpr string_view safe_string(const char* a_str) { return a_str ? a_str : ""sv; }
+    constexpr std::string_view safe_string(const char* a_str) { return a_str ? a_str : ""sv; }
 }
 
 namespace logger = SKSE::log;
@@ -30,9 +29,9 @@ namespace logger = SKSE::log;
 #define DLLEXPORT __declspec(dllexport)
 
 #include "Version.h"
+#include "constants.h"
 #include "settings/settings.h"
 #include "utils.h"
-#include "constants.h"
 
 #ifdef _MSC_VER
 #undef GetObject

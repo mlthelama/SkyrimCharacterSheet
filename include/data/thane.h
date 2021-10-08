@@ -2,22 +2,23 @@
 
 class Thane {
 public:
-	static Thane* GetSingleton();
+    static Thane* GetSingleton();
 
-	string getThane(StatsValue p_stat);
+    std::string getThane(StatsValue p_stat);
 
-	void getRegionThanes();
+    void getRegionThanes();
 
-	Thane() = default;
-	Thane(const Thane&) = delete;
-	Thane(Thane&&) = delete;
+    Thane() = default;
+    Thane(const Thane&) = delete;
+    Thane(Thane&&) = delete;
 
-	~Thane() = default;
+    ~Thane() = default;
 
-	Thane& operator=(const Thane&) = delete;
-	Thane& operator=(Thane&&) = delete;
+    Thane& operator=(const Thane&) = delete;
+    Thane& operator=(Thane&&) = delete;
+
 private:
-	valueStringMap thaneList;
+    valueStringMap thaneList;
 
-	void logMap();
+    void logMap();
 };

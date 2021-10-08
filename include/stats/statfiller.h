@@ -1,23 +1,20 @@
 #pragma once
 #include "stats/statholder.h"
 
-class Filler
-{
+class Filler {
 public:
-	static Filler* GetSingleton();
+    static Filler* GetSingleton();
 
-	void PrintStatsVector(vector<StatItem>& p_vec);
+    void PrintStatsVector(std::vector<std::shared_ptr<StatItem>>& p_vec);
 
-	vector<StatItem> getData();
+    std::vector<std::shared_ptr<StatItem>> getData();
 
-	vector<StatItem> statList;
+    Filler() = default;
+    Filler(const Filler&) = delete;
+    Filler(Filler&&) = delete;
 
-	Filler() = default;
-	Filler(const Filler&) = delete;
-	Filler(Filler&&) = delete;
+    ~Filler() = default;
 
-	~Filler() = default;
-
-	Filler& operator=(const Filler&) = delete;
-	Filler& operator=(Filler&&) = delete;
+    Filler& operator=(const Filler&) = delete;
+    Filler& operator=(Filler&&) = delete;
 };

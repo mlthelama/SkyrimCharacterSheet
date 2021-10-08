@@ -19,6 +19,7 @@ set(headers ${headers}
 	include/events.h
 	include/hooks.h
 	include/papyrus.h
+	include/scaleform/factionmenu.h
 	include/scaleform/scaleform.h
 	include/scaleform/statsmenu.h
 	include/serialhelper.h

@@ -1,38 +1,39 @@
 #pragma once
 
-class Faction{
+class Faction {
 public:
-	static Faction* GetSingleton();
+    static Faction* GetSingleton();
 
-	string getRank(StatsValue p_stat);
+    std::string getRank(StatsValue p_stat);
 
-	void getFactions(RE::Actor* a_actor);
+    void getFactions(RE::Actor* a_actor);
 
 
-	Faction() = default;
-	Faction(const Faction&) = delete;
-	Faction(Faction&&) = delete;
+    Faction() = default;
+    Faction(const Faction&) = delete;
+    Faction(Faction&&) = delete;
 
-	~Faction() = default;
+    ~Faction() = default;
 
-	Faction& operator=(const Faction&) = delete;
-	Faction& operator=(Faction&&) = delete;
+    Faction& operator=(const Faction&) = delete;
+    Faction& operator=(Faction&&) = delete;
+
 private:
-	valueStringMap factionRankList;
+    valueStringMap factionRankList;
 
-	void logMap();
+    void logMap();
 
-	string getDarkBrotherhoodRank();
+    std::string getDarkBrotherhoodRank();
 
-	string getGraybeardRank();
+    std::string getGraybeardRank();
 
-	string getImperialLegionRank();
+    std::string getImperialLegionRank();
 
-	string getStormcloaksRank();
+    std::string getStormcloaksRank();
 
-	string getVolkiharVampireClanRank();
+    std::string getVolkiharVampireClanRank();
 
-	string getDawnguardRank();
+    std::string getDawnguardRank();
 
-	string getHouseTelvanniRank();
+    std::string getHouseTelvanniRank();
 };

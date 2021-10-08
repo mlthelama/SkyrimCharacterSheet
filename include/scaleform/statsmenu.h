@@ -3,108 +3,107 @@
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
 
-namespace Scaleform
-{
-	class StatsMenu : public RE::IMenu
-	{
-	public:
-		static constexpr string_view MENU_NAME = "ShowStats";
-		static constexpr string_view FILE_NAME = "ShowStats";
-		static constexpr string_view TITLE_NAME = "$ShowStats";
+namespace Scaleform {
+    class StatsMenu : public RE::IMenu {
+    public:
+        static constexpr std::string_view MENU_NAME = "ShowStats";
+        static constexpr std::string_view FILE_NAME = "ShowStats";
+        static constexpr std::string_view TITLE_NAME = "$ShowStats";
 
-		void AdvanceMovie(float a_interval, uint32_t a_currentTime) override;
-		RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override;
+        void AdvanceMovie(float a_interval, uint32_t a_currentTime) override;
+        RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override;
 
-		void InitExtensions();
+        void InitExtensions();
 
-		static RE::IMenu* Creator();
+        static RE::IMenu* Creator();
 
-		static void Register();
+        static void Register();
 
-		static void Open();
+        static void Open();
 
-		static void Close();
+        static void Close();
 
-		static bool IsMenuOpen();
+        static bool IsMenuOpen();
 
-		void PostCreate() override;
+        void PostCreate() override;
 
 
-		StatsMenu(const StatsMenu&) = delete;
-		StatsMenu(StatsMenu&&) = delete;
+        StatsMenu(const StatsMenu&) = delete;
+        StatsMenu(StatsMenu&&) = delete;
 
-		~StatsMenu() = default;
+        ~StatsMenu() = default;
 
-		StatsMenu& operator=(const StatsMenu&) = delete;
-		StatsMenu& operator=(StatsMenu&&) = delete;
-	private:
-		StatsMenu();
+        StatsMenu& operator=(const StatsMenu&) = delete;
+        StatsMenu& operator=(StatsMenu&&) = delete;
 
-		RE::GPtr<RE::GFxMovieView> _view;
-		bool _isActive = false;
+    private:
+        StatsMenu();
 
-		CLIK::MovieClip _rootObj;
-		CLIK::TextField _title;
+        RE::GPtr<RE::GFxMovieView> _view;
+        bool _isActive = false;
 
-		CLIK::TextField _name;
-		CLIK::TextField _level;
-		CLIK::TextField _race;
-		CLIK::TextField _perks;
-		CLIK::TextField _beast;
-		CLIK::TextField _xp;
+        CLIK::MovieClip _rootObj;
+        CLIK::TextField _title;
 
-		CLIK::TextField _valuesHeader;
-		CLIK::TextField _attackHeader;
-		CLIK::TextField _perksMagicHeader;
-		CLIK::TextField _defenceHeader;
-		CLIK::TextField _perksWarriorHeader;
-		CLIK::TextField _perksThiefHeader;
+        CLIK::TextField _name;
+        CLIK::TextField _level;
+        CLIK::TextField _race;
+        CLIK::TextField _perks;
+        CLIK::TextField _beast;
+        CLIK::TextField _xp;
 
-		CLIK::GFx::Controls::ScrollingList _playerItemList;
-		RE::GFxValue _playerItemListProvider;
+        CLIK::TextField _valuesHeader;
+        CLIK::TextField _attackHeader;
+        CLIK::TextField _perksMagicHeader;
+        CLIK::TextField _defenceHeader;
+        CLIK::TextField _perksWarriorHeader;
+        CLIK::TextField _perksThiefHeader;
 
-		CLIK::GFx::Controls::ScrollingList _defenceItemList;
-		RE::GFxValue _defenceItemListProvider;
+        CLIK::GFx::Controls::ScrollingList _playerItemList;
+        RE::GFxValue _playerItemListProvider;
 
-		CLIK::GFx::Controls::ScrollingList _attackItemList;
-		RE::GFxValue _attackItemListProvider;
+        CLIK::GFx::Controls::ScrollingList _defenceItemList;
+        RE::GFxValue _defenceItemListProvider;
 
-		CLIK::GFx::Controls::ScrollingList _perksMagicItemList;
-		RE::GFxValue _perksMagicItemListProvider;
+        CLIK::GFx::Controls::ScrollingList _attackItemList;
+        RE::GFxValue _attackItemListProvider;
 
-		CLIK::GFx::Controls::ScrollingList _perksWarriorItemList;
-		RE::GFxValue _perksWarriorItemListProvider;
+        CLIK::GFx::Controls::ScrollingList _perksMagicItemList;
+        RE::GFxValue _perksMagicItemListProvider;
 
-		CLIK::GFx::Controls::ScrollingList _perksThiefItemList;
-		RE::GFxValue _perksThiefItemListProvider;
+        CLIK::GFx::Controls::ScrollingList _perksWarriorItemList;
+        RE::GFxValue _perksWarriorItemListProvider;
 
-		map<MenuValue, RE::GFxValue&> menuMap = {
-			{ MenuValue::mPlayer, _playerItemListProvider },
-			{ MenuValue::mDefence, _defenceItemListProvider },
-			{ MenuValue::mAttack, _attackItemListProvider },
-			{ MenuValue::mMagic, _perksMagicItemListProvider },
-			{ MenuValue::mWarrior, _perksWarriorItemListProvider },
-			{ MenuValue::mThief, _perksThiefItemListProvider },
-		};
+        CLIK::GFx::Controls::ScrollingList _perksThiefItemList;
+        RE::GFxValue _perksThiefItemListProvider;
 
-		void OnOpen();
+        std::map<StatsMenuValue, RE::GFxValue&> menuMap = {
+            { StatsMenuValue::mPlayer, _playerItemListProvider },
+            { StatsMenuValue::mDefence, _defenceItemListProvider },
+            { StatsMenuValue::mAttack, _attackItemListProvider },
+            { StatsMenuValue::mMagic, _perksMagicItemListProvider },
+            { StatsMenuValue::mWarrior, _perksWarriorItemListProvider },
+            { StatsMenuValue::mThief, _perksThiefItemListProvider },
+        };
 
-		void updateText(CLIK::TextField p_field, string_view p_string);
+        void OnOpen();
 
-		void UpdateTitle();
+        void updateText(CLIK::TextField p_field, std::string_view p_string);
 
-		void UpdateHeaders();
+        void UpdateTitle();
 
-		RE::GFxValue buildGFxValue(string p_val);
+        void UpdateHeaders();
 
-		void ClearProviders();
+        RE::GFxValue buildGFxValue(std::string p_val);
 
-		void InvalidateItemLists();
+        void ClearProviders();
 
-		void InvalidateDataItemLists();
+        void InvalidateItemLists();
 
-		void UpdateLists();
+        void InvalidateDataItemLists();
 
-		void updateBottom();
-	};
+        void UpdateLists();
+
+        void updateBottom();
+    };
 }

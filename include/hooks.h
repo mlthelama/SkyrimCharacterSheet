@@ -1,6 +1,5 @@
 #pragma once
 
-namespace hooks
-{
-	void install();
+namespace hooks {
+    void install();
 }

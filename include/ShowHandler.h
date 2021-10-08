@@ -1,24 +1,23 @@
 #pragma once
 
-class ShowHandler
-{
+class ShowHandler {
 public:
-	static ShowHandler* GetSingleton();
-	//maybe add save/load
+    static ShowHandler* GetSingleton();
+    //maybe add save/load
 
-	void ShowWindow();
+    void ShowWindow();
 
 private:
-	using Lock = recursive_mutex;
-	using Locker = lock_guard<Lock>;
+    using Lock = std::recursive_mutex;
+    using Locker = std::lock_guard<Lock>;
 
-	ShowHandler();
-	ShowHandler(const ShowHandler&) = delete;
-	ShowHandler(ShowHandler&&) = delete;
-	~ShowHandler() = default;
+    ShowHandler();
+    ShowHandler(const ShowHandler&) = delete;
+    ShowHandler(ShowHandler&&) = delete;
+    ~ShowHandler() = default;
 
-	ShowHandler& operator=(const ShowHandler&) = delete;
-	ShowHandler& operator=(ShowHandler&&) = delete;
+    ShowHandler& operator=(const ShowHandler&) = delete;
+    ShowHandler& operator=(ShowHandler&&) = delete;
 
-	mutable Lock _lock;
+    mutable Lock _lock;
 };

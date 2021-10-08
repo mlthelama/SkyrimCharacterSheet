@@ -1,6 +1,5 @@
 #pragma once
 
-namespace Serialhelper
-{
-	void Install();
+namespace Serialhelper {
+    void Install();
 }
