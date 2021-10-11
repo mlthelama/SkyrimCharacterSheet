@@ -62,15 +62,11 @@ namespace Scaleform {
         CLIK::GFx::Controls::ScrollingList _championItemList;
         RE::GFxValue _championItemListProvider;
 
-        //TODO
-        /*std::map<MenuValue, RE::GFxValue&> menuMap = {
-			{ MenuValue::mPlayer, _playerItemListProvider },
-			{ MenuValue::mDefence, _defenceItemListProvider },
-			{ MenuValue::mAttack, _attackItemListProvider },
-			{ MenuValue::mMagic, _perksMagicItemListProvider },
-			{ MenuValue::mWarrior, _perksWarriorItemListProvider },
-			{ MenuValue::mThief, _perksThiefItemListProvider },
-		};*/
+        std::map<FactionMenuValue, RE::GFxValue&> menuMap = {
+            { FactionMenuValue::mFaction, _factionItemListProvider },
+            { FactionMenuValue::mThane, _thaneItemListProvider },
+            { FactionMenuValue::mChampion, _championItemListProvider },
+        };
 
         void OnOpen();
 

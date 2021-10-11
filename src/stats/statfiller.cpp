@@ -1,16 +1,16 @@
 #pragma once
 #include "stats/statfiller.h"
 
-using StatsValue = StatsValue;
+//using StatsValue = StatsValue;
 using ActorValue = RE::ActorValue;
 using Menu = StatsMenuValue;
 
-auto Filler::GetSingleton() -> Filler* {
-    static Filler singleton;
+auto StatFiller::GetSingleton() -> StatFiller* {
+    static StatFiller singleton;
     return std::addressof(singleton);
 }
 
-std::vector<std::shared_ptr<StatItem>> Filler::getData() {
+std::vector<std::shared_ptr<StatItem>> StatFiller::getData() {
     std::vector<std::shared_ptr<StatItem>> statList = {
         std::make_shared<StatItem>(StatsValue::name, ActorValue::kNone, *Settings::nameString,
             *Settings::nameStringEnding, *Settings::name),
@@ -273,60 +273,13 @@ std::vector<std::shared_ptr<StatItem>> Filler::getData() {
             *Settings::damageArrowStringEnding, *Settings::damageArrow, getStatsMenu(*Settings::damageArrowMenu)),
         std::make_shared<StatItem>(StatsValue::damageLeft, ActorValue::kNone, *Settings::damageLeftString,
             *Settings::damageLeftStringEnding, *Settings::damageLeft, getStatsMenu(*Settings::damageLeftMenu)),
-
-        std::make_shared<StatItem>(StatsValue::darkbrotherHood, ActorValue::kNone, *Settings::darkbrotherHoodString, "",
-            *Settings::showFactions, getStatsMenu(*Settings::darkbrotherHoodMenu), true),
-        std::make_shared<StatItem>(StatsValue::thiefsGuild, ActorValue::kNone, *Settings::thiefsGuildString, "",
-            *Settings::showFactions, getStatsMenu(*Settings::thiefsGuildMenu), true),
-        std::make_shared<StatItem>(StatsValue::orcFriend, ActorValue::kNone, *Settings::orcFriendString, "",
-            *Settings::showFactions, getStatsMenu(*Settings::orcFriendMenu), true),
-        std::make_shared<StatItem>(StatsValue::collegeOfWinterhold, ActorValue::kNone,
-            *Settings::collegeOfWinterholdString, "", *Settings::showFactions,
-            getStatsMenu(*Settings::collegeOfWinterholdMenu), true),
-        std::make_shared<StatItem>(StatsValue::companions, ActorValue::kNone, *Settings::companionsString, "",
-            *Settings::showFactions, getStatsMenu(*Settings::companionsMenu), true),
-        std::make_shared<StatItem>(StatsValue::imperialLegion, ActorValue::kNone, *Settings::imperialLegionString, "",
-            *Settings::showFactions, getStatsMenu(*Settings::imperialLegionMenu), true),
-        std::make_shared<StatItem>(StatsValue::stormcloaks, ActorValue::kNone, *Settings::stormcloaksString, "",
-            *Settings::showFactions, getStatsMenu(*Settings::stormcloaksMenu), true),
-        std::make_shared<StatItem>(StatsValue::greybeard, ActorValue::kNone, *Settings::greybeardString, "",
-            *Settings::showFactions, getStatsMenu(*Settings::greybeardMenu), true),
-        std::make_shared<StatItem>(StatsValue::bard, ActorValue::kNone, *Settings::bardString, "",
-            *Settings::showFactions, getStatsMenu(*Settings::bardMenu), true),
-        std::make_shared<StatItem>(StatsValue::volkiharVampireClan, ActorValue::kNone,
-            *Settings::volkiharVampireClanString, "", *Settings::showFactions,
-            getStatsMenu(*Settings::volkiharVampireClanMenu), true),
-        std::make_shared<StatItem>(StatsValue::dawnguard, ActorValue::kNone, *Settings::dawnguardString, "",
-            *Settings::showFactions, getStatsMenu(*Settings::dawnguardMenu), true),
-        std::make_shared<StatItem>(StatsValue::houseTelvanni, ActorValue::kNone, *Settings::houseTelvanniString, "",
-            *Settings::showFactions, getStatsMenu(*Settings::houseTelvanniMenu), true),
-
-        std::make_shared<StatItem>(StatsValue::thaneOfEastmarch, ActorValue::kNone, *Settings::thaneOfEastmarchName, "",
-            *Settings::showThanes, getStatsMenu(*Settings::thaneOfEastmarchMenu), true),
-        std::make_shared<StatItem>(StatsValue::thaneOfFalkreath, ActorValue::kNone, *Settings::thaneOfFalkreathName, "",
-            *Settings::showThanes, getStatsMenu(*Settings::thaneOfFalkreathMenu), true),
-        std::make_shared<StatItem>(StatsValue::thaneOfHaafingar, ActorValue::kNone, *Settings::thaneOfHaafingarName, "",
-            *Settings::showThanes, getStatsMenu(*Settings::thaneOfHaafingarMenu), true),
-        std::make_shared<StatItem>(StatsValue::thaneOfHjaalmarch, ActorValue::kNone, *Settings::thaneOfHjaalmarchName,
-            "", *Settings::showThanes, getStatsMenu(*Settings::thaneOfHjaalmarchMenu), true),
-        std::make_shared<StatItem>(StatsValue::thaneOfThePale, ActorValue::kNone, *Settings::thaneOfThePaleName, "",
-            *Settings::showThanes, getStatsMenu(*Settings::thaneOfThePaleMenu), true),
-        std::make_shared<StatItem>(StatsValue::thaneOfTheReach, ActorValue::kNone, *Settings::thaneOfTheReachName, "",
-            *Settings::showThanes, getStatsMenu(*Settings::thaneOfTheReachMenu), true),
-        std::make_shared<StatItem>(StatsValue::thaneOfTheRift, ActorValue::kNone, *Settings::thaneOfTheRiftName, "",
-            *Settings::showThanes, getStatsMenu(*Settings::thaneOfTheRiftMenu), true),
-        std::make_shared<StatItem>(StatsValue::thaneOfWhiterun, ActorValue::kNone, *Settings::thaneOfWhiterunName, "",
-            *Settings::showThanes, getStatsMenu(*Settings::thaneOfWhiterunMenu), true),
-        std::make_shared<StatItem>(StatsValue::thaneOfWinterhold, ActorValue::kNone, *Settings::thaneOfWinterholdName,
-            "", *Settings::showThanes, getStatsMenu(*Settings::thaneOfWinterholdMenu), true),
-
     };
 
     logger::debug("Vector Size is {}"sv, statList.size());
     return statList;
 }
 
-void Filler::PrintStatsVector(std::vector<std::shared_ptr<StatItem>>& p_vec) {
+void StatFiller::PrintStatsVector(std::vector<std::shared_ptr<StatItem>>& p_vec) {
     logger::trace("Vector Size is {}"sv, p_vec.size());
     for (auto& element : p_vec) {
         logger::trace(

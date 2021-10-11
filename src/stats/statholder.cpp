@@ -113,7 +113,7 @@ void StatItem::setValueMultiplier(int64_t p_value_multiplier) { valueMultiplier 
 int64_t StatItem::getValueMultiplier() { return valueMultiplier; }
 
 void StatItem::buildText() {
-    if (!value.empty() && !displayName.empty() && !show) {
+    /* if (!value.empty() && !displayName.empty() && !show) {
         return;
     }
 
@@ -126,7 +126,8 @@ void StatItem::buildText() {
 
     guiText += (staticText) ? value : cutString(value);
 
-    guiText += ending;
+    guiText += ending;*/
+    guiText = buildDisplayString(value, displayName, ending, show, staticText, false);
 }
 
 void StatItem::logItem() {

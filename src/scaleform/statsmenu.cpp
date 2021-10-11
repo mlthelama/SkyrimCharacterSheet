@@ -1,6 +1,6 @@
 #pragma once
 #include "scaleform/statsmenu.h"
-#include "data/player.h"
+#include "data/playerdata.h"
 
 namespace Scaleform {
     RE::IMenu* StatsMenu::Creator() { return new StatsMenu(); }
@@ -202,7 +202,7 @@ namespace Scaleform {
     }
 
     void StatsMenu::UpdateLists() {
-        auto playerinfo = Player::GetSingleton();
+        auto playerinfo = PlayerData::GetSingleton();
 
         ClearProviders();
         InvalidateItemLists();
@@ -245,18 +245,6 @@ namespace Scaleform {
                 case StatsValue::shoutRecoveryMult:
                 case StatsValue::movementNoiseMult:
                 case StatsValue::speedMult:
-                case StatsValue::darkbrotherHood:
-                case StatsValue::thiefsGuild:
-                case StatsValue::orcFriend:
-                case StatsValue::collegeOfWinterhold:
-                case StatsValue::companions:
-                case StatsValue::imperialLegion:
-                case StatsValue::stormcloaks:
-                case StatsValue::greybeard:
-                case StatsValue::bard:
-                case StatsValue::volkiharVampireClan:
-                case StatsValue::dawnguard:
-                case StatsValue::houseTelvanni:
                 case StatsValue::mass:
                 case StatsValue::bypassVendorKeywordCheck:
                 case StatsValue::bypassVendorStolenCheck:
@@ -346,15 +334,6 @@ namespace Scaleform {
                 case StatsValue::lockpickingMod:
                 case StatsValue::marksmanMod:
                 case StatsValue::alchemyMod:
-                case StatsValue::thaneOfEastmarch:
-                case StatsValue::thaneOfFalkreath:
-                case StatsValue::thaneOfHaafingar:
-                case StatsValue::thaneOfHjaalmarch:
-                case StatsValue::thaneOfThePale:
-                case StatsValue::thaneOfTheReach:
-                case StatsValue::thaneOfTheRift:
-                case StatsValue::thaneOfWhiterun:
-                case StatsValue::thaneOfWinterhold:
                     if (element->getMenu() != StatsMenuValue::mNone) {
                         menuMap.find(element->getMenu())->second.PushBack(buildGFxValue(element->getGuiText()));
                         logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, element->getMenu(),

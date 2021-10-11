@@ -1,5 +1,5 @@
 #pragma once
-#include "data/faction.h"
+#include "stats/faction.h"
 
 auto Faction::GetSingleton() -> Faction* {
     static Faction singleton;
@@ -42,25 +42,25 @@ void Faction::getFactions(RE::Actor* a_actor) {
 
                 /*if rank is empty here then we need to fill it by ourselfs*/
                 switch (factionMap.find(formID)->second) {
-                    case StatsValue::darkbrotherHood:
+                    case FactionValue::darkbrotherHood:
                         rank = getDarkBrotherhoodRank();
                         break;
-                    case StatsValue::greybeard:
+                    case FactionValue::greybeard:
                         rank = getGraybeardRank();
                         break;
-                    case StatsValue::imperialLegion:
+                    case FactionValue::imperialLegion:
                         rank = getImperialLegionRank();
                         break;
-                    case StatsValue::stormcloaks:
+                    case FactionValue::stormcloaks:
                         rank = getStormcloaksRank();
                         break;
-                    case StatsValue::volkiharVampireClan:
+                    case FactionValue::volkiharVampireClan:
                         rank = getVolkiharVampireClanRank();
                         break;
-                    case StatsValue::dawnguard:
+                    case FactionValue::dawnguard:
                         rank = getDawnguardRank();
                         break;
-                    case StatsValue::houseTelvanni:
+                    case FactionValue::houseTelvanni:
                         rank = getHouseTelvanniRank();
                         break;
                     default:
@@ -70,7 +70,7 @@ void Faction::getFactions(RE::Actor* a_actor) {
                         break;
                 }
 
-                factionRankList.insert(std::pair<StatsValue, std::string>(factionMap.find(formID)->second, rank));
+                factionRankList.insert(std::pair<FactionValue, std::string>(factionMap.find(formID)->second, rank));
             }
         }
         return false;
@@ -79,7 +79,7 @@ void Faction::getFactions(RE::Actor* a_actor) {
     //MS05
     if (RE::TESForm::LookupByID(0x00053511)->As<RE::TESQuest>()->currentStage == 300) {
         //"Bard"
-        factionRankList.insert(std::pair<StatsValue, std::string>(StatsValue::bard, *Settings::bardRank));
+        factionRankList.insert(std::pair<FactionValue, std::string>(FactionValue::bard, *Settings::bardRank));
     }
 
     logger::trace("got {} items in faction list."sv, factionRankList.size());
@@ -87,7 +87,7 @@ void Faction::getFactions(RE::Actor* a_actor) {
     logMap();
 }
 
-std::string Faction::getRank(StatsValue p_stat) {
+std::string Faction::getRank(FactionValue p_stat) {
     if (factionRankList.find(p_stat) == factionRankList.end()) {
         return "";
     } else {

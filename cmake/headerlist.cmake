@@ -11,12 +11,11 @@ set(headers ${headers}
 	include/CLIK/MovieClip.h
 	include/CLIK/Object.h
 	include/CLIK/TextField.h
+	include/Events.h
 	include/PCH.h
 	include/constants.h
-	include/data/faction.h
-	include/data/player.h
-	include/data/thane.h
-	include/events.h
+	include/data/factiondata.h
+	include/data/playerdata.h
 	include/hooks.h
 	include/papyrus.h
 	include/scaleform/factionmenu.h
@@ -25,7 +24,11 @@ set(headers ${headers}
 	include/serialhelper.h
 	include/settings/settings.h
 	include/showhandler.h
+	include/stats/faction.h
+	include/stats/factionfiller.h
+	include/stats/factionholder.h
 	include/stats/statfiller.h
 	include/stats/statholder.h
+	include/stats/thane.h
 	include/utils.h
 )

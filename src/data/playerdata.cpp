@@ -1,14 +1,12 @@
-#include "data/player.h"
-#include "data/faction.h"
-#include "data/thane.h"
+#include "data/playerdata.h"
 #include "stats/statfiller.h"
 
-auto Player::GetSingleton() -> Player* {
-    static Player singleton;
+auto PlayerData::GetSingleton() -> PlayerData* {
+    static PlayerData singleton;
     return std::addressof(singleton);
 }
 
-std::string Player::getBeast(float p_vamp, float p_were) {
+std::string PlayerData::getBeast(float p_vamp, float p_were) {
     if (p_vamp > 0) {
         return *Settings::vampireString;
     } else if (p_were > 0) {
@@ -17,7 +15,7 @@ std::string Player::getBeast(float p_vamp, float p_were) {
     return "";
 }
 
-std::string Player::getArrowDamage(RE::PlayerCharacter*& p_player) {
+std::string PlayerData::getArrowDamage(RE::PlayerCharacter*& p_player) {
     RE::InventoryEntryData* equip = p_player->GetEquippedEntryData(false);
 
     if (equip != nullptr) {
@@ -29,7 +27,7 @@ std::string Player::getArrowDamage(RE::PlayerCharacter*& p_player) {
     return "";
 }
 
-std::string Player::getDamage(RE::PlayerCharacter*& p_player, boolean p_left) {
+std::string PlayerData::getDamage(RE::PlayerCharacter*& p_player, boolean p_left) {
     RE::InventoryEntryData* hand;
     float damage = -1;
     if (p_left) {
@@ -45,19 +43,10 @@ std::string Player::getDamage(RE::PlayerCharacter*& p_player, boolean p_left) {
     return (damage == -1) ? "" : getStringValueFromFloat(damage);
 }
 
-std::vector<std::shared_ptr<StatItem>> Player::getPlayerValues() {
+std::vector<std::shared_ptr<StatItem>> PlayerData::getPlayerValues() {
     logger::trace("Gather Values to Show ..."sv);
     auto player = RE::PlayerCharacter::GetSingleton();
-    auto filler = Filler::GetSingleton();
-    auto faction = Faction::GetSingleton();
-    auto thane = Thane::GetSingleton();
-
-    if (*Settings::showFactions) {
-        faction->getFactions(player);
-    }
-    if (*Settings::showThanes) {
-        thane->getRegionThanes();
-    }
+    auto filler = StatFiller::GetSingleton();
 
     auto statList = filler->getData();
     for (auto& element : statList) {
@@ -135,31 +124,6 @@ std::vector<std::shared_ptr<StatItem>> Player::getPlayerValues() {
                 case StatsValue::leftWeaponSpeedMult:
                     element->setValue(handleWeaponSpeed(player, true));
                     break;
-                case StatsValue::companions:
-                case StatsValue::darkbrotherHood:
-                case StatsValue::collegeOfWinterhold:
-                case StatsValue::orcFriend:
-                case StatsValue::thiefsGuild:
-                case StatsValue::imperialLegion:
-                case StatsValue::stormcloaks:
-                case StatsValue::greybeard:
-                case StatsValue::bard:
-                case StatsValue::volkiharVampireClan:
-                case StatsValue::dawnguard:
-                case StatsValue::houseTelvanni:
-                    element->setValue(faction->getRank(element->getName()));
-                    break;
-                case StatsValue::thaneOfEastmarch:
-                case StatsValue::thaneOfFalkreath:
-                case StatsValue::thaneOfHaafingar:
-                case StatsValue::thaneOfHjaalmarch:
-                case StatsValue::thaneOfThePale:
-                case StatsValue::thaneOfTheReach:
-                case StatsValue::thaneOfTheRift:
-                case StatsValue::thaneOfWhiterun:
-                case StatsValue::thaneOfWinterhold:
-                    element->setValue(thane->getThane(element->getName()));
-                    break;
                 default:
                     logger::warn("unhandeled stat, name {}, displayName {}"sv, element->getName(),
                         element->getDisplayName());
@@ -173,7 +137,7 @@ std::vector<std::shared_ptr<StatItem>> Player::getPlayerValues() {
     return statList;
 }
 
-std::string Player::handleWeaponSpeed(RE::PlayerCharacter*& p_player, boolean p_left) {
+std::string PlayerData::handleWeaponSpeed(RE::PlayerCharacter*& p_player, boolean p_left) {
     RE::InventoryEntryData* hand;
     float speed = -1;
     if (p_left) {
@@ -191,7 +155,7 @@ std::string Player::handleWeaponSpeed(RE::PlayerCharacter*& p_player, boolean p_
     return (speed == -1) ? "" : getStringValueFromFloat(speed);
 }
 
-std::string Player::getXP(RE::PlayerCharacter*& p_player) {
+std::string PlayerData::getXP(RE::PlayerCharacter*& p_player) {
     return cutString(getStringValueFromFloat(p_player->skills->data->xp)) + "/" +
            cutString(getStringValueFromFloat(p_player->skills->data->levelThreshold));
 }

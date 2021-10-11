@@ -4,7 +4,7 @@ class Thane {
 public:
     static Thane* GetSingleton();
 
-    std::string getThane(StatsValue p_stat);
+    std::string getThane(FactionValue p_stat);
 
     void getRegionThanes();
 

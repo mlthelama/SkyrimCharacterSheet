@@ -4,7 +4,7 @@ class Faction {
 public:
     static Faction* GetSingleton();
 
-    std::string getRank(StatsValue p_stat);
+    std::string getRank(FactionValue p_stat);
 
     void getFactions(RE::Actor* a_actor);
 

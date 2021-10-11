@@ -1,5 +1,6 @@
 #pragma once
 #include "scaleform/factionmenu.h"
+#include "data/factiondata.h"
 
 namespace Scaleform {
     RE::IMenu* FactionMenu::Creator() { return new FactionMenu(); }
@@ -172,17 +173,59 @@ namespace Scaleform {
     }
 
     void FactionMenu::UpdateLists() {
-        //auto playerinfo = Player::GetSingleton();
+        auto factioninfo = FactionData::GetSingleton();
 
         ClearProviders();
         InvalidateItemLists();
 
+        auto factionValue = factioninfo->getFactionValues();
+        for (auto& element : factionValue) {
+            if (!element->getShow() || element->getGuiText().empty() || element->getGuiText() == "" ||
+                element->getValue().empty() || element->getValue() == "") {
+                continue;
+            }
 
-        /*playerValues.clear();
-		for (auto& element : playerValues) {
-			element.reset();
-		}
-		logger::trace("Vector Size is {}"sv, playerValues.size());*/
+            logger::trace("processing name {}, displayName {}, menu {}"sv, element->getName(), element->getGuiText(),
+                element->getMenu());
+            switch (element->getName()) {
+                case FactionValue::darkbrotherHood:
+                case FactionValue::thiefsGuild:
+                case FactionValue::orcFriend:
+                case FactionValue::collegeOfWinterhold:
+                case FactionValue::companions:
+                case FactionValue::imperialLegion:
+                case FactionValue::stormcloaks:
+                case FactionValue::greybeard:
+                case FactionValue::bard:
+                case FactionValue::volkiharVampireClan:
+                case FactionValue::dawnguard:
+                case FactionValue::houseTelvanni:
+                case FactionValue::thaneOfEastmarch:
+                case FactionValue::thaneOfFalkreath:
+                case FactionValue::thaneOfHaafingar:
+                case FactionValue::thaneOfHjaalmarch:
+                case FactionValue::thaneOfThePale:
+                case FactionValue::thaneOfTheReach:
+                case FactionValue::thaneOfTheRift:
+                case FactionValue::thaneOfWhiterun:
+                case FactionValue::thaneOfWinterhold:
+                    if (element->getMenu() != FactionMenuValue::mNone) {
+                        menuMap.find(element->getMenu())->second.PushBack(buildGFxValue(element->getGuiText()));
+                        logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, element->getMenu(),
+                            element->getName(), element->getGuiText());
+                    }
+                    break;
+                default:
+                    logger::warn("not handeled name {}, displayName {}"sv, element->getName(), element->getGuiText());
+                    break;
+            }
+
+        }
+
+
+        factionValue.clear();
+        for (auto& element : factionValue) { element.reset(); }
+        logger::trace("Vector Size is {}"sv, factionValue.size());
 
         InvalidateDataItemLists();
     }

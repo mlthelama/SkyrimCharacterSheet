@@ -1,9 +1,9 @@
 #pragma once
 #include "stats/statholder.h"
 
-class Player {
+class PlayerData {
 public:
-    static Player* GetSingleton();
+    static PlayerData* GetSingleton();
 
     std::vector<std::shared_ptr<StatItem>> getPlayerValues();
 
@@ -20,12 +20,12 @@ private:
 
     std::string getXP(RE::PlayerCharacter*& p_player);
 
-    Player() = default;
-    Player(const Player&) = delete;
-    Player(Player&&) = delete;
+    PlayerData() = default;
+    PlayerData(const PlayerData&) = delete;
+    PlayerData(PlayerData&&) = delete;
 
-    ~Player() = default;
+    ~PlayerData() = default;
 
-    Player& operator=(const Player&) = delete;
-    Player& operator=(Player&&) = delete;
+    PlayerData& operator=(const PlayerData&) = delete;
+    PlayerData& operator=(PlayerData&&) = delete;
 };

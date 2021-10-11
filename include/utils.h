@@ -55,3 +55,29 @@ inline static FactionMenuValue getFactionMenu(int64_t p_menu_id) {
         return configFactionMenu.find(p_menu_id)->second;
     }
 }
+
+inline static std::string buildDisplayString(std::string p_value, std::string p_display_name, std::string p_ending,
+    boolean p_show, boolean p_staticText, boolean p_value_is_display) {
+    if (!p_value.empty() && !p_display_name.empty() && !p_show) {
+        return "";
+    }
+
+    std::string guiText = "";
+
+    if (p_value_is_display) {
+        if (p_value == staticDisplayValue) {
+            guiText = p_display_name;
+        }
+    } else {
+        guiText = p_display_name;
+        if (p_value.size() > 0) {
+            guiText += ": ";
+        }
+
+        guiText += (p_staticText) ? p_value : cutString(p_value);
+
+        guiText += p_ending;
+    }
+
+    return guiText;
+}
