@@ -23,7 +23,7 @@
       </optionalFileGroups>
     </installStep>
     <installStep name="gui">
-      <!--<designer.metadata.do.not.edit> {"name":"gui"}-->
+      <!--<designer.metadata.do.not.edit> {"name":"gui","user_sort":"0000001"}-->
       <optionalFileGroups order="Explicit">
         <group name="gui" type="SelectExactlyOne">
           <!--<designer.metadata.do.not.edit> {"name":"gui"}-->
@@ -65,8 +65,28 @@
         </group>
       </optionalFileGroups>
     </installStep>
+    <installStep name="gui faction">
+      <!--<designer.metadata.do.not.edit> {"name":"gui faction","user_sort":"0000002"}-->
+      <optionalFileGroups order="Explicit">
+        <group name="gui" type="SelectExactlyOne">
+          <!--<designer.metadata.do.not.edit> {"name":"gui"}-->
+          <plugins order="Ascending">
+            <plugin name="standard">
+              <!--<designer.metadata.do.not.edit> {"name":"standard"}-->
+              <description>standard</description>
+              <files>
+                <file source="gui\faction\ShowFactions.swf" destination="Interface\" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Recommended"/>
+              </typeDescriptor>
+            </plugin>
+          </plugins>
+        </group>
+      </optionalFileGroups>
+    </installStep>
     <installStep name="finish">
-      <!--<designer.metadata.do.not.edit> {"name":"finish"}-->
+      <!--<designer.metadata.do.not.edit> {"name":"finish","user_sort":"0000003"}-->
       <optionalFileGroups order="Explicit">
         <group name="finish" type="SelectAll">
           <!--<designer.metadata.do.not.edit> {"name":"finish"}-->

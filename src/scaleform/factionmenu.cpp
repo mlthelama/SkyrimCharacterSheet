@@ -139,7 +139,7 @@ namespace Scaleform {
         p_field.Visible(true);
     }
 
-    void FactionMenu::UpdateTitle() { updateText(_title, TITLE_NAME); }
+    void FactionMenu::UpdateTitle() { updateText(_title, TITLE_NAME_FACTIONS); }
 
     void FactionMenu::UpdateHeaders() {
         updateText(_factionHeader, headerFactionName);

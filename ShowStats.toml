@@ -1,9 +1,12 @@
 [General]
 logLevel = 2 # 0 trace; 1 debug; 2 info
-closeOnEveryButtonPress = false # otherwise menu just closes at ESC and binded key
 closeOnOtherMenuOpen = true
-showFactions = false #WIP, yet Should work
-showThane = false #WIP, yet Should work
+showFactionMenu = false #WIP, factions and thanes should work
+openFactionMenuButton = 9 #https://www.creationkit.com/index.php?title=Input_Script (dec values)
+
+[showFactions]
+showFactions = true
+showThane = true
 
 [showBeastName]
 vampire = "Vampire"
@@ -327,7 +330,7 @@ bowStaggerBonus = ""
 bypassVendorKeywordCheck = ""
 bypassVendorStolenCheck = ""
 
-[showStatsMenu] 
+[showStatsMenu]
 height = 1 #player(1),defence(2),attack(3),magic(4),warrior(5),thief(6)
 equipedWeight = 1
 weight = 1
@@ -483,15 +486,15 @@ honoraryMember = "Honorary Member"
 ysmir = "Ysmir"
 
 [showStatsThaneMenu]
-thaneOfEastmarch = 1
-thaneOfFalkreath = 1
-thaneOfHaafingar = 1
-thaneOfHjaalmarch = 1
-thaneOfThePale = 1
-thaneOfTheReach = 1
-thaneOfTheRift = 1
-thaneOfWhiterun = 1
-thaneOfWinterhold = 1
+thaneOfEastmarch = 2
+thaneOfFalkreath = 2
+thaneOfHaafingar = 2
+thaneOfHjaalmarch = 2
+thaneOfThePale = 2
+thaneOfTheReach = 2
+thaneOfTheRift = 2
+thaneOfWhiterun = 2
+thaneOfWinterhold = 2
 
 [showStatsThaneName]
 thaneOfEastmarch = "Thane Of Eastmarch"

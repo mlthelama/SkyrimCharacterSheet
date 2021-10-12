@@ -8,7 +8,6 @@ namespace Scaleform {
     public:
         static constexpr std::string_view MENU_NAME = "ShowStats";
         static constexpr std::string_view FILE_NAME = "ShowStats";
-        static constexpr std::string_view TITLE_NAME = "$ShowStats";
 
         void AdvanceMovie(float a_interval, uint32_t a_currentTime) override;
         RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override;

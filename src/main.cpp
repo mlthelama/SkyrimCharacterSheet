@@ -41,7 +41,8 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 
 
     spdlog::set_default_logger(move(log));
-    spdlog::set_pattern("%g(%#): [%^%l%$] %v"s);
+    //spdlog::set_pattern("%g(%#): [%^%l%$] %v"s);
+    spdlog::set_pattern("%s(%#): [%^%l%$] %v"s);
 
     logger::info("ShowStats v{}"sv, Version::NAME);
 

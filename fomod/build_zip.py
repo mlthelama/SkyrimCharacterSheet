@@ -15,6 +15,7 @@ def copy_files(a_args, a_out):
     gui_standard = os.path.join(a_out, gui, "standard/")
     gui_paper = os.path.join(a_out, gui, "paper/")
     gui_paper_light = os.path.join(a_out, gui, "paper_light/")
+    gui_faction = os.path.join(a_out, gui, "faction/")
 
     os.makedirs(skse_dir + '/',exist_ok=True)
     shutil.copy2(os.path.join(a_args.src_dir, "ShowStats.toml"), os.path.join(skse_dir, "ShowStats.toml"))  #"SKSE/Plugins/ShowStats.toml")
@@ -38,6 +39,9 @@ def copy_files(a_args, a_out):
 
     os.makedirs(gui_paper_light + '/',exist_ok=True)
     shutil.copy2(os.path.join(a_args.src_dir, "swf", "paper_light", "ShowStats.swf"), os.path.join(gui_paper_light, "ShowStats.swf"))
+    
+    os.makedirs(gui_faction + '/',exist_ok=True)
+    shutil.copy2(os.path.join(a_args.src_dir, "swf", "faction", "ShowFactions.swf"), os.path.join(gui_faction, "ShowFactions.swf"))
 
 def make_rel_archive(a_args, a_out):
     #os.chdir(a_out)

@@ -450,10 +450,12 @@ struct Settings {
     static inline iSetting armorPerksMult{ "showStatsMultiplier"s, "armorPerks"s, 1 };
 
     static inline iSetting logLevel{ "General"s, "logLevel"s, 0 };
-    static inline bSetting closeOnEveryButtonPress{ "General"s, "closeOnEveryButtonPress"s, true };
     static inline bSetting closeOnOtherMenuOpen{ "General"s, "closeOnOtherMenuOpen"s, true };
-    static inline bSetting showFactions{ "General"s, "showFactions"s, true };
-    static inline bSetting showThanes{ "General"s, "showThane"s, true };
+    static inline bSetting showFactionMenu{ "General"s, "showFactionMenu"s, true };
+    static inline iSetting openFactionMenuButton{ "General"s, "openFactionMenuButton", 0 };
+
+    static inline bSetting showFactions{ "showFactions"s, "showFactions"s, true };
+    static inline bSetting showThanes{ "showFactions"s, "showThane"s, true };
 
     static inline sSetting vampireString{ "showBeastName"s, "vampire"s, undefined };
     static inline sSetting werewolfString{ "showBeastName"s, "werewolf"s, undefined };

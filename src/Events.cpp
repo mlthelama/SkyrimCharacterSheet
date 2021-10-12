@@ -1,4 +1,5 @@
 #include "events.h"
+#include "scaleform/factionmenu.h"
 #include "scaleform/statsmenu.h"
 #include "showhandler.h"
 
@@ -60,23 +61,16 @@ namespace Events {
             logger::trace("button code {}"sv, key);
 
             logger::trace("event input {}, set {}"sv, key, _key);
+            auto showHandler = ShowHandler::GetSingleton();
             if (key == _key) {
-                //do shit
                 logger::debug("configured Key ({}) pressed"sv, key);
-                if (Scaleform::StatsMenu::IsMenuOpen()) {
-                    Scaleform::StatsMenu::Close();
-                } else {
-                    auto showHandler = ShowHandler::GetSingleton();
-                    showHandler->ShowWindow();
-                }
+                showHandler->HandleMainButtonPress();
                 break;
-            } else if (key == RE::BSWin32KeyboardDevice::Key::kEscape && Scaleform::StatsMenu::IsMenuOpen()) {
-                Scaleform::StatsMenu::Close();
+            } else if (key == RE::BSWin32KeyboardDevice::Key::kEscape) {
+                showHandler->CloseAllWindows();
                 break;
-            } else if (Scaleform::StatsMenu::IsMenuOpen() && *Settings::closeOnEveryButtonPress) {
-                /*should do it*/
-                Scaleform::StatsMenu::Close();
-                break;
+            } else if (key == *Settings::openFactionMenuButton) {
+                showHandler->HandleNextMenuButtonPress();
             }
         }
         return EventResult::kContinue;
@@ -207,12 +201,15 @@ namespace Events {
         }
 
         logger::trace("Menu name {}"sv, a_event->menuName);
-        if (Scaleform::StatsMenu::IsMenuOpen() && a_event->menuName != Scaleform::StatsMenu::MENU_NAME &&
-            a_event->opening) {
-            logger::debug("Menu name {} is opening, {} is open, close it"sv, a_event->menuName,
-                Scaleform::StatsMenu::MENU_NAME);
-
-            Scaleform::StatsMenu::Close();
+        if (a_event->opening) {
+            logger::debug("Menu name {} is opening, check if {} or {} is open"sv, a_event->menuName,
+                Scaleform::StatsMenu::MENU_NAME, Scaleform::FactionMenu::MENU_NAME);
+            auto showHandler = ShowHandler::GetSingleton();
+            if (Scaleform::StatsMenu::IsMenuOpen() && a_event->menuName != Scaleform::StatsMenu::MENU_NAME) {
+                showHandler->CloseWindow(ShowMenu::mStats);
+            } else if (Scaleform::FactionMenu::IsMenuOpen() && a_event->menuName != Scaleform::FactionMenu::MENU_NAME) {
+                showHandler->CloseWindow(ShowMenu::mFaction);
+            }
         }
 
         return EventResult::kContinue;

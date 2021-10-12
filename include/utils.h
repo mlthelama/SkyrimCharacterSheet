@@ -81,3 +81,12 @@ inline static std::string buildDisplayString(std::string p_value, std::string p_
 
     return guiText;
 }
+
+inline static std::string_view getMenuName(ShowMenu p_menu) {
+    if (menuName.find(p_menu) == menuName.end()) {
+        logger::warn("can not find Menu {}"sv, p_menu);
+        return "";
+    } else {
+        return menuName.find(p_menu)->second;
+    }
+}

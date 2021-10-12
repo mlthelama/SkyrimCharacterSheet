@@ -161,10 +161,6 @@ inline static std::map<int64_t, StatsMenuValue> configStatsMenu = {
 typedef std::map<RE::FormID, FactionValue> formIdValueMap;
 typedef std::map<FactionValue, std::string> valueStringMap;  //used in faction.h and thane.h
 
-
-//0x02003376 should be DLC1VampireFaction Volkihar Vampire Clan
-//0x02014217 should be DLC1DawnguardFaction
-//0x04019b8a Staff Maker Faction, but should indicate House Telvanni
 //0x00072834 //blades, player might not be in there
 inline static formIdValueMap factionMap = { { 0x00048362, FactionValue::companions },
     { 0x0001BDB3, FactionValue::darkbrotherHood }, { 0x0001F259, FactionValue::collegeOfWinterhold },
@@ -175,17 +171,6 @@ inline static formIdValueMap factionMap = { { 0x00048362, FactionValue::companio
     { 0x02003376, FactionValue::volkiharVampireClan }, { 0x02014217, FactionValue::dawnguard },
     { 0x04019B8A, FactionValue::houseTelvanni } };
 
-/*
-Thane of Eastmarch 
-Thane of Falkreath 
-Thane of Haafingar 
-Thane of Hjaalmarch 
-Thane of the Pale 
-Thane of the Reach
-Thane of the Rift 
-Thane of Whiterun 
-Thane of Winterhold 
-*/
 //favor/quest thane map 200
 inline static formIdValueMap thaneMap = { { 0x000A2CA6, FactionValue::thaneOfEastmarch },
     { 0x000A34DE, FactionValue::thaneOfFalkreath }, { 0x000A2C9B, FactionValue::thaneOfHaafingar },
@@ -194,9 +179,9 @@ inline static formIdValueMap thaneMap = { { 0x000A2CA6, FactionValue::thaneOfEas
     { 0x000A2C9E, FactionValue::thaneOfWhiterun },  //just if stormcloaks won the war, otherwise MQ104/0002610C/160
     { 0x000A34D7, FactionValue::thaneOfWinterhold } };
 
-const std::string headerFactionName = "$ShowFactions_Factions";
-const std::string headerThaneName = "$ShowFactions_Thanes";
-const std::string headerChampionName = "$ShowFactions_Champions";
+const std::string headerFactionName = "Faction";
+const std::string headerThaneName = "Thane";
+const std::string headerChampionName = "Champion";
 
 enum class FactionMenuValue { mNone = 0, mFaction = 1, mThane = 2, mChampion = 3 };
 
@@ -209,3 +194,12 @@ inline static std::map<int64_t, FactionMenuValue> configFactionMenu = {
 };
 
 const std::string staticDisplayValue = "yes";
+
+static constexpr std::string_view TITLE_NAME_FACTIONS = "Show Factions";
+static constexpr std::string_view TITLE_NAME_STATS = "$ShowStats";
+static constexpr std::string_view TITLE_NAME_STATS_NAME = "Show Stats";
+
+enum class ShowMenu { mStats, mFaction };
+
+inline static std::map<ShowMenu, std::string_view> menuName = { { ShowMenu::mStats, TITLE_NAME_STATS },
+    { ShowMenu::mFaction, TITLE_NAME_STATS_NAME } };

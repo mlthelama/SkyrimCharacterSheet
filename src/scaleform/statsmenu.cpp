@@ -156,7 +156,7 @@ namespace Scaleform {
         p_field.Visible(true);
     }
 
-    void StatsMenu::UpdateTitle() { updateText(_title, TITLE_NAME); }
+    void StatsMenu::UpdateTitle() { updateText(_title, TITLE_NAME_STATS); }
 
     void StatsMenu::UpdateHeaders() {
         updateText(_valuesHeader, headerValuesName);
