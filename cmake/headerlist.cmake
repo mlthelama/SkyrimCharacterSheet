@@ -24,6 +24,7 @@ set(headers ${headers}
 	include/serialhelper.h
 	include/settings/settings.h
 	include/showhandler.h
+	include/stats/champion.h
 	include/stats/faction.h
 	include/stats/factionfiller.h
 	include/stats/factionholder.h

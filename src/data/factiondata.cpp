@@ -2,6 +2,7 @@
 #include "stats/faction.h"
 #include "stats/factionfiller.h"
 #include "stats/thane.h"
+#include "stats/champion.h"
 
 auto FactionData::GetSingleton() -> FactionData* {
     static FactionData singleton;
@@ -14,6 +15,7 @@ std::vector<std::shared_ptr<FactionItem>> FactionData::getFactionValues() {
     auto player = RE::PlayerCharacter::GetSingleton();
     auto faction = Faction::GetSingleton();
     auto thane = Thane::GetSingleton();
+    auto champion = Champion::GetSingleton();
     auto filler = FactionFiller::GetSingleton();
 
     if (*Settings::showFactions) {
@@ -22,9 +24,9 @@ std::vector<std::shared_ptr<FactionItem>> FactionData::getFactionValues() {
     if (*Settings::showThanes) {
         thane->getRegionThanes();
     }
-
-    //faction->getFactions(player);
-    //thane->getRegionThanes();
+    if (*Settings::showChampion) {
+        champion->getChampions();
+    }
 
     auto statList = filler->getData();
     for (auto& element : statList) {
@@ -58,6 +60,24 @@ std::vector<std::shared_ptr<FactionItem>> FactionData::getFactionValues() {
             case FactionValue::thaneOfWhiterun:
             case FactionValue::thaneOfWinterhold:
                 element->setValue(thane->getThane(element->getName()));
+                break;
+            case FactionValue::azura:
+            case FactionValue::boethiah:
+            case FactionValue::clavicusVile:
+            case FactionValue::hermaeusMora:
+            case FactionValue::hircine:
+            case FactionValue::malacath:
+            case FactionValue::mehrunesDagon:
+            case FactionValue::mephala:
+            case FactionValue::meridia:
+            case FactionValue::molagBal:
+            case FactionValue::namira:
+            case FactionValue::nocturnal:
+            case FactionValue::peryite:
+            case FactionValue::sanguine:
+            case FactionValue::sheogorath:
+            case FactionValue::vaermina:
+                element->setValue(champion->getChampion(element->getName()));
                 break;
             default:
                 logger::warn("unhandeled stat, name {}, displayName {}"sv, element->getName(),

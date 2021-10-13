@@ -7,6 +7,7 @@ openFactionMenuButton = 9 #https://www.creationkit.com/index.php?title=Input_Scr
 [showFactions]
 showFactions = true
 showThane = true
+showChampion = true
 
 [showBeastName]
 vampire = "Vampire"
@@ -438,7 +439,7 @@ combatHealthRegenMultiply = 100
 leftWeaponSpeedMult = 1
 armorPerks = 100
 
-[showStatsFactionNames]
+[showFactionsFactionNames]
 companions = "Companions"
 darkbrotherHood = "The Dark Brotherhood"
 collegeOfWinterhold = "College of Winterhold"
@@ -452,8 +453,8 @@ volkiharVampireClan = "Volkihar Vampire Clan"
 dawnguard = "Dawnguard"
 houseTelvanni = "House Telvanni"
 
-[showStatsFactionMenu]
-companions = 1
+[showFactionsFactionMenu]
+companions = 1 #faction(1),thane(2),champion(3)
 darkbrotherHood = 1
 collegeOfWinterhold = 1
 orcFriend = 1
@@ -466,7 +467,7 @@ volkiharVampireClan = 1
 dawnguard = 1
 houseTelvanni = 1
 
-[showStatsFactionRank]
+[showFactionsFactionRank]
 bard = "Bard"
 assassin = "Assassin"
 listener = "Listener"
@@ -485,8 +486,8 @@ vampireHunter = "Vampire Hunter"
 honoraryMember = "Honorary Member"
 ysmir = "Ysmir"
 
-[showStatsThaneMenu]
-thaneOfEastmarch = 2
+[showFactionsThaneMenu]
+thaneOfEastmarch = 2 #faction(1),thane(2),champion(3)
 thaneOfFalkreath = 2
 thaneOfHaafingar = 2
 thaneOfHjaalmarch = 2
@@ -496,7 +497,7 @@ thaneOfTheRift = 2
 thaneOfWhiterun = 2
 thaneOfWinterhold = 2
 
-[showStatsThaneName]
+[showFactionsThaneName]
 thaneOfEastmarch = "Thane Of Eastmarch"
 thaneOfFalkreath = "Thane Of Falkreath"
 thaneOfHaafingar = "Thane Of Haafingar"
@@ -506,3 +507,39 @@ thaneOfTheReach = "Thane Of The Reach"
 thaneOfTheRift = "Thane Of The Rift"
 thaneOfWhiterun = "Thane Of Whiterun"
 thaneOfWinterhold = "Thane Of Winterhold"
+
+[showFactionsChampionMenu]
+azura = 3 #faction(1),thane(2),champion(3)
+boethiah = 3
+clavicusVile = 3
+hermaeusMora = 3
+hircine = 3
+malacath = 3
+mehrunesDagon = 3
+mephala = 3
+meridia = 3
+molagBal = 3
+namira = 3
+nocturnal = 3
+peryite = 3
+sanguine = 3
+sheogorath = 3
+vaermina = 3
+
+[showFactionsChampionName]
+azura = "Azura"
+boethiah = "Boethiah"
+clavicusVile = "Clavicus Vile"
+hermaeusMora = "Hermaeus Mora"
+hircine = "Hircine"
+malacath = "Malacath"
+mehrunesDagon = "Mehrunes Dagon"
+mephala = "Mephala"
+meridia = "Meridia"
+molagBal = "Molag Bal"
+namira = "Namira"
+nocturnal = "Nocturnal"
+peryite = "Peryite"
+sanguine = "Sanguine"
+sheogorath = "Sheogorath"
+vaermina = "Vaermina"

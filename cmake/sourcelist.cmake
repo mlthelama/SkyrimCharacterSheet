@@ -11,6 +11,7 @@ set(sources ${sources}
 	src/scaleform/factionmenu.cpp
 	src/scaleform/scaleform.cpp
 	src/scaleform/statsmenu.cpp
+	src/stats/champion.cpp
 	src/stats/faction.cpp
 	src/stats/factionfiller.cpp
 	src/stats/factionholder.cpp

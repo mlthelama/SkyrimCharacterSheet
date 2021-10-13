@@ -18,7 +18,6 @@ void Thane::logMap() {
 }
 
 void Thane::getRegionThanes() {
-    //fix spacebar so we do not add a : in statfiller
     for (const auto& item : thaneMap) {
         auto questStage = RE::TESForm::LookupByID(item.first)->As<RE::TESQuest>()->currentStage;
 

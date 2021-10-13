@@ -129,7 +129,23 @@ enum class FactionValue {
     thaneOfTheReach,
     thaneOfTheRift,
     thaneOfWhiterun,
-    thaneOfWinterhold
+    thaneOfWinterhold,
+    azura,
+    boethiah,
+    clavicusVile,
+    hermaeusMora,
+    hircine,
+    malacath,
+    mehrunesDagon,
+    mephala,
+    meridia,
+    molagBal,
+    namira,
+    nocturnal,
+    peryite,
+    sanguine,
+    sheogorath,
+    vaermina
 };
 
 const std::string undefined = "<undef>";
@@ -203,3 +219,40 @@ enum class ShowMenu { mStats, mFaction };
 
 inline static std::map<ShowMenu, std::string_view> menuName = { { ShowMenu::mStats, TITLE_NAME_STATS },
     { ShowMenu::mFaction, TITLE_NAME_STATS_NAME } };
+
+/*
+    azura, 00028AD6 100 -
+    boethiah, 0004D8D6 50 100 -
+    clavicusVile, 0001BFC4 200 205 -
+    hermaeusMora, 0002D512 100 200 -
+    hircine, 0002A49A 100 105 200 -
+    malacath, 0003B681 200 -
+    mehrunesDagon, 000240B8 100 -
+    mephala, 0004A37B 60 80 -
+    meridia, 0004E4E1 500 -
+    molagBal, 00022F08 200 -
+    namira, 0002C358 100 600 -
+    nocturnal, 00021555 200 -
+    peryite, 0008998D 100 -
+    sanguine, 0001BB9B 200 -
+    sheogorath, 0002AC68 200 -
+    vaermina 000242AF 200 -
+*/
+inline static formIdValueMap championMap = {
+    { 0x00028AD6, FactionValue::azura },
+    { 0x0004D8D6, FactionValue::boethiah },
+    { 0x0001BFC4, FactionValue::clavicusVile },
+    { 0x0002D512, FactionValue::hermaeusMora },
+    { 0x0002A49A, FactionValue::hircine },
+    { 0x0003B681, FactionValue::malacath },
+    { 0x000240B8, FactionValue::mehrunesDagon },
+    { 0x0004A37B, FactionValue::mephala },
+    { 0x0004E4E1, FactionValue::meridia },
+    { 0x00022F08, FactionValue::molagBal },
+    { 0x0002C358, FactionValue::namira },
+    { 0x00021555, FactionValue::nocturnal },
+    { 0x0008998D, FactionValue::peryite },
+    { 0x0001BB9B, FactionValue::sanguine },
+    { 0x0002AC68, FactionValue::sheogorath },
+    { 0x000242AF, FactionValue::vaermina },
+};
