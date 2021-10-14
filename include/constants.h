@@ -217,8 +217,8 @@ static constexpr std::string_view TITLE_NAME_STATS_NAME = "Show Stats";
 
 enum class ShowMenu { mStats, mFaction };
 
-inline static std::map<ShowMenu, std::string_view> menuName = { { ShowMenu::mStats, TITLE_NAME_STATS },
-    { ShowMenu::mFaction, TITLE_NAME_STATS_NAME } };
+inline static std::map<ShowMenu, std::string_view> menuName = { { ShowMenu::mStats, TITLE_NAME_STATS_NAME },
+    { ShowMenu::mFaction, TITLE_NAME_FACTIONS } };
 
 /*
     azura, 00028AD6 100 -

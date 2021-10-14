@@ -90,3 +90,24 @@ inline static std::string_view getMenuName(ShowMenu p_menu) {
         return menuName.find(p_menu)->second;
     }
 }
+
+inline static std::string_view getNextMenuName(ShowMenu p_menu) { 
+    //if cast to an int value outside the enum it should be undefined
+    return getMenuName(static_cast<ShowMenu>(static_cast<int>(p_menu) + 1));
+}
+
+inline static std::string_view getPrevMenuName(ShowMenu p_menu) {
+    //if cast to an int value outside the enum it should be undefined
+    return getMenuName(static_cast<ShowMenu>(static_cast<int>(p_menu) - 1));
+}
+
+inline static std::string DecodeTypeCode(uint32_t p_typeCode) {
+    constexpr size_t size = sizeof(uint32_t);
+
+    std::string sign;
+    sign.resize(size);
+    char* iterator = reinterpret_cast<char*>(&p_typeCode);
+    for (size_t i = 0, j = size - 2; i < size, ++i; --j) { sign[j] = iterator[i]; }
+    logger::trace("got code {}, sign is {}"sv, p_typeCode, sign);
+    return sign;
+}

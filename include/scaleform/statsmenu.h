@@ -43,6 +43,7 @@ namespace Scaleform {
 
         CLIK::MovieClip _rootObj;
         CLIK::TextField _title;
+        CLIK::TextField _next;
 
         CLIK::TextField _name;
         CLIK::TextField _level;
@@ -103,6 +104,8 @@ namespace Scaleform {
 
         void UpdateLists();
 
-        void updateBottom();
+        void UpdateBottom();
+
+        void UpdateNext();
     };
 }

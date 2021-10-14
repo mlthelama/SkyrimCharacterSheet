@@ -474,18 +474,7 @@ struct Settings {
     static inline sSetting dawnguardString{ "showFactionsFactionNames"s, "dawnguard"s, undefined };
     static inline sSetting houseTelvanniString{ "showFactionsFactionNames"s, "houseTelvanni"s, undefined };
 
-    static inline iSetting companionsMenu{ "showFactionsFactionMenu"s, "companions"s, 0 };
-    static inline iSetting darkbrotherHoodMenu{ "showFactionsFactionMenu"s, "darkbrotherHood"s, 0 };
-    static inline iSetting collegeOfWinterholdMenu{ "showFactionsFactionMenu"s, "collegeOfWinterhold"s, 0 };
-    static inline iSetting orcFriendMenu{ "showFactionsFactionMenu"s, "orcFriend"s, 0 };
-    static inline iSetting thiefsGuildMenu{ "showFactionsFactionMenu"s, "thiefsGuild"s, 0 };
-    static inline iSetting imperialLegionMenu{ "showFactionsFactionMenu"s, "imperialLegion"s, 0 };
-    static inline iSetting stormcloaksMenu{ "showFactionsFactionMenu"s, "stormcloaks"s, 0 };
-    static inline iSetting greybeardMenu{ "showFactionsFactionMenu"s, "greybeard"s, 0 };
-    static inline iSetting bardMenu{ "showFactionsFactionMenu"s, "bard"s, 0 };
-    static inline iSetting volkiharVampireClanMenu{ "showFactionsFactionMenu"s, "volkiharVampireClan"s, 0 };
-    static inline iSetting dawnguardMenu{ "showFactionsFactionMenu"s, "dawnguard"s, 0 };
-    static inline iSetting houseTelvanniMenu{ "showFactionsFactionMenu"s, "houseTelvanni"s, 0 };
+    static inline iSetting factionMenu{ "showFactionsFactionMenu"s, "faction"s, 0 };
 
     static inline sSetting bardRank{ "showFactionsFactionRank"s, "bard"s, undefined };
     static inline sSetting assassinRank{ "showFactionsFactionRank"s, "assassin"s, undefined };
@@ -505,15 +494,7 @@ struct Settings {
     static inline sSetting honoraryMemberRank{ "showFactionsFactionRank"s, "honoraryMember"s, undefined };
     static inline sSetting ysmirRank{ "showFactionsFactionRank"s, "ysmir"s, undefined };
 
-    static inline iSetting thaneOfEastmarchMenu{ "showFactionsThaneMenu"s, "thaneOfEastmarch"s, 0 };
-    static inline iSetting thaneOfFalkreathMenu{ "showFactionsThaneMenu"s, "thaneOfFalkreath"s, 0 };
-    static inline iSetting thaneOfHaafingarMenu{ "showFactionsThaneMenu"s, "thaneOfHaafingar"s, 0 };
-    static inline iSetting thaneOfHjaalmarchMenu{ "showFactionsThaneMenu"s, "thaneOfHjaalmarch"s, 0 };
-    static inline iSetting thaneOfThePaleMenu{ "showFactionsThaneMenu"s, "thaneOfThePale"s, 0 };
-    static inline iSetting thaneOfTheReachMenu{ "showFactionsThaneMenu"s, "thaneOfTheReach"s, 0 };
-    static inline iSetting thaneOfTheRiftMenu{ "showFactionsThaneMenu"s, "thaneOfTheRift"s, 0 };
-    static inline iSetting thaneOfWhiterunMenu{ "showFactionsThaneMenu"s, "thaneOfWhiterun"s, 0 };
-    static inline iSetting thaneOfWinterholdMenu{ "showFactionsThaneMenu"s, "thaneOfWinterhold"s, 0 };
+    static inline iSetting thaneMenu{ "showFactionsThaneMenu"s, "thane"s, 0 };
 
     static inline sSetting thaneOfEastmarchName{ "showFactionsThaneName"s, "thaneOfEastmarch"s, undefined };
     static inline sSetting thaneOfFalkreathName{ "showFactionsThaneName"s, "thaneOfFalkreath"s, undefined };
@@ -525,22 +506,7 @@ struct Settings {
     static inline sSetting thaneOfWhiterunName{ "showFactionsThaneName"s, "thaneOfWhiterun"s, undefined };
     static inline sSetting thaneOfWinterholdName{ "showFactionsThaneName"s, "thaneOfWinterhold"s, undefined };
 
-    static inline iSetting azuraMenu{ "showFactionsChampionMenu"s, "azura"s, 0 };
-    static inline iSetting boethiahMenu{ "showFactionsChampionMenu"s, "boethiah"s, 0 };
-    static inline iSetting clavicusVileMenu{ "showFactionsChampionMenu"s, "clavicusVile"s, 0 };
-    static inline iSetting hermaeusMoraMenu{ "showFactionsChampionMenu"s, "hermaeusMora"s, 0 };
-    static inline iSetting hircineMenu{ "showFactionsChampionMenu"s, "hircine"s, 0 };
-    static inline iSetting malacathMenu{ "showFactionsChampionMenu"s, "malacath"s, 0 };
-    static inline iSetting mehrunesDagonMenu{ "showFactionsChampionMenu"s, "mehrunesDagon"s, 0 };
-    static inline iSetting mephalaMenu{ "showFactionsChampionMenu"s, "mephala"s, 0 };
-    static inline iSetting meridiaMenu{ "showFactionsChampionMenu"s, "meridia"s, 0 };
-    static inline iSetting molagBalMenu{ "showFactionsChampionMenu"s, "molagBal"s, 0 };
-    static inline iSetting namiraMenu{ "showFactionsChampionMenu"s, "namira"s, 0 };
-    static inline iSetting nocturnalMenu{ "showFactionsChampionMenu"s, "nocturnal"s, 0 };
-    static inline iSetting peryiteMenu{ "showFactionsChampionMenu"s, "peryite"s, 0 };
-    static inline iSetting sanguineMenu{ "showFactionsChampionMenu"s, "sanguine"s, 0 };
-    static inline iSetting sheogorathMenu{ "showFactionsChampionMenu"s, "sheogorath"s, 0 };
-    static inline iSetting vaerminaMenu{ "showFactionsChampionMenu"s, "vaermina"s, 0 };
+    static inline iSetting championMenu{ "showFactionsChampionMenu"s, "champion"s, 0 };
 
     static inline sSetting azuraName{ "showFactionsChampionName"s, "azura"s, undefined };
     static inline sSetting boethiahName{ "showFactionsChampionName"s, "boethiah"s, undefined };

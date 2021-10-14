@@ -110,7 +110,8 @@ namespace Scaleform {
             element_t{ std::ref(_attackItemList), "_root.rootObj.attackItemList"sv },
             element_t{ std::ref(_perksMagicItemList), "_root.rootObj.perksMagicItemList"sv },
             element_t{ std::ref(_perksWarriorItemList), "_root.rootObj.perksWarriorItemList"sv },
-            element_t{ std::ref(_perksThiefItemList), "_root.rootObj.perksThiefItemList"sv } };
+            element_t{ std::ref(_perksThiefItemList), "_root.rootObj.perksThiefItemList"sv },
+            element_t{ std::ref(_next), "_root.rootObj.playerNextScreen"sv } };
 
         for (const auto& [object, path] : objects) {
             auto& instance = object.get().GetInstance();
@@ -140,9 +141,11 @@ namespace Scaleform {
 
         UpdateTitle();
         UpdateHeaders();
-        updateBottom();
+        UpdateBottom();
 
         UpdateLists();
+
+        UpdateNext();
 
         _view->SetVisible(true);
         _rootObj.Visible(true);
@@ -353,7 +356,7 @@ namespace Scaleform {
         InvalidateDataItemLists();
     }
 
-    void StatsMenu::updateBottom() {
+    void StatsMenu::UpdateBottom() {
         //in case something is not set, we do not want to see default swf text
         updateText(_name, "");
         updateText(_level, "");
@@ -361,5 +364,8 @@ namespace Scaleform {
         updateText(_perks, "");
         updateText(_beast, "");
         updateText(_xp, "");
+        updateText(_next, "");
     }
+
+    void StatsMenu::UpdateNext() { updateText(_next, getNextMenuName(ShowMenu::mStats)); }
 }

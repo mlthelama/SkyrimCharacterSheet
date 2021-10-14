@@ -1,7 +1,7 @@
 [General]
 logLevel = 2 # 0 trace; 1 debug; 2 info
 closeOnOtherMenuOpen = true
-showFactionMenu = false #WIP, factions and thanes should work
+showFactionMenu = true #WIP, factions and thanes should work
 openFactionMenuButton = 9 #https://www.creationkit.com/index.php?title=Input_Script (dec values)
 
 [showFactions]
@@ -454,18 +454,7 @@ dawnguard = "Dawnguard"
 houseTelvanni = "House Telvanni"
 
 [showFactionsFactionMenu]
-companions = 1 #faction(1),thane(2),champion(3)
-darkbrotherHood = 1
-collegeOfWinterhold = 1
-orcFriend = 1
-thiefsGuild = 1
-imperialLegion = 1
-stormcloaks = 1
-greybeard = 1
-bard = 1
-volkiharVampireClan = 1
-dawnguard = 1
-houseTelvanni = 1
+faction = 1 #faction(1),thane(2),champion(3)
 
 [showFactionsFactionRank]
 bard = "Bard"
@@ -487,15 +476,7 @@ honoraryMember = "Honorary Member"
 ysmir = "Ysmir"
 
 [showFactionsThaneMenu]
-thaneOfEastmarch = 2 #faction(1),thane(2),champion(3)
-thaneOfFalkreath = 2
-thaneOfHaafingar = 2
-thaneOfHjaalmarch = 2
-thaneOfThePale = 2
-thaneOfTheReach = 2
-thaneOfTheRift = 2
-thaneOfWhiterun = 2
-thaneOfWinterhold = 2
+thane = 2 #faction(1),thane(2),champion(3)
 
 [showFactionsThaneName]
 thaneOfEastmarch = "Thane Of Eastmarch"
@@ -509,22 +490,7 @@ thaneOfWhiterun = "Thane Of Whiterun"
 thaneOfWinterhold = "Thane Of Winterhold"
 
 [showFactionsChampionMenu]
-azura = 3 #faction(1),thane(2),champion(3)
-boethiah = 3
-clavicusVile = 3
-hermaeusMora = 3
-hircine = 3
-malacath = 3
-mehrunesDagon = 3
-mephala = 3
-meridia = 3
-molagBal = 3
-namira = 3
-nocturnal = 3
-peryite = 3
-sanguine = 3
-sheogorath = 3
-vaermina = 3
+champion = 3 #faction(1),thane(2),champion(3)
 
 [showFactionsChampionName]
 azura = "Azura"

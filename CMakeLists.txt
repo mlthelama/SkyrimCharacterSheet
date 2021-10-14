@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 3.20)
 set(Boost_USE_STATIC_RUNTIME OFF CACHE BOOL "")
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "")
 set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+set(VCPKG_OVERLAY_PORTS "${CMAKE_CURRENT_SOURCE_DIR}/ports" CACHE STRING "")
 set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "")
 
 # ---- Project ----
@@ -44,6 +45,7 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_DEBUG OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_DEBUG_RUNTIME ON)
+
 
 if (MSVC)
 	add_compile_definitions(
@@ -171,4 +173,27 @@ target_precompile_headers(
 	${PROJECT_NAME}
 	PRIVATE
 		include/PCH.h
+)
+
+
+set(SCRIPT "fomod/build_zip.py")
+
+add_custom_target(
+	"build_zip"
+	COMMAND
+		"${CMAKE_CURRENT_SOURCE_DIR}/${SCRIPT}"
+		"--src-dir=\"${CMAKE_CURRENT_SOURCE_DIR}\""
+		"--name=\"${PROJECT_NAME}\""
+		"--dll=\"$<TARGET_FILE:${PROJECT_NAME}>\""
+	WORKING_DIRECTORY
+		${CMAKE_CURRENT_BINARY_DIR}
+	SOURCES
+		${SCRIPT}
+)
+
+source_group(
+	TREE
+		${CMAKE_CURRENT_SOURCE_DIR}
+	FILES
+		${SCRIPT}
 )

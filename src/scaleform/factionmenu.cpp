@@ -101,7 +101,8 @@ namespace Scaleform {
             element_t{ std::ref(_championHeader), "_root.rootObj.factionChampionHeader"sv },
             element_t{ std::ref(_factionItemList), "_root.rootObj.factionItemList"sv },
             element_t{ std::ref(_thaneItemList), "_root.rootObj.thaneItemList"sv },
-            element_t{ std::ref(_championItemList), "_root.rootObj.championItemList"sv } };
+            element_t{ std::ref(_championItemList), "_root.rootObj.championItemList"sv },
+            element_t{ std::ref(_prev), "_root.rootObj.factionPrevScreen"sv } };
 
         for (const auto& [object, path] : objects) {
             auto& instance = object.get().GetInstance();
@@ -123,9 +124,11 @@ namespace Scaleform {
 
         UpdateTitle();
         UpdateHeaders();
-        updateBottom();
+        UpdateBottom();
 
         UpdateLists();
+
+        UpdatePrev();
 
         _view->SetVisible(true);
         _rootObj.Visible(true);
@@ -203,11 +206,13 @@ namespace Scaleform {
         InvalidateDataItemLists();
     }
 
-    void FactionMenu::updateBottom() {
+    void FactionMenu::UpdateBottom() {
         //in case something is not set, we do not want to see default swf text
         updateText(_factionCount, "");
         updateText(_thaneCount, "");
         updateText(_championCount, "");
+        updateText(_prev, "");
     }
 
+    void FactionMenu::UpdatePrev() { updateText(_prev, getPrevMenuName(ShowMenu::mFaction)); }
 }
