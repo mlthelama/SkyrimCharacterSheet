@@ -142,12 +142,12 @@ namespace Scaleform {
         p_field.Visible(true);
     }
 
-    void FactionMenu::UpdateTitle() { updateText(_title, TITLE_NAME_FACTIONS); }
+    void FactionMenu::UpdateTitle() { updateText(_title, getMenuName(ShowMenu::mFaction)); }
 
     void FactionMenu::UpdateHeaders() {
-        updateText(_factionHeader, headerFactionName);
-        updateText(_thaneHeader, headerThaneName);
-        updateText(_championHeader, headerChampionName);
+        updateText(_factionHeader, *Settings::showFactionsTitleFaction);
+        updateText(_thaneHeader, *Settings::showFactionsTitleThane);
+        updateText(_championHeader, *Settings::showFactionsTitleChampion);
     }
 
     RE::GFxValue FactionMenu::buildGFxValue(std::string p_val) {

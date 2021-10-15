@@ -82,6 +82,9 @@ inline static std::string buildDisplayString(std::string p_value, std::string p_
     return guiText;
 }
 
+inline static std::map<ShowMenu, std::string_view> menuName = { { ShowMenu::mStats, *Settings::showStatsTitleTitle },
+    { ShowMenu::mFaction, *Settings::showFactionsTitleTitle } };
+
 inline static std::string_view getMenuName(ShowMenu p_menu) {
     if (menuName.find(p_menu) == menuName.end()) {
         logger::warn("can not find Menu {}"sv, p_menu);
@@ -91,7 +94,7 @@ inline static std::string_view getMenuName(ShowMenu p_menu) {
     }
 }
 
-inline static std::string_view getNextMenuName(ShowMenu p_menu) { 
+inline static std::string_view getNextMenuName(ShowMenu p_menu) {
     //if cast to an int value outside the enum it should be undefined
     return getMenuName(static_cast<ShowMenu>(static_cast<int>(p_menu) + 1));
 }

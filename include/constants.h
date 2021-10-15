@@ -150,12 +150,7 @@ enum class FactionValue {
 
 const std::string undefined = "<undef>";
 
-const std::string headerValuesName = "$ShowStats_Player";
-const std::string headerAttackName = "$ShowStats_Attack";
-const std::string headerDefenceName = "$ShowStats_Defence";
-const std::string headerPerksMagicName = "$ShowStats_PerksMagic";
-const std::string headerPerksThiefName = "$ShowStats_PerksThief";
-const std::string headerPerksWarriorName = "$ShowStats_PerksWarrior";
+enum class ShowMenu { mStats, mFaction };
 
 const int32_t logTrace = 0;
 const int32_t logDebug = 1;
@@ -195,10 +190,6 @@ inline static formIdValueMap thaneMap = { { 0x000A2CA6, FactionValue::thaneOfEas
     { 0x000A2C9E, FactionValue::thaneOfWhiterun },  //just if stormcloaks won the war, otherwise MQ104/0002610C/160
     { 0x000A34D7, FactionValue::thaneOfWinterhold } };
 
-const std::string headerFactionName = "Faction";
-const std::string headerThaneName = "Thane";
-const std::string headerChampionName = "Champion";
-
 enum class FactionMenuValue { mNone = 0, mFaction = 1, mThane = 2, mChampion = 3 };
 
 /* config can not work with enums, so lets map it*/
@@ -210,15 +201,6 @@ inline static std::map<int64_t, FactionMenuValue> configFactionMenu = {
 };
 
 const std::string staticDisplayValue = "yes";
-
-static constexpr std::string_view TITLE_NAME_FACTIONS = "Show Factions";
-static constexpr std::string_view TITLE_NAME_STATS = "$ShowStats";
-static constexpr std::string_view TITLE_NAME_STATS_NAME = "Show Stats";
-
-enum class ShowMenu { mStats, mFaction };
-
-inline static std::map<ShowMenu, std::string_view> menuName = { { ShowMenu::mStats, TITLE_NAME_STATS_NAME },
-    { ShowMenu::mFaction, TITLE_NAME_FACTIONS } };
 
 /*
     azura, 00028AD6 100 -

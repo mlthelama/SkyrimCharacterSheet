@@ -19,6 +19,7 @@ void Champion::logMap() {
 
 void Champion::getChampions() {
     for (const auto& item : championMap) {
+        logger::trace("working at formid {}"sv, intToHex(item.first));
         auto questStage = RE::TESForm::LookupByID(item.first)->As<RE::TESQuest>()->currentStage;
         auto questDone = false;
 

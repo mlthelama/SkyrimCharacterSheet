@@ -1,17 +1,17 @@
 [General]
 logLevel = 2 # 0 trace; 1 debug; 2 info
 closeOnOtherMenuOpen = true
-showFactionMenu = true #WIP, factions and thanes should work
-openFactionMenuButton = 9 #https://www.creationkit.com/index.php?title=Input_Script (dec values)
+showFactionMenu = true
+openFactionMenuButton = 49 #https://www.creationkit.com/index.php?title=Input_Script (dec values) N=49
 
-[showFactions]
-showFactions = true
-showThane = true
-showChampion = true
-
-[showBeastName]
-vampire = "Vampire"
-werewolf = "Werewolf"
+[showStatsTitle]
+title = "Show Stats"
+player = "Player"
+attack = "Attack"
+defence = "Defence"
+magic = "Magic"
+thief = "Thief"
+warrior = "Warrior"
 
 [showStats]
 name = true
@@ -438,6 +438,21 @@ movementNoiseMult = 100
 combatHealthRegenMultiply = 100
 leftWeaponSpeedMult = 1
 armorPerks = 100
+
+[showBeastName]
+vampire = "Vampire"
+werewolf = "Werewolf"
+
+[showFactionsTitle]
+title = "Show Factions"
+faction = "Faction"
+thane = "Thane"
+champion = "Champion"
+
+[showFactions]
+showFactions = true
+showThane = true
+showChampion = true
 
 [showFactionsFactionNames]
 companions = "Companions"

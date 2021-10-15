@@ -19,6 +19,7 @@ void Thane::logMap() {
 
 void Thane::getRegionThanes() {
     for (const auto& item : thaneMap) {
+        logger::trace("working at formid {}"sv, intToHex(item.first));
         auto questStage = RE::TESForm::LookupByID(item.first)->As<RE::TESQuest>()->currentStage;
 
         if (questStage == 200) {

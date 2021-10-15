@@ -22,6 +22,19 @@ struct Settings {
         }
     }
 
+    static inline iSetting logLevel{ "General"s, "logLevel"s, 0 };
+    static inline bSetting closeOnOtherMenuOpen{ "General"s, "closeOnOtherMenuOpen"s, true };
+    static inline bSetting showFactionMenu{ "General"s, "showFactionMenu"s, true };
+    static inline iSetting openFactionMenuButton{ "General"s, "openFactionMenuButton", 0 };
+
+    static inline sSetting showStatsTitleTitle{ "showStatsTitle"s, "title"s, undefined };
+    static inline sSetting showStatsTitlePlayer{ "showStatsTitle"s, "player"s, undefined };
+    static inline sSetting showStatsTitleAttack{ "showStatsTitle"s, "attack"s, undefined };
+    static inline sSetting showStatsTitleDefence{ "showStatsTitle"s, "defence"s, undefined };
+    static inline sSetting showStatsTitleMagic{ "showStatsTitle"s, "magic"s, undefined };
+    static inline sSetting showStatsTitleThief{ "showStatsTitle"s, "thief"s, undefined };
+    static inline sSetting showStatsTitleWarrior{ "showStatsTitle"s, "warrior"s, undefined };
+
     static inline bSetting name{ "showStats"s, "name"s, true };
     static inline bSetting race{ "showStats"s, "race"s, true };
     static inline bSetting level{ "showStats"s, "level"s, true };
@@ -449,17 +462,17 @@ struct Settings {
     static inline iSetting leftWeaponSpeedMultMult{ "showStatsMultiplier"s, "leftWeaponSpeedMult"s, 1 };
     static inline iSetting armorPerksMult{ "showStatsMultiplier"s, "armorPerks"s, 1 };
 
-    static inline iSetting logLevel{ "General"s, "logLevel"s, 0 };
-    static inline bSetting closeOnOtherMenuOpen{ "General"s, "closeOnOtherMenuOpen"s, true };
-    static inline bSetting showFactionMenu{ "General"s, "showFactionMenu"s, true };
-    static inline iSetting openFactionMenuButton{ "General"s, "openFactionMenuButton", 0 };
+    static inline sSetting vampireString{ "showBeastName"s, "vampire"s, undefined };
+    static inline sSetting werewolfString{ "showBeastName"s, "werewolf"s, undefined };
+
+    static inline sSetting showFactionsTitleTitle{ "showFactionsTitle"s, "title"s, undefined };
+    static inline sSetting showFactionsTitleFaction{ "showFactionsTitle"s, "faction"s, undefined };
+    static inline sSetting showFactionsTitleThane{ "showFactionsTitle"s, "thane"s, undefined };
+    static inline sSetting showFactionsTitleChampion{ "showFactionsTitle"s, "champion"s, undefined };
 
     static inline bSetting showFactions{ "showFactions"s, "showFactions"s, true };
     static inline bSetting showThanes{ "showFactions"s, "showThane"s, true };
     static inline bSetting showChampion{ "showFactions"s, "showChampion"s, true };
-
-    static inline sSetting vampireString{ "showBeastName"s, "vampire"s, undefined };
-    static inline sSetting werewolfString{ "showBeastName"s, "werewolf"s, undefined };
 
     static inline sSetting companionsString{ "showFactionsFactionNames"s, "companions"s, undefined };
     static inline sSetting darkbrotherHoodString{ "showFactionsFactionNames"s, "darkbrotherHood"s, undefined };
