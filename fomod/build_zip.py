@@ -7,8 +7,8 @@ from os.path import basename
 def copy_files(a_args, a_out):
     main = "main"
     skse_dir = os.path.join(a_out, main, "SKSE/Plugins/")
-    translation_dir = os.path.join(a_out, main, "Interface/Translations/")
-    script_dir = os.path.join(a_out, main, "Scripts/")
+    #translation_dir = os.path.join(a_out, main, "Interface/Translations/")
+    #script_dir = os.path.join(a_out, main, "Scripts/")
     main_dir = os.path.join(a_out, main)
     
     gui = "gui"
@@ -17,18 +17,18 @@ def copy_files(a_args, a_out):
     gui_paper_light = os.path.join(a_out, gui, "paper_light/")
 
     os.makedirs(skse_dir + '/',exist_ok=True)
-    shutil.copy2(os.path.join(a_args.src_dir, "ShowStats.toml"), os.path.join(skse_dir, "ShowStats.toml"))  #"SKSE/Plugins/ShowStats.toml")
+    shutil.copy2(os.path.join(a_args.src_dir, "ShowStats.toml"), os.path.join(skse_dir, "ShowStats.toml"))
     shutil.copy2(a_args.dll, os.path.join(skse_dir, os.path.basename(a_args.dll)))
  
-    os.makedirs(translation_dir + '/',exist_ok=True)
-    shutil.copy2(os.path.join(a_args.src_dir, "interface", "Translations", "ShowStats_english.txt"), os.path.join(translation_dir, "ShowStats_english.txt"))
+    #os.makedirs(translation_dir + '/',exist_ok=True)
+    #shutil.copy2(os.path.join(a_args.src_dir, "interface", "Translations", "ShowStats_english.txt"), os.path.join(translation_dir, "ShowStats_english.txt"))
 
-    os.makedirs(main_dir + '/',exist_ok=True)
-    shutil.copy2(os.path.join(a_args.src_dir, "mcm", "ShowStats.esp"), os.path.join(a_out, main))
+    #os.makedirs(main_dir + '/',exist_ok=True)
+    #shutil.copy2(os.path.join(a_args.src_dir, "mcm", "ShowStats.esp"), os.path.join(a_out, main))
 
-    os.makedirs(script_dir + '/',exist_ok=True)
-    shutil.copy2(os.path.join(a_args.src_dir, "mcm", "scripts", "ShowStats.pex"), os.path.join(script_dir, "ShowStats.pex"))
-    shutil.copy2(os.path.join(a_args.src_dir, "mcm", "scripts", "ShowStats_MCM.pex"), os.path.join(script_dir, "ShowStats_MCM.pex"))
+    #os.makedirs(script_dir + '/',exist_ok=True)
+    #shutil.copy2(os.path.join(a_args.src_dir, "mcm", "scripts", "ShowStats.pex"), os.path.join(script_dir, "ShowStats.pex"))
+    #shutil.copy2(os.path.join(a_args.src_dir, "mcm", "scripts", "ShowStats_MCM.pex"), os.path.join(script_dir, "ShowStats_MCM.pex"))
 
     os.makedirs(gui_standard + '/',exist_ok=True)
     shutil.copy2(os.path.join(a_args.src_dir, "swf", "standard", "ShowStats.swf"), os.path.join(gui_standard, "ShowStats.swf"))

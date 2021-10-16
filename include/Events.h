@@ -10,12 +10,9 @@ namespace Events {
         auto ProcessEvent(RE::InputEvent* const* p_event, RE::BSTEventSource<RE::InputEvent*>* p_eventSource)
             -> EventResult;
 
-        bool Save(const SKSE::SerializationInterface* p_int, uint32_t p_typeCode, uint32_t p_version);
-        bool Load(const SKSE::SerializationInterface* p_int);
-
         void Clear();
-        uint32_t GetKey() const;
-        void SetKey(uint32_t p_key);
+        uint64_t GetKey() const; //can be removed in future
+        void SetKey(uint64_t p_key);
 
         static void Sink();
 
@@ -39,7 +36,7 @@ namespace Events {
         KeyManager& operator=(KeyManager&&) = delete;
 
         mutable Lock _lock;
-        uint32_t _key;
+        uint64_t _key;
     };
 
     class MenuHandler : public RE::BSTEventSink<RE::MenuOpenCloseEvent> {

@@ -1,8 +1,9 @@
 [General]
 logLevel = 2 # 0 trace; 1 debug; 2 info
+openMenuButton = 22 #U
 closeOnOtherMenuOpen = true
 showFactionMenu = true
-openFactionMenuButton = 49 #https://www.creationkit.com/index.php?title=Input_Script (dec values) N=49
+openNextMenuButton = 49 #https://www.creationkit.com/index.php?title=Input_Script (dec values) N=49
 
 [showStatsTitle]
 title = "Show Stats"

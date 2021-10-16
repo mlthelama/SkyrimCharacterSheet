@@ -1,8 +1,5 @@
 ﻿#include "events.h"
-#include "hooks.h"
-#include "papyrus.h"
 #include "scaleform/scaleform.h"
-#include "serialhelper.h"
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
     switch (a_msg->type) {
@@ -15,9 +12,6 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
 }
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info) {
-#ifndef NDEBUG
-    auto sink = make_shared<spdlog::sinks::msvc_sink_mt>();
-#else
     auto path = logger::log_directory();
     if (!path) {
         return false;
@@ -25,19 +19,11 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 
     *path /= "ShowStats.log"sv;
     auto sink = make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
-#endif
 
     auto log = make_shared<spdlog::logger>("global log"s, move(sink));
 
-#ifndef NDEBUG
-    log->set_level(spdlog::level::trace);
-#else
-    //log->set_level(spdlog::level::info);
-    //log->flush_on(spdlog::level::warn);
-
     log->set_level(spdlog::level::trace);
     log->flush_on(spdlog::level::trace);
-#endif
 
 
     spdlog::set_default_logger(move(log));
@@ -94,12 +80,10 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
     if (!messaging->RegisterListener("SKSE", MessageHandler)) {
         return false;
     }
-    //not needed for now
-    //hooks::install();
 
-    Papyrus::Register();
-
-    Serialhelper::Install();
+    auto keyManager = Events::KeyManager::GetSingleton();
+    keyManager->Clear(); //might be not needed
+    keyManager->SetKey(*Settings::openMenuButton);
 
     return true;
 }

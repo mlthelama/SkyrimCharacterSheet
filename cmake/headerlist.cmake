@@ -11,17 +11,14 @@ set(headers ${headers}
 	include/CLIK/MovieClip.h
 	include/CLIK/Object.h
 	include/CLIK/TextField.h
-	include/Events.h
 	include/PCH.h
 	include/constants.h
 	include/data/factiondata.h
 	include/data/playerdata.h
-	include/hooks.h
-	include/papyrus.h
+	include/events.h
 	include/scaleform/factionmenu.h
 	include/scaleform/scaleform.h
 	include/scaleform/statsmenu.h
-	include/serialhelper.h
 	include/settings/settings.h
 	include/showhandler.h
 	include/stats/champion.h

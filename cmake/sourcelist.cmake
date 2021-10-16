@@ -1,16 +1,13 @@
 set(sources ${sources}
-	src/Events.cpp
 	src/PCH.cpp
-	src/Serialhelper.cpp
-	src/ShowHandler.cpp
 	src/data/factiondata.cpp
 	src/data/playerdata.cpp
-	src/hooks.cpp
+	src/events.cpp
 	src/main.cpp
-	src/papyrus.cpp
 	src/scaleform/factionmenu.cpp
 	src/scaleform/scaleform.cpp
 	src/scaleform/statsmenu.cpp
+	src/showhandler.cpp
 	src/stats/champion.cpp
 	src/stats/faction.cpp
 	src/stats/factionfiller.cpp
