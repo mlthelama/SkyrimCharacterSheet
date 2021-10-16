@@ -76,21 +76,10 @@ namespace Events {
         return EventResult::kContinue;
     }
 
-    void KeyManager::Clear() {
-        Locker locker(_lock);
-        _key = kInvalid;
-    }
-
-    uint64_t KeyManager::GetKey() const {
-        Locker locker(_lock);
-        return _key;
-    }
-
     void KeyManager::SetKey(uint64_t p_key) {
         Locker locker(_lock);
         _key = p_key;
     }
-
 
     uint32_t KeyManager::GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key) {
         using Key = RE::BSWin32GamepadDevice::Key;

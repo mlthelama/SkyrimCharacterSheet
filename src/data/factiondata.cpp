@@ -1,8 +1,8 @@
 #include "data/factiondata.h"
+#include "stats/champion.h"
 #include "stats/faction.h"
 #include "stats/factionfiller.h"
 #include "stats/thane.h"
-#include "stats/champion.h"
 
 auto FactionData::GetSingleton() -> FactionData* {
     static FactionData singleton;

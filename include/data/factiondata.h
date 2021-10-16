@@ -4,7 +4,7 @@
 class FactionData {
 public:
     static FactionData* GetSingleton();
-    
+
     std::vector<std::shared_ptr<FactionItem>> getFactionValues();
 
 private:

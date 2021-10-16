@@ -10,8 +10,6 @@ namespace Events {
         auto ProcessEvent(RE::InputEvent* const* p_event, RE::BSTEventSource<RE::InputEvent*>* p_eventSource)
             -> EventResult;
 
-        void Clear();
-        uint64_t GetKey() const; //can be removed in future
         void SetKey(uint64_t p_key);
 
         static void Sink();
@@ -59,6 +57,5 @@ namespace Events {
         MenuHandler& operator=(MenuHandler&&) = delete;
     };
 
-    //maybe add event sing when player char changes values we care about
     void SinkEventHandlers();
 }

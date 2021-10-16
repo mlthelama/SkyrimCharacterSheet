@@ -4,7 +4,7 @@
 class FactionFiller {
 public:
     static FactionFiller* GetSingleton();
-    
+
     std::vector<std::shared_ptr<FactionItem>> getData();
 
     void PrintFactionVector(std::vector<std::shared_ptr<FactionItem>>& p_vec);

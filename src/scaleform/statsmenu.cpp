@@ -36,7 +36,7 @@ namespace Scaleform {
         auto menu = static_cast<RE::IMenu*>(this);
         auto scaleformManager = RE::BSScaleformManager::GetSingleton();
         [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu, FILE_NAME,
-            RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void { 
+            RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void {
                 logger::trace("FPS: {}"sv, a_def->GetFrameRate());
                 a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
             });

@@ -86,7 +86,6 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
         }
 
         auto keyManager = Events::KeyManager::GetSingleton();
-        keyManager->Clear();  //might be not needed
         keyManager->SetKey(*Settings::openMenuButton);
 
         logger::info("ShowStats loaded"sv);

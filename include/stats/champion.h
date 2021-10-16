@@ -21,6 +21,4 @@ private:
     valueStringMap championList;
 
     void logMap();
-
-    //std::string handle 
 };
