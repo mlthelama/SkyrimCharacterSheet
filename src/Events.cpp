@@ -53,14 +53,14 @@ namespace Events {
                     continue;
             }
 
-            auto controlMap = RE::ControlMap::GetSingleton();
-            if (ui->GameIsPaused() || !controlMap->IsMovementControlsEnabled()) {
-                continue;
+            if (!*Settings::pauseGame) {
+                auto controlMap = RE::ControlMap::GetSingleton();
+                if (ui->GameIsPaused() || !controlMap->IsMovementControlsEnabled()) {
+                    continue;
+                }
             }
 
-            logger::trace("button code {}"sv, key);
-
-            logger::trace("event input {}, set {}"sv, key, _key);
+            logger::trace("button pressed {}, main Key is {}"sv, key, _key);
             auto showHandler = ShowHandler::GetSingleton();
             if (key == _key) {
                 logger::debug("configured Key ({}) pressed"sv, key);

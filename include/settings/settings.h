@@ -26,7 +26,8 @@ struct Settings {
     static inline iSetting openMenuButton{ "General"s, "openMenuButton", 0 };
     static inline bSetting closeOnOtherMenuOpen{ "General"s, "closeOnOtherMenuOpen"s, true };
     static inline bSetting showFactionMenu{ "General"s, "showFactionMenu"s, true };
-    static inline iSetting openFactionMenuButton{ "General"s, "openNextMenuButton", 0 };
+    static inline iSetting openFactionMenuButton{ "General"s, "openNextMenuButton"s, 0 };
+    static inline bSetting pauseGame{ "General"s, "pauseGame"s, true };
 
     static inline sSetting showStatsTitleTitle{ "showStatsTitle"s, "title"s, undefined };
     static inline sSetting showStatsTitlePlayer{ "showStatsTitle"s, "player"s, undefined };

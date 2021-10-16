@@ -12,39 +12,43 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
 }
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info) {
-    auto path = logger::log_directory();
-    if (!path) {
-        return false;
-    }
+    try {
+        auto path = logger::log_directory();
+        if (!path) {
+            return false;
+        }
 
-    *path /= "ShowStats.log"sv;
-    auto sink = make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
+        *path /= "ShowStats.log"sv;
+        auto sink = make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
 
-    auto log = make_shared<spdlog::logger>("global log"s, move(sink));
+        auto log = make_shared<spdlog::logger>("global log"s, move(sink));
 
-    log->set_level(spdlog::level::trace);
-    log->flush_on(spdlog::level::trace);
-
-
-    spdlog::set_default_logger(move(log));
-    //spdlog::set_pattern("%g(%#): [%^%l%$] %v"s);
-    spdlog::set_pattern("%s(%#): [%^%l%$] %v"s);
-
-    logger::info("ShowStats v{}"sv, Version::NAME);
+        log->set_level(spdlog::level::trace);
+        log->flush_on(spdlog::level::trace);
 
 
-    a_info->infoVersion = SKSE::PluginInfo::kVersion;
-    a_info->name = "ShowStats";
-    a_info->version = Version::MAJOR;
+        spdlog::set_default_logger(move(log));
+        spdlog::set_pattern("%s(%#): [%^%l%$] %v"s);
 
-    if (a_skse->IsEditor()) {
-        logger::critical("Loaded in editor, marking as incompatible"sv);
-        return false;
-    }
+        logger::info("ShowStats v{}"sv, Version::NAME);
 
-    const auto ver = a_skse->RuntimeVersion();
-    if (ver < SKSE::RUNTIME_1_5_39) {
-        logger::critical(FMT_STRING("Unsupported runtime version {}"), ver.string());
+
+        a_info->infoVersion = SKSE::PluginInfo::kVersion;
+        a_info->name = "ShowStats";
+        a_info->version = Version::ASINT;
+
+        if (a_skse->IsEditor()) {
+            logger::critical("Loaded in editor, marking as incompatible"sv);
+            return false;
+        }
+
+        const auto ver = a_skse->RuntimeVersion();
+        if (ver < SKSE::RUNTIME_1_5_39) {
+            logger::critical(FMT_STRING("Unsupported runtime version {}"), ver.string());
+            return false;
+        }
+    } catch (const std::exception& e) {
+        logger::critical("failed, cause {}"sv, e.what());
         return false;
     }
 
@@ -53,37 +57,43 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse) {
-    logger::info("ShowStats loaded"sv);
     try {
-        Settings::load();
-    } catch (const std::exception& e) { logger::warn("failed to load setting {}"sv, e.what()); }
+        logger::info("ShowStats loading"sv);
+        try {
+            Settings::load();
+        } catch (const std::exception& e) { logger::warn("failed to load setting {}"sv, e.what()); }
 
-    SKSE::Init(a_skse);
+        SKSE::Init(a_skse);
 
+        switch (*Settings::logLevel) {
+            case logTrace:
+                spdlog::set_level(spdlog::level::trace);
+                spdlog::flush_on(spdlog::level::trace);
+                break;
+            case logDebug:
+                spdlog::set_level(spdlog::level::debug);
+                spdlog::flush_on(spdlog::level::debug);
+                break;
+            case logInfo:
+                spdlog::set_level(spdlog::level::info);
+                spdlog::flush_on(spdlog::level::info);
+                break;
+        }
 
-    switch (*Settings::logLevel) {
-        case logTrace:
-            spdlog::set_level(spdlog::level::trace);
-            spdlog::flush_on(spdlog::level::trace);
-            break;
-        case logDebug:
-            spdlog::set_level(spdlog::level::debug);
-            spdlog::flush_on(spdlog::level::debug);
-            break;
-        case logInfo:
-            spdlog::set_level(spdlog::level::info);
-            spdlog::flush_on(spdlog::level::info);
-            break;
-    }
+        auto messaging = SKSE::GetMessagingInterface();
+        if (!messaging->RegisterListener("SKSE", MessageHandler)) {
+            return false;
+        }
 
-    auto messaging = SKSE::GetMessagingInterface();
-    if (!messaging->RegisterListener("SKSE", MessageHandler)) {
+        auto keyManager = Events::KeyManager::GetSingleton();
+        keyManager->Clear();  //might be not needed
+        keyManager->SetKey(*Settings::openMenuButton);
+
+        logger::info("ShowStats loaded"sv);
+    } catch (const std::exception& e) {
+        logger::critical("failed, cause {}"sv, e.what());
         return false;
     }
-
-    auto keyManager = Events::KeyManager::GetSingleton();
-    keyManager->Clear(); //might be not needed
-    keyManager->SetKey(*Settings::openMenuButton);
 
     return true;
 }

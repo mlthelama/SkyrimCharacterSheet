@@ -1,9 +1,10 @@
 [General]
 logLevel = 2 # 0 trace; 1 debug; 2 info
-openMenuButton = 22 #U
-closeOnOtherMenuOpen = true
+openMenuButton = 22 #U used for closing too (ESC also closes)
+closeOnOtherMenuOpen = true #does not trigger when pauseGame = true
 showFactionMenu = true
 openNextMenuButton = 49 #https://www.creationkit.com/index.php?title=Input_Script (dec values) N=49
+pauseGame = true #set to False if you it should be like <= version 0.0.2 (or if you run some kind of SkyrimSouls Setup)
 
 [showStatsTitle]
 title = "Show Stats"
