@@ -33,8 +33,7 @@
               <description>standard</description>
               <image path="img\standard.png"/>
               <files>
-                <file source="gui\standard\ShowStats.swf" destination="Interface\" priority="0" alwaysInstall="false" installIfUsable="false"/>
-                <file source="gui\standard\ShowFactions.swf" destination="Interface\" priority="0" alwaysInstall="false" installIfUsable="false"/>
+                <folder source="gui\standard" destination="Interface\" priority="0" alwaysInstall="false" installIfUsable="false"/>
               </files>
               <typeDescriptor>
                 <type name="Recommended"/>
@@ -45,8 +44,7 @@
               <description>paper</description>
               <image path="img\paper.png"/>
               <files>
-                <file source="gui\paper\ShowStats.swf" destination="Interface\" priority="0" alwaysInstall="false" installIfUsable="false"/>
-                <file source="gui\paper\ShowFactions.swf" destination="Interface\" priority="0" alwaysInstall="false" installIfUsable="false"/>
+                <folder source="gui\paper" destination="Interface\" priority="0" alwaysInstall="false" installIfUsable="false"/>
               </files>
               <typeDescriptor>
                 <type name="Optional"/>
@@ -57,8 +55,7 @@
               <description/>
               <image path="img\paper_light.png"/>
               <files>
-                <file source="gui\paper_light\ShowStats.swf" destination="Interface\" priority="0" alwaysInstall="false" installIfUsable="false"/>
-                <file source="gui\paper_light\ShowFactions.swf" destination="Interface\" priority="0" alwaysInstall="false" installIfUsable="false"/>
+                <folder source="gui\paper" destination="Interface\" priority="0" alwaysInstall="false" installIfUsable="false"/>
               </files>
               <typeDescriptor>
                 <type name="Optional"/>

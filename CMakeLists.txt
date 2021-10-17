@@ -12,7 +12,7 @@ set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "")
 
 project(
 	ShowStats
-	VERSION 0.0.3
+	VERSION 0.0.4
 	LANGUAGES CXX
 )
 
