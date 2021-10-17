@@ -17,7 +17,7 @@ namespace CLIK {
 
                 Button(const super& a_rhs) : super(a_rhs) {}
 
-                Button(super&& a_rhs) : super(move(a_rhs)) {}
+                Button(super&& a_rhs) : super(std::move(a_rhs)) {}
 
                 ~Button() = default;
 
@@ -31,15 +31,15 @@ namespace CLIK {
                 }
 
                 Button& operator=(super&& a_rhs) {
-                    super::operator=(move(a_rhs));
+                    super::operator=(std::move(a_rhs));
                     return *this;
                 }
 
-                string LabelID() const { return GetString("labelID"); }
-                void LabelID(string_view a_labelID) { SetString("labelID", a_labelID); }
+                std::string LabelID() const { return GetString("labelID"); }
+                void LabelID(std::string_view a_labelID) { SetString("labelID", a_labelID); }
 
-                string Label() const { return GetString("label"); }
-                void Label(string_view a_label) { SetString("label", a_label); }
+                std::string Label() const { return GetString("label"); }
+                void Label(std::string_view a_label) { SetString("label", a_label); }
 
                 bool Disabled() const { return GetBoolean("disabled"); }
                 void Disabled(bool a_disabled) { SetBoolean("disabled", a_disabled); }
@@ -47,8 +47,8 @@ namespace CLIK {
                 bool Selected() const { return GetBoolean("selected"); }
                 void Selected(bool a_selected) { SetBoolean("selected", a_selected); }
 
-                string GroupName() const { return GetString("groupName"); }
-                void GroupName(string_view a_groupName) { SetString("groupName", a_groupName); }
+                std::string GroupName() const { return GetString("groupName"); }
+                void GroupName(std::string_view a_groupName) { SetString("groupName", a_groupName); }
 
                 Object Group() const { return GetObject("group"); }
                 void Group(const Object& a_group) { SetObject("group", a_group); }
@@ -61,13 +61,13 @@ namespace CLIK {
                     SetBoolean("disableConstraints", a_disableConstraints);
                 }
 
-                string AutoSize() const { return GetString("autoSize"); }
-                void AutoSize(string_view a_autoSize) { SetString("autoSize", a_autoSize); }
+                std::string AutoSize() const { return GetString("autoSize"); }
+                void AutoSize(std::string_view a_autoSize) { SetString("autoSize", a_autoSize); }
 
                 void SetSize(double a_width, double a_height) {
                     enum { kWidth, kHeight, kNumArgs };
 
-                    array<RE::GFxValue, kNumArgs> args;
+                    std::array<RE::GFxValue, kNumArgs> args;
 
                     args[kWidth] = a_width;
                     assert(args[kWidth].IsNumber());
@@ -81,9 +81,9 @@ namespace CLIK {
 
                 //bool HandleInput(InputDetails& a_details, Array& a_pathToFocus);
 
-                string ToString() {
+                std::string ToString() {
                     RE::GFxValue str;
-                    [[maybe_unused]] const auto success = Invoke("toString", addressof(str));
+                    [[maybe_unused]] const auto success = Invoke("toString", std::addressof(str));
                     assert(success);
                     return str.GetString();
                 }

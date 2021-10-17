@@ -17,7 +17,7 @@ namespace CLIK {
 
                 DropdownMenu(const super& a_rhs) : super(a_rhs) {}
 
-                DropdownMenu(super&& a_rhs) : super(move(a_rhs)) {}
+                DropdownMenu(super&& a_rhs) : super(std::move(a_rhs)) {}
 
                 ~DropdownMenu() = default;
 
@@ -31,7 +31,7 @@ namespace CLIK {
                 }
 
                 DropdownMenu& operator=(super&& a_rhs) {
-                    super::operator=(move(a_rhs));
+                    super::operator=(std::move(a_rhs));
                     return *this;
                 }
 
@@ -56,22 +56,22 @@ namespace CLIK {
                 double SelectedIndex() const { return GetNumber("selectedIndex"); }
                 void SelectedIndex(double a_selectedIndex) { SetNumber("selectedIndex", a_selectedIndex); }
 
-                string LabelField() const { return GetString("labelField"); }
-                void LabelField(string_view a_selectedIndex) { SetString("labelField", a_selectedIndex); }
+                std::string LabelField() const { return GetString("labelField"); }
+                void LabelField(std::string_view a_selectedIndex) { SetString("labelField", a_selectedIndex); }
 
                 //Function LabelFunction() const;
                 //void LabelFunction(const Function& a_labelFunction);
 
-                string ItemToLabel(Object& a_item) {
+                std::string ItemToLabel(Object& a_item) {
                     enum { kItem, kNumArgs };
 
-                    array<RE::GFxValue, kNumArgs> args;
+                    std::array<RE::GFxValue, kNumArgs> args;
 
                     args[kItem] = a_item.GetInstance();
 
                     RE::GFxValue str;
                     [[maybe_unused]] const auto success =
-                        Invoke("itemToLabel", addressof(str), args.data(), args.size());
+                        Invoke("itemToLabel", std::addressof(str), args.data(), args.size());
                     assert(success);
 
                     return str.GetString();
@@ -95,7 +95,7 @@ namespace CLIK {
                 void SetSize(double a_width, double a_height) {
                     enum { kWidth, kHeight, kNumArgs };
 
-                    array<RE::GFxValue, kNumArgs> args;
+                    std::array<RE::GFxValue, kNumArgs> args;
 
                     args[kWidth] = a_width;
                     assert(args[kWidth].IsNumber());
@@ -114,9 +114,9 @@ namespace CLIK {
                     assert(success);
                 }
 
-                string ToString() {
+                std::string ToString() {
                     RE::GFxValue str;
-                    [[maybe_unused]] const auto success = Invoke("toString", addressof(str));
+                    [[maybe_unused]] const auto success = Invoke("toString", std::addressof(str));
                     assert(success);
                     return str.GetString();
                 }

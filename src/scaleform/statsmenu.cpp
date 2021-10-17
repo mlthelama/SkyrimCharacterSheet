@@ -38,7 +38,7 @@ namespace Scaleform {
         [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu, FILE_NAME,
             RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void {
                 logger::trace("FPS: {}"sv, a_def->GetFrameRate());
-                a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
+                //a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
             });
         assert(success);
         _view = menu->uiMovie;
@@ -48,7 +48,7 @@ namespace Scaleform {
         } else {
             menu->menuFlags |= Flag::kAllowSaving;
         }
-        menu->depthPriority = -1;
+        menu->depthPriority = 11;
         menu->inputContext = Context::kNone;
         InitExtensions();
 
@@ -61,7 +61,10 @@ namespace Scaleform {
     }
 
     RE::UI_MESSAGE_RESULTS StatsMenu::ProcessMessage(RE::UIMessage& a_message) {
-        return RE::IMenu::ProcessMessage(a_message);
+        if (a_message.menu == StatsMenu::MENU_NAME) {
+            return RE::UI_MESSAGE_RESULTS::kHandled;
+        }
+        return RE::UI_MESSAGE_RESULTS::kPassOn;
     }
 
     void StatsMenu::InitExtensions() {

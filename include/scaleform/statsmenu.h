@@ -108,7 +108,7 @@ namespace Scaleform {
 
         void UpdateNext();
 
-        class Logger : public RE::GFxLog {
+        /*class Logger : public RE::GFxLog {
         public:
             void LogMessageVarg(LogMessageType, const char* a_fmt, std::va_list a_argList) override {
                 std::string fmt(a_fmt ? a_fmt : "");
@@ -122,6 +122,6 @@ namespace Scaleform {
 
                 logger::info("{}: {}"sv, MENU_NAME, buf.data());
             }
-        };
+        };*/
     };
 }
