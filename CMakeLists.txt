@@ -12,7 +12,7 @@ set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "")
 
 project(
 	ShowStats
-	VERSION 0.0.4
+	VERSION 0.0.5
 	LANGUAGES CXX
 )
 
@@ -106,14 +106,12 @@ find_package(AutoTOML REQUIRED CONFIG)
 
 # ---- Add source files ----
 
-include(cmake/headerlist.cmake)
 include(cmake/sourcelist.cmake)
 
 source_group(
 	TREE
 		${CMAKE_CURRENT_SOURCE_DIR}
 	FILES
-		${headers}
 		${sources}
 )
 
@@ -130,7 +128,6 @@ source_group(
 add_library(
 	${PROJECT_NAME}
 	SHARED
-	${headers}
 	${sources}
 	${CMAKE_CURRENT_BINARY_DIR}/include/Version.h
 	${CMAKE_CURRENT_BINARY_DIR}/version.rc
@@ -148,7 +145,6 @@ target_include_directories(
 	${PROJECT_NAME}
 	PRIVATE
 		${CMAKE_CURRENT_SOURCE_DIR}/src
-		${CMAKE_CURRENT_SOURCE_DIR}/include
 		${CMAKE_CURRENT_BINARY_DIR}/include
 )
 
@@ -172,7 +168,7 @@ endif()
 target_precompile_headers(
 	${PROJECT_NAME}
 	PRIVATE
-		include/PCH.h
+		src/PCH.h
 )
 
 

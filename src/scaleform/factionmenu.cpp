@@ -35,10 +35,9 @@ namespace Scaleform {
 
         auto menu = static_cast<RE::IMenu*>(this);
         auto scaleformManager = RE::BSScaleformManager::GetSingleton();
-        [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu, FILE_NAME,
-            RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void {
-                logger::trace("FPS: {}"sv, a_def->GetFrameRate());
-            });
+        [[maybe_unused]] const auto success =
+            scaleformManager->LoadMovieEx(menu, FILE_NAME, RE::BSScaleformManager::ScaleModeType::kExactFit,
+                [](RE::GFxMovieDef* a_def) -> void { logger::trace("FPS: {}"sv, a_def->GetFrameRate()); });
         assert(success);
         _view = menu->uiMovie;
         _view->SetMouseCursorCount(0);

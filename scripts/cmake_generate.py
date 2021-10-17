@@ -33,7 +33,7 @@ def main():
     cur = os.path.dirname(os.path.realpath(__file__))
     os.chdir(cur + "/..")
     make_cmake([ "src" ], "sourcelist.cmake", "set(sources ${sources}\n")
-    make_cmake([ "include" ], "headerlist.cmake", "set(headers ${headers}\n")
+    #make_cmake([ "include" ], "headerlist.cmake", "set(headers ${headers}\n")
 
 if __name__ == "__main__":
     main()
