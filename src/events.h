@@ -16,16 +16,13 @@ namespace Events {
 
         uint32_t GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key);
 
-        using Lock = std::recursive_mutex;
-        using Locker = std::lock_guard<Lock>;
-
         enum : uint32_t {
             kInvalid = static_cast<uint32_t>(-1),
             kKeyboardOffset = 0,
             kMouseOffset = 256,
             kGamepadOffset = 266
         };
-        KeyManager();
+        KeyManager() = default;
         KeyManager(const KeyManager&) = delete;
         KeyManager(KeyManager&&) = delete;
         virtual ~KeyManager() = default;
@@ -33,8 +30,7 @@ namespace Events {
         KeyManager& operator=(const KeyManager&) = delete;
         KeyManager& operator=(KeyManager&&) = delete;
 
-        mutable Lock _lock;
-        uint64_t _key;
+        uint64_t _key = kInvalid;
     };
 
     class MenuHandler : public RE::BSTEventSink<RE::MenuOpenCloseEvent> {
@@ -48,7 +44,7 @@ namespace Events {
         auto ProcessEvent(RE::MenuOpenCloseEvent const* a_event,
             [[maybe_unused]] RE::BSTEventSource<RE::MenuOpenCloseEvent>* a_eventSource) -> EventResult;
 
-        MenuHandler();
+        MenuHandler() = default;
         MenuHandler(const MenuHandler&) = delete;
         MenuHandler(MenuHandler&&) = delete;
         virtual ~MenuHandler() = default;

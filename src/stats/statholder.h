@@ -2,58 +2,114 @@
 
 class StatItem {
 public:
-    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending,
-        boolean p_show);
+    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending, bool p_show) {
+        this->setName(p_name);
+        this->setActor(p_actor);
+        this->setDisplayName(p_display_name);
+        this->setEnding(p_ending);
+        this->setShow(p_show);
+        this->setMenu(StatsMenuValue::mNone);
+        this->setStaticText(false);
 
-    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending,
-        boolean p_show, StatsMenuValue p_menu);
+        this->value.clear();
+        this->guiText.clear();
 
-    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending,
-        boolean p_show, StatsMenuValue p_menu, boolean p_static_text);
+        this->logItem();
+    }
 
-    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending,
-        boolean p_show, StatsMenuValue p_menu, boolean p_static_text, int64_t p_value_multiplier);
+    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending, bool p_show,
+        StatsMenuValue p_menu) {
+        this->setName(p_name);
+        this->setActor(p_actor);
+        this->setDisplayName(p_display_name);
+        this->setEnding(p_ending);
+        this->setShow(p_show);
+        this->setMenu(p_menu);
+        this->setStaticText(false);
+
+        this->value.clear();
+        this->guiText.clear();
+
+        this->logItem();
+    };
+
+    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending, bool p_show,
+        StatsMenuValue p_menu, bool p_static_text) {
+        this->setName(p_name);
+        this->setActor(p_actor);
+        this->setDisplayName(p_display_name);
+        this->setEnding(p_ending);
+        this->setShow(p_show);
+        this->setMenu(p_menu);
+        this->setStaticText(p_static_text);
+
+        this->value.clear();
+        this->guiText.clear();
+
+        this->logItem();
+    };
+
+    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending, bool p_show,
+        StatsMenuValue p_menu, bool p_static_text, int64_t p_value_multiplier) {
+        this->setName(p_name);
+        this->setActor(p_actor);
+        this->setDisplayName(p_display_name);
+        this->setEnding(p_ending);
+        this->setShow(p_show);
+        this->setMenu(p_menu);
+        this->setStaticText(p_static_text);
+        this->setValueMultiplier(p_value_multiplier);
+
+        this->value.clear();
+        this->guiText.clear();
+
+        this->logItem();
+    };
 
 
-    void setName(StatsValue p_name);
+    void setName(StatsValue p_name) { name = p_name; }
 
-    StatsValue getName();
+    StatsValue getName() { return name; }
 
-    void setActor(RE::ActorValue p_actor);
+    void setActor(RE::ActorValue p_actor) { actor = p_actor; }
 
-    RE::ActorValue getActor();
+    RE::ActorValue getActor() { return actor; }
 
-    void setValue(std::string p_value);
+    void setValue(std::string p_value) {
+        value = p_value;
+        logger::trace("set Value {} for name {} display {}"sv, p_value, name, displayName);
+        buildText();
+    }
 
-    std::string getValue();
+    std::string getValue() { return value; }
 
-    void setDisplayName(std::string p_display_name);
+    void setDisplayName(std::string p_display_name) { displayName = p_display_name; }
 
-    std::string getDisplayName();
+    std::string getDisplayName() { return displayName; }
 
-    void setEnding(std::string p_ending);
+    void setEnding(std::string p_ending) { ending = p_ending; }
 
-    std::string getEnding();
+    std::string getEnding() { return ending; }
 
-    void setShow(boolean p_show);
+    void setShow(bool p_show) { show = p_show; }
 
-    boolean getShow();
+    bool getShow() { return show; }
 
-    void setGuiText(std::string p_gui_text);
+    void setGuiText(std::string p_gui_text) { guiText = p_gui_text; }
 
-    std::string getGuiText();
+    std::string getGuiText() { return guiText; }
 
-    void setStaticText(boolean p_static_text);
+    void setStaticText(bool p_static_text) { staticText = p_static_text; }
 
-    boolean getStaticText();
+    bool getStaticText() { return staticText; }
 
-    void setMenu(StatsMenuValue p_menu);
+    void setMenu(StatsMenuValue p_menu) { menu = p_menu; }
 
-    StatsMenuValue getMenu();
+    StatsMenuValue getMenu() { return menu; }
 
-    void setValueMultiplier(int64_t p_value_multiplier);
+    void setValueMultiplier(int64_t p_value_multiplier) { valueMultiplier = p_value_multiplier; }
 
-    int64_t getValueMultiplier();
+    int64_t getValueMultiplier() { return valueMultiplier; }
 
     StatItem() = delete;
     StatItem(const StatItem&) = default;
@@ -70,13 +126,17 @@ private:
     std::string value;
     std::string displayName;
     std::string ending;
-    boolean show;
+    bool show;
     std::string guiText;
-    boolean staticText = false;
+    bool staticText = false;
     StatsMenuValue menu = StatsMenuValue::mNone;
     int64_t valueMultiplier = 1;
 
-    void buildText();
+    void buildText() { guiText = buildDisplayString(value, displayName, ending, show, staticText, false); }
 
-    void logItem();
+    void logItem() {
+        logger::trace(
+            "name {}, actor {}, value {}, displayname ({}), ending {}, show {}, guiText ({}), ST {}, menu {}, VMP {}"sv,
+            name, actor, value, displayName, ending, show, guiText, staticText, menu, valueMultiplier);
+    }
 };

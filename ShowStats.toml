@@ -1,5 +1,5 @@
 [General]
-logLevel = 1 # 0 trace; 1 debug; 2 info
+logLevel = 2 # 0 trace; 1 debug; 2 info
 openMenuButton = 22 #U used for closing too (ESC also closes)
 closeOnOtherMenuOpen = true #does not trigger when pauseGame = true
 showFactionMenu = true

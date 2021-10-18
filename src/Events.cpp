@@ -38,6 +38,17 @@ namespace Events {
                 continue;
             }
 
+            auto controlMap = RE::ControlMap::GetSingleton();
+            if (!controlMap->IsMovementControlsEnabled()) {
+                continue;
+            }
+
+            /*if the game is not paused with the menu, it triggers the menu always in the background*/
+            auto showHandler = ShowHandler::GetSingleton();
+            if (ui->GameIsPaused() && !showHandler->IsMenuOpen()) {
+                continue;
+            }
+
             auto key = button->idCode;
             switch (button->device.get()) {
                 case DeviceType::kMouse:
@@ -52,16 +63,7 @@ namespace Events {
                 default:
                     continue;
             }
-
-            if (!*Settings::pauseGame) {
-                auto controlMap = RE::ControlMap::GetSingleton();
-                if (ui->GameIsPaused() || !controlMap->IsMovementControlsEnabled()) {
-                    continue;
-                }
-            }
-
-            logger::trace("button pressed {}, main Key is {}"sv, key, _key);
-            auto showHandler = ShowHandler::GetSingleton();
+ 
             if (key == _key) {
                 logger::debug("configured Key ({}) pressed"sv, key);
                 showHandler->HandleMainButtonPress();
@@ -77,7 +79,6 @@ namespace Events {
     }
 
     void KeyManager::SetKey(uint64_t p_key) {
-        Locker locker(_lock);
         _key = p_key;
     }
 
@@ -147,8 +148,6 @@ namespace Events {
         deviceManager->AddEventSink(KeyManager::GetSingleton());
     }
 
-    KeyManager::KeyManager() : _lock(), _key(kInvalid) {}
-
     auto MenuHandler::GetSingleton() -> MenuHandler* {
         static MenuHandler singleton;
         return std::addressof(singleton);
@@ -161,14 +160,11 @@ namespace Events {
 
     auto MenuHandler::ProcessEvent(RE::MenuOpenCloseEvent const* a_event,
         [[maybe_unused]] RE::BSTEventSource<RE::MenuOpenCloseEvent>* a_eventSource) -> EventResult {
-        if (a_event == nullptr) {
+        if (!a_event) {
             return EventResult::kContinue;
         }
 
-        logger::trace("Menu name {}"sv, a_event->menuName);
         if (a_event->opening) {
-            logger::debug("Menu name {} is opening, check if {} or {} is open"sv, a_event->menuName,
-                Scaleform::StatsMenu::MENU_NAME, Scaleform::FactionMenu::MENU_NAME);
             auto showHandler = ShowHandler::GetSingleton();
             if (Scaleform::StatsMenu::IsMenuOpen() && a_event->menuName != Scaleform::StatsMenu::MENU_NAME) {
                 showHandler->CloseWindow(ShowMenu::mStats);
@@ -180,15 +176,13 @@ namespace Events {
         return EventResult::kContinue;
     }
 
-    MenuHandler::MenuHandler() {}
-
     void SinkEventHandlers() {
         KeyManager::Sink();
         logger::info("Added Input Event"sv);
 
         if (*Settings::closeOnOtherMenuOpen) {
             MenuHandler::Sink();
-            logger::info("Registered Menu Event"sv);
+            logger::info("Added Menu Event"sv);
         }
     }
 }

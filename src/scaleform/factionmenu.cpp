@@ -46,7 +46,7 @@ namespace Scaleform {
         } else {
             menu->menuFlags |= Flag::kAllowSaving;
         }
-        menu->depthPriority = 11;
+        menu->depthPriority = 0;
         menu->inputContext = Context::kNone;
         InitExtensions();
 
@@ -78,8 +78,9 @@ namespace Scaleform {
     bool FactionMenu::IsMenuOpen() {
         auto ui = RE::UI::GetSingleton();
         auto isOpen = ui->IsMenuOpen(MENU_NAME);
-
-        logger::trace("Menu {} is open {}"sv, MENU_NAME, isOpen);
+        if (isOpen) {
+            logger::trace("Menu {} is open {}"sv, MENU_NAME, isOpen);
+        }
 
         return isOpen;
     }

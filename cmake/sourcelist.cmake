@@ -1,22 +1,14 @@
 set(sources ${sources}
 	src/CLIK/Array.h
-	src/CLIK/GFx/Controls/Button.h
-	src/CLIK/GFx/Controls/ButtonBar.h
 	src/CLIK/GFx/Controls/CoreList.h
-	src/CLIK/GFx/Controls/DropdownMenu.h
 	src/CLIK/GFx/Controls/ScrollingList.h
-	src/CLIK/GFx/Controls/Slider.h
-	src/CLIK/GFx/Controls/TextInput.h
 	src/CLIK/GFx/Core/UIComponent.h
 	src/CLIK/MovieClip.h
 	src/CLIK/Object.h
 	src/CLIK/TextField.h
-	src/PCH.cpp
 	src/PCH.h
 	src/constants.h
-	src/data/factiondata.cpp
 	src/data/factiondata.h
-	src/data/playerdata.cpp
 	src/data/playerdata.h
 	src/events.cpp
 	src/events.h
@@ -28,21 +20,13 @@ set(sources ${sources}
 	src/scaleform/statsmenu.cpp
 	src/scaleform/statsmenu.h
 	src/settings/settings.h
-	src/showhandler.cpp
 	src/showhandler.h
-	src/stats/champion.cpp
 	src/stats/champion.h
-	src/stats/faction.cpp
 	src/stats/faction.h
-	src/stats/factionfiller.cpp
 	src/stats/factionfiller.h
-	src/stats/factionholder.cpp
 	src/stats/factionholder.h
-	src/stats/statfiller.cpp
 	src/stats/statfiller.h
-	src/stats/statholder.cpp
 	src/stats/statholder.h
-	src/stats/thane.cpp
 	src/stats/thane.h
 	src/utils.h
 )

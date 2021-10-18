@@ -18,7 +18,8 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
             return false;
         }
 
-        *path /= "ShowStats.log"sv;
+        *path /= Version::PROJECT;
+        *path += ".log"sv;
         auto sink = make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
 
         auto log = make_shared<spdlog::logger>("global log"s, move(sink));
@@ -28,13 +29,12 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 
 
         spdlog::set_default_logger(move(log));
-        spdlog::set_pattern("%s(%#): [%^%l%$] %v"s);
+        spdlog::set_pattern("[%H:%M:%S.%f] %s(%#) [%^%l%$] %v"s);
 
-        logger::info("ShowStats v{}"sv, Version::NAME);
-
+ 	    logger::info(FMT_STRING("{} v{}"), Version::PROJECT, Version::NAME);
 
         a_info->infoVersion = SKSE::PluginInfo::kVersion;
-        a_info->name = "ShowStats";
+        a_info->name = Version::PROJECT.data();
         a_info->version = Version::ASINT;
 
         if (a_skse->IsEditor()) {
