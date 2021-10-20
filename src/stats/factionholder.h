@@ -9,9 +9,8 @@ public:
         this->setMenu(p_menu);
         this->setDisplayIsValue(false);
 
-
-        this->value.clear();
-        this->guiText.clear();
+        this->setValue("");
+        this->setGuiText("");
 
         this->logItem();
     }
@@ -23,10 +22,9 @@ public:
         this->setShow(p_show);
         this->setMenu(p_menu);
         this->setDisplayIsValue(p_display_is_value);
-
-
-        this->value.clear();
-        this->guiText.clear();
+        ;
+        this->setValue("");
+        this->setGuiText("");
 
         this->logItem();
     }
@@ -36,9 +34,11 @@ public:
     FactionValue getName() { return name; }
 
     void setValue(std::string p_value) {
-        value = p_value;
-        logger::trace("set Value {} for name {} display {}"sv, p_value, name, displayName);
-        buildText();
+        if (!p_value.empty()) {
+            value = p_value;
+            logger::trace("set Value {} for name {} display {}"sv, p_value, name, displayName);
+            buildText();
+        }
     }
 
     std::string getValue() { return value; }
@@ -82,7 +82,7 @@ private:
     FactionMenuValue menu = FactionMenuValue::mNone;
     bool displayIsValue = false;
 
-    void buildText() { guiText = buildDisplayString(value, displayName, "", show, false, displayIsValue); }
+    void buildText() { guiText = buildDisplayString(value, displayName, "", show, displayIsValue); }
 
     void logItem() {
         logger::trace("name {}, value {}, displayname ({}), show {}, guiText ({}), menu {}, VID {}"sv, name, value,

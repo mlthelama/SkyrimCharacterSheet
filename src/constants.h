@@ -171,6 +171,7 @@ inline static std::map<int64_t, StatsMenuValue> configStatsMenu = {
 
 typedef std::map<RE::FormID, FactionValue> formIdValueMap;
 typedef std::map<FactionValue, std::string> valueStringMap;  //used in faction.h and thane.h
+//typedef std::map<FactionValue, std::string_view> valueStringMap;  //used in faction.h and thane.h
 
 //0x00072834 //blades, player might not be in there
 inline static formIdValueMap factionMap = { { 0x00048362, FactionValue::companions },

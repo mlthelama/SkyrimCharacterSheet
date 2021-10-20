@@ -82,7 +82,6 @@ public:
         }
 
         logger::trace("got {} items in champion list."sv, championList.size());
-
         logMap();
     }
 

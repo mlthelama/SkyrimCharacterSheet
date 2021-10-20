@@ -20,7 +20,7 @@ namespace CLIK {
         ~MovieClip() = default;
 
         MovieClip& operator=(const MovieClip&) = default;
-        MovieClip& operator=(MovieClip&&) noexcept = default;
+        MovieClip& operator=(MovieClip&&) = default;
         using super::operator=;
 
         MovieClip& operator=(const super& a_rhs) {

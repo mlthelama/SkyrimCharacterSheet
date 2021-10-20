@@ -63,7 +63,7 @@ namespace Events {
                 default:
                     continue;
             }
- 
+
             if (key == _key) {
                 logger::debug("configured Key ({}) pressed"sv, key);
                 showHandler->HandleMainButtonPress();
@@ -78,9 +78,7 @@ namespace Events {
         return EventResult::kContinue;
     }
 
-    void KeyManager::SetKey(uint64_t p_key) {
-        _key = p_key;
-    }
+    void KeyManager::SetKey(uint64_t p_key) { _key = p_key; }
 
     uint32_t KeyManager::GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key) {
         using Key = RE::BSWin32GamepadDevice::Key;

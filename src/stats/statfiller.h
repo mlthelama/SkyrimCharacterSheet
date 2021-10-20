@@ -176,10 +176,10 @@ public:
             // https://en.uesp.net/wiki/Skyrim_Mod:Actor_Value_Indices as documented here
             std::make_shared<StatItem>(StatsValue::weaponSpeedMult, ActorValue::kNone, *Settings::weaponSpeedMultString,
                 *Settings::weaponSpeedMultStringEnding, *Settings::weaponSpeedMult,
-                getStatsMenu(*Settings::weaponSpeedMultMenu), false, getMultiplier(*Settings::weaponSpeedMultMult)),
+                getStatsMenu(*Settings::weaponSpeedMultMenu), getMultiplier(*Settings::weaponSpeedMultMult)),
             std::make_shared<StatItem>(StatsValue::leftWeaponSpeedMult, ActorValue::kNone,
                 *Settings::leftWeaponSpeedMultString, *Settings::leftWeaponSpeedMultStringEnding,
-                *Settings::leftWeaponSpeedMult, getStatsMenu(*Settings::leftWeaponSpeedMultMenu), false,
+                *Settings::leftWeaponSpeedMult, getStatsMenu(*Settings::leftWeaponSpeedMultMenu),
                 getMultiplier(*Settings::leftWeaponSpeedMultMult)),
             std::make_shared<StatItem>(StatsValue::rightItemCharge, ActorValue::kRightItemCharge,
                 *Settings::rightItemChargeString, *Settings::rightItemChargeStringEnding, *Settings::rightItemCharge,
@@ -189,7 +189,7 @@ public:
                 getStatsMenu(*Settings::leftItemChargeMenu)),
             std::make_shared<StatItem>(StatsValue::armorPerks, ActorValue::kArmorPerks, *Settings::armorPerksString,
                 *Settings::armorPerksStringEnding, *Settings::armorPerks, getStatsMenu(*Settings::armorPerksMenu),
-                false, getMultiplier(*Settings::armorPerksMult)),
+                getMultiplier(*Settings::armorPerksMult)),
             std::make_shared<StatItem>(StatsValue::mass, ActorValue::kMass, *Settings::massString,
                 *Settings::massStringEnding, *Settings::mass, getStatsMenu(*Settings::massMenu)),
             std::make_shared<StatItem>(StatsValue::bowStaggerBonus, ActorValue::kBowStaggerBonus,
@@ -206,17 +206,17 @@ public:
                 getStatsMenu(*Settings::bowSpeedBonusMenu)),
             std::make_shared<StatItem>(StatsValue::shoutRecoveryMult, ActorValue::kShoutRecoveryMult,
                 *Settings::shoutRecoveryMultString, *Settings::shoutRecoveryMultStringEnding,
-                *Settings::shoutRecoveryMult, getStatsMenu(*Settings::shoutRecoveryMultMenu), false,
+                *Settings::shoutRecoveryMult, getStatsMenu(*Settings::shoutRecoveryMultMenu),
                 getMultiplier(*Settings::shoutRecoveryMultMult)),
             std::make_shared<StatItem>(StatsValue::movementNoiseMult, ActorValue::kMovementNoiseMult,
                 *Settings::movementNoiseMultString, *Settings::movementNoiseMultStringEnding,
-                *Settings::movementNoiseMult, getStatsMenu(*Settings::movementNoiseMultMenu), false,
+                *Settings::movementNoiseMult, getStatsMenu(*Settings::movementNoiseMultMenu),
                 getMultiplier(*Settings::movementNoiseMultMult)),
             std::make_shared<StatItem>(StatsValue::dragonSouls, ActorValue::kDragonSouls, *Settings::dragonSoulsString,
                 *Settings::dragonSoulsStringEnding, *Settings::dragonSouls, getStatsMenu(*Settings::dragonSoulsMenu)),
             std::make_shared<StatItem>(StatsValue::combatHealthRegenMultiply, ActorValue::kCombatHealthRegenMultiply,
                 *Settings::combatHealthRegenMultiplyString, *Settings::combatHealthRegenMultiplyStringEnding,
-                *Settings::combatHealthRegenMultiply, getStatsMenu(*Settings::combatHealthRegenMultiplyMenu), false,
+                *Settings::combatHealthRegenMultiply, getStatsMenu(*Settings::combatHealthRegenMultiplyMenu),
                 getMultiplier(*Settings::combatHealthRegenMultiplyMult)),
             std::make_shared<StatItem>(StatsValue::attackDamageMult, ActorValue::kAttackDamageMult,
                 *Settings::attackDamageMultString, *Settings::attackDamageMultStringEnding, *Settings::attackDamageMult,
@@ -224,7 +224,7 @@ public:
             std::make_shared<StatItem>(StatsValue::beast, ActorValue::kNone, *Settings::beastString,
                 *Settings::beastStringEnding, *Settings::beast),
             std::make_shared<StatItem>(StatsValue::xp, ActorValue::kNone, *Settings::xpString,
-                *Settings::xpStringEnding, *Settings::xp, StatsMenuValue::mNone, true),
+                *Settings::xpStringEnding, *Settings::xp, StatsMenuValue::mNone),
             std::make_shared<StatItem>(StatsValue::reflectDamage, ActorValue::kReflectDamage,
                 *Settings::reflectDamageString, *Settings::reflectDamageStringEnding, *Settings::reflectDamage,
                 getStatsMenu(*Settings::reflectDamageMenu)),
@@ -294,11 +294,9 @@ public:
     void PrintStatsVector(std::vector<std::shared_ptr<StatItem>>& p_vec) {
         logger::trace("Vector Size is {}"sv, p_vec.size());
         for (auto& element : p_vec) {
-            logger::trace(
-                "name {}, actor {}, value {}, displayname ({}), ending {}, show {}, guiText ({}), ST {}, menu {}"sv,
+            logger::trace("name {}, actor {}, value {}, displayname ({}), ending {}, show {}, guiText ({}), menu {}"sv,
                 element->getName(), element->getActor(), element->getValue(), element->getDisplayName(),
-                element->getEnding(), element->getShow(), element->getGuiText(), element->getStaticText(),
-                element->getMenu());
+                element->getEnding(), element->getShow(), element->getGuiText(), element->getMenu());
         }
     }
 

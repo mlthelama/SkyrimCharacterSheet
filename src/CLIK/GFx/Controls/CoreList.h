@@ -24,7 +24,7 @@ namespace CLIK {
                 ~CoreList() = default;
 
                 CoreList& operator=(const CoreList&) = default;
-                CoreList& operator=(CoreList&&) noexcept = default;
+                CoreList& operator=(CoreList&&) = default;
                 using super::operator=;
 
                 CoreList& operator=(const super& a_rhs) {

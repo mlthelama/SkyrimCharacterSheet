@@ -143,9 +143,9 @@ namespace Scaleform {
     void FactionMenu::UpdateTitle() { updateText(_title, getMenuName(ShowMenu::mFaction)); }
 
     void FactionMenu::UpdateHeaders() {
-        updateText(_factionHeader, *Settings::showFactionsTitleFaction);
-        updateText(_thaneHeader, *Settings::showFactionsTitleThane);
-        updateText(_championHeader, *Settings::showFactionsTitleChampion);
+        updateText(_factionHeader, static_cast<std::string_view>(*Settings::showFactionsTitleFaction));
+        updateText(_thaneHeader, static_cast<std::string_view>(*Settings::showFactionsTitleThane));
+        updateText(_championHeader, static_cast<std::string_view>(*Settings::showFactionsTitleChampion));
     }
 
     RE::GFxValue FactionMenu::buildGFxValue(std::string p_val) {

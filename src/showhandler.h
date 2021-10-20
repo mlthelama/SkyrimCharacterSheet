@@ -67,10 +67,6 @@ private:
     void ShowWindow(ShowMenu p_menu) {
         logger::trace("Gather Value and Show Window"sv);
 
-        if (*Settings::logLevel == logTrace) {
-            RE::DebugNotification(fmt::format("Showing menu {} now."sv, getMenuName(p_menu)).c_str());
-        }
-
         switch (p_menu) {
             case ShowMenu::mStats:
                 Scaleform::StatsMenu::Open();

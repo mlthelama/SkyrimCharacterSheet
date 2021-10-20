@@ -7,9 +7,9 @@ namespace CLIK {
 
         Object(const Object& a_rhs) : _instance() { SetInstance(a_rhs); }
 
-        Object(Object&& a_rhs) noexcept : _instance() { SetInstance(std::move(a_rhs)); }
+        Object(Object&& a_rhs) : _instance() { SetInstance(std::move(a_rhs)); }
 
-        explicit Object(nullptr_t) : _instance() { SetInstance(nullptr); }
+        explicit Object(std::nullptr_t) : _instance() { SetInstance(nullptr); }
 
         explicit Object(double a_rhs) : _instance() { SetInstance(a_rhs); }
 
@@ -40,12 +40,12 @@ namespace CLIK {
             return *this;
         }
 
-        Object& operator=(Object&& a_rhs) noexcept {
+        Object& operator=(Object&& a_rhs) {
             SetInstance(std::move(a_rhs));
             return *this;
         }
 
-        Object& operator=(nullptr_t) {
+        Object& operator=(std::nullptr_t) {
             SetInstance(nullptr);
             return *this;
         }
@@ -103,7 +103,7 @@ namespace CLIK {
         void Resolve(Object& a_resolve) { SetObject("__resolve", a_resolve); }
 
         // methods
-        //bool AddProperty(string_view a_name, Function& a_getter, Function& a_setter);
+        //bool AddProperty(std::string_view a_name, Function& a_getter, Function& a_setter);
         bool HasOwnProperty(std::string_view a_name) {
             enum { kName, kNumArgs };
 
@@ -152,7 +152,7 @@ namespace CLIK {
             return boolean.GetBool();
         }
 
-        //bool Watch(string_view a_name, Function& a_callback, Object& a_userData);
+        //bool Watch(std::string_view a_name, Function& a_callback, Object& a_userData);
         bool Unwatch(std::string_view a_name) {
             enum { kName, kNumArgs };
 
@@ -250,7 +250,7 @@ namespace CLIK {
             assert(success);
         }
 
-        void SetInstance(nullptr_t) { _instance = nullptr; }
+        void SetInstance(std::nullptr_t) { _instance = nullptr; }
         void SetInstance(double a_val) { _instance = a_val; }
         void SetInstance(bool a_val) { _instance = a_val; }
         void SetInstance(const char* a_val) { _instance = a_val; }

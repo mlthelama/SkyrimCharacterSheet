@@ -1,9 +1,9 @@
 #pragma once
-#include "stats/factionholder.h"
 #include "stats/champion.h"
 #include "stats/faction.h"
-#include "stats/thane.h"
 #include "stats/factionfiller.h"
+#include "stats/factionholder.h"
+#include "stats/thane.h"
 
 class FactionData {
 public:
@@ -33,7 +33,6 @@ public:
 
         auto statList = filler->getData();
         for (auto& element : statList) {
-            logger::trace("start working name {}, fill values, if needed ..."sv, element->getName());
             if (!element->getShow()) {
                 continue;
             }

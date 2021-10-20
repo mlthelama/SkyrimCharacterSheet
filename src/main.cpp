@@ -1,4 +1,4 @@
-﻿#include "events.h"
+#include "events.h"
 #include "scaleform/scaleform.h"
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
@@ -31,7 +31,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
         spdlog::set_default_logger(move(log));
         spdlog::set_pattern("[%H:%M:%S.%f] %s(%#) [%^%l%$] %v"s);
 
- 	    logger::info(FMT_STRING("{} v{}"), Version::PROJECT, Version::NAME);
+        logger::info(FMT_STRING("{} v{}"), Version::PROJECT, Version::NAME);
 
         a_info->infoVersion = SKSE::PluginInfo::kVersion;
         a_info->name = Version::PROJECT.data();

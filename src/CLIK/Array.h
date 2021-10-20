@@ -92,7 +92,7 @@ namespace CLIK {
             enum { kDelimiter, kNumArgs };
 
             std::array<RE::GFxValue, kNumArgs> args;
-            size_t size = 0;
+            std::size_t size = 0;
 
             if (a_delimiter) {
                 args[kDelimiter] = *a_delimiter;
@@ -145,7 +145,7 @@ namespace CLIK {
             enum { kStartIndex, kDeleteCount, kValue, kNumArgs };
 
             std::array<RE::GFxValue, kNumArgs> args;
-            size_t size = 1;
+            std::size_t size = 1;
 
             args[kStartIndex] = a_startIndex;
             assert(args[kStartIndex].IsNumber());

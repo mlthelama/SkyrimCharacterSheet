@@ -161,12 +161,12 @@ namespace Scaleform {
     void StatsMenu::UpdateTitle() { updateText(_title, getMenuName(ShowMenu::mStats)); }
 
     void StatsMenu::UpdateHeaders() {
-        updateText(_valuesHeader, *Settings::showStatsTitlePlayer);
-        updateText(_attackHeader, *Settings::showStatsTitleAttack);
-        updateText(_perksMagicHeader, *Settings::showStatsTitleMagic);
-        updateText(_defenceHeader, *Settings::showStatsTitleDefence);
-        updateText(_perksWarriorHeader, *Settings::showStatsTitleWarrior);
-        updateText(_perksThiefHeader, *Settings::showStatsTitleThief);
+        updateText(_valuesHeader, static_cast<std::string_view>(*Settings::showStatsTitlePlayer));
+        updateText(_attackHeader, static_cast<std::string_view>(*Settings::showStatsTitleAttack));
+        updateText(_perksMagicHeader, static_cast<std::string_view>(*Settings::showStatsTitleMagic));
+        updateText(_defenceHeader, static_cast<std::string_view>(*Settings::showStatsTitleDefence));
+        updateText(_perksWarriorHeader, static_cast<std::string_view>(*Settings::showStatsTitleWarrior));
+        updateText(_perksThiefHeader, static_cast<std::string_view>(*Settings::showStatsTitleThief));
     }
 
     RE::GFxValue StatsMenu::buildGFxValue(std::string p_val) {

@@ -1,6 +1,6 @@
 #pragma once
-#include "stats/statholder.h"
 #include "stats/statfiller.h"
+#include "stats/statholder.h"
 
 class PlayerData {
 public:
@@ -16,7 +16,6 @@ public:
 
         auto statList = filler->getData();
         for (auto& element : statList) {
-            logger::trace("start working name {}, fill values, if needed ..."sv, element->getName());
             if (!element->getShow()) {
                 continue;
             }
@@ -163,8 +162,8 @@ private:
 
 
     std::string getXP(RE::PlayerCharacter*& p_player) {
-        return cutString(getStringValueFromFloat(p_player->skills->data->xp)) + "/" +
-               cutString(getStringValueFromFloat(p_player->skills->data->levelThreshold));
+        return fmt::format(FMT_STRING("{}/{}"), cutString(getStringValueFromFloat(p_player->skills->data->xp)),
+            cutString(getStringValueFromFloat(p_player->skills->data->levelThreshold)));
     }
 
     PlayerData() = default;

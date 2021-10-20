@@ -22,7 +22,7 @@ namespace CLIK {
                 ~UIComponent() = default;
 
                 UIComponent& operator=(const UIComponent&) = default;
-                UIComponent& operator=(UIComponent&&) noexcept = default;
+                UIComponent& operator=(UIComponent&&) = default;
                 using super::operator=;
 
                 UIComponent& operator=(const super& a_rhs) {

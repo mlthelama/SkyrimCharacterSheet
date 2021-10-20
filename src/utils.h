@@ -5,17 +5,17 @@ static std::string cutString(std::string p_value) {
     if (p_value.find(".") != std::string::npos) {
         auto s = p_value.substr(p_value.find(".") + 1, 2);
         if (count(s.begin(), s.end(), '0') == 2) {
-            text += p_value.substr(0, p_value.find("."));
+            text = p_value.substr(0, p_value.find("."));
         } else {
-            text += p_value.substr(0, p_value.find(".") + 3);
+            text = p_value.substr(0, p_value.find(".") + 3);
         }
     } else {
-        text += p_value;
+        text = p_value;
     }
     return text;
 }
 
-static std::string getStringValueFromFloat(float p_x) { return std::to_string(round(p_x * 100.0) / 100.0); }
+static std::string getStringValueFromFloat(float p_x) { return cutString(fmt::format(FMT_STRING("{:.2f}"), p_x)); }
 
 static float calculateValue(float p_rm, float p_r) { return (p_rm * p_r) / 100; }
 
@@ -57,33 +57,28 @@ static FactionMenuValue getFactionMenu(int64_t p_menu_id) {
 }
 
 static std::string buildDisplayString(std::string p_value, std::string p_display_name, std::string p_ending,
-    bool p_show, bool p_staticText, bool p_value_is_display) {
+    bool p_show, bool p_value_is_display) {
     if (!p_value.empty() && !p_display_name.empty() && !p_show) {
         return "";
     }
 
-    std::string guiText = "";
+    std::string guiText;
 
     if (p_value_is_display) {
         if (p_value == staticDisplayValue) {
             guiText = p_display_name;
         }
     } else {
-        guiText = p_display_name;
-        if (p_value.size() > 0) {
-            guiText += ": ";
-        }
-
-        guiText += (p_staticText) ? p_value : cutString(p_value);
-
-        guiText += p_ending;
+        auto seperator = (p_value.size() > 0) ? ": " : "";
+        guiText = fmt::format(FMT_STRING("{}{}{}{}"), p_display_name, seperator, p_value, p_ending);
     }
 
     return guiText;
 }
 
-static std::map<ShowMenu, std::string_view> menuName = { { ShowMenu::mStats, *Settings::showStatsTitleTitle },
-    { ShowMenu::mFaction, *Settings::showFactionsTitleTitle } };
+static std::map<ShowMenu, std::string_view> menuName = { { ShowMenu::mStats, static_cast<std::string_view>(
+                                                                                 *Settings::showStatsTitleTitle) },
+    { ShowMenu::mFaction, static_cast<std::string_view>(*Settings::showFactionsTitleTitle) } };
 
 static std::string_view getMenuName(ShowMenu p_menu) {
     if (menuName.find(p_menu) == menuName.end()) {

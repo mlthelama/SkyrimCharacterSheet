@@ -215,7 +215,7 @@ namespace CLIK {
         }
 
         //TextFormat GetNewTextFormat();
-        //TextFormat GetTextFormat(optional<double> a_beginIndex, optional<double> a_endIndex);
+        //TextFormat GetTextFormat(std::optional<double> a_beginIndex, std::optional<double> a_endIndex);
 
         bool RemoveListener(Object& a_listener) {
             enum { kListener, kNumArgs };
@@ -270,7 +270,7 @@ namespace CLIK {
 
         //void SetNewTextFormat(TextFormat& a_tf);
 
-        //void SetTextFormat(optional<double> a_beginIndex, optional<double> a_endIndex, TextFormat& a_textFormat);;
+        //void SetTextFormat(std::optional<double> a_beginIndex, std::optional<double> a_endIndex, TextFormat& a_textFormat);;
 
         // gfx properties
         bool AutoFit() const { return GetBoolean("autoFit"); }

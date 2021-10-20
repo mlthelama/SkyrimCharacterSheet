@@ -31,7 +31,6 @@ public:
         }
 
         logger::trace("got {} items in thane list."sv, thaneList.size());
-
         logMap();
     }
 
