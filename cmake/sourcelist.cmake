@@ -13,11 +13,9 @@ set(sources ${sources}
 	src/events.cpp
 	src/events.h
 	src/main.cpp
-	src/scaleform/factionmenu.cpp
 	src/scaleform/factionmenu.h
 	src/scaleform/scaleform.cpp
 	src/scaleform/scaleform.h
-	src/scaleform/statsmenu.cpp
 	src/scaleform/statsmenu.h
 	src/settings/settings.h
 	src/showhandler.h
