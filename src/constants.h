@@ -152,9 +152,9 @@ const std::string undefined = "<undef>";
 
 enum class ShowMenu { mStats, mFaction };
 
-const int32_t logTrace = 0;
-const int32_t logDebug = 1;
-const int32_t logInfo = 2;
+constexpr int32_t logTrace = 0;
+constexpr int32_t logDebug = 1;
+constexpr int32_t logInfo = 2;
 
 enum class StatsMenuValue { mNone = 0, mPlayer = 1, mDefence = 2, mAttack = 3, mMagic = 4, mWarrior = 5, mThief = 6 };
 
@@ -171,17 +171,14 @@ inline static std::map<int64_t, StatsMenuValue> configStatsMenu = {
 
 typedef std::map<RE::FormID, FactionValue> formIdValueMap;
 typedef std::map<FactionValue, std::string> valueStringMap;  //used in faction.h and thane.h
-//typedef std::map<FactionValue, std::string_view> valueStringMap;  //used in faction.h and thane.h
 
 //0x00072834 //blades, player might not be in there
 inline static formIdValueMap factionMap = { { 0x00048362, FactionValue::companions },
     { 0x0001BDB3, FactionValue::darkbrotherHood }, { 0x0001F259, FactionValue::collegeOfWinterhold },
     { 0x00024029, FactionValue::orcFriend }, { 0x00029DA9, FactionValue::thiefsGuild },
     { 0x0002BF9A, FactionValue::imperialLegion }, { 0x0002BF9B, FactionValue::stormcloaks },
-    { 0x0002C6C8, FactionValue::greybeard },
-    //{ 0x000C13C7, StatsValue::bard} //not sure if player can be in that, nah
-    { 0x02003376, FactionValue::volkiharVampireClan }, { 0x02014217, FactionValue::dawnguard },
-    { 0x04019B8A, FactionValue::houseTelvanni } };
+    { 0x0002C6C8, FactionValue::greybeard }, { 0x02003376, FactionValue::volkiharVampireClan },
+    { 0x02014217, FactionValue::dawnguard }, { 0x04019B8A, FactionValue::houseTelvanni } };
 
 //favor/quest thane map 200
 inline static formIdValueMap thaneMap = { { 0x000A2CA6, FactionValue::thaneOfEastmarch },
@@ -201,7 +198,7 @@ inline static std::map<int64_t, FactionMenuValue> configFactionMenu = {
     { static_cast<int64_t>(FactionMenuValue::mChampion), FactionMenuValue::mChampion },
 };
 
-const std::string staticDisplayValue = "yes";
+constexpr auto staticDisplayValue = "yes"sv;
 
 /*
     azura, 00028AD6 100 -
