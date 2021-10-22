@@ -4,6 +4,7 @@
 #include "SKSE/SKSE.h"
 
 #pragma warning(push)
+#include <spdlog/sinks/basic_file_sink.h>
 #ifdef NDEBUG
 #include <spdlog/sinks/basic_file_sink.h>
 #else

@@ -2,7 +2,6 @@
 #include "CLIK/Array.h"
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
-
 #include "data/factiondata.h"
 
 namespace Scaleform {
@@ -11,11 +10,9 @@ namespace Scaleform {
         static constexpr std::string_view MENU_NAME = "ShowFactions";
         static constexpr std::string_view FILE_NAME = "ShowFactions";
 
-
         static void Register() {
             auto ui = RE::UI::GetSingleton();
             ui->Register(MENU_NAME, Creator);
-
             logger::info("Registered {}"sv, MENU_NAME);
         }
 
@@ -45,7 +42,6 @@ namespace Scaleform {
             return isOpen;
         }
 
-
     protected:
         FactionMenu() {
             using Context = RE::UserEvents::INPUT_CONTEXT_ID;
@@ -53,9 +49,14 @@ namespace Scaleform {
 
             auto menu = static_cast<RE::IMenu*>(this);
             auto scaleformManager = RE::BSScaleformManager::GetSingleton();
-            [[maybe_unused]] const auto success =
-                scaleformManager->LoadMovieEx(menu, FILE_NAME, RE::BSScaleformManager::ScaleModeType::kExactFit,
-                    [](RE::GFxMovieDef* a_def) -> void { logger::trace("FPS: {}"sv, a_def->GetFrameRate()); });
+            [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu, FILE_NAME,
+                RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void {
+                    logger::trace("FPS: {}, Height: {}, Width: {}"sv, a_def->GetFrameRate(), a_def->GetHeight(),
+                        a_def->GetWidth());
+                    a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
+                });
+            logResolution();
+            logger::debug("Loading Menu {} was successful {}"sv, FILE_NAME, success);
             assert(success);
             _view = menu->uiMovie;
             _view->SetMouseCursorCount(0);
@@ -66,7 +67,7 @@ namespace Scaleform {
             }
             menu->depthPriority = 0;
             menu->inputContext = Context::kNone;
-            InitExtensions();
+            //InitExtensions();
 
             _isActive = true;
             _view->SetVisible(true);
@@ -96,16 +97,31 @@ namespace Scaleform {
         }
 
     private:
+        class Logger : public RE::GFxLog {
+        public:
+            void LogMessageVarg(LogMessageType, const char* a_fmt, std::va_list a_argList) override {
+                std::string fmt(a_fmt ? a_fmt : "");
+                while (!fmt.empty() && fmt.back() == '\n') { fmt.pop_back(); }
+
+                std::va_list args;
+                va_copy(args, a_argList);
+                std::vector<char> buf(static_cast<std::size_t>(std::vsnprintf(0, 0, fmt.c_str(), a_argList) + 1));
+                std::vsnprintf(buf.data(), buf.size(), fmt.c_str(), args);
+                va_end(args);
+
+                logger::info("{}: {}"sv, FactionMenu::MENU_NAME, buf.data());
+            }
+        };
+
         void InitExtensions() {
             const RE::GFxValue boolean(true);
             bool success;
 
             success = _view->SetVariable("_global.gfxExtensions", boolean);
             assert(success);
-            success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
-            assert(success);
+            //success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
+            //assert(success);
         }
-
 
         void OnOpen() {
             using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
@@ -127,6 +143,7 @@ namespace Scaleform {
                 [[maybe_unused]] const auto success = _view->GetVariable(std::addressof(instance), path.data());
                 assert(success && instance.IsObject());
             }
+            logger::trace("Loaded all SWF objects successfully"sv);
 
             _rootObj.Visible(false);
 
@@ -174,7 +191,6 @@ namespace Scaleform {
             value.SetMember("displayName", { static_cast<std::string_view>(p_val) });
             return value;
         }
-
 
         void ClearProviders() {
             _factionItemListProvider.ClearElements();
@@ -234,7 +250,6 @@ namespace Scaleform {
         }
 
         void UpdatePrev() { updateText(_prev, getPrevMenuName(ShowMenu::mFaction)); }
-
 
         RE::GPtr<RE::GFxMovieView> _view;
         bool _isActive = false;

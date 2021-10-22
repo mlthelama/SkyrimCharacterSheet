@@ -98,3 +98,8 @@ static std::string_view getPrevMenuName(ShowMenu p_menu) {
     //if cast to an int value outside the enum it should be undefined
     return getMenuName(static_cast<ShowMenu>(static_cast<int>(p_menu) - 1));
 }
+
+static void logResolution() {
+    const auto* const state = RE::BSGraphics::State::GetSingleton();
+    logger::trace("Screen Resolution {}x{}"sv, state->screenWidth, state->screenHeight);
+}
