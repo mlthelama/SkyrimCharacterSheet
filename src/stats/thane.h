@@ -19,14 +19,30 @@ public:
         for (const auto& item : thaneMap) {
             logger::trace("working at formid {}"sv, intToHex(item.first));
             auto questStage = RE::TESForm::LookupByID(item.first)->As<RE::TESQuest>()->currentStage;
+            auto isThane = false;
 
-            if (questStage == 200) {
-                thaneList.insert(std::pair<FactionValue, std::string>(item.second, staticDisplayValue));
-            } else if (item.second == FactionValue::thaneOfWhiterun) {
-                auto whiterunQuestStage = RE::TESForm::LookupByID(0x0002610C)->As<RE::TESQuest>()->currentStage;
-                if (whiterunQuestStage == 200) {
-                    thaneList.insert(std::pair<FactionValue, std::string>(item.second, staticDisplayValue));
+            //handle whiterun and eastmarch differently because of cw and main quest specials
+            if (item.second == FactionValue::thaneOfEastmarch) {
+                auto eastmarchCWstage = RE::TESForm::LookupByID(0x00035A23)->As<RE::TESQuest>()->currentStage;
+                auto CWObjectStage = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>()->currentStage;
+                auto preQuests = (eastmarchCWstage == 200 || eastmarchCWstage == 255) ||
+                                 (CWObjectStage == 9000 || CWObjectStage == 9999);
+                if (preQuests && questStage == 200) {
+                    isThane = true;
                 }
+            } else if (item.second == FactionValue::thaneOfWhiterun) {
+                auto dragonsRisingStage = RE::TESForm::LookupByID(0x0002610C)->As<RE::TESQuest>()->currentStage;
+                auto CWObjectStage = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>()->currentStage;
+                auto preQuests = (CWObjectStage == 9000 || CWObjectStage == 9999);
+                if ((dragonsRisingStage >= 160) || (preQuests && questStage == 200)) {
+                    isThane = true;
+                }
+            } else if (questStage == 200) {
+                isThane = true;
+            }
+
+            if (isThane) {
+                thaneList.insert(std::pair<FactionValue, std::string>(item.second, staticDisplayValue));
             }
         }
 
