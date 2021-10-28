@@ -30,7 +30,7 @@ public:
                 if (preQuests && questStage == 200) {
                     isThane = true;
                 }
-            } else if (item.second == FactionValue::thaneOfWhiterun) {
+            } else if (item.second == FactionValue::thaneOfWhiterun && !*Settings::skyrimUnbound) {
                 auto dragonsRisingStage = RE::TESForm::LookupByID(0x0002610C)->As<RE::TESQuest>()->currentStage;
                 auto CWObjectStage = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>()->currentStage;
                 auto preQuests = (CWObjectStage == 9000 || CWObjectStage == 9999);

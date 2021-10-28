@@ -6,6 +6,9 @@ showFactionMenu = true
 openNextMenuButton = 49 #https://www.creationkit.com/index.php?title=Input_Script (dec values) N=49
 pauseGame = true #set to False if you it should be like <= version 0.0.2 (or if you run some kind of SkyrimSouls Setup)
 
+[Mods]
+skyrimUnbound = false #changes the check for thaneOfWhiterun
+
 [showStatsTitle]
 title = "Show Stats"
 player = "Player"
