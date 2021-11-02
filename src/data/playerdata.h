@@ -1,4 +1,5 @@
 #pragma once
+#include "settings/gamesettings.h"
 #include "stats/statfiller.h"
 #include "stats/statholder.h"
 
@@ -13,6 +14,13 @@ public:
         logger::trace("Gather Values to Show ..."sv);
         auto player = RE::PlayerCharacter::GetSingleton();
         auto filler = StatFiller::GetSingleton();
+
+
+        /* set and read data here, because when we do it at startup we might get wrong values
+        *  because of some mods or just skyrim being skyrim
+        */
+        auto gameSettings = GameSettings::GetSingleton();
+        gameSettings->getAndSetSettings();
 
         auto statList = filler->getData();
         for (auto& element : statList) {
@@ -89,6 +97,9 @@ public:
                     case StatsValue::leftWeaponSpeedMult:
                         element->setValue(handleWeaponSpeed(player, true));
                         break;
+                    case StatsValue::resistDamage:
+                        element->setValue(getDamageResistance(player));
+                        break;
                     default:
                         logger::warn("unhandeled stat, name {}, displayName {}"sv, element->getName(),
                             element->getDisplayName());
@@ -160,10 +171,59 @@ private:
         return (speed == -1) ? "" : getStringValueFromFloat(speed);
     }
 
-
     std::string getXP(RE::PlayerCharacter*& p_player) {
         return fmt::format(FMT_STRING("{}/{}"), cutString(getStringValueFromFloat(p_player->skills->data->xp)),
             cutString(getStringValueFromFloat(p_player->skills->data->levelThreshold)));
+    }
+
+    /* might need additional checks for mods that add more items 
+    * each light, heavy or shield gives 3% res + for some reason there is a 12 base res
+    * formula would be ((totalArmorRating * 0.12) + (3 * piecesWorn));
+    */
+    std::string getDamageResistance(RE::PlayerCharacter*& p_player) {
+        const auto inv = p_player->GetInventory([](RE::TESBoundObject& a_object) { return a_object.IsArmor(); });
+        auto armorCount = 0;
+        for (const auto& [item, invData] : inv) {
+            const auto& [count, entry] = invData;
+            if (count > 0 && entry->IsWorn()) {
+                const auto armor = item->As<RE::TESObjectARMO>();
+                /* clothing does not count torwards reduction
+                *  as stated here http://en.uesp.net/wiki/Skyrim:Armor#Armor_Rating
+                */
+                if (armor->IsLightArmor() || armor->IsHeavyArmor() || armor->IsShield()) {
+                    logger::trace("Armor name {}, Rating {}"sv, armor->GetName(), armor->GetArmorRating());
+                    armorCount++;
+                }
+            }
+        }
+        auto damageRes = getStringValueFromFloat(calculateArmorDamageRes(p_player->armorRating, armorCount));
+        logger::debug("Damage Res {}"sv, damageRes);
+        //auto dragonhide = getValueIfDragonhideIsAcitve(p_player);
+
+        return damageRes;
+    }
+
+    /* currently unused because unsure of calculation, it should be damageRes + ((100-damageRes)/(100/dragonhideValue))
+    *  with the 80% cap it should be a total of 96% res
+    */
+    float getValueIfDragonhideIsActive(RE::PlayerCharacter*& p_player) {
+        auto effects = p_player->GetActiveEffectList();
+        if (!effects) {
+            return 0;
+        }
+
+        for (const auto& effect : *effects) {
+            if (effect) {
+                auto formid = effect->GetBaseObject()->GetFormID();
+                //Dragonhide
+                if (formid = 0x000CDB75) {
+                    logger::debug("Is Armor Spell {}, magnitude{}, formid {}"sv, effect->GetBaseObject()->GetName(),
+                        effect->magnitude, intToHex(formid));
+                    return effect->magnitude;
+                }
+            }
+        }
+        return 0;
     }
 
     PlayerData() = default;

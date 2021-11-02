@@ -17,6 +17,7 @@ set(sources ${sources}
 	src/scaleform/scaleform.cpp
 	src/scaleform/scaleform.h
 	src/scaleform/statsmenu.h
+	src/settings/gamesettings.h
 	src/settings/settings.h
 	src/showhandler.h
 	src/stats/champion.h

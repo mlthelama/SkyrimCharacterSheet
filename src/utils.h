@@ -103,3 +103,7 @@ static void logResolution() {
     const auto* const state = RE::BSGraphics::State::GetSingleton();
     logger::trace("Screen Resolution {}x{}"sv, state->screenWidth, state->screenHeight);
 }
+
+static float calculateArmorDamageRes(float p_armor_rating, int32_t p_pieces_worn) {
+    return ((p_armor_rating * 0.12) + (3 * p_pieces_worn));
+}

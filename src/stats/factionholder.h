@@ -2,34 +2,19 @@
 
 class FactionItem {
 public:
-    FactionItem(FactionValue p_name, std::string p_display_name, bool p_show, FactionMenuValue p_menu) {
-        this->setName(p_name);
-        this->setDisplayName(p_display_name);
-        this->setShow(p_show);
-        this->setMenu(p_menu);
-        this->setDisplayIsValue(false);
-
-        this->setValue("");
-        this->setGuiText("");
-
+    FactionItem(FactionValue p_name, std::string p_display_name, bool p_show, FactionMenuValue p_menu) :
+        name(p_name), displayName(p_display_name), show(p_show), menu(p_menu), value(""), guiText(""),
+        displayIsValue(false) {
         this->logItem();
     }
 
     FactionItem(FactionValue p_name, std::string p_display_name, bool p_show, FactionMenuValue p_menu,
-        bool p_display_is_value) {
-        this->setName(p_name);
-        this->setDisplayName(p_display_name);
-        this->setShow(p_show);
-        this->setMenu(p_menu);
-        this->setDisplayIsValue(p_display_is_value);
-        ;
-        this->setValue("");
-        this->setGuiText("");
-
+        bool p_display_is_value) :
+        name(p_name),
+        displayName(p_display_name), show(p_show), menu(p_menu), value(""), guiText(""),
+        displayIsValue(p_display_is_value) {
         this->logItem();
     }
-
-    void setName(FactionValue p_name) { name = p_name; }
 
     FactionValue getName() { return name; }
 
@@ -43,23 +28,13 @@ public:
 
     std::string getValue() { return value; }
 
-    void setDisplayName(std::string p_display_name) { displayName = p_display_name; }
-
     std::string getDisplayName() { return displayName; }
-
-    void setShow(bool p_show) { show = p_show; }
 
     bool getShow() { return show; }
 
-    void setGuiText(std::string p_gui_text) { guiText = p_gui_text; }
-
     std::string getGuiText() { return guiText; }
 
-    void setMenu(FactionMenuValue p_menu) { menu = p_menu; }
-
     FactionMenuValue getMenu() { return menu; }
-
-    void setDisplayIsValue(bool p_display_is_value) { displayIsValue = p_display_is_value; }
 
     bool getDisplayIsValue() { return displayIsValue; }
 
