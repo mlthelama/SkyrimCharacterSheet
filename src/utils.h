@@ -107,3 +107,13 @@ static void logResolution() {
 static float calculateArmorDamageRes(float p_armor_rating, int32_t p_pieces_worn) {
     return ((p_armor_rating * 0.12) + (3 * p_pieces_worn));
 }
+
+static std::string getValueWithCapIfNeeded(float p_res, float p_cap, std::string p_ending) {
+    auto value = getStringValueFromFloat(p_res);
+
+    if (p_res > p_cap) {
+        value = fmt::format(FMT_STRING("{}{} ({})"), getStringValueFromFloat(p_cap), p_ending,
+            getStringValueFromFloat(p_res));
+    }
+    return value;
+}

@@ -1,5 +1,4 @@
 #pragma once
-#include "settings/gamesettings.h"
 #include "stats/statfiller.h"
 #include "stats/statholder.h"
 
@@ -15,13 +14,6 @@ public:
         auto player = RE::PlayerCharacter::GetSingleton();
         auto filler = StatFiller::GetSingleton();
 
-
-        /* set and read data here, because when we do it at startup we might get wrong values
-        *  because of some mods or just skyrim being skyrim
-        */
-        auto gameSettings = GameSettings::GetSingleton();
-        gameSettings->getAndSetSettings();
-
         auto statList = filler->getData();
         for (auto& element : statList) {
             if (!element->getShow()) {
@@ -29,8 +21,12 @@ public:
             }
 
             if (element->getActor() != RE::ActorValue::kNone) {
-                element->setValue(getStringValueFromFloat(
-                    player->GetActorValue(element->getActor()) * element->getValueMultiplier()));
+                auto value = player->GetActorValue(element->getActor()) * element->getValueMultiplier();
+                if (element->getSpecialHandling()) {
+                    element->setValue(getValueWithCapIfNeeded(value, element->getCap(), element->getEnding()));
+                } else {
+                    element->setValue(getStringValueFromFloat(value));
+                }
             } else {
                 switch (element->getName()) {
                     case StatsValue::name:
@@ -98,7 +94,8 @@ public:
                         element->setValue(handleWeaponSpeed(player, true));
                         break;
                     case StatsValue::resistDamage:
-                        element->setValue(getDamageResistance(player));
+                        element->setValue(getDamageResistance(player, element->getCap(), element->getSpecialHandling(),
+                            element->getEnding()));
                         break;
                     default:
                         logger::warn("unhandeled stat, name {}, displayName {}"sv, element->getName(),
@@ -114,7 +111,7 @@ public:
     }
 
 private:
-    std::map<StatsValue, std::string> factionRankMap;
+    //std::map<StatsValue, std::string> factionRankMap;
 
     std::string getBeast(float p_vamp, float p_were) {
         if (p_vamp > 0) {
@@ -180,7 +177,7 @@ private:
     * each light, heavy or shield gives 3% res + for some reason there is a 12 base res
     * formula would be ((totalArmorRating * 0.12) + (3 * piecesWorn));
     */
-    std::string getDamageResistance(RE::PlayerCharacter*& p_player) {
+    std::string getDamageResistance(RE::PlayerCharacter*& p_player, float p_cap, bool p_special, std::string p_ending) {
         const auto inv = p_player->GetInventory([](RE::TESBoundObject& a_object) { return a_object.IsArmor(); });
         auto armorCount = 0;
         for (const auto& [item, invData] : inv) {
@@ -196,11 +193,16 @@ private:
                 }
             }
         }
-        auto damageRes = getStringValueFromFloat(calculateArmorDamageRes(p_player->armorRating, armorCount));
-        logger::debug("Damage Res {}"sv, damageRes);
-        //auto dragonhide = getValueIfDragonhideIsAcitve(p_player);
 
-        return damageRes;
+        auto damageResistance = calculateArmorDamageRes(p_player->armorRating, armorCount);
+        //auto dragonhide = getValueIfDragonhideIsAcitve(p_player);
+        auto damageResistanceString = getStringValueFromFloat(damageResistance);
+        logger::debug("Damage Resistance from Armor {}"sv, damageResistance);
+        if (p_special && p_cap > 0) {
+            damageResistanceString = getValueWithCapIfNeeded(damageResistance, p_cap, p_ending);
+        }
+
+        return damageResistanceString;
     }
 
     /* currently unused because unsure of calculation, it should be damageRes + ((100-damageRes)/(100/dragonhideValue))

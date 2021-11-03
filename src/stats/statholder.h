@@ -24,6 +24,14 @@ public:
         this->logItem();
     }
 
+    StatItem(StatsValue p_name, RE::ActorValue p_actor, std::string p_display_name, std::string p_ending, bool p_show,
+        StatsMenuValue p_menu, int64_t p_value_multiplier, bool p_special_handling, float p_cap) :
+        name(p_name),
+        actor(p_actor), displayName(p_display_name), ending(p_ending), show(p_show), menu(p_menu), value(""),
+        guiText(""), valueMultiplier(p_value_multiplier), specialHandling(p_special_handling), cap(p_cap) {
+        this->logItem();
+    }
+
     StatsValue getName() { return name; }
 
     RE::ActorValue getActor() { return actor; }
@@ -50,6 +58,10 @@ public:
 
     int64_t getValueMultiplier() { return valueMultiplier; }
 
+    bool getSpecialHandling() { return specialHandling; }
+
+    float getCap() { return cap; }
+
     StatItem() = delete;
     StatItem(const StatItem&) = default;
     StatItem(StatItem&&) = delete;
@@ -68,13 +80,15 @@ private:
     bool show;
     std::string guiText;
     StatsMenuValue menu = StatsMenuValue::mNone;
-    int64_t valueMultiplier = 1;
+    int64_t valueMultiplier = constStaticMultiplier;
+    bool specialHandling = false;
+    float cap = -1;
 
     void buildText() { guiText = buildDisplayString(value, displayName, ending, show, false); }
 
     void logItem() {
         logger::trace(
-            "name {}, actor {}, value {}, displayname ({}), ending {}, show {}, guiText ({}), menu {}, VMP {}"sv, name,
-            actor, value, displayName, ending, show, guiText, menu, valueMultiplier);
+            "name {}, actor {}, value {}, displayname ({}), ending {}, show {}, guiText ({}), menu {}, VMP {}, SH {}, cap {}"sv,
+            name, actor, value, displayName, ending, show, guiText, menu, valueMultiplier, specialHandling, cap);
     }
 };

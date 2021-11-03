@@ -199,6 +199,7 @@ inline static std::map<int64_t, FactionMenuValue> configFactionMenu = {
 };
 
 constexpr auto staticDisplayValue = "yes"sv;
+constexpr auto constStaticMultiplier = 1;
 
 /*
     azura, 00028AD6 100 -

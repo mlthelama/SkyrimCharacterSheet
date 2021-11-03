@@ -31,6 +31,8 @@ struct Settings {
 
     static inline bSetting skyrimUnbound{ "Mods"s, "skyrimUnbound"s, true };
 
+    static inline bSetting showResistanceCap{ "specialHandling"s, "showResistanceCap"s, true };
+
     static inline sSetting showStatsTitleTitle{ "showStatsTitle"s, "title"s, undefined };
     static inline sSetting showStatsTitlePlayer{ "showStatsTitle"s, "player"s, undefined };
     static inline sSetting showStatsTitleAttack{ "showStatsTitle"s, "attack"s, undefined };

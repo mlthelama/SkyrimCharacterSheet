@@ -1,4 +1,5 @@
 #pragma once
+#include "settings/gamesettings.h"
 #include "stats/statholder.h"
 
 class StatFiller {
@@ -12,6 +13,12 @@ public:
     }
 
     std::vector<std::shared_ptr<StatItem>> getData() {
+        /* set and read data here, because when we do it at startup we might get wrong values
+        *  because of some mods or just skyrim being skyrim
+        */
+        auto gameSettings = GameSettings::GetSingleton();
+        gameSettings->getAndSetSettings();
+
         std::vector<std::shared_ptr<StatItem>> statList = {
             std::make_shared<StatItem>(StatsValue::name, ActorValue::kNone, *Settings::nameString,
                 *Settings::nameStringEnding, *Settings::name),
@@ -48,22 +55,27 @@ public:
             std::make_shared<StatItem>(StatsValue::staminaRatePer, ActorValue::kNone, *Settings::staminaRateString,
                 *Settings::staminaRateStringEnding, *Settings::staminaRate, getStatsMenu(*Settings::staminaRateMenu)),
             std::make_shared<StatItem>(StatsValue::resistDamage, ActorValue::kNone, *Settings::resistDamageString,
-                *Settings::resistDamageStringEnding, *Settings::resistDamage,
-                getStatsMenu(*Settings::resistDamageMenu)),
+                *Settings::resistDamageStringEnding, *Settings::resistDamage, getStatsMenu(*Settings::resistDamageMenu),
+                constStaticMultiplier, *Settings::showResistanceCap, gameSettings->maxArmorResistance),
             std::make_shared<StatItem>(StatsValue::resistDisease, ActorValue::kResistDisease,
                 *Settings::resistDiseaseString, *Settings::resistDiseaseStringEnding, *Settings::resistDisease,
                 getStatsMenu(*Settings::resistDiseaseMenu)),
             std::make_shared<StatItem>(StatsValue::resistPoison, ActorValue::kPoisonResist,
                 *Settings::resistPoisonString, *Settings::resistPoisonStringEnding, *Settings::resistPoison,
-                getStatsMenu(*Settings::resistPoisonMenu)),
+                getStatsMenu(*Settings::resistPoisonMenu), constStaticMultiplier, *Settings::showResistanceCap,
+                gameSettings->maxResistance),
             std::make_shared<StatItem>(StatsValue::resistFire, ActorValue::kResistFire, *Settings::resistFireString,
-                *Settings::resistFireStringEnding, *Settings::resistFire, getStatsMenu(*Settings::resistFireMenu)),
+                *Settings::resistFireStringEnding, *Settings::resistFire, getStatsMenu(*Settings::resistFireMenu),
+                constStaticMultiplier, *Settings::showResistanceCap, gameSettings->maxResistance),
             std::make_shared<StatItem>(StatsValue::resistShock, ActorValue::kResistShock, *Settings::resistShockString,
-                *Settings::resistShockStringEnding, *Settings::resistShock, getStatsMenu(*Settings::resistShockMenu)),
+                *Settings::resistShockStringEnding, *Settings::resistShock, getStatsMenu(*Settings::resistShockMenu),
+                constStaticMultiplier, *Settings::showResistanceCap, gameSettings->maxResistance),
             std::make_shared<StatItem>(StatsValue::resistFrost, ActorValue::kResistFrost, *Settings::resistFrostString,
-                *Settings::resistFrostStringEnding, *Settings::resistFrost, getStatsMenu(*Settings::resistFrostMenu)),
+                *Settings::resistFrostStringEnding, *Settings::resistFrost, getStatsMenu(*Settings::resistFrostMenu),
+                constStaticMultiplier, *Settings::showResistanceCap, gameSettings->maxResistance),
             std::make_shared<StatItem>(StatsValue::resistMagic, ActorValue::kResistMagic, *Settings::resistMagicString,
-                *Settings::resistMagicStringEnding, *Settings::resistMagic, getStatsMenu(*Settings::resistMagicMenu)),
+                *Settings::resistMagicStringEnding, *Settings::resistMagic, getStatsMenu(*Settings::resistMagicMenu),
+                constStaticMultiplier, *Settings::showResistanceCap, gameSettings->maxResistance),
             std::make_shared<StatItem>(StatsValue::oneHanded, ActorValue::kOneHanded, *Settings::oneHandedString,
                 *Settings::oneHandedStringEnding, *Settings::oneHanded, getStatsMenu(*Settings::oneHandedMenu)),
             std::make_shared<StatItem>(StatsValue::twoHanded, ActorValue::kTwoHanded, *Settings::twoHandedString,
