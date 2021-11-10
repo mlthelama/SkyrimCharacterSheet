@@ -148,18 +148,18 @@ enum class FactionValue {
     vaermina
 };
 
-const std::string undefined = "<undef>";
+const std::string _constUndefined = "<undef>";
 
 enum class ShowMenu { mStats, mFaction };
 
-constexpr int32_t logTrace = 0;
-constexpr int32_t logDebug = 1;
-constexpr int32_t logInfo = 2;
+constexpr int32_t _constLogTrace = 0;
+constexpr int32_t _constLogDebug = 1;
+constexpr int32_t _constLogInfo = 2;
 
 enum class StatsMenuValue { mNone = 0, mPlayer = 1, mDefence = 2, mAttack = 3, mMagic = 4, mWarrior = 5, mThief = 6 };
 
 /* config can not work with enums, so lets map it*/
-inline static std::map<int64_t, StatsMenuValue> configStatsMenu = {
+inline static std::map<int64_t, StatsMenuValue> _constConfigStatsMenu = {
     { static_cast<int64_t>(StatsMenuValue::mNone), StatsMenuValue::mNone },
     { static_cast<int64_t>(StatsMenuValue::mPlayer), StatsMenuValue::mPlayer },
     { static_cast<int64_t>(StatsMenuValue::mDefence), StatsMenuValue::mDefence },
@@ -173,7 +173,7 @@ typedef std::map<RE::FormID, FactionValue> formIdValueMap;
 typedef std::map<FactionValue, std::string> valueStringMap;  //used in faction.h and thane.h
 
 //0x00072834 //blades, player might not be in there
-inline static formIdValueMap factionMap = { { 0x00048362, FactionValue::companions },
+inline static formIdValueMap _constFactionMap = { { 0x00048362, FactionValue::companions },
     { 0x0001BDB3, FactionValue::darkbrotherHood }, { 0x0001F259, FactionValue::collegeOfWinterhold },
     { 0x00024029, FactionValue::orcFriend }, { 0x00029DA9, FactionValue::thiefsGuild },
     { 0x0002BF9A, FactionValue::imperialLegion }, { 0x0002BF9B, FactionValue::stormcloaks },
@@ -181,7 +181,7 @@ inline static formIdValueMap factionMap = { { 0x00048362, FactionValue::companio
     { 0x02014217, FactionValue::dawnguard }, { 0x04019B8A, FactionValue::houseTelvanni } };
 
 //favor/quest thane map 200
-inline static formIdValueMap thaneMap = { { 0x000A2CA6, FactionValue::thaneOfEastmarch },
+inline static formIdValueMap _constThaneMap = { { 0x000A2CA6, FactionValue::thaneOfEastmarch },
     { 0x000A34DE, FactionValue::thaneOfFalkreath }, { 0x000A2C9B, FactionValue::thaneOfHaafingar },
     { 0x000A34CE, FactionValue::thaneOfHjaalmarch }, { 0x000A34D4, FactionValue::thaneOfThePale },
     { 0x000A2C86, FactionValue::thaneOfTheReach }, { 0x00065BDF, FactionValue::thaneOfTheRift },
@@ -191,15 +191,15 @@ inline static formIdValueMap thaneMap = { { 0x000A2CA6, FactionValue::thaneOfEas
 enum class FactionMenuValue { mNone = 0, mFaction = 1, mThane = 2, mChampion = 3 };
 
 /* config can not work with enums, so lets map it*/
-inline static std::map<int64_t, FactionMenuValue> configFactionMenu = {
+inline static std::map<int64_t, FactionMenuValue> _constConfigFactionMenu = {
     { static_cast<int64_t>(FactionMenuValue::mNone), FactionMenuValue::mNone },
     { static_cast<int64_t>(FactionMenuValue::mFaction), FactionMenuValue::mFaction },
     { static_cast<int64_t>(FactionMenuValue::mThane), FactionMenuValue::mThane },
     { static_cast<int64_t>(FactionMenuValue::mChampion), FactionMenuValue::mChampion },
 };
 
-constexpr auto staticDisplayValue = "yes"sv;
-constexpr auto constStaticMultiplier = 1;
+constexpr auto _constStaticDisplayValue = "yes"sv;
+constexpr auto _constStaticMultiplier = 1;
 
 /*
     azura, 00028AD6 100 -
@@ -219,7 +219,7 @@ constexpr auto constStaticMultiplier = 1;
     sheogorath, 0002AC68 200 -
     vaermina 000242AF 200 -
 */
-inline static formIdValueMap championMap = {
+inline static formIdValueMap _constChampionMap = {
     { 0x00028AD6, FactionValue::azura },
     { 0x0004D8D6, FactionValue::boethiah },
     { 0x0001BFC4, FactionValue::clavicusVile },

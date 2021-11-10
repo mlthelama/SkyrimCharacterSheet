@@ -7,16 +7,16 @@ public:
         return std::addressof(singleton);
     }
 
-    std::string getRank(FactionValue p_stat) {
-        if (factionRankList.find(p_stat) == factionRankList.end()) {
+    std::string getRank(FactionValue a_stat) {
+        if (_factionRankList.find(a_stat) == _factionRankList.end()) {
             return "";
         } else {
-            return factionRankList.find(p_stat)->second;
+            return _factionRankList.find(a_stat)->second;
         }
     }
 
     void getFactions(RE::Actor* a_actor) {
-        factionRankList.clear();
+        _factionRankList.clear();
         auto actorSex = a_actor->GetActorBase()->GetSex();
         auto rankDefault = "Member";
 
@@ -29,7 +29,7 @@ public:
                 const auto formID(a_faction->GetFormID());
                 auto rankData(a_faction->rankData);
 
-                if (factionMap.find(formID) == factionMap.end()) {
+                if (_constFactionMap.find(formID) == _constFactionMap.end()) {
                     logger::trace("name {}, formId {}, rank {} not handeled"sv, name, intToHex(formID), a_rank);
                 } else {
                     logger::trace("name {}, formId {}, rank {}"sv, name, intToHex(formID), a_rank);
@@ -50,7 +50,7 @@ public:
                     }
 
                     /*if rank is empty here then we need to fill it by ourselfs*/
-                    switch (factionMap.find(formID)->second) {
+                    switch (_constFactionMap.find(formID)->second) {
                         case FactionValue::darkbrotherHood:
                             rank = getDarkBrotherhoodRank();
                             break;
@@ -79,7 +79,8 @@ public:
                             break;
                     }
 
-                    factionRankList.insert(std::pair<FactionValue, std::string>(factionMap.find(formID)->second, rank));
+                    _factionRankList.insert(
+                        std::pair<FactionValue, std::string>(_constFactionMap.find(formID)->second, rank));
                 }
             }
             return false;
@@ -88,11 +89,10 @@ public:
         //MS05
         if (RE::TESForm::LookupByID(0x00053511)->As<RE::TESQuest>()->currentStage == 300) {
             //"Bard"
-            factionRankList.insert(std::pair<FactionValue, std::string>(FactionValue::bard, *Settings::bardRank));
+            _factionRankList.insert(std::pair<FactionValue, std::string>(FactionValue::bard, *Settings::bardRank));
         }
 
-        logger::trace("got {} items in faction list."sv, factionRankList.size());
-
+        logger::trace("got {} items in faction list."sv, _factionRankList.size());
         logMap();
     }
 
@@ -107,10 +107,10 @@ public:
     Faction& operator=(Faction&&) = delete;
 
 private:
-    valueStringMap factionRankList;
+    valueStringMap _factionRankList;
 
     void logMap() {
-        for (const auto& item : factionRankList) { logger::trace("faction {}, rank {}"sv, item.first, item.second); }
+        for (const auto& item : _factionRankList) { logger::trace("faction {}, rank {}"sv, item.first, item.second); }
     }
 
     std::string getDarkBrotherhoodRank() {
@@ -129,7 +129,7 @@ private:
     std::string getGraybeardRank() { return *Settings::ysmirRank; }
 
     std::string getImperialLegionRank() {
-        auto rank = undefined;
+        auto rank = _constUndefined;
         if (RE::TESForm::LookupByID(0x000D517A)->As<RE::TESQuest>()->currentStage == 200) {
             // 	CW01A
             rank = *Settings::auxiliaryRank;
@@ -168,7 +168,7 @@ private:
     }
 
     std::string getStormcloaksRank() {
-        auto rank = undefined;
+        auto rank = _constUndefined;
 
         if (RE::TESForm::LookupByID(0x000E2D29)->As<RE::TESQuest>()->currentStage == 200) {
             // 	CW01B

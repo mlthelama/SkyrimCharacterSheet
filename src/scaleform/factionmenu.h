@@ -171,24 +171,24 @@ namespace Scaleform {
             logger::debug("Shown all Values for Menu {}"sv, MENU_NAME);
         }
 
-        void updateText(CLIK::TextField p_field, std::string_view p_string) {
-            p_field.AutoSize(CLIK::Object{ "left" });
-            p_field.HTMLText(p_string);
-            p_field.Visible(true);
+        void UpdateText(CLIK::TextField a_field, std::string_view a_string) {
+            a_field.AutoSize(CLIK::Object{ "left" });
+            a_field.HTMLText(a_string);
+            a_field.Visible(true);
         }
 
-        void UpdateTitle() { updateText(_title, getMenuName(ShowMenu::mFaction)); }
+        void UpdateTitle() { UpdateText(_title, getMenuName(ShowMenu::mFaction)); }
 
         void UpdateHeaders() {
-            updateText(_factionHeader, static_cast<std::string_view>(*Settings::showFactionsTitleFaction));
-            updateText(_thaneHeader, static_cast<std::string_view>(*Settings::showFactionsTitleThane));
-            updateText(_championHeader, static_cast<std::string_view>(*Settings::showFactionsTitleChampion));
+            UpdateText(_factionHeader, static_cast<std::string_view>(*Settings::showFactionsTitleFaction));
+            UpdateText(_thaneHeader, static_cast<std::string_view>(*Settings::showFactionsTitleThane));
+            UpdateText(_championHeader, static_cast<std::string_view>(*Settings::showFactionsTitleChampion));
         }
 
-        RE::GFxValue buildGFxValue(std::string p_val) {
+        RE::GFxValue buildGFxValue(std::string a_val) {
             RE::GFxValue value;
             _view->CreateObject(std::addressof(value));
-            value.SetMember("displayName", { static_cast<std::string_view>(p_val) });
+            value.SetMember("displayName", { static_cast<std::string_view>(a_val) });
             return value;
         }
 
@@ -211,11 +211,12 @@ namespace Scaleform {
         }
 
         void UpdateLists() {
-            auto factioninfo = FactionData::GetSingleton();
-
             ClearProviders();
             InvalidateItemLists();
 
+            UpdateMenuValues();
+
+            /*auto factioninfo = FactionData::GetSingleton();
             auto factionValue = factioninfo->getFactionValues();
             for (auto& element : factionValue) {
                 if (!element->getShow() || element->getGuiText().empty() || element->getGuiText() == "" ||
@@ -227,7 +228,7 @@ namespace Scaleform {
                     element->getGuiText(), element->getMenu());
 
                 if (element->getMenu() != FactionMenuValue::mNone) {
-                    menuMap.find(element->getMenu())->second.PushBack(buildGFxValue(element->getGuiText()));
+                    _menuMap.find(element->getMenu())->second.PushBack(buildGFxValue(element->getGuiText()));
                     logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, element->getMenu(), element->getName(),
                         element->getGuiText());
                 }
@@ -237,19 +238,47 @@ namespace Scaleform {
             factionValue.clear();
             for (auto& element : factionValue) { element.reset(); }
             logger::trace("Vector Size is {}"sv, factionValue.size());
-
+            */
             InvalidateDataItemLists();
         }
 
         void UpdateBottom() {
             //in case something is not set, we do not want to see default swf text
-            updateText(_factionCount, "");
-            updateText(_thaneCount, "");
-            updateText(_championCount, "");
-            updateText(_prev, "");
+            UpdateText(_factionCount, "");
+            UpdateText(_thaneCount, "");
+            UpdateText(_championCount, "");
+            UpdateText(_prev, "");
         }
 
-        void UpdatePrev() { updateText(_prev, getPrevMenuName(ShowMenu::mFaction)); }
+        void UpdatePrev() { UpdateText(_prev, getPrevMenuName(ShowMenu::mFaction)); }
+
+        void UpdateMenuValues() {
+            auto factioninfo = FactionData::GetSingleton();
+            auto values = factioninfo->getValuesToDisplay();
+
+            logger::debug("Update menu Values, values to proces {}"sv, values.size());
+
+            for (auto& element : values) {
+                auto factionValue = element.first;
+                auto factionItem = element.second.get();
+
+                factionItem->logStatItem(factionValue);
+
+                if (factionItem->getGuiText().empty() || factionItem->getGuiText() == "") {
+                    continue;
+                }
+
+                if (factionItem->getFactionMenu() != FactionMenuValue::mNone) {
+                    _menuMap.find(factionItem->getFactionMenu())
+                        ->second.PushBack(buildGFxValue(factionItem->getGuiText()));
+                    logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, factionItem->getFactionMenu(),
+                        factionValue, factionItem->getGuiText());
+                }
+            }
+            for (auto& element : values) { element.second.reset(); }
+            values.clear();
+            logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
+        }
 
         RE::GPtr<RE::GFxMovieView> _view;
         bool _isActive = false;
@@ -275,7 +304,7 @@ namespace Scaleform {
         CLIK::GFx::Controls::ScrollingList _championItemList;
         RE::GFxValue _championItemListProvider;
 
-        std::map<FactionMenuValue, RE::GFxValue&> menuMap = {
+        std::map<FactionMenuValue, RE::GFxValue&> _menuMap = {
             { FactionMenuValue::mFaction, _factionItemListProvider },
             { FactionMenuValue::mThane, _thaneItemListProvider },
             { FactionMenuValue::mChampion, _championItemListProvider },

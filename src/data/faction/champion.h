@@ -7,16 +7,16 @@ public:
         return std::addressof(singleton);
     }
 
-    std::string getChampion(FactionValue p_stat) {
-        if (championList.find(p_stat) == championList.end()) {
+    std::string getChampion(FactionValue a_stat) {
+        if (_championList.find(a_stat) == _championList.end()) {
             return "";
         } else {
-            return championList.find(p_stat)->second;
+            return _championList.find(a_stat)->second;
         }
     }
 
     void getChampions() {
-        for (const auto& item : championMap) {
+        for (const auto& item : _constChampionMap) {
             logger::trace("working at formid {}"sv, intToHex(item.first));
             auto questStage = RE::TESForm::LookupByID(item.first)->As<RE::TESQuest>()->currentStage;
             auto questDone = false;
@@ -77,11 +77,11 @@ public:
             }
 
             if (questDone) {
-                championList.insert(std::pair<FactionValue, std::string>(item.second, staticDisplayValue));
+                _championList.insert(std::pair<FactionValue, std::string>(item.second, _constStaticDisplayValue));
             }
         }
 
-        logger::trace("got {} items in champion list."sv, championList.size());
+        logger::trace("got {} items in champion list."sv, _championList.size());
         logMap();
     }
 
@@ -96,9 +96,9 @@ public:
     Champion& operator=(Champion&&) = delete;
 
 private:
-    valueStringMap championList;
+    valueStringMap _championList;
 
     void logMap() {
-        for (const auto& item : championList) { logger::trace("champion {}, {}"sv, item.first, item.second); }
+        for (const auto& item : _championList) { logger::trace("champion {}, {}"sv, item.first, item.second); }
     }
 };

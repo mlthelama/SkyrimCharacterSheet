@@ -1,25 +1,27 @@
 #pragma once
-#include "stats/champion.h"
-#include "stats/faction.h"
-#include "stats/factionfiller.h"
-#include "stats/factionholder.h"
-#include "stats/thane.h"
+#include "data/faction/champion.h"
+#include "data/faction/faction.h"
+#include "data/faction/factionitem.h"
+#include "data/faction/thane.h"
+#include "settings/stats/factionsettings.h"
+
 
 class FactionData {
+    using FactionItemMap = std::map<FactionValue, std::unique_ptr<FactionItem>>;
+
 public:
     static FactionData* GetSingleton() {
         static FactionData singleton;
         return std::addressof(singleton);
     }
 
-    std::vector<std::shared_ptr<FactionItem>> getFactionValues() {
-        logger::trace("Gather Values to Show ..."sv);
+    FactionItemMap getValuesToDisplay() {
+        FactionItemMap fimp;
 
         auto player = RE::PlayerCharacter::GetSingleton();
         auto faction = Faction::GetSingleton();
         auto thane = Thane::GetSingleton();
         auto champion = Champion::GetSingleton();
-        auto filler = FactionFiller::GetSingleton();
 
         if (*Settings::showFactions) {
             faction->getFactions(player);
@@ -31,13 +33,22 @@ public:
             champion->getChampions();
         }
 
-        auto statList = filler->getData();
-        for (auto& element : statList) {
-            if (!element->getShow()) {
+        auto factionSettings = FactionSetting::GetSingleton();
+        auto factionSettingMap = factionSettings->init();
+        logger::debug("Config Map Size is {}"sv, factionSettingMap.size());
+
+        for (auto& element : factionSettingMap) {
+            auto factionValue = element.first;
+            auto factionConfig = element.second.get();
+
+            factionConfig->logStatConfig(factionValue);
+
+            if (!factionConfig->getShow()) {
                 continue;
             }
+            std::string valueText = "";
 
-            switch (element->getName()) {
+            switch (factionValue) {
                 case FactionValue::companions:
                 case FactionValue::darkbrotherHood:
                 case FactionValue::collegeOfWinterhold:
@@ -50,7 +61,7 @@ public:
                 case FactionValue::volkiharVampireClan:
                 case FactionValue::dawnguard:
                 case FactionValue::houseTelvanni:
-                    element->setValue(faction->getRank(element->getName()));
+                    valueText = faction->getRank(factionValue);
                     break;
                 case FactionValue::thaneOfEastmarch:
                 case FactionValue::thaneOfFalkreath:
@@ -61,7 +72,7 @@ public:
                 case FactionValue::thaneOfTheRift:
                 case FactionValue::thaneOfWhiterun:
                 case FactionValue::thaneOfWinterhold:
-                    element->setValue(thane->getThane(element->getName()));
+                    valueText = thane->getThane(factionValue);
                     break;
                 case FactionValue::azura:
                 case FactionValue::boethiah:
@@ -79,18 +90,25 @@ public:
                 case FactionValue::sanguine:
                 case FactionValue::sheogorath:
                 case FactionValue::vaermina:
-                    element->setValue(champion->getChampion(element->getName()));
+                    valueText = champion->getChampion(factionValue);
                     break;
                 default:
-                    logger::warn("unhandeled stat, name {}, displayName {}"sv, element->getName(),
-                        element->getDisplayName());
+                    logger::warn("unhandeled stat, name {}, displayName {}"sv, factionValue,
+                        factionConfig->getDisplayName());
                     break;
+            }
+
+
+            if (valueText != "") {
+                fimp[factionValue] =
+                    std::make_unique<FactionItem>(factionConfig->getDisplay(valueText), factionConfig->getMenu());
             }
         }
 
-        filler->PrintFactionVector(statList);
-
-        return statList;
+        logger::debug("Display Map Size is {}"sv, fimp.size());
+        for (auto& element : factionSettingMap) { element.second.reset(); }
+        factionSettingMap.clear();
+        return fimp;
     }
 
 private:

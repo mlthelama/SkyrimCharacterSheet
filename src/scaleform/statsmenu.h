@@ -189,27 +189,27 @@ namespace Scaleform {
             logger::debug("Shown all Values for Menu {}"sv, MENU_NAME);
         }
 
-        void updateText(CLIK::TextField p_field, std::string_view p_string) {
-            p_field.AutoSize(CLIK::Object{ "left" });
-            p_field.HTMLText(p_string);
-            p_field.Visible(true);
+        void UpdateText(CLIK::TextField a_field, std::string_view a_string) {
+            a_field.AutoSize(CLIK::Object{ "left" });
+            a_field.HTMLText(a_string);
+            a_field.Visible(true);
         }
 
-        void UpdateTitle() { updateText(_title, getMenuName(ShowMenu::mStats)); }
+        void UpdateTitle() { UpdateText(_title, getMenuName(ShowMenu::mStats)); }
 
         void UpdateHeaders() {
-            updateText(_valuesHeader, static_cast<std::string_view>(*Settings::showStatsTitlePlayer));
-            updateText(_attackHeader, static_cast<std::string_view>(*Settings::showStatsTitleAttack));
-            updateText(_perksMagicHeader, static_cast<std::string_view>(*Settings::showStatsTitleMagic));
-            updateText(_defenceHeader, static_cast<std::string_view>(*Settings::showStatsTitleDefence));
-            updateText(_perksWarriorHeader, static_cast<std::string_view>(*Settings::showStatsTitleWarrior));
-            updateText(_perksThiefHeader, static_cast<std::string_view>(*Settings::showStatsTitleThief));
+            UpdateText(_valuesHeader, static_cast<std::string_view>(*Settings::showStatsTitlePlayer));
+            UpdateText(_attackHeader, static_cast<std::string_view>(*Settings::showStatsTitleAttack));
+            UpdateText(_perksMagicHeader, static_cast<std::string_view>(*Settings::showStatsTitleMagic));
+            UpdateText(_defenceHeader, static_cast<std::string_view>(*Settings::showStatsTitleDefence));
+            UpdateText(_perksWarriorHeader, static_cast<std::string_view>(*Settings::showStatsTitleWarrior));
+            UpdateText(_perksThiefHeader, static_cast<std::string_view>(*Settings::showStatsTitleThief));
         }
 
-        RE::GFxValue buildGFxValue(std::string p_val) {
+        RE::GFxValue buildGFxValue(std::string a_val) {
             RE::GFxValue value;
             _view->CreateObject(std::addressof(value));
-            value.SetMember("displayName", { static_cast<std::string_view>(p_val) });
+            value.SetMember("displayName", { static_cast<std::string_view>(a_val) });
             return value;
         }
 
@@ -241,170 +241,75 @@ namespace Scaleform {
         }
 
         void UpdateLists() {
-            auto playerinfo = PlayerData::GetSingleton();
-
             ClearProviders();
             InvalidateItemLists();
 
-            auto playerValues = playerinfo->getPlayerValues();
-            for (auto& element : playerValues) {
-                if (!element->getShow() || element->getGuiText().empty() || element->getGuiText() == "" ||
-                    element->getValue().empty() || element->getValue() == "") {
-                    continue;
-                }
-
-                logger::trace("processing name {}, displayName {}, menu {}"sv, element->getName(),
-                    element->getGuiText(), element->getMenu());
-                switch (element->getName()) {
-                    case StatsValue::name:
-                        updateText(_name, element->getGuiText());
-                        break;
-                    case StatsValue::level:
-                        updateText(_level, element->getGuiText());
-                        break;
-                    case StatsValue::race:
-                        updateText(_race, element->getGuiText());
-                        break;
-                    case StatsValue::perkCount:
-                        updateText(_perks, element->getGuiText());
-                        break;
-                    case StatsValue::beast:
-                        updateText(_beast, element->getGuiText());
-                        break;
-                    case StatsValue::xp:
-                        updateText(_xp, element->getGuiText());
-                        break;
-                    case StatsValue::height:
-                    case StatsValue::carryWeight:
-                    case StatsValue::equipedWeight:
-                    case StatsValue::inventoryWeight:
-                    case StatsValue::weight:
-                    case StatsValue::skillTrainingsThisLevel:
-                    case StatsValue::dragonSouls:
-                    case StatsValue::shoutRecoveryMult:
-                    case StatsValue::movementNoiseMult:
-                    case StatsValue::speedMult:
-                    case StatsValue::mass:
-                    case StatsValue::bypassVendorKeywordCheck:
-                    case StatsValue::bypassVendorStolenCheck:
-                    case StatsValue::absorbChance:
-                    case StatsValue::armor:
-                    case StatsValue::combatHealthRegenMultiply:
-                    case StatsValue::resistDamage:
-                    case StatsValue::resistDisease:
-                    case StatsValue::resistFire:
-                    case StatsValue::resistFrost:
-                    case StatsValue::resistMagic:
-                    case StatsValue::resistPoison:
-                    case StatsValue::resistShock:
-                    case StatsValue::health:
-                    case StatsValue::healthRatePer:
-                    case StatsValue::magicka:
-                    case StatsValue::magickaRatePer:
-                    case StatsValue::stamina:
-                    case StatsValue::staminaRatePer:
-                    case StatsValue::reflectDamage:
-                    case StatsValue::armorPerks:
-                    case StatsValue::unarmedDamage:
-                    case StatsValue::weaponSpeedMult:
-                    case StatsValue::meleeDamage:
-                    case StatsValue::damage:
-                    case StatsValue::criticalChance:
-                    case StatsValue::bowSpeedBonus:
-                    case StatsValue::attackDamageMult:
-                    case StatsValue::damageArrow:
-                    case StatsValue::damageRight:
-                    case StatsValue::damageLeft:
-                    case StatsValue::leftWeaponSpeedMult:
-                    case StatsValue::rightItemCharge:
-                    case StatsValue::leftItemCharge:
-                    case StatsValue::bowStaggerBonus:
-                    case StatsValue::alteration:
-                    case StatsValue::conjuration:
-                    case StatsValue::enchanting:
-                    case StatsValue::illusion:
-                    case StatsValue::restoration:
-                    case StatsValue::destruction:
-                    case StatsValue::alterationPowerMod:
-                    case StatsValue::conjurationPowerMod:
-                    case StatsValue::enchantingPowerMod:
-                    case StatsValue::illusionPowerMod:
-                    case StatsValue::restorationPowerMod:
-                    case StatsValue::destructionPowerMod:
-                    case StatsValue::alterationMod:
-                    case StatsValue::conjurationMod:
-                    case StatsValue::enchantingMod:
-                    case StatsValue::illusionMod:
-                    case StatsValue::restorationMod:
-                    case StatsValue::destructionMod:
-                    case StatsValue::smithing:
-                    case StatsValue::twoHanded:
-                    case StatsValue::oneHanded:
-                    case StatsValue::lightArmor:
-                    case StatsValue::heavyArmor:
-                    case StatsValue::block:
-                    case StatsValue::smithingPowerMod:
-                    case StatsValue::twoHandedPowerMod:
-                    case StatsValue::oneHandedPowerMod:
-                    case StatsValue::lightArmorPowerMod:
-                    case StatsValue::heavyArmorPowerMod:
-                    case StatsValue::blockPowerMod:
-                    case StatsValue::smithingMod:
-                    case StatsValue::twoHandedMod:
-                    case StatsValue::oneHandedMod:
-                    case StatsValue::lightArmorMod:
-                    case StatsValue::heavyArmorMod:
-                    case StatsValue::blockMod:
-                    case StatsValue::sneak:
-                    case StatsValue::speech:
-                    case StatsValue::pickpocket:
-                    case StatsValue::lockpicking:
-                    case StatsValue::archery:
-                    case StatsValue::alchemy:
-                    case StatsValue::sneakPowerMod:
-                    case StatsValue::speechPowerMod:
-                    case StatsValue::pickpocketPowerMod:
-                    case StatsValue::lockpickingPowerMod:
-                    case StatsValue::archeryPowerMod:
-                    case StatsValue::alchemyPowerMod:
-                    case StatsValue::sneakingMod:
-                    case StatsValue::speechcraftMod:
-                    case StatsValue::pickpocketMod:
-                    case StatsValue::lockpickingMod:
-                    case StatsValue::marksmanMod:
-                    case StatsValue::alchemyMod:
-                        if (element->getMenu() != StatsMenuValue::mNone) {
-                            menuMap.find(element->getMenu())->second.PushBack(buildGFxValue(element->getGuiText()));
-                            logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, element->getMenu(),
-                                element->getName(), element->getGuiText());
-                        }
-                        break;
-                    default:
-                        logger::warn("not handeled name {}, displayName {}"sv, element->getName(),
-                            element->getGuiText());
-                        break;
-                }
-            }
-
-            playerValues.clear();
-            for (auto& element : playerValues) { element.reset(); }
-            logger::trace("Vector Size is {}"sv, playerValues.size());
-
+            UpdateMenuValues();
             InvalidateDataItemLists();
         }
 
         void UpdateBottom() {
             //in case something is not set, we do not want to see default swf text
-            updateText(_name, "");
-            updateText(_level, "");
-            updateText(_race, "");
-            updateText(_perks, "");
-            updateText(_beast, "");
-            updateText(_xp, "");
-            updateText(_next, "");
+            UpdateText(_name, "");
+            UpdateText(_level, "");
+            UpdateText(_race, "");
+            UpdateText(_perks, "");
+            UpdateText(_beast, "");
+            UpdateText(_xp, "");
+            UpdateText(_next, "");
         }
 
-        void UpdateNext() { updateText(_next, getNextMenuName(ShowMenu::mStats)); }
+        void UpdateNext() { UpdateText(_next, getNextMenuName(ShowMenu::mStats)); }
+
+        void UpdateMenuValues() {
+            auto playerinfo = PlayerData::GetSingleton();
+            auto values = playerinfo->getValuesToDisplay();
+
+            logger::debug("Update menu Values, values to proces {}"sv, values.size());
+
+            for (auto& element : values) {
+                auto statValue = element.first;
+                auto statItem = element.second.get();
+
+                statItem->logStatItem(statValue);
+
+                if (statItem->getGuiText().empty() || statItem->getGuiText() == "") {
+                    continue;
+                }
+
+                switch (statValue) {
+                    case StatsValue::name:
+                        UpdateText(_name, statItem->getGuiText());
+                        break;
+                    case StatsValue::level:
+                        UpdateText(_level, statItem->getGuiText());
+                        break;
+                    case StatsValue::race:
+                        UpdateText(_race, statItem->getGuiText());
+                        break;
+                    case StatsValue::perkCount:
+                        UpdateText(_perks, statItem->getGuiText());
+                        break;
+                    case StatsValue::beast:
+                        UpdateText(_beast, statItem->getGuiText());
+                        break;
+                    case StatsValue::xp:
+                        UpdateText(_xp, statItem->getGuiText());
+                        break;
+                    default:
+                        if (statItem->getStatsMenu() != StatsMenuValue::mNone) {
+                            _menuMap.find(statItem->getStatsMenu())
+                                ->second.PushBack(buildGFxValue(statItem->getGuiText()));
+                            logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, statItem->getStatsMenu(),
+                                statValue, statItem->getGuiText());
+                        }
+                        break;
+                }
+            }
+            for (auto& element : values) { element.second.reset(); }
+            values.clear();
+            logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
+        }
 
         RE::GPtr<RE::GFxMovieView> _view;
         bool _isActive = false;
@@ -445,7 +350,7 @@ namespace Scaleform {
         CLIK::GFx::Controls::ScrollingList _perksThiefItemList;
         RE::GFxValue _perksThiefItemListProvider;
 
-        std::map<StatsMenuValue, RE::GFxValue&> menuMap = {
+        std::map<StatsMenuValue, RE::GFxValue&> _menuMap = {
             { StatsMenuValue::mPlayer, _playerItemListProvider },
             { StatsMenuValue::mDefence, _defenceItemListProvider },
             { StatsMenuValue::mAttack, _attackItemListProvider },

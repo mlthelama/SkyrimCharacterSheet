@@ -9,8 +9,8 @@ public:
         return std::addressof(singleton);
     }
 
-    void CloseWindow(ShowMenu p_menu) {
-        switch (p_menu) {
+    void CloseWindow(ShowMenu a_menu) {
+        switch (a_menu) {
             case ShowMenu::mStats:
                 Scaleform::StatsMenu::Close();
                 break;
@@ -20,9 +20,9 @@ public:
         }
     }
 
-    void SwapWindow(ShowMenu p_menu_open, ShowMenu p_menu_close) {
-        CloseWindow(p_menu_close);
-        ShowWindow(p_menu_open);
+    void SwapWindow(ShowMenu a_menu_open, ShowMenu a_menu_close) {
+        CloseWindow(a_menu_close);
+        ShowWindow(a_menu_open);
     }
 
     void CloseAllWindows() {
@@ -64,10 +64,10 @@ public:
     }
 
 private:
-    void ShowWindow(ShowMenu p_menu) {
+    void ShowWindow(ShowMenu a_menu) {
         logger::trace("Gather Value and Show Window"sv);
 
-        switch (p_menu) {
+        switch (a_menu) {
             case ShowMenu::mStats:
                 Scaleform::StatsMenu::Open();
                 break;

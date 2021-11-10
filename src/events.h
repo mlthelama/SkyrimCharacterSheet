@@ -7,10 +7,10 @@ namespace Events {
 
         static KeyManager* GetSingleton();
 
-        auto ProcessEvent(RE::InputEvent* const* p_event, RE::BSTEventSource<RE::InputEvent*>* p_eventSource)
+        auto ProcessEvent(RE::InputEvent* const* a_event, RE::BSTEventSource<RE::InputEvent*>* a_eventSource)
             -> EventResult;
 
-        void SetKey(uint64_t p_key);
+        void SetKey(uint64_t a_key);
 
         static void Sink();
 

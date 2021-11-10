@@ -9,8 +9,8 @@ namespace Events {
         return std::addressof(singleton);
     }
 
-    auto KeyManager::ProcessEvent(RE::InputEvent* const* p_event,
-        [[maybe_unused]] RE::BSTEventSource<RE::InputEvent*>* p_eventSource) -> EventResult {
+    auto KeyManager::ProcessEvent(RE::InputEvent* const* a_event,
+        [[maybe_unused]] RE::BSTEventSource<RE::InputEvent*>* a_eventSource) -> EventResult {
         using EventType = RE::INPUT_EVENT_TYPE;
         using DeviceType = RE::INPUT_DEVICE;
 
@@ -18,7 +18,7 @@ namespace Events {
             return EventResult::kContinue;
         }
 
-        if (!p_event) {
+        if (!a_event) {
             return EventResult::kContinue;
         }
 
@@ -28,7 +28,7 @@ namespace Events {
             return EventResult::kContinue;
         }
 
-        for (auto event = *p_event; event; event = event->next) {
+        for (auto event = *a_event; event; event = event->next) {
             if (event->eventType != EventType::kButton) {
                 continue;
             }
@@ -78,7 +78,7 @@ namespace Events {
         return EventResult::kContinue;
     }
 
-    void KeyManager::SetKey(uint64_t p_key) { _key = p_key; }
+    void KeyManager::SetKey(uint64_t a_key) { _key = a_key; }
 
     uint32_t KeyManager::GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key) {
         using Key = RE::BSWin32GamepadDevice::Key;

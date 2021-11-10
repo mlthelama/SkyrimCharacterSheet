@@ -7,16 +7,16 @@ public:
         return std::addressof(singleton);
     }
 
-    std::string getThane(FactionValue p_stat) {
-        if (thaneList.find(p_stat) == thaneList.end()) {
+    std::string getThane(FactionValue a_stat) {
+        if (_thaneList.find(a_stat) == _thaneList.end()) {
             return "";
         } else {
-            return thaneList.find(p_stat)->second;
+            return _thaneList.find(a_stat)->second;
         }
     }
 
     void getRegionThanes() {
-        for (const auto& item : thaneMap) {
+        for (const auto& item : _constThaneMap) {
             logger::trace("working at formid {}"sv, intToHex(item.first));
             auto questStage = RE::TESForm::LookupByID(item.first)->As<RE::TESQuest>()->currentStage;
             auto isThane = false;
@@ -42,11 +42,11 @@ public:
             }
 
             if (isThane) {
-                thaneList.insert(std::pair<FactionValue, std::string>(item.second, staticDisplayValue));
+                _thaneList.insert(std::pair<FactionValue, std::string>(item.second, _constStaticDisplayValue));
             }
         }
 
-        logger::trace("got {} items in thane list."sv, thaneList.size());
+        logger::trace("got {} items in thane list."sv, _thaneList.size());
         logMap();
     }
 
@@ -60,9 +60,9 @@ public:
     Thane& operator=(Thane&&) = delete;
 
 private:
-    valueStringMap thaneList;
+    valueStringMap _thaneList;
 
     void logMap() {
-        for (const auto& item : thaneList) { logger::trace("thane {}, {}"sv, item.first, item.second); }
+        for (const auto& item : _thaneList) { logger::trace("thane {}, {}"sv, item.first, item.second); }
     }
 };

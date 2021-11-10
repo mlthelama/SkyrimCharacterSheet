@@ -8,8 +8,13 @@ set(sources ${sources}
 	src/CLIK/TextField.h
 	src/PCH.h
 	src/constants.h
+	src/data/faction/champion.h
+	src/data/faction/faction.h
+	src/data/faction/factionitem.h
+	src/data/faction/thane.h
 	src/data/factiondata.h
 	src/data/playerdata.h
+	src/data/stats/statitem.h
 	src/events.cpp
 	src/events.h
 	src/main.cpp
@@ -19,13 +24,8 @@ set(sources ${sources}
 	src/scaleform/statsmenu.h
 	src/settings/gamesettings.h
 	src/settings/settings.h
+	src/settings/stats/factionsettings.h
+	src/settings/stats/statssettings.h
 	src/showhandler.h
-	src/stats/champion.h
-	src/stats/faction.h
-	src/stats/factionfiller.h
-	src/stats/factionholder.h
-	src/stats/statfiller.h
-	src/stats/statholder.h
-	src/stats/thane.h
 	src/utils.h
 )
