@@ -174,17 +174,25 @@ typedef std::map<FactionValue, std::string> valueStringMap;  //used in faction.h
 
 //0x00072834 //blades, player might not be in there
 inline static formIdValueMap _constFactionMap = { { 0x00048362, FactionValue::companions },
-    { 0x0001BDB3, FactionValue::darkbrotherHood }, { 0x0001F259, FactionValue::collegeOfWinterhold },
-    { 0x00024029, FactionValue::orcFriend }, { 0x00029DA9, FactionValue::thiefsGuild },
-    { 0x0002BF9A, FactionValue::imperialLegion }, { 0x0002BF9B, FactionValue::stormcloaks },
-    { 0x0002C6C8, FactionValue::greybeard }, { 0x02003376, FactionValue::volkiharVampireClan },
-    { 0x02014217, FactionValue::dawnguard }, { 0x04019B8A, FactionValue::houseTelvanni } };
+    { 0x0001BDB3, FactionValue::darkbrotherHood },
+    { 0x0001F259, FactionValue::collegeOfWinterhold },
+    { 0x00024029, FactionValue::orcFriend },
+    { 0x00029DA9, FactionValue::thiefsGuild },
+    { 0x0002BF9A, FactionValue::imperialLegion },
+    { 0x0002BF9B, FactionValue::stormcloaks },
+    { 0x0002C6C8, FactionValue::greybeard },
+    { 0x02003376, FactionValue::volkiharVampireClan },
+    { 0x02014217, FactionValue::dawnguard },
+    { 0x04019B8A, FactionValue::houseTelvanni } };
 
 //favor/quest thane map 200
 inline static formIdValueMap _constThaneMap = { { 0x000A2CA6, FactionValue::thaneOfEastmarch },
-    { 0x000A34DE, FactionValue::thaneOfFalkreath }, { 0x000A2C9B, FactionValue::thaneOfHaafingar },
-    { 0x000A34CE, FactionValue::thaneOfHjaalmarch }, { 0x000A34D4, FactionValue::thaneOfThePale },
-    { 0x000A2C86, FactionValue::thaneOfTheReach }, { 0x00065BDF, FactionValue::thaneOfTheRift },
+    { 0x000A34DE, FactionValue::thaneOfFalkreath },
+    { 0x000A2C9B, FactionValue::thaneOfHaafingar },
+    { 0x000A34CE, FactionValue::thaneOfHjaalmarch },
+    { 0x000A34D4, FactionValue::thaneOfThePale },
+    { 0x000A2C86, FactionValue::thaneOfTheReach },
+    { 0x00065BDF, FactionValue::thaneOfTheRift },
     { 0x000A2C9E, FactionValue::thaneOfWhiterun },  //just if stormcloaks won the war, otherwise MQ104/0002610C/160
     { 0x000A34D7, FactionValue::thaneOfWinterhold } };
 

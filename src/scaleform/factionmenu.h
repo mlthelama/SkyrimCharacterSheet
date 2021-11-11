@@ -38,7 +38,6 @@ namespace Scaleform {
             if (isOpen) {
                 logger::trace("Menu {} is open {}"sv, MENU_NAME, isOpen);
             }
-
             return isOpen;
         }
 
@@ -49,9 +48,13 @@ namespace Scaleform {
 
             auto menu = static_cast<RE::IMenu*>(this);
             auto scaleformManager = RE::BSScaleformManager::GetSingleton();
-            [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu, FILE_NAME,
-                RE::BSScaleformManager::ScaleModeType::kExactFit, [](RE::GFxMovieDef* a_def) -> void {
-                    logger::trace("FPS: {}, Height: {}, Width: {}"sv, a_def->GetFrameRate(), a_def->GetHeight(),
+            [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu,
+                FILE_NAME,
+                RE::BSScaleformManager::ScaleModeType::kExactFit,
+                [](RE::GFxMovieDef* a_def) -> void {
+                    logger::trace("FPS: {}, Height: {}, Width: {}"sv,
+                        a_def->GetFrameRate(),
+                        a_def->GetHeight(),
                         a_def->GetWidth());
                     a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
                 });
@@ -143,7 +146,7 @@ namespace Scaleform {
                 [[maybe_unused]] const auto success = _view->GetVariable(std::addressof(instance), path.data());
                 assert(success && instance.IsObject());
             }
-            logger::trace("Loaded all SWF objects successfully"sv);
+            logger::debug("Loaded all SWF objects successfully"sv);
 
             _rootObj.Visible(false);
 
@@ -216,29 +219,6 @@ namespace Scaleform {
 
             UpdateMenuValues();
 
-            /*auto factioninfo = FactionData::GetSingleton();
-            auto factionValue = factioninfo->getFactionValues();
-            for (auto& element : factionValue) {
-                if (!element->getShow() || element->getGuiText().empty() || element->getGuiText() == "" ||
-                    element->getValue().empty() || element->getValue() == "") {
-                    continue;
-                }
-
-                logger::trace("processing name {}, displayName {}, menu {}"sv, element->getName(),
-                    element->getGuiText(), element->getMenu());
-
-                if (element->getMenu() != FactionMenuValue::mNone) {
-                    _menuMap.find(element->getMenu())->second.PushBack(buildGFxValue(element->getGuiText()));
-                    logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, element->getMenu(), element->getName(),
-                        element->getGuiText());
-                }
-            }
-
-
-            factionValue.clear();
-            for (auto& element : factionValue) { element.reset(); }
-            logger::trace("Vector Size is {}"sv, factionValue.size());
-            */
             InvalidateDataItemLists();
         }
 
@@ -271,8 +251,10 @@ namespace Scaleform {
                 if (factionItem->getFactionMenu() != FactionMenuValue::mNone) {
                     _menuMap.find(factionItem->getFactionMenu())
                         ->second.PushBack(buildGFxValue(factionItem->getGuiText()));
-                    logger::trace("added to Menu {}, Name {}, GuiText ({})"sv, factionItem->getFactionMenu(),
-                        factionValue, factionItem->getGuiText());
+                    logger::trace("added to Menu {}, Name {}, GuiText ({})"sv,
+                        factionItem->getFactionMenu(),
+                        factionValue,
+                        factionItem->getGuiText());
                 }
             }
             for (auto& element : values) { element.second.reset(); }

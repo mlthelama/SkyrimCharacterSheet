@@ -5,13 +5,15 @@ AlignAfterOpenBracket: DontAlign
 #AlignAfterOpenBracket: AlwaysBreak
 #AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: 'false'
+#AlignConsecutiveAssignments: 'true'
 AlignConsecutiveDeclarations: 'false'
+#AlignConsecutiveDeclarations: 'true'
 AlignConsecutiveMacros: 'false'
 AlignEscapedNewlines: Left
 AlignOperands: 'true'
 AlignTrailingComments: 'true'
 AllowAllArgumentsOnNextLine: 'false'
-AllowAllConstructorInitializersOnNextLine: 'false'
+#AllowAllArgumentsOnNextLine: 'true'
 AllowAllParametersOfDeclarationOnNextLine: 'false'
 AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: 'false'
@@ -20,12 +22,13 @@ AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: 'true'
 AlwaysBreakAfterReturnType: None
-AlwaysBreakBeforeMultilineStrings: 'true'
+#AlwaysBreakBeforeMultilineStrings: 'true'
+AlwaysBreakBeforeMultilineStrings: 'false'
 AlwaysBreakTemplateDeclarations: 'Yes'
-BinPackArguments: 'true'
-BinPackParameters: 'true'
-#BinPackArguments: 'false'
-#BinPackParameters: 'false'
+#BinPackArguments: 'true'
+#BinPackParameters: 'true'
+BinPackArguments: 'false'
+BinPackParameters: 'false'
 BraceWrapping:
     AfterCaseLabel: 'true'
     AfterClass: 'true'
@@ -43,16 +46,21 @@ BraceWrapping:
     SplitEmptyNamespace: 'false'
     SplitEmptyRecord: 'false'
 #BreakBeforeBinaryOperators: None
-BreakBeforeBraces: Custom
+#BreakBeforeBraces: Custom
 BreakBeforeTernaryOperators: 'false'
-BreakConstructorInitializers: AfterColon
-BreakInheritanceList: AfterColon
+#BreakConstructorInitializers: AfterColon
+BreakConstructorInitializers: BeforeComma
+#BreakInheritanceList: AfterColon
+BreakInheritanceList: BeforeComma
 BreakStringLiterals: 'true'
 #ColumnLimit: 0
 ColumnLimit: 120
 CompactNamespaces: 'false'
-ConstructorInitializerAllOnOneLineOrOnePerLine: 'false'
+#ConstructorInitializerAllOnOneLineOrOnePerLine: 'false'
+ConstructorInitializerAllOnOneLineOrOnePerLine: 'true'
+#ConstructorInitializerIndentWidth: 4
 ConstructorInitializerIndentWidth: 4
+#ContinuationIndentWidth: 4
 ContinuationIndentWidth: 4
 ObjCBlockIndentWidth: 4
 Cpp11BracedListStyle: 'false'
@@ -102,5 +110,9 @@ UseCRLF: 'true'
 UseTab: Never
 BreakBeforeBraces: Attach
 ExperimentalAutoDetectBinPacking: false
+#PackConstructorInitializers: NextLine
+#BreakInheritanceListStyle: AfterColon
+#BreakConstructorInitializersStyle: AfterColon
+#BraceBreakingStyle: Attach
 
 ...

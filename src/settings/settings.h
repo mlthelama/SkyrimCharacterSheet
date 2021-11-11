@@ -155,7 +155,8 @@ struct Settings {
     static inline sSetting weightString{ "showStatsName"s, "weight"s, _constUndefined };
     static inline sSetting armorString{ "showStatsName"s, "armor"s, _constUndefined };
     static inline sSetting damageString{ "showStatsName"s, "damage"s, _constUndefined };
-    static inline sSetting skillTrainingsThisLevelString{ "showStatsName"s, "skillTrainingsThisLevel"s,
+    static inline sSetting skillTrainingsThisLevelString{ "showStatsName"s,
+        "skillTrainingsThisLevel"s,
         _constUndefined };
     static inline sSetting healthString{ "showStatsName"s, "health"s, _constUndefined };
     static inline sSetting healthRateString{ "showStatsName"s, "healthRatePer"s, _constUndefined };
@@ -218,7 +219,8 @@ struct Settings {
     static inline sSetting shoutRecoveryMultString{ "showStatsName"s, "shoutRecoveryMult"s, _constUndefined };
     static inline sSetting movementNoiseMultString{ "showStatsName"s, "movementNoiseMult"s, _constUndefined };
     static inline sSetting dragonSoulsString{ "showStatsName"s, "dragonSouls"s, _constUndefined };
-    static inline sSetting combatHealthRegenMultiplyString{ "showStatsName"s, "combatHealthRegenMultiply"s,
+    static inline sSetting combatHealthRegenMultiplyString{ "showStatsName"s,
+        "combatHealthRegenMultiply"s,
         _constUndefined };
     static inline sSetting attackDamageMultString{ "showStatsName"s, "attackDamageMult"s, _constUndefined };
     static inline sSetting beastString{ "showStatsName"s, "beast"s, _constUndefined };
@@ -250,9 +252,11 @@ struct Settings {
     static inline sSetting armorPerksString{ "showStatsName"s, "armorPerks"s, _constUndefined };
     static inline sSetting massString{ "showStatsName"s, "mass"s, _constUndefined };
     static inline sSetting bowStaggerBonusString{ "showStatsName"s, "bowStaggerBonus"s, _constUndefined };
-    static inline sSetting bypassVendorKeywordCheckString{ "showStatsName"s, "bypassVendorKeywordCheck"s,
+    static inline sSetting bypassVendorKeywordCheckString{ "showStatsName"s,
+        "bypassVendorKeywordCheck"s,
         _constUndefined };
-    static inline sSetting bypassVendorStolenCheckString{ "showStatsName"s, "bypassVendorStolenCheck"s,
+    static inline sSetting bypassVendorStolenCheckString{ "showStatsName"s,
+        "bypassVendorStolenCheck"s,
         _constUndefined };
 
     static inline sSetting nameStringEnding{ "showStatsEnding"s, "name"s, _constUndefined };
@@ -264,7 +268,8 @@ struct Settings {
     static inline sSetting weightStringEnding{ "showStatsEnding"s, "weight"s, _constUndefined };
     static inline sSetting armorStringEnding{ "showStatsEnding"s, "armor"s, _constUndefined };
     static inline sSetting damageStringEnding{ "showStatsEnding"s, "damage"s, _constUndefined };
-    static inline sSetting skillTrainingsThisLevelStringEnding{ "showStatsEnding"s, "skillTrainingsThisLevel"s,
+    static inline sSetting skillTrainingsThisLevelStringEnding{ "showStatsEnding"s,
+        "skillTrainingsThisLevel"s,
         _constUndefined };
     static inline sSetting healthStringEnding{ "showStatsEnding"s, "health"s, _constUndefined };
     static inline sSetting healthRateStringEnding{ "showStatsEnding"s, "healthRatePer"s, _constUndefined };
@@ -305,19 +310,23 @@ struct Settings {
     static inline sSetting heavyArmorPowerModStringEnding{ "showStatsEnding"s, "heavyArmorPowerMod"s, _constUndefined };
     static inline sSetting lightArmorPowerModStringEnding{ "showStatsEnding"s, "lightArmorPowerMod"s, _constUndefined };
     static inline sSetting pickpocketPowerModStringEnding{ "showStatsEnding"s, "pickpocketPowerMod"s, _constUndefined };
-    static inline sSetting lockpickingPowerModStringEnding{ "showStatsEnding"s, "lockpickingPowerMod"s,
+    static inline sSetting lockpickingPowerModStringEnding{ "showStatsEnding"s,
+        "lockpickingPowerMod"s,
         _constUndefined };
     static inline sSetting sneakPowerModStringEnding{ "showStatsEnding"s, "sneakPowerMod"s, _constUndefined };
     static inline sSetting alchemyPowerModStringEnding{ "showStatsEnding"s, "alchemyPowerMod"s, _constUndefined };
     static inline sSetting speechPowerModStringEnding{ "showStatsEnding"s, "speechPowerMod"s, _constUndefined };
     static inline sSetting enchantingPowerModStringEnding{ "showStatsEnding"s, "enchantingPowerMod"s, _constUndefined };
     static inline sSetting alterationPowerModStringEnding{ "showStatsEnding"s, "alterationPowerMod"s, _constUndefined };
-    static inline sSetting conjurationPowerModStringEnding{ "showStatsEnding"s, "conjurationPowerMod"s,
+    static inline sSetting conjurationPowerModStringEnding{ "showStatsEnding"s,
+        "conjurationPowerMod"s,
         _constUndefined };
-    static inline sSetting destructionPowerModStringEnding{ "showStatsEnding"s, "destructionPowerMod"s,
+    static inline sSetting destructionPowerModStringEnding{ "showStatsEnding"s,
+        "destructionPowerMod"s,
         _constUndefined };
     static inline sSetting illusionPowerModStringEnding{ "showStatsEnding"s, "illusionPowerMod"s, _constUndefined };
-    static inline sSetting restorationPowerModStringEnding{ "showStatsEnding"s, "restorationPowerMod"s,
+    static inline sSetting restorationPowerModStringEnding{ "showStatsEnding"s,
+        "restorationPowerMod"s,
         _constUndefined };
     static inline sSetting speedMultStringEnding{ "showStatsEnding"s, "speedMult"s, _constUndefined };
     static inline sSetting inventoryWeightStringEnding{ "showStatsEnding"s, "inventoryWeight"s, _constUndefined };
@@ -331,7 +340,8 @@ struct Settings {
     static inline sSetting shoutRecoveryMultStringEnding{ "showStatsEnding"s, "shoutRecoveryMult"s, _constUndefined };
     static inline sSetting movementNoiseMultStringEnding{ "showStatsEnding"s, "movementNoiseMult"s, _constUndefined };
     static inline sSetting dragonSoulsStringEnding{ "showStatsEnding"s, "dragonSouls"s, _constUndefined };
-    static inline sSetting combatHealthRegenMultiplyStringEnding{ "showStatsEnding"s, "combatHealthRegenMultiply"s,
+    static inline sSetting combatHealthRegenMultiplyStringEnding{ "showStatsEnding"s,
+        "combatHealthRegenMultiply"s,
         _constUndefined };
     static inline sSetting attackDamageMultStringEnding{ "showStatsEnding"s, "attackDamageMult"s, _constUndefined };
     static inline sSetting beastStringEnding{ "showStatsEnding"s, "beast"s, _constUndefined };
@@ -357,16 +367,19 @@ struct Settings {
     static inline sSetting restorationModStringEnding{ "showStatsEnding"s, "restorationMod"s, _constUndefined };
     static inline sSetting damageArrowStringEnding{ "showStatsEnding"s, "damageArrow"s, _constUndefined };
     static inline sSetting damageLeftStringEnding{ "showStatsEnding"s, "damageLeft"s, _constUndefined };
-    static inline sSetting leftWeaponSpeedMultStringEnding{ "showStatsEnding"s, "leftWeaponSpeedMult"s,
+    static inline sSetting leftWeaponSpeedMultStringEnding{ "showStatsEnding"s,
+        "leftWeaponSpeedMult"s,
         _constUndefined };
     static inline sSetting rightItemChargeStringEnding{ "showStatsEnding"s, "rightItemCharge"s, _constUndefined };
     static inline sSetting leftItemChargStringeEnding{ "showStatsEnding"s, "leftItemCharge"s, _constUndefined };
     static inline sSetting armorPerksStringEnding{ "showStatsEnding"s, "armorPerks"s, _constUndefined };
     static inline sSetting massStringEnding{ "showStatsEnding"s, "mass"s, _constUndefined };
     static inline sSetting bowStaggerBonusStringEnding{ "showStatsEnding"s, "bowStaggerBonus"s, _constUndefined };
-    static inline sSetting bypassVendorKeywordCheckStringEnding{ "showStatsEnding"s, "bypassVendorKeywordCheck"s,
+    static inline sSetting bypassVendorKeywordCheckStringEnding{ "showStatsEnding"s,
+        "bypassVendorKeywordCheck"s,
         _constUndefined };
-    static inline sSetting bypassVendorStolenCheckStringEnding{ "showStatsEnding"s, "bypassVendorStolenCheck"s,
+    static inline sSetting bypassVendorStolenCheckStringEnding{ "showStatsEnding"s,
+        "bypassVendorStolenCheck"s,
         _constUndefined };
     //factions do not need a ending
 
@@ -490,7 +503,8 @@ struct Settings {
 
     static inline sSetting companionsString{ "showFactionsFactionNames"s, "companions"s, _constUndefined };
     static inline sSetting darkbrotherHoodString{ "showFactionsFactionNames"s, "darkbrotherHood"s, _constUndefined };
-    static inline sSetting collegeOfWinterholdString{ "showFactionsFactionNames"s, "collegeOfWinterhold"s,
+    static inline sSetting collegeOfWinterholdString{ "showFactionsFactionNames"s,
+        "collegeOfWinterhold"s,
         _constUndefined };
     static inline sSetting orcFriendString{ "showFactionsFactionNames"s, "orcFriend"s, _constUndefined };
     static inline sSetting thiefsGuildString{ "showFactionsFactionNames"s, "thiefsGuild"s, _constUndefined };
@@ -498,7 +512,8 @@ struct Settings {
     static inline sSetting stormcloaksString{ "showFactionsFactionNames"s, "stormcloaks"s, _constUndefined };
     static inline sSetting greybeardString{ "showFactionsFactionNames"s, "greybeard"s, _constUndefined };
     static inline sSetting bardString{ "showFactionsFactionNames"s, "bard"s, _constUndefined };
-    static inline sSetting volkiharVampireClanString{ "showFactionsFactionNames"s, "volkiharVampireClan"s,
+    static inline sSetting volkiharVampireClanString{ "showFactionsFactionNames"s,
+        "volkiharVampireClan"s,
         _constUndefined };
     static inline sSetting dawnguardString{ "showFactionsFactionNames"s, "dawnguard"s, _constUndefined };
     static inline sSetting houseTelvanniString{ "showFactionsFactionNames"s, "houseTelvanni"s, _constUndefined };

@@ -43,11 +43,13 @@ public:
     void HandleNextMenuButtonPress() {
         if (Scaleform::StatsMenu::IsMenuOpen()) {
             if (*Settings::showFactionMenu) {
-                logger::debug("{} is open, open {}"sv, Scaleform::StatsMenu::MENU_NAME,
+                logger::debug("{} is open, open {}"sv,
+                    Scaleform::StatsMenu::MENU_NAME,
                     Scaleform::FactionMenu::MENU_NAME);
                 SwapWindow(ShowMenu::mFaction, ShowMenu::mStats);
             } else {
-                logger::debug("{} is open, {} is disabled via config"sv, Scaleform::StatsMenu::MENU_NAME,
+                logger::debug("{} is open, {} is disabled via config"sv,
+                    Scaleform::StatsMenu::MENU_NAME,
                     Scaleform::FactionMenu::MENU_NAME);
             }
         } else if (Scaleform::FactionMenu::IsMenuOpen()) {

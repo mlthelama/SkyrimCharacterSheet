@@ -56,8 +56,11 @@ static FactionMenuValue getFactionMenu(int64_t a_menu_id) {
     }
 }
 
-static std::string buildDisplayString(std::string a_value, std::string a_display_name, std::string a_ending,
-    bool a_show, bool a_value_is_display) {
+static std::string buildDisplayString(std::string a_value,
+    std::string a_display_name,
+    std::string a_ending,
+    bool a_show,
+    bool a_value_is_display) {
     if (!a_value.empty() && !a_display_name.empty() && !a_show) {
         return "";
     }
@@ -76,9 +79,10 @@ static std::string buildDisplayString(std::string a_value, std::string a_display
     return guiText;
 }
 
-static std::map<ShowMenu, std::string_view> menuName = { { ShowMenu::mStats, static_cast<std::string_view>(
-                                                                                 *Settings::showStatsTitleTitle) },
-    { ShowMenu::mFaction, static_cast<std::string_view>(*Settings::showFactionsTitleTitle) } };
+static std::map<ShowMenu, std::string_view> menuName = {
+    { ShowMenu::mStats, static_cast<std::string_view>(*Settings::showStatsTitleTitle) },
+    { ShowMenu::mFaction, static_cast<std::string_view>(*Settings::showFactionsTitleTitle) }
+};
 
 static std::string_view getMenuName(ShowMenu a_menu) {
     if (menuName.find(a_menu) == menuName.end()) {
@@ -112,7 +116,9 @@ static std::string getValueWithCapIfNeeded(float a_res, float a_cap, std::string
     auto value = getStringValueFromFloat(a_res);
 
     if (a_res > a_cap) {
-        value = fmt::format(FMT_STRING("{}{} ({})"), getStringValueFromFloat(a_cap), a_ending,
+        value = fmt::format(FMT_STRING("{}{} ({})"),
+            getStringValueFromFloat(a_cap),
+            a_ending,
             getStringValueFromFloat(a_res));
     }
     return value;

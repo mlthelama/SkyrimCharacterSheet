@@ -19,7 +19,7 @@ public:
         auto player = RE::PlayerCharacter::GetSingleton();
 
         auto statSettings = StatSetting::GetSingleton();
-        auto statSettingMap = statSettings->init();
+        auto statSettingMap = statSettings->load();
         logger::debug("Config Map Size is {}"sv, statSettingMap.size());
 
         for (auto& element : statSettingMap) {
@@ -109,7 +109,8 @@ public:
                             valueText = getStringValueFromFloat(value);
                         }
                     } else {
-                        logger::warn("unhandeled stat, name {}, displayName {}"sv, statValue,
+                        logger::warn("unhandeled stat, name {}, displayName {}"sv,
+                            statValue,
                             statConfig->getDisplayName());
                     }
                     break;
@@ -183,7 +184,8 @@ private:
     }
 
     std::string getXP(RE::PlayerCharacter*& a_player) {
-        return fmt::format(FMT_STRING("{}/{}"), cutString(getStringValueFromFloat(a_player->skills->data->xp)),
+        return fmt::format(FMT_STRING("{}/{}"),
+            cutString(getStringValueFromFloat(a_player->skills->data->xp)),
             cutString(getStringValueFromFloat(a_player->skills->data->levelThreshold)));
     }
 
@@ -233,8 +235,10 @@ private:
                 auto formid = effect->GetBaseObject()->GetFormID();
                 //Dragonhide
                 if (formid == 0x000CDB75) {
-                    logger::debug("Is Armor Spell {}, magnitude{}, formid {}"sv, effect->GetBaseObject()->GetName(),
-                        effect->magnitude, intToHex(formid));
+                    logger::debug("Is Armor Spell {}, magnitude{}, formid {}"sv,
+                        effect->GetBaseObject()->GetName(),
+                        effect->magnitude,
+                        intToHex(formid));
                     return effect->magnitude;
                 }
             }

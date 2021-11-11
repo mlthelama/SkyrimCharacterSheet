@@ -34,7 +34,7 @@ public:
         }
 
         auto factionSettings = FactionSetting::GetSingleton();
-        auto factionSettingMap = factionSettings->init();
+        auto factionSettingMap = factionSettings->load();
         logger::debug("Config Map Size is {}"sv, factionSettingMap.size());
 
         for (auto& element : factionSettingMap) {
@@ -93,7 +93,8 @@ public:
                     valueText = champion->getChampion(factionValue);
                     break;
                 default:
-                    logger::warn("unhandeled stat, name {}, displayName {}"sv, factionValue,
+                    logger::warn("unhandeled stat, name {}, displayName {}"sv,
+                        factionValue,
                         factionConfig->getDisplayName());
                     break;
             }
