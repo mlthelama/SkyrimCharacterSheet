@@ -4,6 +4,8 @@
 #include "showhandler.h"
 
 namespace Events {
+    using ShowMenu = MenuUtil::ShowMenu;
+
     auto KeyManager::GetSingleton() -> KeyManager* {
         static KeyManager singleton;
         return std::addressof(singleton);

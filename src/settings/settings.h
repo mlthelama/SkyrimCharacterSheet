@@ -27,6 +27,8 @@ struct Settings {
     static inline bSetting showFactionMenu{ "General"s, "showFactionMenu"s, true };
     static inline iSetting openFactionMenuButton{ "General"s, "openNextMenuButton"s, 0 };
     static inline bSetting pauseGame{ "General"s, "pauseGame"s, true };
+    static inline bSetting showInventoryStats{ "General"s, "showInventoryStats"s, true };
+    static inline bSetting showInventoryStatsAutoOpen{ "General"s, "showInventoryStatsAutoOpen"s, true };
 
     static inline bSetting skyrimUnbound{ "Mods"s, "skyrimUnbound"s, true };
 
@@ -568,4 +570,10 @@ struct Settings {
     static inline sSetting sanguineName{ "showFactionsChampionName"s, "sanguine"s, _constUndefined };
     static inline sSetting sheogorathName{ "showFactionsChampionName"s, "sheogorath"s, _constUndefined };
     static inline sSetting vaerminaName{ "showFactionsChampionName"s, "vaermina"s, _constUndefined };
+
+    static inline sSetting showStatsInventoryTitleTitle{ "showStatsInventoryTitle"s, "title"s, _constUndefined };
+    static inline sSetting showStatsInventoryTitleArmor{ "showStatsInventoryTitle"s, "armor"s, _constUndefined };
+    static inline sSetting showStatsInventoryTitleWeapon{ "showStatsInventoryTitle"s, "weapon"s, _constUndefined };
+    static inline sSetting showStatsInventoryTitleEffect{ "showStatsInventoryTitle"s, "effect"s, _constUndefined };
+
 };

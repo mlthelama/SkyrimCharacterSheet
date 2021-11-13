@@ -3,6 +3,7 @@
 #include "scaleform/statsmenu.h"
 
 class ShowHandler {
+    using ShowMenu = MenuUtil::ShowMenu;
 public:
     static ShowHandler* GetSingleton() {
         static ShowHandler singleton;

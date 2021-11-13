@@ -16,75 +16,23 @@ public:
     }
 
     void getChampions() {
-        for (const auto& item : _constChampionMap) {
-            logger::trace("working at formid {}"sv, intToHex(item.first));
-            auto questStage = RE::TESForm::LookupByID(item.first)->As<RE::TESQuest>()->currentStage;
-            auto questDone = false;
-
-            switch (item.second) {
-                case FactionValue::malacath:
-                case FactionValue::molagBal:
-                case FactionValue::nocturnal:
-                case FactionValue::sanguine:
-                case FactionValue::sheogorath:
-                case FactionValue::vaermina:
-                    if (questStage == 200) {
-                        questDone = true;
-                    }
-                    break;
-                case FactionValue::azura:
-                case FactionValue::mehrunesDagon:
-                case FactionValue::peryite:
-                    if (questStage == 100) {
-                        questDone = true;
-                    }
-                    break;
-                case FactionValue::boethiah:
-                    if (questStage == 50 || questStage == 100) {
-                        questDone = true;
-                    }
-                    break;
-                case FactionValue::clavicusVile:
-                    if (questStage == 200 || questStage == 205) {
-                        questDone = true;
-                    }
-                    break;
-                case FactionValue::hermaeusMora:
-                    if (questStage == 100 || questStage == 200) {
-                        questDone = true;
-                    }
-                    break;
-                case FactionValue::hircine:
-                    if (questStage == 100 || questStage == 105 || questStage == 200) {
-                        questDone = true;
-                    }
-                    break;
-                case FactionValue::mephala:
-                    if (questStage == 60 || questStage == 80) {
-                        questDone = true;
-                    }
-                    break;
-                case FactionValue::meridia:
-                    if (questStage == 500) {
-                        questDone = true;
-                    }
-                    break;
-                case FactionValue::namira:
-                    if (questStage == 100 || questStage == 600) {
-                        questDone = true;
-                    }
-                    break;
-            }
-
-            if (questDone) {
-                _championList.insert(std::pair<FactionValue, std::string>(item.second, _constStaticDisplayValue));
+        for (const auto& champion : _championQuestStageMap) {
+            auto championValue = champion.first;
+            for (const auto& formid : champion.second) {
+                auto qst = RE::TESForm::LookupByID(formid.first)->As<RE::TESQuest>();
+                logger::trace("Champion {] working with formid {}"sv, championValue, StringUtil::intToHex(qst));
+                auto questDone = QuestUtil::isOneQuestStageComplete(qst, formid.second);
+                if (questDone) {
+                    logger::trace("Champion of {}"sv, championValue);
+                    _championList.insert(std::pair<FactionValue, std::string>(championValue, _constStaticDisplayValue));
+                }
             }
         }
+
 
         logger::trace("got {} items in champion list."sv, _championList.size());
         logMap();
     }
-
 
     Champion() = default;
     Champion(const Champion&) = delete;
@@ -97,6 +45,46 @@ public:
 
 private:
     valueStringMap _championList;
+
+    /*
+    azura, 00028AD6 100 -
+    boethiah, 0004D8D6 50 100 -
+    clavicusVile, 0001BFC4 200 205 -
+    hermaeusMora, 0002D512 100 200 -
+    hircine, 0002A49A 100 105 200 -
+    malacath, 0003B681 200 -
+    mehrunesDagon, 000240B8 100 -
+    mephala, 0004A37B 60 80 -
+    meridia, 0004E4E1 500 -
+    molagBal, 00022F08 200 -
+    namira, 0002C358 100 600 -
+    nocturnal, 00021555 200 -
+    peryite, 0008998D 100 -
+    sanguine, 0001BB9B 200 -
+    sheogorath, 0002AC68 200 -
+    vaermina 000242AF 200 -
+    */
+    static const uint32_t _stage100 = 100;
+    static const uint32_t _stage200 = 200;
+
+    inline static std::map<FactionValue, std::map<RE::FormID, std::vector<uint32_t>>> _championQuestStageMap = {
+        { FactionValue::azura, { { 0x00028AD6, std::vector{ _stage100 } } } },
+        { FactionValue::boethiah, { { 0x0004D8D6, std::vector{ QuestUtil::getAs(50), _stage100 } } } },
+        { FactionValue::clavicusVile, { { 0x0001BFC4, std::vector{ _stage200, QuestUtil::getAs(205) } } } },
+        { FactionValue::hermaeusMora, { { 0x0002D512, std::vector{ _stage100, _stage200 } } } },
+        { FactionValue::hircine, { { 0x0002A49A, std::vector{ _stage100, QuestUtil::getAs(105) } } } },
+        { FactionValue::malacath, { { 0x0003B681, std::vector{ _stage200 } } } },
+        { FactionValue::mehrunesDagon, { { 0x000240B8, std::vector{ _stage100 } } } },
+        { FactionValue::mephala, { { 0x0004A37B, std::vector{ QuestUtil::getAs(60), QuestUtil::getAs(80) } } } },
+        { FactionValue::meridia, { { 0x0004E4E1, std::vector{ QuestUtil::getAs(500) } } } },
+        { FactionValue::molagBal, { { 0x00022F08, std::vector{ _stage200 } } } },
+        { FactionValue::namira, { { 0x0002C358, std::vector{ _stage100, QuestUtil::getAs(600) } } } },
+        { FactionValue::nocturnal, { { 0x00021555, std::vector{ _stage200 } } } },
+        { FactionValue::peryite, { { 0x0008998D, std::vector{ _stage100 } } } },
+        { FactionValue::sanguine, { { 0x0001BB9B, std::vector{ _stage200 } } } },
+        { FactionValue::sheogorath, { { 0x0002AC68, std::vector{ _stage200 } } } },
+        { FactionValue::vaermina, { { 0x000242AF, std::vector{ _stage200 } } } },
+    };
 
     void logMap() {
         for (const auto& item : _championList) { logger::trace("champion {}, {}"sv, item.first, item.second); }

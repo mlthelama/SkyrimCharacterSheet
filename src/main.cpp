@@ -91,8 +91,10 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
             return false;
         }
 
-        auto keyManager = Events::KeyManager::GetSingleton();
-        keyManager->SetKey(*Settings::openMenuButton);
+        /*auto keyManager = Events::KeyManager::GetSingleton();
+        keyManager->SetKey(*Settings::openMenuButton);*/
+
+        Events::KeyManager::GetSingleton()->SetKey(*Settings::openMenuButton);
 
         logger::info("ShowStats loaded"sv);
     } catch (const std::exception& e) {

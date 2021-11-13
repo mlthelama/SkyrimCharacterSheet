@@ -5,6 +5,8 @@
 
 class PlayerData {
     using StatsItemMap = std::map<StatsValue, std::unique_ptr<StatItem>>;
+    using ShowMenu = MenuUtil::ShowMenu;
+    using StatsInventoryMenuValue = MenuUtil::StatsInventoryMenuValue;
 
 public:
     static PlayerData* GetSingleton() {
@@ -12,14 +14,16 @@ public:
         return std::addressof(singleton);
     }
 
-    StatsItemMap getValuesToDisplay() {
-        logger::debug("Get Values to Display ..."sv);
+    StatsItemMap getValuesToDisplay(ShowMenu a_menu) {
+        logger::debug("Get Values to Display for Menu ({}) ..."sv, MenuUtil::getMenuName(a_menu));
         StatsItemMap simp;
 
         auto player = RE::PlayerCharacter::GetSingleton();
 
-        auto statSettings = StatSetting::GetSingleton();
-        auto statSettingMap = statSettings->load();
+        /*auto statSettings = StatSetting::GetSingleton();
+        auto statSettingMap = statSettings->load();*/
+
+        auto statSettingMap = StatSetting::GetSingleton()->load();
         logger::debug("Config Map Size is {}"sv, statSettingMap.size());
 
         for (auto& element : statSettingMap) {
@@ -27,7 +31,11 @@ public:
             auto statConfig = element.second.get();
 
             statConfig->logStatConfig(statValue);
-            if (!statConfig->getShow()) {
+
+            if ((a_menu == ShowMenu::mStats && !statConfig->getShow()) ||
+                (a_menu == ShowMenu::mInventoryStats &&
+                    (!statConfig->getShow() ||
+                        statConfig->getStatsInventoryMenu() == StatsInventoryMenuValue::mNone))) {
                 continue;
             }
             std::string valueText = "";
@@ -46,13 +54,13 @@ public:
                     valueText = std::to_string(player->perkCount);
                     break;
                 case StatsValue::height:
-                    valueText = getStringValueFromFloat(player->GetHeight());
+                    valueText = StringUtil::getStringValueFromFloat(player->GetHeight());
                     break;
                 case StatsValue::equipedWeight:
-                    valueText = getStringValueFromFloat(player->GetWeight());
+                    valueText = StringUtil::getStringValueFromFloat(player->GetWeight());
                     break;
                 case StatsValue::armor:
-                    valueText = getStringValueFromFloat(player->armorRating);
+                    valueText = StringUtil::getStringValueFromFloat(player->armorRating);
                     break;
                 case StatsValue::skillTrainingsThisLevel:
                     valueText = std::to_string(player->skillTrainingsThisLevel);
@@ -71,25 +79,25 @@ public:
                         player->GetActorValue(RE::ActorValue::kWerewolfPerks));
                     break;
                 case StatsValue::healthRatePer:
-                    valueText =
-                        getStringValueFromFloat(calculateValue(player->GetActorValue(RE::ActorValue::kHealRateMult),
+                    valueText = StringUtil::getStringValueFromFloat(
+                        StringUtil::calculateValue(player->GetActorValue(RE::ActorValue::kHealRateMult),
                             player->GetActorValue(RE::ActorValue::kHealRate)));
                     break;
                 case StatsValue::magickaRatePer:
-                    valueText =
-                        getStringValueFromFloat(calculateValue(player->GetActorValue(RE::ActorValue::kMagickaRateMult),
+                    valueText = StringUtil::getStringValueFromFloat(
+                        StringUtil::calculateValue(player->GetActorValue(RE::ActorValue::kMagickaRateMult),
                             player->GetActorValue(RE::ActorValue::kMagickaRate)));
                     break;
                 case StatsValue::staminaRatePer:
-                    valueText =
-                        getStringValueFromFloat(calculateValue(player->GetActorValue(RE::ActorValue::kStaminaRateMult),
+                    valueText = StringUtil::getStringValueFromFloat(
+                        StringUtil::calculateValue(player->GetActorValue(RE::ActorValue::kStaminaRateMult),
                             player->GetActorValue(RE::ActorValue::KStaminaRate)));
                     break;
                 case StatsValue::xp:
                     valueText = getXP(player);
                     break;
                 case StatsValue::weight:
-                    valueText = getStringValueFromFloat(player->GetWeight());
+                    valueText = StringUtil::getStringValueFromFloat(player->GetWeight());
                     break;
                 case StatsValue::weaponSpeedMult:
                     valueText = handleWeaponSpeed(player, false);
@@ -104,9 +112,11 @@ public:
                     if (statConfig->getActor() != RE::ActorValue::kNone) {
                         auto value = player->GetActorValue(statConfig->getActor()) * statConfig->getValueMultiplier();
                         if (statConfig->getCap() != -1) {
-                            valueText = getValueWithCapIfNeeded(value, statConfig->getCap(), statConfig->getEnding());
+                            valueText = ValueUtil::getValueWithCapIfNeeded(value,
+                                statConfig->getCap(),
+                                statConfig->getEnding());
                         } else {
-                            valueText = getStringValueFromFloat(value);
+                            valueText = StringUtil::getStringValueFromFloat(value);
                         }
                     } else {
                         logger::warn("unhandeled stat, name {}, displayName {}"sv,
@@ -117,13 +127,23 @@ public:
             }
 
             if (valueText != "") {
-                simp[statValue] = std::make_unique<StatItem>(statConfig->getDisplay(valueText), statConfig->getMenu());
+                if (a_menu == ShowMenu::mStats) {
+                    simp[statValue] =
+                        std::make_unique<StatItem>(statConfig->getDisplay(valueText), statConfig->getStatsMenu());
+                } else {
+                    simp[statValue] = std::make_unique<StatItem>(statConfig->getDisplay(valueText),
+                        statConfig->getStatsInventoryMenu());
+                }
             }
         }
-        logger::debug("Display Map Size is {}"sv, simp.size());
 
         for (auto& element : statSettingMap) { element.second.reset(); }
         statSettingMap.clear();
+
+        logger::debug("Setting Map is {}, Display Map Size is {} for Menu ({})"sv,
+            statSettingMap.size(),
+            simp.size(),
+            MenuUtil::getMenuName(a_menu));
         return simp;
     }
 
@@ -143,7 +163,7 @@ private:
         if (equip != nullptr) {
             if (equip->GetObject()->GetFormType() == RE::FormType::Ammo) {
                 logger::trace("Item {} is arrow"sv, a_player->GetEquippedEntryData(false)->GetDisplayName());
-                return getStringValueFromFloat(a_player->GetDamage(a_player->GetEquippedEntryData(false)));
+                return StringUtil::getStringValueFromFloat(a_player->GetDamage(a_player->GetEquippedEntryData(false)));
             }
         }
         return "";
@@ -162,7 +182,7 @@ private:
             damage = a_player->GetDamage(hand);
             logger::trace("Name {}, Weapon Damage {}, Left {}"sv, hand->GetDisplayName(), damage, a_left);
         }
-        return (damage == -1) ? "" : getStringValueFromFloat(damage);
+        return (damage == -1) ? "" : StringUtil::getStringValueFromFloat(damage);
     }
 
     std::string handleWeaponSpeed(RE::PlayerCharacter*& a_player, bool a_left) {
@@ -180,13 +200,13 @@ private:
             speed = weapon->GetSpeed();
             logger::trace("Name {}, Weapon Speed {}, Left {}"sv, hand->GetDisplayName(), speed, a_left);
         }
-        return (speed == -1) ? "" : getStringValueFromFloat(speed);
+        return (speed == -1) ? "" : StringUtil::getStringValueFromFloat(speed);
     }
 
     std::string getXP(RE::PlayerCharacter*& a_player) {
         return fmt::format(FMT_STRING("{}/{}"),
-            cutString(getStringValueFromFloat(a_player->skills->data->xp)),
-            cutString(getStringValueFromFloat(a_player->skills->data->levelThreshold)));
+            StringUtil::cutString(StringUtil::getStringValueFromFloat(a_player->skills->data->xp)),
+            StringUtil::cutString(StringUtil::getStringValueFromFloat(a_player->skills->data->levelThreshold)));
     }
 
     /* might need additional checks for mods that add more items 
@@ -210,12 +230,12 @@ private:
             }
         }
 
-        auto damageResistance = calculateArmorDamageRes(a_player->armorRating, armorCount);
+        auto damageResistance = ValueUtil::calculateArmorDamageRes(a_player->armorRating, armorCount);
         //auto dragonhide = getValueIfDragonhideIsAcitve(a_player);
-        auto damageResistanceString = getStringValueFromFloat(damageResistance);
+        auto damageResistanceString = StringUtil::getStringValueFromFloat(damageResistance);
         logger::debug("Damage Resistance from Armor {}"sv, damageResistance);
         if (a_cap != -1) {
-            damageResistanceString = getValueWithCapIfNeeded(damageResistance, a_cap, a_ending);
+            damageResistanceString = ValueUtil::getValueWithCapIfNeeded(damageResistance, a_cap, a_ending);
         }
 
         return damageResistanceString;
@@ -238,7 +258,7 @@ private:
                     logger::debug("Is Armor Spell {}, magnitude{}, formid {}"sv,
                         effect->GetBaseObject()->GetName(),
                         effect->magnitude,
-                        intToHex(formid));
+                        StringUtil::intToHex(formid));
                     return effect->magnitude;
                 }
             }

@@ -1,6 +1,7 @@
 #pragma once
 
 class FactionItem {
+    using FactionMenuValue = MenuUtil::FactionMenuValue;
 public:
     FactionItem(std::string a_gui_text, FactionMenuValue a_faction_menu)
         : _guiText(a_gui_text), _factionMenu(a_faction_menu) {}

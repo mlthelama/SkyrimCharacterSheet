@@ -8,7 +8,7 @@
 
 class FactionData {
     using FactionItemMap = std::map<FactionValue, std::unique_ptr<FactionItem>>;
-
+    using FactionMenuValue = MenuUtil::FactionMenuValue;
 public:
     static FactionData* GetSingleton() {
         static FactionData singleton;
@@ -33,8 +33,9 @@ public:
             champion->getChampions();
         }
 
-        auto factionSettings = FactionSetting::GetSingleton();
-        auto factionSettingMap = factionSettings->load();
+        /*auto factionSettings = FactionSetting::GetSingleton();
+        auto factionSettingMap = factionSettings->load();*/
+        auto factionSettingMap = FactionSetting::GetSingleton()->load();
         logger::debug("Config Map Size is {}"sv, factionSettingMap.size());
 
         for (auto& element : factionSettingMap) {
@@ -43,7 +44,7 @@ public:
 
             factionConfig->logStatConfig(factionValue);
 
-            if (!factionConfig->getShow()) {
+            if (!factionConfig->getShow() || (factionConfig->getMenu() == FactionMenuValue::mNone)) {
                 continue;
             }
             std::string valueText = "";

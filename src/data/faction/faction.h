@@ -30,9 +30,12 @@ public:
                 auto rankData(a_faction->rankData);
 
                 if (_constFactionMap.find(formID) == _constFactionMap.end()) {
-                    logger::trace("name {}, formId {}, rank {} not handeled"sv, name, intToHex(formID), a_rank);
+                    logger::trace("name {}, formId {}, rank {} not handeled"sv,
+                        name,
+                        StringUtil::intToHex(formID),
+                        a_rank);
                 } else {
-                    logger::trace("name {}, formId {}, rank {}"sv, name, intToHex(formID), a_rank);
+                    logger::trace("name {}, formId {}, rank {}"sv, name, StringUtil::intToHex(formID), a_rank);
                     std::string rank;
 
                     for (auto it = rankData.begin(); it != rankData.end(); ++it) {
@@ -109,6 +112,19 @@ public:
 private:
     valueStringMap _factionRankList;
 
+    //0x00072834 //blades, player might not be in there
+    inline static std::map<RE::FormID, FactionValue> _constFactionMap = { { 0x00048362, FactionValue::companions },
+        { 0x0001BDB3, FactionValue::darkbrotherHood },
+        { 0x0001F259, FactionValue::collegeOfWinterhold },
+        { 0x00024029, FactionValue::orcFriend },
+        { 0x00029DA9, FactionValue::thiefsGuild },
+        { 0x0002BF9A, FactionValue::imperialLegion },
+        { 0x0002BF9B, FactionValue::stormcloaks },
+        { 0x0002C6C8, FactionValue::greybeard },
+        { 0x02003376, FactionValue::volkiharVampireClan },
+        { 0x02014217, FactionValue::dawnguard },
+        { 0x04019B8A, FactionValue::houseTelvanni } };
+
     void logMap() {
         for (const auto& item : _factionRankList) { logger::trace("faction {}, rank {}"sv, item.first, item.second); }
     }
@@ -128,8 +144,9 @@ private:
 
     std::string getGraybeardRank() { return *Settings::ysmirRank; }
 
+    //handle jagged crown switch
     std::string getImperialLegionRank() {
-        auto rank = _constUndefined;
+        auto rank = _constStringEmpty;
         if (RE::TESForm::LookupByID(0x000D517A)->As<RE::TESQuest>()->currentStage == 200) {
             // 	CW01A
             rank = *Settings::auxiliaryRank;
@@ -167,8 +184,9 @@ private:
         return rank;
     }
 
+    //handle jagged crown switch
     std::string getStormcloaksRank() {
-        auto rank = _constUndefined;
+        auto rank = _constStringEmpty;
 
         if (RE::TESForm::LookupByID(0x000E2D29)->As<RE::TESQuest>()->currentStage == 200) {
             // 	CW01B

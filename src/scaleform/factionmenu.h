@@ -5,6 +5,9 @@
 #include "data/factiondata.h"
 
 namespace Scaleform {
+    using FactionMenuValue = MenuUtil::FactionMenuValue;
+    using ShowMenu = MenuUtil::ShowMenu;
+
     class FactionMenu : public RE::IMenu {
     public:
         static constexpr std::string_view MENU_NAME = "ShowFactions";
@@ -58,7 +61,7 @@ namespace Scaleform {
                         a_def->GetWidth());
                     a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
                 });
-            logResolution();
+            MenuUtil::logResolution();
             logger::debug("Loading Menu {} was successful {}"sv, FILE_NAME, success);
             assert(success);
             _view = menu->uiMovie;
@@ -180,7 +183,7 @@ namespace Scaleform {
             a_field.Visible(true);
         }
 
-        void UpdateTitle() { UpdateText(_title, getMenuName(ShowMenu::mFaction)); }
+        void UpdateTitle() { UpdateText(_title, MenuUtil::getMenuName(_menu)); }
 
         void UpdateHeaders() {
             UpdateText(_factionHeader, static_cast<std::string_view>(*Settings::showFactionsTitleFaction));
@@ -230,7 +233,7 @@ namespace Scaleform {
             UpdateText(_prev, "");
         }
 
-        void UpdatePrev() { UpdateText(_prev, getPrevMenuName(ShowMenu::mFaction)); }
+        void UpdatePrev() { UpdateText(_prev, MenuUtil::getPrevMenuName(_menu)); }
 
         void UpdateMenuValues() {
             auto factioninfo = FactionData::GetSingleton();
@@ -291,5 +294,7 @@ namespace Scaleform {
             { FactionMenuValue::mThane, _thaneItemListProvider },
             { FactionMenuValue::mChampion, _championItemListProvider },
         };
+
+        ShowMenu _menu = ShowMenu::mFaction;
     };
 }

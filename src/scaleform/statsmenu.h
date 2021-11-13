@@ -5,6 +5,9 @@
 #include "data/playerdata.h"
 
 namespace Scaleform {
+    using StatsMenuValue = MenuUtil::StatsMenuValue;
+    using ShowMenu = MenuUtil::ShowMenu;
+
     class StatsMenu : public RE::IMenu {
     public:
         static constexpr std::string_view MENU_NAME = "ShowStats";
@@ -59,7 +62,7 @@ namespace Scaleform {
                         a_def->GetWidth());
                     a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
                 });
-            logResolution();
+            MenuUtil::logResolution();
             logger::debug("Loading Menu {} was successful {}"sv, FILE_NAME, success);
             assert(success);
             _view = menu->uiMovie;
@@ -198,7 +201,7 @@ namespace Scaleform {
             a_field.Visible(true);
         }
 
-        void UpdateTitle() { UpdateText(_title, getMenuName(ShowMenu::mStats)); }
+        void UpdateTitle() { UpdateText(_title, MenuUtil::getMenuName(_menu)); }
 
         void UpdateHeaders() {
             UpdateText(_valuesHeader, static_cast<std::string_view>(*Settings::showStatsTitlePlayer));
@@ -263,11 +266,11 @@ namespace Scaleform {
             UpdateText(_next, "");
         }
 
-        void UpdateNext() { UpdateText(_next, getNextMenuName(ShowMenu::mStats)); }
+        void UpdateNext() { UpdateText(_next, MenuUtil::getNextMenuName(_menu)); }
 
         void UpdateMenuValues() {
             auto playerinfo = PlayerData::GetSingleton();
-            auto values = playerinfo->getValuesToDisplay();
+            auto values = playerinfo->getValuesToDisplay(_menu);
 
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
 
@@ -275,7 +278,7 @@ namespace Scaleform {
                 auto statValue = element.first;
                 auto statItem = element.second.get();
 
-                statItem->logStatItem(statValue);
+                statItem->logStatItem(statValue, _menu);
 
                 if (statItem->getGuiText().empty() || statItem->getGuiText() == "") {
                     continue;
@@ -364,5 +367,7 @@ namespace Scaleform {
             { StatsMenuValue::mWarrior, _perksWarriorItemListProvider },
             { StatsMenuValue::mThief, _perksThiefItemListProvider },
         };
+
+        ShowMenu _menu = ShowMenu::mStats;
     };
 }
