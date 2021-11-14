@@ -4,6 +4,7 @@ class StatItem {
     using StatsMenuValue = MenuUtil::StatsMenuValue;
     using ShowMenu = MenuUtil::ShowMenu;
     using StatsInventoryMenuValue = MenuUtil::StatsInventoryMenuValue;
+
 public:
     StatItem(std::string a_gui_text, StatsMenuValue a_stats_menu) : _guiText(a_gui_text), _statsMenu(a_stats_menu) {}
 

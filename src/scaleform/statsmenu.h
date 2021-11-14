@@ -269,9 +269,7 @@ namespace Scaleform {
         void UpdateNext() { UpdateText(_next, MenuUtil::getNextMenuName(_menu)); }
 
         void UpdateMenuValues() {
-            auto playerinfo = PlayerData::GetSingleton();
-            auto values = playerinfo->getValuesToDisplay(_menu);
-
+            auto values = PlayerData::GetSingleton()->getValuesToDisplay(_menu);
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
 
             for (auto& element : values) {

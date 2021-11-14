@@ -575,5 +575,4 @@ struct Settings {
     static inline sSetting showStatsInventoryTitleArmor{ "showStatsInventoryTitle"s, "armor"s, _constUndefined };
     static inline sSetting showStatsInventoryTitleWeapon{ "showStatsInventoryTitle"s, "weapon"s, _constUndefined };
     static inline sSetting showStatsInventoryTitleEffect{ "showStatsInventoryTitle"s, "effect"s, _constUndefined };
-
 };

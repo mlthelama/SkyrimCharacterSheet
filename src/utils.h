@@ -274,5 +274,10 @@ namespace QuestUtil {
         return isQuestStageComplete(qst, a_stage);
     }
 
+    static bool isOneQuestStageComplete(RE::FormID a_form_id, std::vector<uint32_t> a_stages) {
+        auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
+        return isOneQuestStageComplete(qst, a_stages);
+    }
+
     static uint32_t getAs(int a_i) { return static_cast<uint32_t>(a_i); }
 }

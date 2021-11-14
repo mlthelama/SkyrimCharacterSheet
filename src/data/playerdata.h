@@ -20,9 +20,6 @@ public:
 
         auto player = RE::PlayerCharacter::GetSingleton();
 
-        /*auto statSettings = StatSetting::GetSingleton();
-        auto statSettingMap = statSettings->load();*/
-
         auto statSettingMap = StatSetting::GetSingleton()->load();
         logger::debug("Config Map Size is {}"sv, statSettingMap.size());
 

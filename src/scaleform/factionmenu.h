@@ -236,8 +236,7 @@ namespace Scaleform {
         void UpdatePrev() { UpdateText(_prev, MenuUtil::getPrevMenuName(_menu)); }
 
         void UpdateMenuValues() {
-            auto factioninfo = FactionData::GetSingleton();
-            auto values = factioninfo->getValuesToDisplay();
+            auto values = FactionData::GetSingleton()->getValuesToDisplay();
 
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
 

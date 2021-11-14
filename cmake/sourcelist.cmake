@@ -11,6 +11,7 @@ set(sources ${sources}
 	src/data/faction/champion.h
 	src/data/faction/faction.h
 	src/data/faction/factionitem.h
+	src/data/faction/quest/civilwar.h
 	src/data/faction/thane.h
 	src/data/factiondata.h
 	src/data/playerdata.h

@@ -1,4 +1,5 @@
 #pragma once
+#include "data/faction/quest/civilwar.h"
 
 class Faction {
 public:
@@ -61,10 +62,10 @@ public:
                             rank = getGraybeardRank();
                             break;
                         case FactionValue::imperialLegion:
-                            rank = getImperialLegionRank();
+                            rank = CivilWar::GetSingleton()->getImperialLegionRank();
                             break;
                         case FactionValue::stormcloaks:
-                            rank = getStormcloaksRank();
+                            rank = CivilWar::GetSingleton()->getStormcloakRank();
                             break;
                         case FactionValue::volkiharVampireClan:
                             rank = getVolkiharVampireClanRank();
@@ -90,7 +91,7 @@ public:
         });
 
         //MS05
-        if (RE::TESForm::LookupByID(0x00053511)->As<RE::TESQuest>()->currentStage == 300) {
+        if (QuestUtil::isQuestStageComplete(0x00053511, QuestUtil::getAs(300))) {
             //"Bard"
             _factionRankList.insert(std::pair<FactionValue, std::string>(FactionValue::bard, *Settings::bardRank));
         }
@@ -125,106 +126,22 @@ private:
         { 0x02014217, FactionValue::dawnguard },
         { 0x04019B8A, FactionValue::houseTelvanni } };
 
+
     void logMap() {
         for (const auto& item : _factionRankList) { logger::trace("faction {}, rank {}"sv, item.first, item.second); }
     }
 
     std::string getDarkBrotherhoodRank() {
         auto rank = *Settings::assassinRank;
-        auto dbquest = RE::TESForm::LookupByID(0x0001EA59);  //hail sithis
-        if (dbquest != nullptr) {
-            auto qst = dbquest->As<RE::TESQuest>();
-            auto stage = qst->currentStage;
-            if (stage == 200 || stage == 255) {
-                rank = *Settings::listenerRank;
-            }
+        //hail sithis
+        if (QuestUtil::isOneQuestStageComplete(0x0001EA59,
+                std::vector{ QuestUtil::getAs(200), QuestUtil::getAs(255) })) {
+            rank = *Settings::listenerRank;
         }
         return rank;
     }
 
     std::string getGraybeardRank() { return *Settings::ysmirRank; }
-
-    //handle jagged crown switch
-    std::string getImperialLegionRank() {
-        auto rank = _constStringEmpty;
-        if (RE::TESForm::LookupByID(0x000D517A)->As<RE::TESQuest>()->currentStage == 200) {
-            // 	CW01A
-            rank = *Settings::auxiliaryRank;
-
-            //CWSiegeObj
-            auto quaestorQuest = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>()->currentStage;
-            if (quaestorQuest == 9000 || quaestorQuest == 9999) {
-                rank = *Settings::quaestorRank;
-
-                //CWMission03
-                //CWFortSiegeFort
-                auto praefectQuestReq = RE::TESForm::LookupByID(0x0003BCC4)->As<RE::TESQuest>()->currentStage;
-                auto praefectQuest = RE::TESForm::LookupByID(0x00083042)->As<RE::TESQuest>()->currentStage;
-                if ((praefectQuestReq == 200 || praefectQuestReq == 255) &&
-                    (praefectQuest == 9000 || praefectQuest == 9999)) {
-                    rank = *Settings::praefectRank;
-
-                    //CWMission07
-                    //CWFortSiegeFort
-                    auto tribuneQuestReq = RE::TESForm::LookupByID(0x000504F0)->As<RE::TESQuest>()->currentStage;
-                    auto tribuneQuest = RE::TESForm::LookupByID(0x00083042)->As<RE::TESQuest>()->currentStage;
-                    if ((tribuneQuestReq == 200 || tribuneQuestReq == 255) &&
-                        (tribuneQuest == 9000 || tribuneQuest == 9999)) {
-                        rank = *Settings::tribuneRank;
-
-                        //CWMission04
-                        auto legateQuest = RE::TESForm::LookupByID(0x00035A23)->As<RE::TESQuest>()->currentStage;
-                        if (legateQuest == 200 || legateQuest == 255) {
-                            rank = *Settings::legateRank;
-                        }
-                    }
-                }
-            }
-        }
-        return rank;
-    }
-
-    //handle jagged crown switch
-    std::string getStormcloaksRank() {
-        auto rank = _constStringEmpty;
-
-        if (RE::TESForm::LookupByID(0x000E2D29)->As<RE::TESQuest>()->currentStage == 200) {
-            // 	CW01B
-            rank = *Settings::unbloodedRank;
-
-            //CWSiegeObj
-            auto iceVeinsQuest = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>()->currentStage;
-            if (iceVeinsQuest == 9000 || iceVeinsQuest == 9999) {
-                rank = *Settings::iceVeinsRank;
-
-                //CWMission04
-                auto boneBreakerQuest = RE::TESForm::LookupByID(0x00035A23)->As<RE::TESQuest>()->currentStage;
-                if (boneBreakerQuest == 200 || boneBreakerQuest == 255) {
-                    rank = *Settings::boneBreakerRank;
-
-                    //CWMission07
-                    //CWFortSiegeFort
-                    auto snowHammerQuestReq = RE::TESForm::LookupByID(0x000504F0)->As<RE::TESQuest>()->currentStage;
-                    auto snowHammerQuest = RE::TESForm::LookupByID(0x00083042)->As<RE::TESQuest>()->currentStage;
-                    if ((snowHammerQuestReq == 200 || snowHammerQuestReq == 255) &&
-                        (snowHammerQuest == 9000 || snowHammerQuest == 9999)) {
-                        rank = *Settings::snowHammerRank;
-
-                        //CWMission03
-                        //CWFortSiegeFort
-                        auto stormbladeQuestReq = RE::TESForm::LookupByID(0x0003BCC4)->As<RE::TESQuest>()->currentStage;
-                        auto stormbladeQuest = RE::TESForm::LookupByID(0x00083042)->As<RE::TESQuest>()->currentStage;
-                        if ((stormbladeQuestReq == 200 || stormbladeQuestReq == 255) &&
-                            (stormbladeQuest == 9000 || stormbladeQuest == 9999)) {
-                            rank = *Settings::stormbladeRank;
-                        }
-                    }
-                }
-            }
-        }
-
-        return rank;
-    }
 
     std::string getVolkiharVampireClanRank() { return *Settings::vampireLordRank; }
 

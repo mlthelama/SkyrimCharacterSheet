@@ -2,6 +2,7 @@
 
 class FactionConfig {
     using FactionMenuValue = MenuUtil::FactionMenuValue;
+
 public:
     FactionConfig(std::string a_display_name, bool a_show, FactionMenuValue a_menu)
         : _displayName(a_display_name), _show(a_show), _menu(a_menu), _displayIsValue(false) {}
