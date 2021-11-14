@@ -8,11 +8,11 @@ set(sources ${sources}
 	src/CLIK/TextField.h
 	src/PCH.h
 	src/constants.h
-	src/data/faction/champion.h
-	src/data/faction/faction.h
 	src/data/faction/factionitem.h
+	src/data/faction/provider/champion.h
+	src/data/faction/provider/faction.h
+	src/data/faction/provider/thane.h
 	src/data/faction/quest/civilwar.h
-	src/data/faction/thane.h
 	src/data/factiondata.h
 	src/data/playerdata.h
 	src/data/stats/statitem.h

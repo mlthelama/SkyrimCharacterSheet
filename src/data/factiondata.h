@@ -1,8 +1,8 @@
 #pragma once
-#include "data/faction/champion.h"
-#include "data/faction/faction.h"
 #include "data/faction/factionitem.h"
-#include "data/faction/thane.h"
+#include "data/faction/provider/champion.h"
+#include "data/faction/provider/faction.h"
+#include "data/faction/provider/thane.h"
 #include "settings/stats/factionsettings.h"
 
 

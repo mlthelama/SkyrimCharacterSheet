@@ -184,8 +184,8 @@ namespace ValueUtil {
 }
 
 namespace VectorUtil {
-    static std::vector<uint32_t> getIntersect(std::vector<uint32_t>& a_vec_first, std::vector<uint32_t>& a_vec_second) {
-        std::vector<uint32_t> intersectionVector;
+    static std::vector<uint16_t> getIntersect(std::vector<uint16_t>& a_vec_first, std::vector<uint16_t>& a_vec_second) {
+        std::vector<uint16_t> intersectionVector;
 
         std::sort(a_vec_first.begin(), a_vec_first.end());
         std::sort(a_vec_second.begin(), a_vec_second.end());
@@ -198,7 +198,7 @@ namespace VectorUtil {
         return intersectionVector;
     }
 
-    static std::string getDelimitedString(std::vector<uint32_t>& a_vec) {
+    static std::string getDelimitedString(std::vector<uint16_t>& a_vec) {
         auto deliString =
             a_vec.empty() ?
                 "" :
@@ -214,8 +214,8 @@ namespace VectorUtil {
 }
 
 namespace QuestUtil {
-    static std::vector<uint32_t> getStagesIfComplete(RE::TESQuest* a_quest) {
-        std::vector<uint32_t> finStages;
+    static std::vector<uint16_t> getStagesIfComplete(RE::TESQuest* a_quest) {
+        std::vector<uint16_t> finStages;
 
         //all favour quests finish at 25 execpt rift = 20
         auto hex = StringUtil::intToHex(a_quest->GetFormID());
@@ -231,7 +231,7 @@ namespace QuestUtil {
             logger::trace("index {}, flag {}"sv, 1);
             //if (qstdata.flags.get() == RE::QUEST_STAGE_DATA::Flag::kStartUpStage) {
             if (qstdata.flags.underlying() == 1) {
-                finStages.push_back(static_cast<uint32_t>(qstdata.index));
+                finStages.push_back(qstdata.index);
             }
         }
 
@@ -242,13 +242,13 @@ namespace QuestUtil {
             auto qstdata = i->data;
             logger::trace("index {}, flag {}"sv, qstdata.index, qstdata.flags.get());
             if (qstdata.flags.underlying() == 1) {
-                finStages.push_back(static_cast<uint32_t>(qstdata.index));
+                finStages.push_back(qstdata.index);
             }
         }
         return finStages;
     }
 
-    static bool isOneQuestStageComplete(RE::TESQuest* a_quest, std::vector<uint32_t> a_stages) {
+    static bool isOneQuestStageComplete(RE::TESQuest* a_quest, std::vector<uint16_t> a_stages) {
         auto finStages = getStagesIfComplete(a_quest);
         auto intersect = VectorUtil::getIntersect(finStages, a_stages);
         auto hex = StringUtil::intToHex(a_quest->GetFormID());
@@ -265,19 +265,19 @@ namespace QuestUtil {
         return intersect.size() > 0 ? true : false;
     }
 
-    static bool isQuestStageComplete(RE::TESQuest* a_quest, uint32_t a_stage) {
+    static bool isQuestStageComplete(RE::TESQuest* a_quest, uint16_t a_stage) {
         return isOneQuestStageComplete(a_quest, std::vector{ a_stage });
     }
 
-    static bool isQuestStageComplete(RE::FormID a_form_id, uint32_t a_stage) {
+    static bool isQuestStageComplete(RE::FormID a_form_id, uint16_t a_stage) {
         auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
         return isQuestStageComplete(qst, a_stage);
     }
 
-    static bool isOneQuestStageComplete(RE::FormID a_form_id, std::vector<uint32_t> a_stages) {
+    static bool isOneQuestStageComplete(RE::FormID a_form_id, std::vector<uint16_t> a_stages) {
         auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
         return isOneQuestStageComplete(qst, a_stages);
     }
 
-    static uint32_t getAs(int a_i) { return static_cast<uint32_t>(a_i); }
+    static uint16_t getAs(int a_i) { return static_cast<uint16_t>(a_i); }
 }

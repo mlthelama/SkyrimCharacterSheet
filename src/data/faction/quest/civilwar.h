@@ -96,7 +96,7 @@ private:
         }
     }
 
-    inline static std::map<ImperialRank, std::map<RE::FormID, std::vector<uint32_t>>> _imperialQuestStageMap = {
+    inline static std::map<ImperialRank, std::map<RE::FormID, std::vector<uint16_t>>> _imperialQuestStageMap = {
         { ImperialRank::auxiliary, { { 0x000D517A, std::vector{ QuestUtil::getAs(200) } } } },
         { ImperialRank::quaestor, { { 0x00096E71, std::vector{ QuestUtil::getAs(9000), QuestUtil::getAs(9999) } } } },
         { ImperialRank::praefect,
@@ -133,7 +133,7 @@ private:
         }
     }
 
-    inline static std::map<StormcloakRank, std::map<RE::FormID, std::vector<uint32_t>>> _stormcloakQuestStageMap = {
+    inline static std::map<StormcloakRank, std::map<RE::FormID, std::vector<uint16_t>>> _stormcloakQuestStageMap = {
         { StormcloakRank::unblooded, { { 0x000E2D29, std::vector{ QuestUtil::getAs(200) } } } },
         { StormcloakRank::iceVeins, { { 0x00096E71, std::vector{ QuestUtil::getAs(9000), QuestUtil::getAs(9999) } } } },
         { StormcloakRank::boneBreaker,

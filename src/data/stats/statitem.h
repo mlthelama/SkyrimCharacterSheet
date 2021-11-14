@@ -27,6 +27,6 @@ public:
 
 private:
     std::string _guiText;
-    StatsMenuValue _statsMenu;
-    StatsInventoryMenuValue _statsInventoryMenu;
+    StatsMenuValue _statsMenu = StatsMenuValue::mNone;
+    StatsInventoryMenuValue _statsInventoryMenu = StatsInventoryMenuValue::mNone;
 };

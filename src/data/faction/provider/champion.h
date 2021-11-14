@@ -64,10 +64,10 @@ private:
     sheogorath, 0002AC68 200 -
     vaermina 000242AF 200 -
     */
-    static const uint32_t _stage100 = 100;
-    static const uint32_t _stage200 = 200;
+    static const uint16_t _stage100 = 100;
+    static const uint16_t _stage200 = 200;
 
-    inline static std::map<FactionValue, std::map<RE::FormID, std::vector<uint32_t>>> _championQuestStageMap = {
+    inline static std::map<FactionValue, std::map<RE::FormID, std::vector<uint16_t>>> _championQuestStageMap = {
         { FactionValue::azura, { { 0x00028AD6, std::vector{ _stage100 } } } },
         { FactionValue::boethiah, { { 0x0004D8D6, std::vector{ QuestUtil::getAs(50), _stage100 } } } },
         { FactionValue::clavicusVile, { { 0x0001BFC4, std::vector{ _stage200, QuestUtil::getAs(205) } } } },

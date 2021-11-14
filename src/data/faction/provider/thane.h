@@ -75,16 +75,16 @@ public:
 private:
     valueStringMap _thaneList;
 
-    static const uint32_t _stage25 = 25;
+    static const uint16_t _stage25 = 25;
 
-    inline static std::map<FactionValue, std::map<RE::FormID, uint32_t>> _thaneQuestStageMap = {
+    inline static std::map<FactionValue, std::map<RE::FormID, uint16_t>> _thaneQuestStageMap = {
         { FactionValue::thaneOfEastmarch, { { 0x000A2CA6, _stage25 } } },
         { FactionValue::thaneOfFalkreath, { { 0x000A34DE, _stage25 } } },
         { FactionValue::thaneOfHaafingar, { { 0x000A2C9B, _stage25 } } },
         { FactionValue::thaneOfHjaalmarch, { { 0x000A34CE, _stage25 } } },
         { FactionValue::thaneOfThePale, { { 0x000A34D4, _stage25 } } },
         { FactionValue::thaneOfTheReach, { { 0x000A2C86, _stage25 } } },
-        { FactionValue::thaneOfTheRift, { { 0x000A2C86, QuestUtil::getAs(20) } } },  //rift quest is special
+        { FactionValue::thaneOfTheRift, { { 0x00065BDF, QuestUtil::getAs(20) } } },  //rift quest is special
         { FactionValue::thaneOfWhiterun,
             { { 0x000A2C9E, _stage25 } } },  //just if stormcloaks won the war, otherwise MQ104/0002610C/160
         { FactionValue::thaneOfWinterhold, { { 0x000A34D7, _stage25 } } }
