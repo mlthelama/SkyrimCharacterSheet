@@ -16,11 +16,12 @@ public:
     }
 
     void getChampions() {
+        _championList.clear();
         for (const auto& champion : _championQuestStageMap) {
             auto championValue = champion.first;
             for (const auto& formid : champion.second) {
                 auto qst = RE::TESForm::LookupByID(formid.first)->As<RE::TESQuest>();
-                logger::trace("Champion {] working with formid {}"sv, championValue, StringUtil::intToHex(qst));
+                logger::trace("Champion {} working with formid {}"sv, championValue, StringUtil::intToHex(qst));
                 auto questDone = QuestUtil::isOneQuestStageComplete(qst, formid.second);
                 if (questDone) {
                     logger::trace("Champion of {}"sv, championValue);

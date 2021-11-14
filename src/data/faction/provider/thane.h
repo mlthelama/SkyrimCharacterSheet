@@ -16,6 +16,7 @@ public:
     }
 
     void getRegionThanes() {
+        _thaneList.clear();
         for (const auto& thane : _thaneQuestStageMap) {
             auto thaneValue = thane.first;
             for (const auto& formid : thane.second) {
