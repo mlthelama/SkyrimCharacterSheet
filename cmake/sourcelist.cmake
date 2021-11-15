@@ -7,7 +7,6 @@ set(sources ${sources}
 	src/CLIK/Object.h
 	src/CLIK/TextField.h
 	src/PCH.h
-	src/constants.h
 	src/data/faction/factionitem.h
 	src/data/faction/provider/champion.h
 	src/data/faction/provider/faction.h
@@ -18,6 +17,9 @@ set(sources ${sources}
 	src/data/stats/statitem.h
 	src/events.cpp
 	src/events.h
+	src/events/keymanager.h
+	src/events/menumanager.h
+	src/handler/showhandler.h
 	src/main.cpp
 	src/scaleform/factionmenu.h
 	src/scaleform/scaleform.cpp
@@ -27,6 +29,6 @@ set(sources ${sources}
 	src/settings/settings.h
 	src/settings/stats/factionsettings.h
 	src/settings/stats/statssettings.h
-	src/showhandler.h
-	src/utils.h
+	src/utils/constants.h
+	src/utils/utils.h
 )

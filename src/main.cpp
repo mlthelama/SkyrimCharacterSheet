@@ -1,4 +1,5 @@
 #include "events.h"
+#include "events/keymanager.h"
 #include "scaleform/scaleform.h"
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
@@ -7,6 +8,7 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
             logger::info("Data loaded"sv);
             Events::SinkEventHandlers();
             Scaleform::Register();
+            KeyManager::GetSingleton()->SetKey(*Settings::openMenuButton);
             break;
     }
 }
@@ -90,11 +92,6 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
         if (!messaging->RegisterListener("SKSE", MessageHandler)) {
             return false;
         }
-
-        /*auto keyManager = Events::KeyManager::GetSingleton();
-        keyManager->SetKey(*Settings::openMenuButton);*/
-
-        Events::KeyManager::GetSingleton()->SetKey(*Settings::openMenuButton);
 
         logger::info("ShowStats loaded"sv);
     } catch (const std::exception& e) {
