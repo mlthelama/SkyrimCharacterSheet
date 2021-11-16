@@ -22,10 +22,11 @@ set(sources ${sources}
 	src/events/menumanager.h
 	src/handler/showhandler.h
 	src/main.cpp
-	src/scaleform/factionmenu.h
+	src/scaleform/menus/factionmenu.h
+	src/scaleform/menus/statsinventorymenu.h
+	src/scaleform/menus/statsmenu.h
 	src/scaleform/scaleform.cpp
 	src/scaleform/scaleform.h
-	src/scaleform/statsmenu.h
 	src/settings/gamesettings.h
 	src/settings/settings.h
 	src/settings/stats/factionsettings.h

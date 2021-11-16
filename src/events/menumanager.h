@@ -1,6 +1,7 @@
 #include "handler/showhandler.h"
-#include "scaleform/factionmenu.h"
-#include "scaleform/statsmenu.h"
+#include "scaleform/menus/factionmenu.h"
+#include "scaleform/menus/statsmenu.h"
+#include "scaleform/menus/statsinventorymenu.h"
 
 class MenuManager : public RE::BSTEventSink<RE::MenuOpenCloseEvent> {
 public:
@@ -32,8 +33,12 @@ public:
             }
 
             if (a_event->menuName == RE::InventoryMenu::MENU_NAME && *Settings::showInventoryStatsAutoOpen) {
-                //show statsinventorymenu here,
+                showHandler->HandleInventoryStatsOpen();
             }
+        }
+
+        if (!a_event->opening && a_event->menuName == RE::InventoryMenu::MENU_NAME) {
+            ShowHandler::GetSingleton()->CloseWindow(ShowMenu::mStatsInventory);
         }
 
         return EventResult::kContinue;

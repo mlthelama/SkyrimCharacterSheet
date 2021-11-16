@@ -1,8 +1,10 @@
 #pragma once
+#include "handler/showhandler.h"
 
 class EquipManager : public RE::BSTEventSink<RE::TESEquipEvent> {
 public:
     using EventResult = RE::BSEventNotifyControl;
+    using ShowMenu = MenuUtil::ShowMenu;
 
     static EquipManager* GetSingleton() {
         static EquipManager singleton;
@@ -23,6 +25,10 @@ public:
         if (formid->IsArmor() || formid->IsWeapon() || formid->IsAmmo()) {
             logger::trace("Player {} {}"sv, (a_event->equipped ? "equipped" : "unequipped"), formid->GetName());
             //if menu is open trigger reload of data
+            auto showHandler = ShowHandler::GetSingleton();
+            if (showHandler->IsMenuOpen(ShowMenu::mStatsInventory)) {
+                showHandler->HandleInventoryStatsUpdate();
+            }
         }
 
         return EventResult::kContinue;

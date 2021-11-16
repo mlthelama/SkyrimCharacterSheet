@@ -107,6 +107,7 @@ public:
         }
 
         logger::debug("Display Map Size is {}"sv, fimp.size());
+        clearLists(thane, faction, champion);
         for (auto& element : factionSettingMap) { element.second.reset(); }
         factionSettingMap.clear();
         return fimp;
@@ -121,4 +122,10 @@ private:
 
     FactionData& operator=(const FactionData&) = delete;
     FactionData& operator=(FactionData&&) = delete;
+
+    void clearLists(Thane* a_thane, Faction* a_faction, Champion* a_champion) {
+        a_thane->clearList();
+        a_faction->clearList();
+        a_champion->clearList();
+    }
 };

@@ -18,12 +18,12 @@ public:
     }
 
     void getRegionThanes() {
-        _thaneList.clear();
+        clearList();
         for (const auto& thane : _thaneQuestStageMap) {
             auto thaneValue = thane.first;
             for (const auto& formid : thane.second) {
                 auto qst = RE::TESForm::LookupByID(formid.first)->As<RE::TESQuest>();
-                logger::trace("Thane {] working with formid {}"sv, thaneValue, StringUtil::intToHex(qst));
+                logger::trace("Thane {} working with formid {}"sv, thaneValue, StringUtil::intToHex(qst));
                 auto isThane = false;
 
                 auto qstDone = QuestUtil::isQuestStageComplete(qst, formid.second);
@@ -65,6 +65,8 @@ public:
         logger::trace("got {} items in thane list."sv, _thaneList.size());
         logMap();
     }
+
+    void clearList() { _thaneList.clear(); }
 
 private:
     Thane() = default;

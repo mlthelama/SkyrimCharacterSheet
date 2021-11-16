@@ -242,7 +242,8 @@ namespace Scaleform {
 
                 factionItem->logStatItem(factionValue);
 
-                if (factionItem->getGuiText().empty() || factionItem->getGuiText() == "") {
+                if (factionItem->getGuiText().empty() || factionItem->getGuiText() == "" ||
+                    factionItem->getFactionMenu() == FactionMenuValue::mNone) {
                     continue;
                 }
 
@@ -255,6 +256,7 @@ namespace Scaleform {
                         factionItem->getGuiText());
                 }
             }
+            //TODO set Count Values
             for (auto& element : values) { element.second.reset(); }
             values.clear();
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());

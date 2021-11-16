@@ -43,110 +43,6 @@ struct Settings {
     static inline sSetting showStatsTitleThief{ "showStatsTitle"s, "thief"s, _constUndefined };
     static inline sSetting showStatsTitleWarrior{ "showStatsTitle"s, "warrior"s, _constUndefined };
 
-    static inline bSetting name{ "showStats"s, "name"s, true };
-    static inline bSetting race{ "showStats"s, "race"s, true };
-    static inline bSetting level{ "showStats"s, "level"s, true };
-    static inline bSetting perkCount{ "showStats"s, "perkCount"s, true };
-    static inline bSetting height{ "showStats"s, "height"s, true };
-    static inline bSetting equipedWeight{ "showStats"s, "equipedWeight"s, true };
-    static inline bSetting weight{ "showStats"s, "weight"s, true };
-    static inline bSetting armor{ "showStats"s, "armor"s, true };
-    static inline bSetting damage{ "showStats"s, "damage"s, true };
-    static inline bSetting skillTrainingsThisLevel{ "showStats"s, "skillTrainingsThisLevel"s, true };
-    static inline bSetting health{ "showStats"s, "health"s, true };
-    static inline bSetting healthRate{ "showStats"s, "healthRatePer"s, true };
-    static inline bSetting magicka{ "showStats"s, "magicka"s, true };
-    static inline bSetting magickaRate{ "showStats"s, "magickaRatePer"s, true };
-    static inline bSetting stamina{ "showStats"s, "stamina"s, true };
-    static inline bSetting staminaRate{ "showStats"s, "staminaRatePer"s, true };
-    static inline bSetting resistDamage{ "showStats"s, "resistDamage"s, true };
-    static inline bSetting resistDisease{ "showStats"s, "resistDisease"s, true };
-    static inline bSetting resistPoison{ "showStats"s, "resistPoison"s, true };
-    static inline bSetting resistFire{ "showStats"s, "resistFire"s, true };
-    static inline bSetting resistShock{ "showStats"s, "resistShock"s, true };
-    static inline bSetting resistFrost{ "showStats"s, "resistFrost"s, true };
-    static inline bSetting resistMagic{ "showStats"s, "resistMagic"s, true };
-    static inline bSetting oneHanded{ "showStats"s, "oneHanded"s, true };
-    static inline bSetting twoHanded{ "showStats"s, "twoHanded"s, true };
-    static inline bSetting archery{ "showStats"s, "archery"s, true };
-    static inline bSetting block{ "showStats"s, "block"s, true };
-    static inline bSetting smithing{ "showStats"s, "smithing"s, true };
-    static inline bSetting heavyArmor{ "showStats"s, "heavyArmor"s, true };
-    static inline bSetting lightArmor{ "showStats"s, "lightArmor"s, true };
-    static inline bSetting pickpocket{ "showStats"s, "pickpocket"s, true };
-    static inline bSetting lockpicking{ "showStats"s, "lockpicking"s, true };
-    static inline bSetting sneak{ "showStats"s, "sneak"s, true };
-    static inline bSetting alchemy{ "showStats"s, "alchemy"s, true };
-    static inline bSetting speech{ "showStats"s, "speech"s, true };
-    static inline bSetting enchanting{ "showStats"s, "enchanting"s, true };
-    static inline bSetting alteration{ "showStats"s, "alteration"s, true };
-    static inline bSetting conjuration{ "showStats"s, "conjuration"s, true };
-    static inline bSetting destruction{ "showStats"s, "destruction"s, true };
-    static inline bSetting illusion{ "showStats"s, "illusion"s, true };
-    static inline bSetting restoration{ "showStats"s, "restoration"s, true };
-    static inline bSetting oneHandedPowerMod{ "showStats"s, "oneHandedPowerMod"s, true };
-    static inline bSetting twoHandedPowerMod{ "showStats"s, "twoHandedPowerMod"s, true };
-    static inline bSetting archeryPowerMod{ "showStats"s, "archeryPowerMod"s, true };
-    static inline bSetting blockPowerMod{ "showStats"s, "blockPowerMod"s, true };
-    static inline bSetting smithingPowerMod{ "showStats"s, "smithingPowerMod"s, true };
-    static inline bSetting heavyArmorPowerMod{ "showStats"s, "heavyArmorPowerMod"s, true };
-    static inline bSetting lightArmorPowerMod{ "showStats"s, "lightArmorPowerMod"s, true };
-    static inline bSetting pickpocketPowerMod{ "showStats"s, "pickpocketPowerMod"s, true };
-    static inline bSetting lockpickingPowerMod{ "showStats"s, "lockpickingPowerMod"s, true };
-    static inline bSetting sneakPowerMod{ "showStats"s, "sneakPowerMod"s, true };
-    static inline bSetting alchemyPowerMod{ "showStats"s, "alchemyPowerMod"s, true };
-    static inline bSetting speechPowerMod{ "showStats"s, "speechPowerMod"s, true };
-    static inline bSetting enchantingPowerMod{ "showStats"s, "enchantingPowerMod"s, true };
-    static inline bSetting alterationPowerMod{ "showStats"s, "alterationPowerMod"s, true };
-    static inline bSetting conjurationPowerMod{ "showStats"s, "conjurationPowerMod"s, true };
-    static inline bSetting destructionPowerMod{ "showStats"s, "destructionPowerMod"s, true };
-    static inline bSetting illusionPowerMod{ "showStats"s, "illusionPowerMod"s, true };
-    static inline bSetting restorationPowerMod{ "showStats"s, "restorationPowerMod"s, true };
-    static inline bSetting speedMult{ "showStats"s, "speedMult"s, true };
-    static inline bSetting inventoryWeight{ "showStats"s, "inventoryWeight"s, true };
-    static inline bSetting carryWeight{ "showStats"s, "carryWeight"s, true };
-    static inline bSetting criticalChance{ "showStats"s, "criticalChance"s, true };
-    static inline bSetting meleeDamage{ "showStats"s, "meleeDamage"s, true };
-    static inline bSetting unarmedDamage{ "showStats"s, "unarmedDamage"s, true };
-    static inline bSetting absorbChance{ "showStats"s, "absorbChance"s, true };
-    static inline bSetting weaponSpeedMult{ "showStats"s, "weaponSpeedMult"s, true };
-    static inline bSetting bowSpeedBonus{ "showStats"s, "bowSpeedBonus"s, true };
-    static inline bSetting shoutRecoveryMult{ "showStats"s, "shoutRecoveryMult"s, true };
-    static inline bSetting movementNoiseMult{ "showStats"s, "movementNoiseMult"s, true };
-    static inline bSetting dragonSouls{ "showStats"s, "dragonSouls"s, true };
-    static inline bSetting combatHealthRegenMultiply{ "showStats"s, "combatHealthRegenMultiply"s, true };
-    static inline bSetting attackDamageMult{ "showStats"s, "attackDamageMult"s, true };
-    static inline bSetting beast{ "showStats"s, "beast"s, true };
-    static inline bSetting xp{ "showStats"s, "xp"s, true };
-    static inline bSetting reflectDamage{ "showStats"s, "reflectDamage"s, true };
-    static inline bSetting oneHandedMod{ "showStats"s, "oneHandedMod"s, true };
-    static inline bSetting twoHandedMod{ "showStats"s, "twoHandedMod"s, true };
-    static inline bSetting archeryMod{ "showStats"s, "archeryMod"s, true };
-    static inline bSetting blockMod{ "showStats"s, "blockMod"s, true };
-    static inline bSetting smithingMod{ "showStats"s, "smithingMod"s, true };
-    static inline bSetting heavyArmorMod{ "showStats"s, "heavyArmorMod"s, true };
-    static inline bSetting lightArmorMod{ "showStats"s, "lightArmorMod"s, true };
-    static inline bSetting pickpocketMod{ "showStats"s, "pickpocketMod"s, true };
-    static inline bSetting lockpickingMod{ "showStats"s, "lockpickingMod"s, true };
-    static inline bSetting sneakMod{ "showStats"s, "sneakMod"s, true };
-    static inline bSetting alchemyMod{ "showStats"s, "alchemyMod"s, true };
-    static inline bSetting speechMod{ "showStats"s, "speechMod"s, true };
-    static inline bSetting enchantingMod{ "showStats"s, "enchantingMod"s, true };
-    static inline bSetting alterationMod{ "showStats"s, "alterationMod"s, true };
-    static inline bSetting conjurationMod{ "showStats"s, "conjurationMod"s, true };
-    static inline bSetting destructionMod{ "showStats"s, "destructionMod"s, true };
-    static inline bSetting illusionMod{ "showStats"s, "illusionMod"s, true };
-    static inline bSetting restorationMod{ "showStats"s, "restorationMod"s, true };
-    static inline bSetting damageArrow{ "showStats"s, "damageArrow"s, true };
-    static inline bSetting damageLeft{ "showStats"s, "damageLeft"s, true };
-    static inline bSetting leftWeaponSpeedMult{ "showStats"s, "leftWeaponSpeedMult"s, true };
-    static inline bSetting rightItemCharge{ "showStats"s, "rightItemCharge"s, true };
-    static inline bSetting leftItemCharge{ "showStats"s, "leftItemCharge"s, true };
-    static inline bSetting armorPerks{ "showStats"s, "armorPerks"s, true };
-    static inline bSetting mass{ "showStats"s, "mass"s, true };
-    static inline bSetting bowStaggerBonus{ "showStats"s, "bowStaggerBonus"s, true };
-    static inline bSetting bypassVendorKeywordCheck{ "showStats"s, "bypassVendorKeywordCheck"s, true };
-    static inline bSetting bypassVendorStolenCheck{ "showStats"s, "bypassVendorStolenCheck"s, true };
     //factions handeled by a general setting
 
     static inline sSetting nameString{ "showStatsName"s, "name"s, _constUndefined };
@@ -262,18 +158,11 @@ struct Settings {
         "bypassVendorStolenCheck"s,
         _constUndefined };
 
-    static inline sSetting nameStringEnding{ "showStatsEnding"s, "name"s, _constUndefined };
-    static inline sSetting raceStringEnding{ "showStatsEnding"s, "race"s, _constUndefined };
-    static inline sSetting levelStringEnding{ "showStatsEnding"s, "level"s, _constUndefined };
-    static inline sSetting perkCountStringEnding{ "showStatsEnding"s, "perkCount"s, _constUndefined };
     static inline sSetting heightStringEnding{ "showStatsEnding"s, "height"s, _constUndefined };
     static inline sSetting equipedWeightStringEnding{ "showStatsEnding"s, "equipedWeight"s, _constUndefined };
     static inline sSetting weightStringEnding{ "showStatsEnding"s, "weight"s, _constUndefined };
     static inline sSetting armorStringEnding{ "showStatsEnding"s, "armor"s, _constUndefined };
     static inline sSetting damageStringEnding{ "showStatsEnding"s, "damage"s, _constUndefined };
-    static inline sSetting skillTrainingsThisLevelStringEnding{ "showStatsEnding"s,
-        "skillTrainingsThisLevel"s,
-        _constUndefined };
     static inline sSetting healthStringEnding{ "showStatsEnding"s, "health"s, _constUndefined };
     static inline sSetting healthRateStringEnding{ "showStatsEnding"s, "healthRatePer"s, _constUndefined };
     static inline sSetting magickaStringEnding{ "showStatsEnding"s, "magicka"s, _constUndefined };
@@ -287,50 +176,6 @@ struct Settings {
     static inline sSetting resistShockStringEnding{ "showStatsEnding"s, "resistShock"s, _constUndefined };
     static inline sSetting resistFrostStringEnding{ "showStatsEnding"s, "resistFrost"s, _constUndefined };
     static inline sSetting resistMagicStringEnding{ "showStatsEnding"s, "resistMagic"s, _constUndefined };
-    static inline sSetting oneHandedStringEnding{ "showStatsEnding"s, "oneHanded"s, _constUndefined };
-    static inline sSetting twoHandedStringEnding{ "showStatsEnding"s, "twoHanded"s, _constUndefined };
-    static inline sSetting archeryStringEnding{ "showStatsEnding"s, "archery"s, _constUndefined };
-    static inline sSetting blockStringEnding{ "showStatsEnding"s, "block"s, _constUndefined };
-    static inline sSetting smithingStringEnding{ "showStatsEnding"s, "smithing"s, _constUndefined };
-    static inline sSetting heavyArmorStringEnding{ "showStatsEnding"s, "heavyArmor"s, _constUndefined };
-    static inline sSetting lightArmorStringEnding{ "showStatsEnding"s, "lightArmor"s, _constUndefined };
-    static inline sSetting pickpocketStringEnding{ "showStatsEnding"s, "pickpocket"s, _constUndefined };
-    static inline sSetting lockpickingStringEnding{ "showStatsEnding"s, "lockpicking"s, _constUndefined };
-    static inline sSetting sneakStringEnding{ "showStatsEnding"s, "sneak"s, _constUndefined };
-    static inline sSetting alchemyStringEnding{ "showStatsEnding"s, "alchemy"s, _constUndefined };
-    static inline sSetting speechStringEnding{ "showStatsEnding"s, "speech"s, _constUndefined };
-    static inline sSetting enchantingStringEnding{ "showStatsEnding"s, "enchanting"s, _constUndefined };
-    static inline sSetting alterationStringEnding{ "showStatsEnding"s, "alteration"s, _constUndefined };
-    static inline sSetting conjurationStringEnding{ "showStatsEnding"s, "conjuration"s, _constUndefined };
-    static inline sSetting destructionStringEnding{ "showStatsEnding"s, "destruction"s, _constUndefined };
-    static inline sSetting illusionStringEnding{ "showStatsEnding"s, "illusion"s, _constUndefined };
-    static inline sSetting restorationStringEnding{ "showStatsEnding"s, "restoration"s, _constUndefined };
-    static inline sSetting oneHandedPowerModStringEnding{ "showStatsEnding"s, "oneHandedPowerMod"s, _constUndefined };
-    static inline sSetting twoHandedPowerModStringEnding{ "showStatsEnding"s, "twoHandedPowerMod"s, _constUndefined };
-    static inline sSetting archeryPowerModStringEnding{ "showStatsEnding"s, "archeryPowerMod"s, _constUndefined };
-    static inline sSetting blockPowerModStringEnding{ "showStatsEnding"s, "blockPowerMod"s, _constUndefined };
-    static inline sSetting smithingPowerModStringEnding{ "showStatsEnding"s, "smithingPowerMod"s, _constUndefined };
-    static inline sSetting heavyArmorPowerModStringEnding{ "showStatsEnding"s, "heavyArmorPowerMod"s, _constUndefined };
-    static inline sSetting lightArmorPowerModStringEnding{ "showStatsEnding"s, "lightArmorPowerMod"s, _constUndefined };
-    static inline sSetting pickpocketPowerModStringEnding{ "showStatsEnding"s, "pickpocketPowerMod"s, _constUndefined };
-    static inline sSetting lockpickingPowerModStringEnding{ "showStatsEnding"s,
-        "lockpickingPowerMod"s,
-        _constUndefined };
-    static inline sSetting sneakPowerModStringEnding{ "showStatsEnding"s, "sneakPowerMod"s, _constUndefined };
-    static inline sSetting alchemyPowerModStringEnding{ "showStatsEnding"s, "alchemyPowerMod"s, _constUndefined };
-    static inline sSetting speechPowerModStringEnding{ "showStatsEnding"s, "speechPowerMod"s, _constUndefined };
-    static inline sSetting enchantingPowerModStringEnding{ "showStatsEnding"s, "enchantingPowerMod"s, _constUndefined };
-    static inline sSetting alterationPowerModStringEnding{ "showStatsEnding"s, "alterationPowerMod"s, _constUndefined };
-    static inline sSetting conjurationPowerModStringEnding{ "showStatsEnding"s,
-        "conjurationPowerMod"s,
-        _constUndefined };
-    static inline sSetting destructionPowerModStringEnding{ "showStatsEnding"s,
-        "destructionPowerMod"s,
-        _constUndefined };
-    static inline sSetting illusionPowerModStringEnding{ "showStatsEnding"s, "illusionPowerMod"s, _constUndefined };
-    static inline sSetting restorationPowerModStringEnding{ "showStatsEnding"s,
-        "restorationPowerMod"s,
-        _constUndefined };
     static inline sSetting speedMultStringEnding{ "showStatsEnding"s, "speedMult"s, _constUndefined };
     static inline sSetting inventoryWeightStringEnding{ "showStatsEnding"s, "inventoryWeight"s, _constUndefined };
     static inline sSetting carryWeightStringEnding{ "showStatsEnding"s, "carryWeight"s, _constUndefined };
@@ -347,8 +192,6 @@ struct Settings {
         "combatHealthRegenMultiply"s,
         _constUndefined };
     static inline sSetting attackDamageMultStringEnding{ "showStatsEnding"s, "attackDamageMult"s, _constUndefined };
-    static inline sSetting beastStringEnding{ "showStatsEnding"s, "beast"s, _constUndefined };
-    static inline sSetting xpStringEnding{ "showStatsEnding"s, "xp"s, _constUndefined };
     static inline sSetting reflectDamageStringEnding{ "showStatsEnding"s, "reflectDamage"s, _constUndefined };
     static inline sSetting oneHandedModStringEnding{ "showStatsEnding"s, "oneHandedMod"s, _constUndefined };
     static inline sSetting twoHandedModStringEnding{ "showStatsEnding"s, "twoHandedMod"s, _constUndefined };
@@ -378,12 +221,6 @@ struct Settings {
     static inline sSetting armorPerksStringEnding{ "showStatsEnding"s, "armorPerks"s, _constUndefined };
     static inline sSetting massStringEnding{ "showStatsEnding"s, "mass"s, _constUndefined };
     static inline sSetting bowStaggerBonusStringEnding{ "showStatsEnding"s, "bowStaggerBonus"s, _constUndefined };
-    static inline sSetting bypassVendorKeywordCheckStringEnding{ "showStatsEnding"s,
-        "bypassVendorKeywordCheck"s,
-        _constUndefined };
-    static inline sSetting bypassVendorStolenCheckStringEnding{ "showStatsEnding"s,
-        "bypassVendorStolenCheck"s,
-        _constUndefined };
     //factions do not need a ending
 
     static inline iSetting heightMenu{ "showStatsMenu"s, "height"s, 0 };
@@ -573,7 +410,103 @@ struct Settings {
     static inline sSetting vaerminaName{ "showFactionsChampionName"s, "vaermina"s, _constUndefined };
 
     static inline sSetting showStatsInventoryTitleTitle{ "showStatsInventoryTitle"s, "title"s, _constUndefined };
+    static inline sSetting showStatsInventoryTitleEquip{ "showStatsInventoryTitle"s, "equip"s, _constUndefined };
     static inline sSetting showStatsInventoryTitleArmor{ "showStatsInventoryTitle"s, "armor"s, _constUndefined };
     static inline sSetting showStatsInventoryTitleWeapon{ "showStatsInventoryTitle"s, "weapon"s, _constUndefined };
     static inline sSetting showStatsInventoryTitleEffect{ "showStatsInventoryTitle"s, "effect"s, _constUndefined };
+
+    static inline bSetting showStatsInventorydisplayZero{ "showStatsInventorySpecial"s, "displayZero"s, true };
+
+    static inline iSetting equipedWeightMenuInventory{ "showStatsInventoryMenu"s, "equipedWeight"s, 0 };
+    static inline iSetting armorMenuInventory{ "showStatsInventoryMenu"s, "armor"s, 0 };
+    static inline iSetting damageMenuInventory{ "showStatsInventoryMenu"s, "damage"s, 0 };
+    static inline iSetting healthMenuInventory{ "showStatsInventoryMenu"s, "health"s, 0 };
+    static inline iSetting healthRateMenuInventory{ "showStatsInventoryMenu"s, "healthRatePer"s, 0 };
+    static inline iSetting magickaMenuInventory{ "showStatsInventoryMenu"s, "magicka"s, 0 };
+    static inline iSetting magickaRateMenuInventory{ "showStatsInventoryMenu"s, "magickaRatePer"s, 0 };
+    static inline iSetting staminaMenuInventory{ "showStatsInventoryMenu"s, "stamina"s, 0 };
+    static inline iSetting staminaRateMenuInventory{ "showStatsInventoryMenu"s, "staminaRatePer"s, 0 };
+    static inline iSetting resistDamageMenuInventory{ "showStatsInventoryMenu"s, "resistDamage"s, 0 };
+    static inline iSetting resistDiseaseMenuInventory{ "showStatsInventoryMenu"s, "resistDisease"s, 0 };
+    static inline iSetting resistPoisonMenuInventory{ "showStatsInventoryMenu"s, "resistPoison"s, 0 };
+    static inline iSetting resistFireMenuInventory{ "showStatsInventoryMenu"s, "resistFire"s, 0 };
+    static inline iSetting resistShockMenuInventory{ "showStatsInventoryMenu"s, "resistShock"s, 0 };
+    static inline iSetting resistFrostMenuInventory{ "showStatsInventoryMenu"s, "resistFrost"s, 0 };
+    static inline iSetting resistMagicMenuInventory{ "showStatsInventoryMenu"s, "resistMagic"s, 0 };
+    static inline iSetting oneHandedMenuInventory{ "showStatsInventoryMenu"s, "oneHanded"s, 0 };
+    static inline iSetting twoHandedMenuInventory{ "showStatsInventoryMenu"s, "twoHanded"s, 0 };
+    static inline iSetting archeryMenuInventory{ "showStatsInventoryMenu"s, "archery"s, 0 };
+    static inline iSetting blockMenuInventory{ "showStatsInventoryMenu"s, "block"s, 0 };
+    static inline iSetting smithingMenuInventory{ "showStatsInventoryMenu"s, "smithing"s, 0 };
+    static inline iSetting heavyArmorMenuInventory{ "showStatsInventoryMenu"s, "heavyArmor"s, 0 };
+    static inline iSetting lightArmorMenuInventory{ "showStatsInventoryMenu"s, "lightArmor"s, 0 };
+    static inline iSetting pickpocketMenuInventory{ "showStatsInventoryMenu"s, "pickpocket"s, 0 };
+    static inline iSetting lockpickingMenuInventory{ "showStatsInventoryMenu"s, "lockpicking"s, 0 };
+    static inline iSetting sneakMenuInventory{ "showStatsInventoryMenu"s, "sneak"s, 0 };
+    static inline iSetting alchemyMenuInventory{ "showStatsInventoryMenu"s, "alchemy"s, 0 };
+    static inline iSetting speechMenuInventory{ "showStatsInventoryMenu"s, "speech"s, 0 };
+    static inline iSetting enchantingMenuInventory{ "showStatsInventoryMenu"s, "enchanting"s, 0 };
+    static inline iSetting alterationMenuInventory{ "showStatsInventoryMenu"s, "alteration"s, 0 };
+    static inline iSetting conjurationMenuInventory{ "showStatsInventoryMenu"s, "conjuration"s, 0 };
+    static inline iSetting destructionMenuInventory{ "showStatsInventoryMenu"s, "destruction"s, 0 };
+    static inline iSetting illusionMenuInventory{ "showStatsInventoryMenu"s, "illusion"s, 0 };
+    static inline iSetting restorationMenuInventory{ "showStatsInventoryMenu"s, "restoration"s, 0 };
+    static inline iSetting oneHandedPowerModMenuInventory{ "showStatsInventoryMenu"s, "oneHandedPowerMod"s, 0 };
+    static inline iSetting twoHandedPowerModMenuInventory{ "showStatsInventoryMenu"s, "twoHandedPowerMod"s, 0 };
+    static inline iSetting archeryPowerModMenuInventory{ "showStatsInventoryMenu"s, "archeryPowerMod"s, 0 };
+    static inline iSetting blockPowerModMenuInventory{ "showStatsInventoryMenu"s, "blockPowerMod"s, 0 };
+    static inline iSetting smithingPowerModMenuInventory{ "showStatsInventoryMenu"s, "smithingPowerMod"s, 0 };
+    static inline iSetting heavyArmorPowerModMenuInventory{ "showStatsInventoryMenu"s, "heavyArmorPowerMod"s, 0 };
+    static inline iSetting lightArmorPowerModMenuInventory{ "showStatsInventoryMenu"s, "lightArmorPowerMod"s, 0 };
+    static inline iSetting pickpocketPowerModMenuInventory{ "showStatsInventoryMenu"s, "pickpocketPowerMod"s, 0 };
+    static inline iSetting lockpickingPowerModMenuInventory{ "showStatsInventoryMenu"s, "lockpickingPowerMod"s, 0 };
+    static inline iSetting sneakPowerModMenuInventory{ "showStatsInventoryMenu"s, "sneakPowerMod"s, 0 };
+    static inline iSetting alchemyPowerModMenuInventory{ "showStatsInventoryMenu"s, "alchemyPowerMod"s, 0 };
+    static inline iSetting speechPowerModMenuInventory{ "showStatsInventoryMenu"s, "speechPowerMod"s, 0 };
+    static inline iSetting enchantingPowerModMenuInventory{ "showStatsInventoryMenu"s, "enchantingPowerMod"s, 0 };
+    static inline iSetting alterationPowerModMenuInventory{ "showStatsInventoryMenu"s, "alterationPowerMod"s, 0 };
+    static inline iSetting conjurationPowerModMenuInventory{ "showStatsInventoryMenu"s, "conjurationPowerMod"s, 0 };
+    static inline iSetting destructionPowerModMenuInventory{ "showStatsInventoryMenu"s, "destructionPowerMod"s, 0 };
+    static inline iSetting illusionPowerModMenuInventory{ "showStatsInventoryMenu"s, "illusionPowerMod"s, 0 };
+    static inline iSetting restorationPowerModMenuInventory{ "showStatsInventoryMenu"s, "restorationPowerMod"s, 0 };
+    static inline iSetting speedMultMenuInventory{ "showStatsInventoryMenu"s, "speedMult"s, 0 };
+    static inline iSetting inventoryWeightMenuInventory{ "showStatsInventoryMenu"s, "inventoryWeight"s, 0 };
+    static inline iSetting carryWeightMenuInventory{ "showStatsInventoryMenu"s, "carryWeight"s, 0 };
+    static inline iSetting criticalChanceMenuInventory{ "showStatsInventoryMenu"s, "criticalChance"s, 0 };
+    static inline iSetting meleeDamageMenuInventory{ "showStatsInventoryMenu"s, "meleeDamage"s, 0 };
+    static inline iSetting unarmedDamageMenuInventory{ "showStatsInventoryMenu"s, "unarmedDamage"s, 0 };
+    static inline iSetting absorbChanceMenuInventory{ "showStatsInventoryMenu"s, "absorbChance"s, 0 };
+    static inline iSetting weaponSpeedMultMenuInventory{ "showStatsInventoryMenu"s, "weaponSpeedMult"s, 0 };
+    static inline iSetting bowSpeedBonusMenuInventory{ "showStatsInventoryMenu"s, "bowSpeedBonus"s, 0 };
+    static inline iSetting shoutRecoveryMultMenuInventory{ "showStatsInventoryMenu"s, "shoutRecoveryMult"s, 0 };
+    static inline iSetting movementNoiseMultMenuInventory{ "showStatsInventoryMenu"s, "movementNoiseMult"s, 0 };
+    static inline iSetting attackDamageMultMenuInventory{ "showStatsInventoryMenu"s, "attackDamageMult"s, 0 };
+    static inline iSetting reflectDamageMenuInventory{ "showStatsInventoryMenu"s, "reflectDamage"s, 0 };
+    static inline iSetting oneHandedModMenuInventory{ "showStatsInventoryMenu"s, "oneHandedMod"s, 0 };
+    static inline iSetting twoHandedModMenuInventory{ "showStatsInventoryMenu"s, "twoHandedMod"s, 0 };
+    static inline iSetting archeryModMenuInventory{ "showStatsInventoryMenu"s, "archeryMod"s, 0 };
+    static inline iSetting blockModMenuInventory{ "showStatsInventoryMenu"s, "blockMod"s, 0 };
+    static inline iSetting smithingModMenuInventory{ "showStatsInventoryMenu"s, "smithingMod"s, 0 };
+    static inline iSetting heavyArmorModMenuInventory{ "showStatsInventoryMenu"s, "heavyArmorMod"s, 0 };
+    static inline iSetting lightArmorModMenuInventory{ "showStatsInventoryMenu"s, "lightArmorMod"s, 0 };
+    static inline iSetting pickpocketModMenuInventory{ "showStatsInventoryMenu"s, "pickpocketMod"s, 0 };
+    static inline iSetting lockpickingModMenuInventory{ "showStatsInventoryMenu"s, "lockpickingMod"s, 0 };
+    static inline iSetting sneakModMenuInventory{ "showStatsInventoryMenu"s, "sneakMod"s, 0 };
+    static inline iSetting alchemyModMenuInventory{ "showStatsInventoryMenu"s, "alchemyMod"s, 0 };
+    static inline iSetting speechModMenuInventory{ "showStatsInventoryMenu"s, "speechMod"s, 0 };
+    static inline iSetting enchantingModMenuInventory{ "showStatsInventoryMenu"s, "enchantingMod"s, 0 };
+    static inline iSetting alterationModMenuInventory{ "showStatsInventoryMenu"s, "alterationMod"s, 0 };
+    static inline iSetting conjurationModMenuInventory{ "showStatsInventoryMenu"s, "conjurationMod"s, 0 };
+    static inline iSetting destructionModMenuInventory{ "showStatsInventoryMenu"s, "destructionMod"s, 0 };
+    static inline iSetting illusionModMenuInventory{ "showStatsInventoryMenu"s, "illusionMod"s, 0 };
+    static inline iSetting restorationModMenuInventory{ "showStatsInventoryMenu"s, "restorationMod"s, 0 };
+    static inline iSetting damageArrowMenuInventory{ "showStatsInventoryMenu"s, "damageArrow"s, 0 };
+    static inline iSetting damageLeftMenuInventory{ "showStatsInventoryMenu"s, "damageLeft"s, 0 };
+    static inline iSetting leftWeaponSpeedMultMenuInventory{ "showStatsInventoryMenu"s, "leftWeaponSpeedMult"s, 0 };
+    static inline iSetting rightItemChargeMenuInventory{ "showStatsInventoryMenu"s, "rightItemCharge"s, 0 };
+    static inline iSetting leftItemChargeMenuInventory{ "showStatsInventoryMenu"s, "leftItemCharge"s, 0 };
+    static inline iSetting armorPerksMenuInventory{ "showStatsInventoryMenu"s, "armorPerks"s, 0 };
+    static inline iSetting massMenuInventory{ "showStatsInventoryMenu"s, "mass"s, 0 };
+    static inline iSetting bowStaggerBonusMenuInventory{ "showStatsInventoryMenu"s, "bowStaggerBonus"s, 0 };
+
 };

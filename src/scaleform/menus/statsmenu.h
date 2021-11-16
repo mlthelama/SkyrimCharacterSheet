@@ -273,7 +273,8 @@ namespace Scaleform {
 
                 statItem->logStatItem(statValue, _menu);
 
-                if (statItem->getGuiText().empty() || statItem->getGuiText() == "") {
+                if (statItem->getGuiText().empty() || statItem->getGuiText() == "" ||
+                    statItem->getStatsMenu() == StatsMenuValue::mNone) {
                     continue;
                 }
 
@@ -297,7 +298,7 @@ namespace Scaleform {
                         UpdateText(_xp, statItem->getGuiText());
                         break;
                     default:
-                        if (statItem->getStatsMenu() != StatsMenuValue::mNone) {
+                        if (statItem->getStatsMenu() != StatsMenuValue::mSpecial) {
                             _menuMap.find(statItem->getStatsMenu())
                                 ->second.PushBack(buildGFxValue(statItem->getGuiText()));
                             logger::trace("added to Menu {}, Name {}, GuiText ({})"sv,

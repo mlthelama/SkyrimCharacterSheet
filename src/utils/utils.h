@@ -30,12 +30,12 @@ namespace StringUtil {
 }
 
 namespace MenuUtil {
-    static enum class ShowMenu { mStats, mFaction, mInventoryStats };
+    static enum class ShowMenu { mStats, mFaction, mStatsInventory };
 
     static std::map<ShowMenu, std::string_view> menuName = {
         { ShowMenu::mStats, static_cast<std::string_view>(*Settings::showStatsTitleTitle) },
         { ShowMenu::mFaction, static_cast<std::string_view>(*Settings::showFactionsTitleTitle) },
-        { ShowMenu::mInventoryStats, static_cast<std::string_view>(*Settings::showStatsInventoryTitleTitle) }
+        { ShowMenu::mStatsInventory, static_cast<std::string_view>(*Settings::showStatsInventoryTitleTitle) }
     };
 
     static enum class StatsMenuValue {
@@ -45,7 +45,8 @@ namespace MenuUtil {
         mAttack = 3,
         mMagic = 4,
         mWarrior = 5,
-        mThief = 6
+        mThief = 6,
+        mSpecial = 7 //header or bottom
     };
 
     /* config can not work with enums, so lets map it*/
@@ -57,6 +58,7 @@ namespace MenuUtil {
         { static_cast<int64_t>(StatsMenuValue::mMagic), StatsMenuValue::mMagic },
         { static_cast<int64_t>(StatsMenuValue::mWarrior), StatsMenuValue::mWarrior },
         { static_cast<int64_t>(StatsMenuValue::mThief), StatsMenuValue::mThief },
+        { static_cast<int64_t>(StatsMenuValue::mSpecial), StatsMenuValue::mSpecial }
     };
 
     static enum class FactionMenuValue { mNone = 0, mFaction = 1, mThane = 2, mChampion = 3 };
@@ -69,11 +71,12 @@ namespace MenuUtil {
         { static_cast<int64_t>(FactionMenuValue::mChampion), FactionMenuValue::mChampion },
     };
 
-    static enum class StatsInventoryMenuValue { mNone = 0, mArmor = 1, mWeapon = 2, mEffect = 3 };
+    static enum class StatsInventoryMenuValue { mNone = 0, mEquip = 1, mArmor = 2, mWeapon = 3, mEffect = 4 };
 
     /* config can not work with enums, so lets map it*/
     inline static std::map<int64_t, StatsInventoryMenuValue> _constConfigStatsInventoryMenu = {
         { static_cast<int64_t>(StatsInventoryMenuValue::mNone), StatsInventoryMenuValue::mNone },
+        { static_cast<int64_t>(StatsInventoryMenuValue::mEquip), StatsInventoryMenuValue::mEquip },
         { static_cast<int64_t>(StatsInventoryMenuValue::mArmor), StatsInventoryMenuValue::mArmor },
         { static_cast<int64_t>(StatsInventoryMenuValue::mWeapon), StatsInventoryMenuValue::mWeapon },
         { static_cast<int64_t>(StatsInventoryMenuValue::mEffect), StatsInventoryMenuValue::mEffect },
@@ -111,7 +114,7 @@ namespace MenuUtil {
     static StatsInventoryMenuValue getStatsInventoryMenu(int64_t a_menu_id) {
         //in case the config value does not match
         if (_constConfigStatsInventoryMenu.find(a_menu_id) == _constConfigStatsInventoryMenu.end()) {
-            logger::warn("({}) can not find Menu {}"sv, getMenuName(ShowMenu::mInventoryStats), a_menu_id);
+            logger::warn("({}) can not find Menu {}"sv, getMenuName(ShowMenu::mStatsInventory), a_menu_id);
             return StatsInventoryMenuValue::mNone;
         } else {
             return _constConfigStatsInventoryMenu.find(a_menu_id)->second;
@@ -155,6 +158,7 @@ namespace MenuUtil {
         const auto* const state = RE::BSGraphics::State::GetSingleton();
         logger::trace("Screen Resolution {}x{}"sv, state->screenWidth, state->screenHeight);
     }
+
     static int64_t getMultiplier(int64_t a_mp) {
         if (a_mp < 0) {
             logger::warn("multiplier value {} not supported, using 1"sv, a_mp);

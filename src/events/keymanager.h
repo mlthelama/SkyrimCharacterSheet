@@ -1,7 +1,7 @@
 #pragma once
 #include "handler/showhandler.h"
-#include "scaleform/factionmenu.h"
-#include "scaleform/statsmenu.h"
+#include "scaleform/menus/factionmenu.h"
+#include "scaleform/menus/statsmenu.h"
 
 class KeyManager : public RE::BSTEventSink<RE::InputEvent*> {
 public:

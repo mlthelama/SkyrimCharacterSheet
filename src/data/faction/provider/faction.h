@@ -19,7 +19,7 @@ public:
     }
 
     void getFactions(RE::Actor* a_actor) {
-        _factionRankList.clear();
+        clearList();
         auto actorSex = a_actor->GetActorBase()->GetSex();
         auto rankDefault = "Member";
 
@@ -101,6 +101,8 @@ public:
         logger::trace("got {} items in faction list."sv, _factionRankList.size());
         logMap();
     }
+
+    void clearList() { _factionRankList.clear(); }
 
 private:
     Faction() = default;

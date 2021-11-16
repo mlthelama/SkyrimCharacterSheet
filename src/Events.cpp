@@ -8,7 +8,7 @@ namespace Events {
         KeyManager::Sink();
         logger::info("Added Input Event"sv);
 
-        if (*Settings::closeOnOtherMenuOpen) {
+        if (*Settings::closeOnOtherMenuOpen || *Settings::showInventoryStats) {
             MenuManager::Sink();
             logger::info("Added Menu Event"sv);
         }

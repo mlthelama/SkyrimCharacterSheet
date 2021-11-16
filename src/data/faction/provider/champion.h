@@ -39,6 +39,8 @@ public:
         logMap();
     }
 
+    void clearList() { _championList.clear(); }
+
 private:
     Champion() = default;
     Champion(const Champion&) = delete;

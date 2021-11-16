@@ -7,6 +7,7 @@ class PlayerData {
     using StatsItemMap = std::map<StatsValue, std::unique_ptr<StatItem>>;
     using ShowMenu = MenuUtil::ShowMenu;
     using StatsInventoryMenuValue = MenuUtil::StatsInventoryMenuValue;
+    using StatsMenuValue = MenuUtil::StatsMenuValue;
 
 public:
     static PlayerData* GetSingleton() {
@@ -29,12 +30,13 @@ public:
 
             statConfig->logStatConfig(statValue);
 
-            if ((a_menu == ShowMenu::mStats && !statConfig->getShow()) ||
-                (a_menu == ShowMenu::mInventoryStats &&
-                    (!statConfig->getShow() ||
-                        statConfig->getStatsInventoryMenu() == StatsInventoryMenuValue::mNone))) {
+            if ((a_menu == ShowMenu::mStats && statConfig->getStatsMenu() == StatsMenuValue::mNone) ||
+                (a_menu == ShowMenu::mStatsInventory &&
+                    statConfig->getStatsInventoryMenu() == StatsInventoryMenuValue::mNone)) {
                 continue;
             }
+
+
             std::string valueText = "";
 
             switch (statValue) {
@@ -55,9 +57,6 @@ public:
                     break;
                 case StatsValue::equipedWeight:
                     valueText = StringUtil::getStringValueFromFloat(player->GetWeight());
-                    break;
-                case StatsValue::armor:
-                    valueText = StringUtil::getStringValueFromFloat(player->armorRating);
                     break;
                 case StatsValue::skillTrainingsThisLevel:
                     valueText = std::to_string(player->skillTrainingsThisLevel);
@@ -123,6 +122,11 @@ public:
                     break;
             }
 
+            if (valueText == "" || (!*Settings::showStatsInventorydisplayZero && valueText == "0" &&
+                                       a_menu == ShowMenu::mStatsInventory)) {
+                continue;
+            }
+
             if (valueText != "") {
                 if (a_menu == ShowMenu::mStats) {
                     simp[statValue] =
@@ -141,6 +145,9 @@ public:
             statSettingMap.size(),
             simp.size(),
             MenuUtil::getMenuName(a_menu));
+
+        getEquipment(player);
+
         return simp;
     }
 
@@ -235,7 +242,8 @@ private:
             }
         }
 
-        auto damageResistance = ValueUtil::calculateArmorDamageRes(a_player->armorRating, armorCount);
+        auto damageResistance =
+            ValueUtil::calculateArmorDamageRes(a_player->GetActorValue(RE::ActorValue::kDamageResist), armorCount);
         //auto dragonhide = getValueIfDragonhideIsAcitve(a_player);
         auto damageResistanceString = StringUtil::getStringValueFromFloat(damageResistance);
         logger::debug("Damage Resistance from Armor {}"sv, damageResistance);
@@ -254,7 +262,7 @@ private:
         if (!effects) {
             return 0;
         }
-
+        //a_player->currentProcess->middleHigh->activeEffects
         for (const auto& effect : *effects) {
             if (effect) {
                 auto formid = effect->GetBaseObject()->GetFormID();
@@ -270,4 +278,29 @@ private:
         }
         return 0;
     }
+
+
+    void getEquipment(RE::PlayerCharacter*& a_player) {
+        const auto inv = a_player->GetInventory([](RE::TESBoundObject& a_object) {
+            return (a_object.IsArmor());
+        });
+        for (const auto& [item, invData] : inv) {
+            const auto& [count, entry] = invData;
+            if (count > 0 && entry->IsWorn()) {
+                const auto armor = item->As<RE::TESObjectARMO>();
+                /* clothing does not count torwards reduction
+                *  as stated here http://en.uesp.net/wiki/Skyrim:Armor#Armor_Rating
+                */
+                /* if (armor->IsLightArmor() || armor->IsHeavyArmor() || armor->IsShield()) {
+                    logger::trace("Armor name {}, Rating {}"sv, armor->GetName(), armor->GetArmorRating());
+                }*/
+
+                //const auto slotMask = std::underlying_type_t<RE::BIPED_MODEL::BipedObjectSlot>(armor->GetSlotMask());
+                //armor->bipedModelData.bipedObjectSlots.
+                logger::trace("Armor name {}, Slot {}"sv, armor->GetName(), armor->GetSlotMask());
+
+            }
+        }
+    }
+
 };
