@@ -11,33 +11,29 @@ namespace Scaleform {
     class FactionMenu : public RE::IMenu {
     public:
         static constexpr std::string_view MENU_NAME = "ShowFactions";
-        static constexpr std::string_view FILE_NAME = "ShowFactions";
+        static constexpr std::string_view FILE_NAME = MENU_NAME;
 
         static void Register() {
-            auto ui = RE::UI::GetSingleton();
-            ui->Register(MENU_NAME, Creator);
+            RE::UI::GetSingleton()->Register(MENU_NAME, Creator);
             logger::info("Registered {}"sv, MENU_NAME);
         }
 
         static void Open() {
             if (!FactionMenu::IsMenuOpen()) {
                 logger::debug("Open Menu {}"sv, MENU_NAME);
-                auto msgQueue = RE::UIMessageQueue::GetSingleton();
-                msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kShow, nullptr);
+                RE::UIMessageQueue::GetSingleton()->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kShow, nullptr);
             }
         }
 
         static void Close() {
             if (FactionMenu::IsMenuOpen()) {
                 logger::debug("Close Menu {}"sv, MENU_NAME);
-                auto msgQueue = RE::UIMessageQueue::GetSingleton();
-                msgQueue->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
+                RE::UIMessageQueue::GetSingleton()->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
             }
         }
 
         static bool IsMenuOpen() {
-            auto ui = RE::UI::GetSingleton();
-            auto isOpen = ui->IsMenuOpen(MENU_NAME);
+            auto isOpen = RE::UI::GetSingleton()->IsMenuOpen(MENU_NAME);
             if (isOpen) {
                 logger::trace("Menu {} is open {}"sv, MENU_NAME, isOpen);
             }
@@ -55,10 +51,10 @@ namespace Scaleform {
                 FILE_NAME,
                 RE::BSScaleformManager::ScaleModeType::kExactFit,
                 [](RE::GFxMovieDef* a_def) -> void {
-                    logger::trace("FPS: {}, Height: {}, Width: {}"sv,
+                    logger::trace("FPS: {}, Width: {}, Height: {}"sv,
                         a_def->GetFrameRate(),
-                        a_def->GetHeight(),
-                        a_def->GetWidth());
+                        a_def->GetWidth(),
+                        a_def->GetHeight());
                     a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
                 });
             MenuUtil::logResolution();

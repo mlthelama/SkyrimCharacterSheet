@@ -1,5 +1,4 @@
 #include "events.h"
-#include "events/keymanager.h"
 #include "scaleform/scaleform.h"
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
@@ -8,7 +7,6 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
             logger::info("Data loaded"sv);
             Events::SinkEventHandlers();
             Scaleform::Register();
-            KeyManager::GetSingleton()->SetKey(*Settings::openMenuButton);
             break;
     }
 }

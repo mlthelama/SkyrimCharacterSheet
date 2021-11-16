@@ -130,7 +130,6 @@ public:
             gameSettings->getAndSetSettings();
         }
 
-        /*change to brace init*/
         mp[StatsValue::name] = std::make_unique<StatConfig>(ActorValue::kNone,
             *Settings::nameString,
             *Settings::nameStringEnding,

@@ -2,6 +2,8 @@
 #include "data/faction/quest/civilwar.h"
 
 class Faction {
+    using valueStringMap = std::map<FactionValue, std::string>;
+
 public:
     static Faction* GetSingleton() {
         static Faction singleton;
@@ -100,7 +102,7 @@ public:
         logMap();
     }
 
-
+private:
     Faction() = default;
     Faction(const Faction&) = delete;
     Faction(Faction&&) = delete;
@@ -110,7 +112,6 @@ public:
     Faction& operator=(const Faction&) = delete;
     Faction& operator=(Faction&&) = delete;
 
-private:
     valueStringMap _factionRankList;
 
     //0x00072834 //blades, player might not be in there

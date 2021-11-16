@@ -60,12 +60,18 @@ public:
         }
     }
 
-    bool IsMenuOpen() {
-        if (Scaleform::StatsMenu::IsMenuOpen() || Scaleform::FactionMenu::IsMenuOpen()) {
-            return true;
-        }
-        return false;
-    }
+    bool IsMenuOpen() { return (Scaleform::StatsMenu::IsMenuOpen() || Scaleform::FactionMenu::IsMenuOpen()); }
+
+    bool IsMenuOpen(std::string_view a_menu_name) { return RE::UI::GetSingleton()->IsMenuOpen(a_menu_name); }
+
+
+    ShowHandler() = default;
+    ShowHandler(const ShowHandler&) = delete;
+    ShowHandler(ShowHandler&&) = delete;
+    ~ShowHandler() = default;
+
+    ShowHandler& operator=(const ShowHandler&) = delete;
+    ShowHandler& operator=(ShowHandler&&) = delete;
 
 private:
     void ShowWindow(ShowMenu a_menu) {
@@ -82,12 +88,4 @@ private:
                 break;
         }
     }
-
-    ShowHandler() = default;
-    ShowHandler(const ShowHandler&) = delete;
-    ShowHandler(ShowHandler&&) = delete;
-    ~ShowHandler() = default;
-
-    ShowHandler& operator=(const ShowHandler&) = delete;
-    ShowHandler& operator=(ShowHandler&&) = delete;
 };

@@ -61,7 +61,7 @@ public:
         return rankName;
     }
 
-
+private:
     CivilWar() = default;
     CivilWar(const CivilWar&) = delete;
     CivilWar(CivilWar&&) = delete;
@@ -71,7 +71,8 @@ public:
     CivilWar& operator=(const CivilWar&) = delete;
     CivilWar& operator=(CivilWar&&) = delete;
 
-private:
+    const std::string _constStringEmpty = "";
+
     enum class ImperialRank {
         auxiliary,
         quaestor,

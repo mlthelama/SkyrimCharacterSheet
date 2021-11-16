@@ -18,6 +18,8 @@ public:
         using EventType = RE::INPUT_EVENT_TYPE;
         using DeviceType = RE::INPUT_DEVICE;
 
+        _key = static_cast<uint32_t>(*Settings::openMenuButton);
+
         if (_key == kInvalid) {
             return EventResult::kContinue;
         }
@@ -82,13 +84,9 @@ public:
         return EventResult::kContinue;
     }
 
-    void SetKey(uint64_t a_key) { _key = a_key; }
+    static void Sink() { RE::BSInputDeviceManager::GetSingleton()->AddEventSink(KeyManager::GetSingleton()); }
 
-    static void Sink() {
-        auto deviceManager = RE::BSInputDeviceManager::GetSingleton();
-        deviceManager->AddEventSink(KeyManager::GetSingleton());
-    }
-
+private:
     KeyManager() = default;
     KeyManager(const KeyManager&) = delete;
     KeyManager(KeyManager&&) = delete;
@@ -96,7 +94,7 @@ public:
 
     KeyManager& operator=(const KeyManager&) = delete;
     KeyManager& operator=(KeyManager&&) = delete;
-private:
+
     uint32_t GetGamepadIndex(RE::BSWin32GamepadDevice::Key a_key) {
         using Key = RE::BSWin32GamepadDevice::Key;
 
@@ -165,5 +163,5 @@ private:
         kGamepadOffset = 266
     };
 
-    uint64_t _key = kInvalid;
+    uint32_t _key = kInvalid;
 };

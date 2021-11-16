@@ -1,5 +1,4 @@
 #pragma once
-#include "utils/constants.h"
 
 struct Settings {
     using ISetting = AutoTOML::ISetting;
@@ -21,8 +20,10 @@ struct Settings {
         }
     }
 
+    static inline const char* _constUndefined = "<undef>";
+
     static inline iSetting logLevel{ "General"s, "logLevel"s, 0 };
-    static inline iSetting openMenuButton{ "General"s, "openMenuButton", 0 };
+    static inline iSetting openMenuButton{ "General"s, "openMenuButton", -1 };
     static inline bSetting closeOnOtherMenuOpen{ "General"s, "closeOnOtherMenuOpen"s, true };
     static inline bSetting showFactionMenu{ "General"s, "showFactionMenu"s, true };
     static inline iSetting openFactionMenuButton{ "General"s, "openNextMenuButton"s, 0 };

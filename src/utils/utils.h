@@ -158,7 +158,7 @@ namespace MenuUtil {
     static int64_t getMultiplier(int64_t a_mp) {
         if (a_mp < 0) {
             logger::warn("multiplier value {} not supported, using 1"sv, a_mp);
-            return 1;
+            return _constStaticMultiplier;
         } else {
             return a_mp;
         }
@@ -219,7 +219,6 @@ namespace QuestUtil {
 
         //all favour quests finish at 25 execpt rift = 20
         auto hex = StringUtil::intToHex(a_quest->GetFormID());
-        //auto complete = false;
         logger::debug("Questname ({}), formid {}, prio {}"sv, a_quest->GetName(), hex, a_quest->data.priority);
 
         //todo make util function if for checking stages
@@ -229,7 +228,6 @@ namespace QuestUtil {
             auto i = *it;
             auto qstdata = i.data;
             logger::trace("index {}, flag {}"sv, 1);
-            //if (qstdata.flags.get() == RE::QUEST_STAGE_DATA::Flag::kStartUpStage) {
             if (qstdata.flags.underlying() == 1) {
                 finStages.push_back(qstdata.index);
             }

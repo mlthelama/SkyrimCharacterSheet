@@ -25,6 +25,15 @@ public:
         }
     }
 
+    StatItem() = default;
+    StatItem(const StatItem&) = delete;
+    StatItem(StatItem&&) = delete;
+
+    ~StatItem() = default;
+
+    StatItem& operator=(const StatItem&) = delete;
+    StatItem& operator=(StatItem&&) = delete;
+
 private:
     std::string _guiText;
     StatsMenuValue _statsMenu = StatsMenuValue::mNone;

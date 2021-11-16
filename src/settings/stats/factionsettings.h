@@ -61,9 +61,11 @@ public:
     }
 
     FactionMap load() {
-        FactionMap mp;
-        /*change to brace init*/
         auto factionMenu = MenuUtil::getFactionMenu(*Settings::factionMenu);
+        auto thaneMenu = MenuUtil::getFactionMenu(*Settings::thaneMenu);
+        auto championMenu = MenuUtil::getFactionMenu(*Settings::championMenu);
+
+        FactionMap mp;
         mp[FactionValue::darkbrotherHood] =
             std::make_unique<FactionConfig>(*Settings::darkbrotherHoodString, *Settings::showFactions, factionMenu);
         mp[FactionValue::thiefsGuild] =
@@ -89,7 +91,6 @@ public:
         mp[FactionValue::houseTelvanni] =
             std::make_unique<FactionConfig>(*Settings::houseTelvanniString, *Settings::showFactions, factionMenu);
 
-        auto thaneMenu = MenuUtil::getFactionMenu(*Settings::thaneMenu);
         mp[FactionValue::thaneOfEastmarch] =
             std::make_unique<FactionConfig>(*Settings::thaneOfEastmarchName, *Settings::showThanes, thaneMenu, true);
         mp[FactionValue::thaneOfFalkreath] =
@@ -109,7 +110,6 @@ public:
         mp[FactionValue::thaneOfWinterhold] =
             std::make_unique<FactionConfig>(*Settings::thaneOfWinterholdName, *Settings::showThanes, thaneMenu, true);
 
-        auto championMenu = MenuUtil::getFactionMenu(*Settings::championMenu);
         mp[FactionValue::azura] =
             std::make_unique<FactionConfig>(*Settings::azuraName, *Settings::showChampion, championMenu, true);
         mp[FactionValue::clavicusVile] =

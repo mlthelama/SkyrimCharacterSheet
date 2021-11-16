@@ -17,6 +17,7 @@ set(sources ${sources}
 	src/data/stats/statitem.h
 	src/events.cpp
 	src/events.h
+	src/events/equipmanager.h
 	src/events/keymanager.h
 	src/events/menumanager.h
 	src/handler/showhandler.h

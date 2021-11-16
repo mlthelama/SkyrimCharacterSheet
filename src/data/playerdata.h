@@ -145,6 +145,15 @@ public:
     }
 
 private:
+    PlayerData() = default;
+    PlayerData(const PlayerData&) = delete;
+    PlayerData(PlayerData&&) = delete;
+
+    ~PlayerData() = default;
+
+    PlayerData& operator=(const PlayerData&) = delete;
+    PlayerData& operator=(PlayerData&&) = delete;
+
     std::string getBeast(float a_vamp, float a_were) {
         if (a_vamp > 0) {
             return *Settings::vampireString;
@@ -193,8 +202,7 @@ private:
 
         //could also get other weapon stats that way
         if (hand != nullptr) {
-            auto weapon = static_cast<RE::TESObjectWEAP*>(hand->GetObject());
-            speed = weapon->GetSpeed();
+            speed = static_cast<RE::TESObjectWEAP*>(hand->GetObject())->GetSpeed();
             logger::trace("Name {}, Weapon Speed {}, Left {}"sv, hand->GetDisplayName(), speed, a_left);
         }
         return (speed == -1) ? "" : StringUtil::getStringValueFromFloat(speed);
@@ -262,13 +270,4 @@ private:
         }
         return 0;
     }
-
-    PlayerData() = default;
-    PlayerData(const PlayerData&) = delete;
-    PlayerData(PlayerData&&) = delete;
-
-    ~PlayerData() = default;
-
-    PlayerData& operator=(const PlayerData&) = delete;
-    PlayerData& operator=(PlayerData&&) = delete;
 };

@@ -148,14 +148,9 @@ enum class FactionValue {
     vaermina
 };
 
-const std::string _constUndefined = "<undef>";
-const std::string _constStringEmpty = "";
-
 constexpr int32_t _constLogTrace = 0;
 constexpr int32_t _constLogDebug = 1;
 constexpr int32_t _constLogInfo = 2;
-
-typedef std::map<FactionValue, std::string> valueStringMap;  //used in faction.h and thane.h
 
 constexpr auto _constStaticDisplayValue = "yes"sv;
 constexpr auto _constStaticMultiplier = 1;

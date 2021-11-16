@@ -1,4 +1,5 @@
 #include "events.h"
+#include "events/equipmanager.h"
 #include "events/keymanager.h"
 #include "events/menumanager.h"
 
@@ -10,6 +11,11 @@ namespace Events {
         if (*Settings::closeOnOtherMenuOpen) {
             MenuManager::Sink();
             logger::info("Added Menu Event"sv);
+        }
+
+        if (*Settings::showInventoryStats) {
+            EquipManager::Sink();
+            logger::info("Added Equip Event"sv);
         }
     }
 }

@@ -13,8 +13,8 @@ public:
     }
 
     static void Sink() {
-        auto ui = RE::UI::GetSingleton();
-        ui->AddEventSink(static_cast<RE::BSTEventSink<RE::MenuOpenCloseEvent>*>(MenuManager::GetSingleton()));
+        RE::UI::GetSingleton()->AddEventSink(
+            static_cast<RE::BSTEventSink<RE::MenuOpenCloseEvent>*>(MenuManager::GetSingleton()));
     }
 
     auto ProcessEvent(RE::MenuOpenCloseEvent const* a_event,
@@ -30,11 +30,16 @@ public:
             } else if (Scaleform::FactionMenu::IsMenuOpen() && a_event->menuName != Scaleform::FactionMenu::MENU_NAME) {
                 showHandler->CloseWindow(ShowMenu::mFaction);
             }
+
+            if (a_event->menuName == RE::InventoryMenu::MENU_NAME && *Settings::showInventoryStatsAutoOpen) {
+                //show statsinventorymenu here,
+            }
         }
 
         return EventResult::kContinue;
     }
 
+private:
     MenuManager() = default;
     MenuManager(const MenuManager&) = delete;
     MenuManager(MenuManager&&) = delete;
