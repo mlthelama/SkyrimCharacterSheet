@@ -104,14 +104,10 @@ public:
             const auto& [count, entry] = invData;
             if (count > 0 && entry->IsWorn()) {
                 const auto armor = item->As<RE::TESObjectARMO>();
-                /* if (armor->IsLightArmor() || armor->IsHeavyArmor() || armor->IsShield()) {
-                    logger::trace("Armor name {}, Rating {}"sv, armor->GetName(), armor->GetArmorRating());
-                }*/
 
                 logger::trace("Armor name {}, Slot {}"sv, armor->GetName(), armor->GetSlotMask());
 
                 for (auto slotType : slotTypes) {
-                    //logger::trace("Checking for slotType {}"sv, slotType);
                     if (static_cast<int32_t>(armor->GetSlotMask()) & static_cast<int32_t>(slotType)) {
                         auto slot = getSlotidFromBitMask(slotType);
                         logger::trace("Item has slotType {}, {}"sv, slotType, slot);
@@ -207,7 +203,7 @@ private:
         { ArmorSlot::kFX01 } };
 
     static double getSlotidFromBitMask(ArmorSlot a_armor_slot) {
-        return std::log(static_cast<int32_t>(a_armor_slot)) / 0.6931471805599453 + 30;
+        return std::log(static_cast<int32_t>(a_armor_slot)) / std::log1p(1) + 30;
     }
 
     /* currently unused because unsure of calculation, it should be damageRes + ((100-damageRes)/(100/dragonhideValue))
