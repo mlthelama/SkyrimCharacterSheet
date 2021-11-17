@@ -1,7 +1,7 @@
 #include "handler/showhandler.h"
 #include "scaleform/menus/factionmenu.h"
-#include "scaleform/menus/statsmenu.h"
 #include "scaleform/menus/statsinventorymenu.h"
+#include "scaleform/menus/statsmenu.h"
 
 class MenuManager : public RE::BSTEventSink<RE::MenuOpenCloseEvent> {
 public:
@@ -25,6 +25,7 @@ public:
         }
 
         if (a_event->opening) {
+            logger::trace("menu is opening {}"sv, a_event->menuName);
             auto showHandler = ShowHandler::GetSingleton();
             if (Scaleform::StatsMenu::IsMenuOpen() && a_event->menuName != Scaleform::StatsMenu::MENU_NAME) {
                 showHandler->CloseWindow(ShowMenu::mStats);

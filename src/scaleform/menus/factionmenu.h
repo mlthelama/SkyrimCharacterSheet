@@ -145,7 +145,7 @@ namespace Scaleform {
                 [[maybe_unused]] const auto success = _view->GetVariable(std::addressof(instance), path.data());
                 assert(success && instance.IsObject());
             }
-            logger::debug("Loaded all SWF objects successfully"sv);
+            logger::debug("Loaded all SWF objects successfully for {}"sv, MENU_NAME);
 
             _rootObj.Visible(false);
 
@@ -217,6 +217,7 @@ namespace Scaleform {
             InvalidateItemLists();
 
             UpdateMenuValues();
+            UpdateBottomValues();
 
             InvalidateDataItemLists();
         }
@@ -235,31 +236,36 @@ namespace Scaleform {
             auto values = FactionData::GetSingleton()->getValuesToDisplay();
 
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
-
             for (auto& element : values) {
                 auto factionValue = element.first;
                 auto factionItem = element.second.get();
+                auto factionMenu = factionItem->getFactionMenu();
 
                 factionItem->logStatItem(factionValue);
 
                 if (factionItem->getGuiText().empty() || factionItem->getGuiText() == "" ||
-                    factionItem->getFactionMenu() == FactionMenuValue::mNone) {
+                    factionMenu == FactionMenuValue::mNone) {
                     continue;
                 }
 
                 if (factionItem->getFactionMenu() != FactionMenuValue::mNone) {
-                    _menuMap.find(factionItem->getFactionMenu())
-                        ->second.PushBack(buildGFxValue(factionItem->getGuiText()));
+                    _menuMap.find(factionMenu)->second.PushBack(buildGFxValue(factionItem->getGuiText()));
                     logger::trace("added to Menu {}, Name {}, GuiText ({})"sv,
-                        factionItem->getFactionMenu(),
+                        factionMenu,
                         factionValue,
                         factionItem->getGuiText());
                 }
             }
-            //TODO set Count Values
+
             for (auto& element : values) { element.second.reset(); }
             values.clear();
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
+        }
+
+        void UpdateBottomValues() {
+            UpdateText(_factionCount, fmt::format(FMT_STRING("Count: {}"), _factionItemListProvider.GetArraySize()));
+            UpdateText(_thaneCount, fmt::format(FMT_STRING("Count: {}"), _thaneItemListProvider.GetArraySize()));
+            UpdateText(_championCount, fmt::format(FMT_STRING("Count: {}"), _championItemListProvider.GetArraySize()));
         }
 
         RE::GPtr<RE::GFxMovieView> _view;

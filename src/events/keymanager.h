@@ -77,7 +77,7 @@ public:
             } else if (key == RE::BSWin32KeyboardDevice::Key::kEscape) {
                 showHandler->CloseAllWindows();
                 break;
-            } else if (key == *Settings::openFactionMenuButton) {
+            } else if (key == static_cast<uint32_t>(*Settings::openFactionMenuButton)) {
                 showHandler->HandleNextMenuButtonPress();
             }
         }

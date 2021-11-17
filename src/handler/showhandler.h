@@ -78,9 +78,15 @@ public:
 
     void HandleInventoryStatsUpdate() {
         if (Scaleform::StatsInventoryMenu::IsMenuOpen()) {
-            RE::UI::GetSingleton()
-                ->GetMenu<Scaleform::StatsInventoryMenu>(Scaleform::StatsInventoryMenu::MENU_NAME)
-                ->RefreshLists();
+            /*have to add it via task, so inventory is ready, might be useful for other menus as well*/
+            auto task = SKSE::GetTaskInterface();
+            task->AddUITask([]() {
+                auto menu = RE::UI::GetSingleton()->GetMenu<Scaleform::StatsInventoryMenu>(
+                    Scaleform::StatsInventoryMenu::MENU_NAME);
+                if (menu) {
+                    menu->RefreshLists();
+                }
+            });
         }
     }
 

@@ -14,6 +14,7 @@ set(sources ${sources}
 	src/data/faction/quest/civilwar.h
 	src/data/factiondata.h
 	src/data/playerdata.h
+	src/data/stats/provider/playerdataprovider.h
 	src/data/stats/statitem.h
 	src/events.cpp
 	src/events.h

@@ -23,6 +23,9 @@ magic = "Magic"
 thief = "Thief"
 warrior = "Warrior"
 
+[showStatsSpecial]
+displayZero = true #do or do not display values if they are 0
+
 [showStatsMenu]
 height = 0 #1 #non/disabled(0),player(1),defence(2),attack(3),magic(4),warrior(5),thief(6)
 equipedWeight = 0 #1
@@ -233,13 +236,8 @@ bypassVendorStolenCheck = "Vendor stolen Item"
 height = ""
 equipedWeight = ""
 weight = ""
-armor = ""
-damage = ""
-health = ""
 healthRatePer = "%"
-magicka = ""
 magickaRatePer = "%"
-stamina = ""
 staminaRatePer = "%"
 resistDamage = "%"
 resistDisease = "%"
@@ -252,14 +250,11 @@ speedMult = "%"
 inventoryWeight = ""
 carryWeight = ""
 criticalChance = "%"
-meleeDamage = ""
-unarmedDamage = ""
 absorbChance = "%"
 weaponSpeedMult = "" # should be in %
 bowSpeedBonus = ""
 shoutRecoveryMult = "%"
 movementNoiseMult = "%" # should be in %
-dragonSouls = ""
 combatHealthRegenMultiply = "%" # should be in %
 attackDamageMult = "x"
 reflectDamage = "%"
@@ -281,14 +276,8 @@ conjurationMod = "%"
 destructionMod = "%"
 illusionMod = "%"
 restorationMod = "%"
-damageArrow = ""
-damageLeft = ""
 leftWeaponSpeedMult = "" # should be in %
-rightItemCharge = ""
-leftItemCharge = ""
 armorPerks = "%"
-mass = ""
-bowStaggerBonus = ""
 
 [showStatsMultiplier]
 weaponSpeedMult = 1 #0 will not work, cause math you know
@@ -308,11 +297,6 @@ faction = "Faction"
 thane = "Thane"
 champion = "Champion"
 
-[showFactions]
-showFactions = true
-showThane = true
-showChampion = true
-
 [showFactionsFactionNames]
 companions = "Companions"
 darkbrotherHood = "The Dark Brotherhood"
@@ -328,7 +312,7 @@ dawnguard = "Dawnguard"
 houseTelvanni = "House Telvanni"
 
 [showFactionsFactionMenu]
-faction = 1 #faction(1),thane(2),champion(3)
+faction = 1 #disabled(0),faction(1),thane(2),champion(3)
 
 [showFactionsFactionRank]
 bard = "Bard"
@@ -350,7 +334,7 @@ honoraryMember = "Honorary Member"
 ysmir = "Ysmir"
 
 [showFactionsThaneMenu]
-thane = 2 #faction(1),thane(2),champion(3)
+thane = 2 #disabled(0),faction(1),thane(2),champion(3)
 
 [showFactionsThaneName]
 thaneOfEastmarch = "Thane Of Eastmarch"
@@ -364,7 +348,7 @@ thaneOfWhiterun = "Thane Of Whiterun"
 thaneOfWinterhold = "Thane Of Winterhold"
 
 [showFactionsChampionMenu]
-champion = 3 #faction(1),thane(2),champion(3)
+champion = 3 #disabled(0),faction(1),thane(2),champion(3)
 
 [showFactionsChampionName]
 azura = "Azura"

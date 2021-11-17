@@ -24,13 +24,13 @@ public:
         auto thane = Thane::GetSingleton();
         auto champion = Champion::GetSingleton();
 
-        if (*Settings::showFactions) {
+        if (MenuUtil::getFactionMenu(*Settings::factionMenu) != FactionMenuValue::mNone) {
             faction->getFactions(player);
         }
-        if (*Settings::showThanes) {
+        if (MenuUtil::getFactionMenu(*Settings::thaneMenu) != FactionMenuValue::mNone) {
             thane->getRegionThanes();
         }
-        if (*Settings::showChampion) {
+        if (MenuUtil::getFactionMenu(*Settings::championMenu) != FactionMenuValue::mNone) {
             champion->getChampions();
         }
 
@@ -43,7 +43,7 @@ public:
 
             factionConfig->logStatConfig(factionValue);
 
-            if (!factionConfig->getShow() || (factionConfig->getMenu() == FactionMenuValue::mNone)) {
+            if (factionConfig->getMenu() == FactionMenuValue::mNone) {
                 continue;
             }
             std::string valueText = "";

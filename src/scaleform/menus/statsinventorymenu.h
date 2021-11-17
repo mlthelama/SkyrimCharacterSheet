@@ -145,7 +145,7 @@ namespace Scaleform {
                 [[maybe_unused]] const auto success = _view->GetVariable(std::addressof(instance), path.data());
                 assert(success && instance.IsObject());
             }
-            logger::debug("Loaded all SWF objects successfully"sv);
+            logger::debug("Loaded all SWF objects successfully for {}"sv, MENU_NAME);
 
             _rootObj.Visible(false);
 
@@ -222,7 +222,7 @@ namespace Scaleform {
         }
 
         void UpdateMenuValues() {
-            auto values = PlayerData::GetSingleton()->getValuesToDisplay(_menu);
+            auto values = PlayerData::GetSingleton()->getValuesToDisplay(_menu, MENU_NAME);
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
 
             for (auto& element : values) {
@@ -246,6 +246,15 @@ namespace Scaleform {
             }
             for (auto& element : values) { element.second.reset(); }
             values.clear();
+
+            //it seems the inventory needs a bit after an equipchange, so an item might be shown equiped
+            //might need implement skse taskinterface
+            auto armor = PlayerData::GetSingleton()->getArmorMap();
+            for (auto item : armor) {
+                _menuMap.find(StatsInventoryMenuValue::mEquip)
+                    ->second.PushBack(buildGFxValue(fmt::format(FMT_STRING("{}: {}"), item.first, item.second)));
+            }
+
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
         }
 

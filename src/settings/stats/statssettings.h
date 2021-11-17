@@ -71,7 +71,7 @@ public:
     std::string getDisplay(std::string a_value) {
         if (!a_value.empty()) {
             logger::trace("display {} got value {}, building text ..."sv, _displayName, a_value);
-            return MenuUtil::buildDisplayString(a_value, _displayName, _ending, true, false);
+            return MenuUtil::buildDisplayString(a_value, _displayName, _ending, false);
         }
         return "";
     }
@@ -162,12 +162,10 @@ public:
             StatsInventoryMenuValue::mNone);
         mp[StatsValue::armor] = std::make_unique<StatConfig>(ActorValue::kDamageResist,
             *Settings::armorString,
-            *Settings::armorStringEnding,
             MenuUtil::getStatsMenu(*Settings::armorMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::armorMenuInventory));
         mp[StatsValue::damage] = std::make_unique<StatConfig>(ActorValue::kNone,
             *Settings::damageString,
-            *Settings::damageStringEnding,
             MenuUtil::getStatsMenu(*Settings::damageMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::damageMenuInventory));
         mp[StatsValue::skillTrainingsThisLevel] = std::make_unique<StatConfig>(ActorValue::kNone,
@@ -176,7 +174,6 @@ public:
             StatsInventoryMenuValue::mNone);
         mp[StatsValue::health] = std::make_unique<StatConfig>(ActorValue::kHealth,
             *Settings::healthString,
-            *Settings::healthStringEnding,
             MenuUtil::getStatsMenu(*Settings::healthMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::healthMenuInventory));
         mp[StatsValue::healthRatePer] = std::make_unique<StatConfig>(ActorValue::kNone,
@@ -186,7 +183,6 @@ public:
             MenuUtil::getStatsInventoryMenu(*Settings::healthRateMenuInventory));
         mp[StatsValue::magicka] = std::make_unique<StatConfig>(ActorValue::kMagicka,
             *Settings::magickaString,
-            *Settings::magickaStringEnding,
             MenuUtil::getStatsMenu(*Settings::magickaMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::magickaMenuInventory));
         mp[StatsValue::magickaRatePer] = std::make_unique<StatConfig>(ActorValue::kNone,
@@ -196,7 +192,6 @@ public:
             MenuUtil::getStatsInventoryMenu(*Settings::magickaRateMenuInventory));
         mp[StatsValue::stamina] = std::make_unique<StatConfig>(ActorValue::kStamina,
             *Settings::staminaString,
-            *Settings::staminaStringEnding,
             MenuUtil::getStatsMenu(*Settings::staminaMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::magickaRateMenuInventory));
         mp[StatsValue::staminaRatePer] = std::make_unique<StatConfig>(ActorValue::kNone,
@@ -417,12 +412,10 @@ public:
             MenuUtil::getStatsInventoryMenu(*Settings::criticalChanceMenuInventory));
         mp[StatsValue::meleeDamage] = std::make_unique<StatConfig>(ActorValue::kMeleeDamage,
             *Settings::meleeDamageString,
-            *Settings::meleeDamageStringEnding,
             MenuUtil::getStatsMenu(*Settings::meleeDamageMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::meleeDamageMenuInventory));
         mp[StatsValue::unarmedDamage] = std::make_unique<StatConfig>(ActorValue::kUnarmedDamage,
             *Settings::unarmedDamageString,
-            *Settings::unarmedDamageStringEnding,
             MenuUtil::getStatsMenu(*Settings::unarmedDamageMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::unarmedDamageMenuInventory));
         mp[StatsValue::absorbChance] = std::make_unique<StatConfig>(ActorValue::kAbsorbChance,
@@ -446,12 +439,10 @@ public:
             MenuUtil::getMultiplier(*Settings::leftWeaponSpeedMultMult));
         mp[StatsValue::rightItemCharge] = std::make_unique<StatConfig>(ActorValue::kRightItemCharge,
             *Settings::rightItemChargeString,
-            *Settings::rightItemChargeStringEnding,
             MenuUtil::getStatsMenu(*Settings::rightItemChargeMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::rightItemChargeMenuInventory));
         mp[StatsValue::leftItemCharge] = std::make_unique<StatConfig>(ActorValue::kLeftItemCharge,
             *Settings::leftItemChargStringe,
-            *Settings::leftItemChargStringeEnding,
             MenuUtil::getStatsMenu(*Settings::leftItemChargeMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::leftItemChargeMenuInventory));
         mp[StatsValue::armorPerks] = std::make_unique<StatConfig>(ActorValue::kArmorPerks,
@@ -462,12 +453,10 @@ public:
             MenuUtil::getMultiplier(*Settings::armorPerksMult));
         mp[StatsValue::mass] = std::make_unique<StatConfig>(ActorValue::kMass,
             *Settings::massString,
-            *Settings::massStringEnding,
             MenuUtil::getStatsMenu(*Settings::massMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::massMenuInventory));
         mp[StatsValue::bowStaggerBonus] = std::make_unique<StatConfig>(ActorValue::kBowStaggerBonus,
             *Settings::bowStaggerBonusString,
-            *Settings::bowStaggerBonusStringEnding,
             MenuUtil::getStatsMenu(*Settings::bowStaggerBonusMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::bowStaggerBonusMenuInventory));
         mp[StatsValue::bypassVendorKeywordCheck] = std::make_unique<StatConfig>(ActorValue::kBypassVendorKeywordCheck,
@@ -497,7 +486,6 @@ public:
             MenuUtil::getMultiplier(*Settings::movementNoiseMultMult));
         mp[StatsValue::dragonSouls] = std::make_unique<StatConfig>(ActorValue::kDragonSouls,
             *Settings::dragonSoulsString,
-            *Settings::dragonSoulsStringEnding,
             MenuUtil::getStatsMenu(*Settings::dragonSoulsMenu),
             StatsInventoryMenuValue::mNone);
         mp[StatsValue::combatHealthRegenMultiply] = std::make_unique<StatConfig>(ActorValue::kCombatHealthRegenMultiply,
@@ -616,12 +604,10 @@ public:
             MenuUtil::getStatsInventoryMenu(*Settings::restorationModMenuInventory));
         mp[StatsValue::damageArrow] = std::make_unique<StatConfig>(ActorValue::kNone,
             *Settings::damageArrowString,
-            *Settings::damageArrowStringEnding,
             MenuUtil::getStatsMenu(*Settings::damageArrowMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::damageArrowMenuInventory));
         mp[StatsValue::damageLeft] = std::make_unique<StatConfig>(ActorValue::kNone,
             *Settings::damageLeftString,
-            *Settings::damageLeftStringEnding,
             MenuUtil::getStatsMenu(*Settings::damageLeftMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::damageLeftMenuInventory));
 

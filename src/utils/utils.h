@@ -46,7 +46,7 @@ namespace MenuUtil {
         mMagic = 4,
         mWarrior = 5,
         mThief = 6,
-        mSpecial = 7 //header or bottom
+        mSpecial = 7  //header or bottom
     };
 
     /* config can not work with enums, so lets map it*/
@@ -134,12 +134,7 @@ namespace MenuUtil {
     static std::string buildDisplayString(std::string a_value,
         std::string a_display_name,
         std::string a_ending,
-        bool a_show,
         bool a_value_is_display) {
-        if (!a_value.empty() && !a_display_name.empty() && !a_show) {
-            return "";
-        }
-
         std::string guiText;
 
         if (a_value_is_display) {
