@@ -9,7 +9,7 @@ class PlayerData {
     using ShowMenu = MenuUtil::ShowMenu;
     using StatsInventoryMenuValue = MenuUtil::StatsInventoryMenuValue;
     using StatsMenuValue = MenuUtil::StatsMenuValue;
-    using SlotArmorMap = std::map<int32_t, std::string_view>;
+    using SlotArmorMap = std::map<std::string, std::string_view>;
 
 public:
     static PlayerData* GetSingleton() {

@@ -44,17 +44,6 @@ public:
                 continue;
             }
 
-            auto controlMap = RE::ControlMap::GetSingleton();
-            if (!controlMap->IsMovementControlsEnabled()) {
-                continue;
-            }
-
-            /*if the game is not paused with the menu, it triggers the menu always in the background*/
-            auto showHandler = ShowHandler::GetSingleton();
-            if (ui->GameIsPaused() && !showHandler->IsMenuOpen()) {
-                continue;
-            }
-
             auto key = button->idCode;
             switch (button->device.get()) {
                 case DeviceType::kMouse:
@@ -68,6 +57,29 @@ public:
                     break;
                 default:
                     continue;
+            }
+
+            if (RE::UI::GetSingleton()->IsMenuOpen(RE::InventoryMenu::MENU_NAME)) {
+                if (key == static_cast<uint32_t>(*Settings::showInventoryButton)) {
+                    logger::debug("configured Key ({}) for Inventory pressed"sv, key);
+                    auto showHandler = ShowHandler::GetSingleton();
+                    if (!showHandler->IsMenuOpen(ShowMenu::mStatsInventory)) {
+                        showHandler->HandleInventoryStatsOpen();
+                    } else {
+                        showHandler->CloseWindow(ShowMenu::mStatsInventory);
+                    }
+                }
+            }
+
+            auto controlMap = RE::ControlMap::GetSingleton();
+            if (!controlMap->IsMovementControlsEnabled()) {
+                continue;
+            }
+
+            /*if the game is not paused with the menu, it triggers the menu always in the background*/
+            auto showHandler = ShowHandler::GetSingleton();
+            if (ui->GameIsPaused() && !showHandler->IsMenuOpen()) {
+                continue;
             }
 
             if (key == _key) {

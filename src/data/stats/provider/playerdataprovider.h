@@ -95,9 +95,9 @@ public:
         return damageResistanceString;
     }
 
-    static std::map<int32_t, std::string_view> getEquipment(RE::PlayerCharacter*& a_player) {
+    static std::map<std::string, std::string_view> getEquipment(RE::PlayerCharacter*& a_player) {
         //maybe chance to naming from int to a string
-        std::map<int32_t, std::string_view> slotMap;
+        std::map<std::string, std::string_view> slotMapString;
 
         const auto inv = a_player->GetInventory([](RE::TESBoundObject& a_object) { return (a_object.IsArmor()); });
         for (const auto& [item, invData] : inv) {
@@ -106,19 +106,24 @@ public:
                 const auto armor = item->As<RE::TESObjectARMO>();
 
                 logger::trace("Armor name {}, Slot {}"sv, armor->GetName(), armor->GetSlotMask());
-
+                std::vector<int32_t> slotList;
                 for (auto slotType : slotTypes) {
                     if (static_cast<int32_t>(armor->GetSlotMask()) & static_cast<int32_t>(slotType)) {
                         auto slot = getSlotidFromBitMask(slotType);
                         logger::trace("Item has slotType {}, {}"sv, slotType, slot);
-                        slotMap[static_cast<int32_t>(slot)] = armor->GetName();
+                        slotList.push_back(static_cast<int32_t>(slot));
                     }
+                }
+                auto slotString = VectorUtil::getDelimitedString(slotList);
+                slotList.clear();
+                if (slotString != "") {
+                    slotMapString[slotString] = armor->GetName();
                 }
             }
         }
-        for (auto item : slotMap) { logger::trace("{}: {}"sv, item.first, item.second); }
+        for (auto item : slotMapString) { logger::trace("{}: {}"sv, item.first, item.second); }
 
-        return slotMap;
+        return slotMapString;
     }
 
 private:

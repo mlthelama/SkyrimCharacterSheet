@@ -197,7 +197,8 @@ namespace VectorUtil {
         return intersectionVector;
     }
 
-    static std::string getDelimitedString(std::vector<uint16_t>& a_vec) {
+    template <typename T>
+    static std::string getDelimitedString(std::vector<T>& a_vec) {
         auto deliString =
             a_vec.empty() ?
                 "" :
