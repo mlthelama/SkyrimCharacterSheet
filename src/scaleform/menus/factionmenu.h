@@ -1,8 +1,10 @@
 #pragma once
 #include "CLIK/Array.h"
+#include "CLIK/GFx/Controls/Button.h"
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
 #include "data/factiondata.h"
+#include "scaleform/menus/statsmenu.h"
 
 namespace Scaleform {
     using FactionMenuValue = MenuUtil::FactionMenuValue;
@@ -50,7 +52,12 @@ namespace Scaleform {
             [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu,
                 FILE_NAME,
                 RE::BSScaleformManager::ScaleModeType::kExactFit,
-                [](RE::GFxMovieDef* a_def) -> void {
+                [&](RE::GFxMovieDef* a_def) -> void {
+                    fxDelegate.reset(new RE::FxDelegate);
+                    fxDelegate->RegisterHandler(this);
+                    a_def->SetState(RE::GFxState::StateType::kExternalInterface, fxDelegate.get());
+                    fxDelegate->Release();
+
                     logger::trace("FPS: {}, Width: {}, Height: {}"sv,
                         a_def->GetFrameRate(),
                         a_def->GetWidth(),
@@ -61,15 +68,25 @@ namespace Scaleform {
             logger::debug("Loading Menu {} was successful {}"sv, FILE_NAME, success);
             assert(success);
             _view = menu->uiMovie;
-            _view->SetMouseCursorCount(0);
+            //_view->SetMouseCursorCount(0);
             if (*Settings::pauseGame) {
-                menu->menuFlags |= Flag::kPausesGame;
+                menu->menuFlags.set(Flag::kPausesGame,
+                    Flag::kUsesCursor,
+                    Flag::kDisablePauseMenu,
+                    Flag::kUpdateUsesCursor);
+                //menu->menuFlags |= Flag::kPausesGame;
+                //Flag::kDisablePauseMenu | Flag::kTopmostRenderedMenu | Flag::kPausesGameflags |= Flag::kUpdateUsesCursor;
+                /*menu->menuFlags.set(Flag::kPausesGame,
+                    Flag::kUsesCursor,
+                    Flag::kDisablePauseMenu,
+                    Flag::kTopmostRenderedMenu,
+                    Flag::kUpdateUsesCursor);*/
             } else {
                 menu->menuFlags |= Flag::kAllowSaving;
             }
             menu->depthPriority = 0;
             menu->inputContext = Context::kNone;
-            //InitExtensions();
+            InitExtensions();
 
             _isActive = true;
             _view->SetVisible(true);
@@ -88,14 +105,27 @@ namespace Scaleform {
         void PostCreate() override { FactionMenu::OnOpen(); }
 
         RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override {
-            if (a_message.menu == FactionMenu::MENU_NAME) {
+            /* if (a_message.menu == FactionMenu::MENU_NAME) {
                 return RE::UI_MESSAGE_RESULTS::kHandled;
             }
-            return RE::UI_MESSAGE_RESULTS::kPassOn;
+            return RE::UI_MESSAGE_RESULTS::kPassOn;*/
+            switch (*a_message.type) {
+                case RE::UI_MESSAGE_TYPE::kHide:
+                    OnClose();
+                    return RE::UI_MESSAGE_RESULTS::kHandled;
+                default:
+                    return RE::IMenu::ProcessMessage(a_message);
+            }
         }
 
         void AdvanceMovie(float a_interval, uint32_t a_currentTime) override {
             RE::IMenu::AdvanceMovie(a_interval, a_currentTime);
+        }
+
+        void Accept(CallbackProcessor* a_processor) override {
+            a_processor->Process("Log", Log);
+            a_processor->Process("CloseMenu", CloseMenu);
+            a_processor->Process("PrevMenu", PrevMenu);
         }
 
     private:
@@ -138,7 +168,8 @@ namespace Scaleform {
                 element_t{ std::ref(_factionItemList), "_root.rootObj.factionItemList"sv },
                 element_t{ std::ref(_thaneItemList), "_root.rootObj.thaneItemList"sv },
                 element_t{ std::ref(_championItemList), "_root.rootObj.championItemList"sv },
-                element_t{ std::ref(_prev), "_root.rootObj.factionPrevScreen"sv } };
+                element_t{ std::ref(_prev), "_root.rootObj.factionPrevScreen"sv },
+                element_t{ std::ref(_menuClose), "_root.rootObj.menuClose"sv } };
 
             for (const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
@@ -158,6 +189,8 @@ namespace Scaleform {
             _view->CreateArray(std::addressof(_championItemListProvider));
             _championItemList.DataProvider(CLIK::Array{ _championItemListProvider });
 
+            _menuClose.Label("Close");
+            _menuClose.Disabled(false);
 
             UpdateTitle();
             UpdateHeaders();
@@ -165,7 +198,10 @@ namespace Scaleform {
 
             UpdateLists();
 
-            UpdatePrev();
+            _prev.Label(MenuUtil::getPrevMenuName(_menu));
+            _prev.Disabled(false);
+            
+            DisableItemLists();
 
             _view->SetVisible(true);
             _rootObj.Visible(true);
@@ -227,10 +263,7 @@ namespace Scaleform {
             UpdateText(_factionCount, "");
             UpdateText(_thaneCount, "");
             UpdateText(_championCount, "");
-            UpdateText(_prev, "");
         }
-
-        void UpdatePrev() { UpdateText(_prev, MenuUtil::getPrevMenuName(_menu)); }
 
         void UpdateMenuValues() {
             auto values = FactionData::GetSingleton()->getValuesToDisplay();
@@ -268,12 +301,40 @@ namespace Scaleform {
             UpdateText(_championCount, fmt::format(FMT_STRING("Count: {}"), _championItemListProvider.GetArraySize()));
         }
 
+        void OnClose() { return; }
+
+        void DisableItemLists() {
+            _factionItemList.Disabled(true);
+            _thaneItemList.Disabled(true);
+            _championItemList.Disabled(true);
+        }
+
+        static void CloseMenu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
+            assert(a_params.GetArgCount() == 0);
+            logger::debug("GUI Close Button Pressed"sv);
+            Close();
+        }
+
+        static void PrevMenu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
+            assert(a_params.GetArgCount() == 0);
+            logger::debug("GUI Prev Button Pressed"sv);
+            Close();
+            Scaleform::StatsMenu::Open();
+        }
+
+        static void Log(const RE::FxDelegateArgs& a_params) {
+            assert(a_params.GetArgCount() == 1);
+            assert(a_params[0].IsString());
+
+            logger::debug("{}: {}"sv, FactionMenu::MENU_NAME, a_params[0].GetString());
+        }
+
         RE::GPtr<RE::GFxMovieView> _view;
         bool _isActive = false;
 
         CLIK::MovieClip _rootObj;
         CLIK::TextField _title;
-        CLIK::TextField _prev;
+        CLIK::GFx::Controls::Button _prev;
 
         CLIK::TextField _factionCount;
         CLIK::TextField _thaneCount;
@@ -291,6 +352,8 @@ namespace Scaleform {
 
         CLIK::GFx::Controls::ScrollingList _championItemList;
         RE::GFxValue _championItemListProvider;
+
+        CLIK::GFx::Controls::Button _menuClose;
 
         std::map<FactionMenuValue, RE::GFxValue&> _menuMap = {
             { FactionMenuValue::mFaction, _factionItemListProvider },

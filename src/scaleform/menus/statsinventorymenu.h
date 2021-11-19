@@ -3,6 +3,7 @@
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
 #include "data/playerdata.h"
+#include "CLIK/GFx/Controls/Button.h"
 
 namespace Scaleform {
     using ShowMenu = MenuUtil::ShowMenu;
@@ -56,7 +57,12 @@ namespace Scaleform {
             [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu,
                 FILE_NAME,
                 RE::BSScaleformManager::ScaleModeType::kExactFit,
-                [](RE::GFxMovieDef* a_def) -> void {
+                [&](RE::GFxMovieDef* a_def) -> void {
+                    fxDelegate.reset(new RE::FxDelegate);
+                    fxDelegate->RegisterHandler(this);
+                    a_def->SetState(RE::GFxState::StateType::kExternalInterface, fxDelegate.get());
+                    fxDelegate->Release();
+
                     logger::trace("FPS: {}, Width: {}, Height: {}"sv,
                         a_def->GetFrameRate(),
                         a_def->GetWidth(),
@@ -70,9 +76,10 @@ namespace Scaleform {
             //_view->SetMouseCursorCount(0);
             menu->menuFlags |= Flag::kUsesCursor;
 
-            menu->depthPriority = 0;
-            menu->inputContext = Context::kNone;
-            //InitExtensions();
+            //menu->depthPriority = 0;
+            //menu->inputContext = Context::kNone;
+
+            InitExtensions();
 
             _isActive = true;
             _view->SetVisible(true);
@@ -90,7 +97,16 @@ namespace Scaleform {
 
         void PostCreate() override { StatsInventoryMenu::OnOpen(); }
 
+        //might not work that well if InventoryMenu is open
         RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override {
+            /*switch (*a_message.type) {
+                case RE::UI_MESSAGE_TYPE::kHide:
+                    OnClose();
+                    return RE::UI_MESSAGE_RESULTS::kHandled;
+                default:
+                    return RE::IMenu::ProcessMessage(a_message);
+            }*/
+
             if (a_message.menu == StatsInventoryMenu::MENU_NAME) {
                 return RE::UI_MESSAGE_RESULTS::kHandled;
             }
@@ -101,6 +117,10 @@ namespace Scaleform {
             RE::IMenu::AdvanceMovie(a_interval, a_currentTime);
         }
 
+        void Accept(CallbackProcessor* a_processor) override {
+            a_processor->Process("Log", Log);
+            a_processor->Process("CloseMenu", CloseMenu);
+        }
     private:
         class Logger : public RE::GFxLog {
         public:
@@ -124,8 +144,8 @@ namespace Scaleform {
 
             success = _view->SetVariable("_global.gfxExtensions", boolean);
             assert(success);
-            //success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
-            //assert(success);
+            /*success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
+            assert(success);*/
         }
 
         void OnOpen() {
@@ -138,7 +158,9 @@ namespace Scaleform {
                 element_t{ std::ref(_equipItemList), "_root.rootObj.equipItemList"sv },
                 element_t{ std::ref(_armorItemList), "_root.rootObj.armorItemList"sv },
                 element_t{ std::ref(_weaponItemList), "_root.rootObj.weaponItemList"sv },
-                element_t{ std::ref(_effectItemList), "_root.rootObj.effectItemList"sv } };
+                element_t{ std::ref(_effectItemList), "_root.rootObj.effectItemList"sv },
+                element_t{ std::ref(_menuClose), "_root.rootObj.menuClose"sv } 
+            };
 
             for (const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
@@ -161,12 +183,18 @@ namespace Scaleform {
             _view->CreateArray(std::addressof(_effectItemListProvider));
             _effectItemList.DataProvider(CLIK::Array{ _effectItemListProvider });
 
+            _menuClose.Label("Close");
+            _menuClose.Disabled(false);
+            _menuClose.Visible(false); //for now 
+
             UpdateHeaders();
 
             UpdateLists();
 
             _view->SetVisible(true);
             _rootObj.Visible(true);
+            
+            DisableItemLists();
 
             logger::debug("Shown all Values for Menu {}"sv, MENU_NAME);
         }
@@ -258,6 +286,28 @@ namespace Scaleform {
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
         }
 
+        void OnClose() { return; }
+
+        void DisableItemLists() {
+            _equipItemList.Disabled(true);
+            _armorItemList.Disabled(true);
+            _weaponItemList.Disabled(true);
+            _effectItemList.Disabled(true);
+        }
+
+        static void CloseMenu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
+            assert(a_params.GetArgCount() == 0);
+            logger::debug("GUI Close Button Pressed"sv);
+            Close();
+        }
+
+        static void Log(const RE::FxDelegateArgs& a_params) {
+            assert(a_params.GetArgCount() == 1);
+            assert(a_params[0].IsString());
+
+            logger::debug("{}: {}"sv, StatsInventoryMenu::MENU_NAME, a_params[0].GetString());
+        }
+
         RE::GPtr<RE::GFxMovieView> _view;
         bool _isActive = false;
 
@@ -279,6 +329,8 @@ namespace Scaleform {
 
         CLIK::GFx::Controls::ScrollingList _effectItemList;
         RE::GFxValue _effectItemListProvider;
+
+        CLIK::GFx::Controls::Button _menuClose;
 
         std::map<StatsInventoryMenuValue, RE::GFxValue&> _menuMap = {
             { StatsInventoryMenuValue::mEquip, _equipItemListProvider },

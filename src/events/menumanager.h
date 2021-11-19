@@ -24,18 +24,9 @@ public:
             return EventResult::kContinue;
         }
 
-        if (a_event->opening) {
-            logger::trace("menu is opening {}"sv, a_event->menuName);
-            auto showHandler = ShowHandler::GetSingleton();
-            if (Scaleform::StatsMenu::IsMenuOpen() && a_event->menuName != Scaleform::StatsMenu::MENU_NAME) {
-                showHandler->CloseWindow(ShowMenu::mStats);
-            } else if (Scaleform::FactionMenu::IsMenuOpen() && a_event->menuName != Scaleform::FactionMenu::MENU_NAME) {
-                showHandler->CloseWindow(ShowMenu::mFaction);
-            }
-
-            if (a_event->menuName == RE::InventoryMenu::MENU_NAME && *Settings::showInventoryStatsAutoOpen) {
-                showHandler->HandleInventoryStatsOpen();
-            }
+        if (a_event->opening && a_event->menuName == RE::InventoryMenu::MENU_NAME &&
+            *Settings::showInventoryStatsAutoOpen) {
+            ShowHandler::GetSingleton()->HandleInventoryStatsOpen();
         }
 
         if (!a_event->opening && a_event->menuName == RE::InventoryMenu::MENU_NAME) {

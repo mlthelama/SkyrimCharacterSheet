@@ -8,12 +8,10 @@ namespace Events {
         KeyManager::Sink();
         logger::info("Added Input Event"sv);
 
-        if (*Settings::closeOnOtherMenuOpen || *Settings::showInventoryStats) {
+        if (*Settings::showInventoryStats) {
             MenuManager::Sink();
             logger::info("Added Menu Event"sv);
-        }
 
-        if (*Settings::showInventoryStats) {
             EquipManager::Sink();
             logger::info("Added Equip Event"sv);
         }

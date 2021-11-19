@@ -1,8 +1,10 @@
 #pragma once
 #include "CLIK/Array.h"
+#include "CLIK/GFx/Controls/Button.h"
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
 #include "data/playerdata.h"
+#include "scaleform/menus/factionmenu.h"
 
 namespace Scaleform {
     using StatsMenuValue = MenuUtil::StatsMenuValue;
@@ -50,7 +52,12 @@ namespace Scaleform {
             [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu,
                 FILE_NAME,
                 RE::BSScaleformManager::ScaleModeType::kExactFit,
-                [](RE::GFxMovieDef* a_def) -> void {
+                [&](RE::GFxMovieDef* a_def) -> void {
+                    fxDelegate.reset(new RE::FxDelegate);
+                    fxDelegate->RegisterHandler(this);
+                    a_def->SetState(RE::GFxState::StateType::kExternalInterface, fxDelegate.get());
+                    fxDelegate->Release();
+
                     logger::trace("SWF FPS: {}, Width: {}, Height: {}"sv,
                         a_def->GetFrameRate(),
                         a_def->GetWidth(),
@@ -61,15 +68,19 @@ namespace Scaleform {
             logger::debug("Loading Menu {} was successful {}"sv, FILE_NAME, success);
             assert(success);
             _view = menu->uiMovie;
-            _view->SetMouseCursorCount(0);
+            //_view->SetMouseCursorCount(0);
             if (*Settings::pauseGame) {
-                menu->menuFlags |= Flag::kPausesGame;
+                //menu->menuFlags |= Flag::kPausesGame;
+                menu->menuFlags.set(Flag::kPausesGame,
+                    Flag::kUsesCursor,
+                    Flag::kDisablePauseMenu,
+                    Flag::kUpdateUsesCursor);
             } else {
                 menu->menuFlags |= Flag::kAllowSaving;
             }
             menu->depthPriority = 0;
             menu->inputContext = Context::kNone;
-            //InitExtensions();
+            InitExtensions();
 
             _isActive = true;
             _view->SetVisible(true);
@@ -88,14 +99,27 @@ namespace Scaleform {
         void PostCreate() override { StatsMenu::OnOpen(); }
 
         RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override {
-            if (a_message.menu == StatsMenu::MENU_NAME) {
+            /*if (a_message.menu == StatsMenu::MENU_NAME) {
                 return RE::UI_MESSAGE_RESULTS::kHandled;
             }
-            return RE::UI_MESSAGE_RESULTS::kPassOn;
+            return RE::UI_MESSAGE_RESULTS::kPassOn;*/
+            switch (*a_message.type) {
+                case RE::UI_MESSAGE_TYPE::kHide:
+                    OnClose();
+                    return RE::UI_MESSAGE_RESULTS::kHandled;
+                default:
+                    return RE::IMenu::ProcessMessage(a_message);
+            }
         }
 
         void AdvanceMovie(float a_interval, uint32_t a_currentTime) override {
             RE::IMenu::AdvanceMovie(a_interval, a_currentTime);
+        }
+
+        void Accept(CallbackProcessor* a_processor) override {
+            a_processor->Process("Log", Log);
+            a_processor->Process("CloseMenu", CloseMenu);
+            a_processor->Process("NextMenu", NextMenu);
         }
 
     private:
@@ -121,8 +145,8 @@ namespace Scaleform {
 
             success = _view->SetVariable("_global.gfxExtensions", boolean);
             assert(success);
-            success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
-            assert(success);
+            /*success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
+            assert(success);*/
         }
 
         void OnOpen() {
@@ -147,7 +171,8 @@ namespace Scaleform {
                 element_t{ std::ref(_perksMagicItemList), "_root.rootObj.perksMagicItemList"sv },
                 element_t{ std::ref(_perksWarriorItemList), "_root.rootObj.perksWarriorItemList"sv },
                 element_t{ std::ref(_perksThiefItemList), "_root.rootObj.perksThiefItemList"sv },
-                element_t{ std::ref(_next), "_root.rootObj.playerNextScreen"sv } };
+                element_t{ std::ref(_next), "_root.rootObj.playerNextScreen"sv },
+                element_t{ std::ref(_menuClose), "_root.rootObj.menuClose"sv } };
 
             for (const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
@@ -176,13 +201,19 @@ namespace Scaleform {
             _view->CreateArray(std::addressof(_perksThiefItemListProvider));
             _perksThiefItemList.DataProvider(CLIK::Array{ _perksThiefItemListProvider });
 
+            _menuClose.Label("Close");
+            _menuClose.Disabled(false);
+
             UpdateTitle();
             UpdateHeaders();
             UpdateBottom();
 
             UpdateLists();
 
-            UpdateNext();
+            _next.Label(MenuUtil::getNextMenuName(_menu));
+            _next.Disabled(false);
+
+            DisableItemLists();
 
             _view->SetVisible(true);
             _rootObj.Visible(true);
@@ -258,10 +289,7 @@ namespace Scaleform {
             UpdateText(_perks, "");
             UpdateText(_beast, "");
             UpdateText(_xp, "");
-            UpdateText(_next, "");
         }
-
-        void UpdateNext() { UpdateText(_next, MenuUtil::getNextMenuName(_menu)); }
 
         void UpdateMenuValues() {
             auto values = PlayerData::GetSingleton()->getValuesToDisplay(_menu, MENU_NAME);
@@ -314,12 +342,43 @@ namespace Scaleform {
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
         }
 
+        void OnClose() { return; }
+
+        void DisableItemLists() {
+            _playerItemList.Disabled(true);
+            _defenceItemList.Disabled(true);
+            _attackItemList.Disabled(true);
+            _perksMagicItemList.Disabled(true);
+            _perksWarriorItemList.Disabled(true);
+            _perksThiefItemList.Disabled(true);
+        }
+
+        static void CloseMenu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
+            assert(a_params.GetArgCount() == 0);
+            logger::debug("GUI Close Button Pressed"sv);
+            Close();
+        }
+
+        static void NextMenu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
+            assert(a_params.GetArgCount() == 0);
+            logger::debug("GUI Next Button Pressed"sv);
+            Close();
+            //Scaleform::FactionMenu::Open();
+        }
+
+        static void Log(const RE::FxDelegateArgs& a_params) {
+            assert(a_params.GetArgCount() == 1);
+            assert(a_params[0].IsString());
+
+            logger::debug("{}: {}"sv, StatsMenu::MENU_NAME, a_params[0].GetString());
+        }
+
         RE::GPtr<RE::GFxMovieView> _view;
         bool _isActive = false;
 
         CLIK::MovieClip _rootObj;
         CLIK::TextField _title;
-        CLIK::TextField _next;
+        CLIK::GFx::Controls::Button _next;
 
         CLIK::TextField _name;
         CLIK::TextField _level;
@@ -352,6 +411,8 @@ namespace Scaleform {
 
         CLIK::GFx::Controls::ScrollingList _perksThiefItemList;
         RE::GFxValue _perksThiefItemListProvider;
+
+        CLIK::GFx::Controls::Button _menuClose;
 
         std::map<StatsMenuValue, RE::GFxValue&> _menuMap = {
             { StatsMenuValue::mPlayer, _playerItemListProvider },

@@ -1,13 +1,12 @@
 [General]
-logLevel = 2 # 0 trace; 1 debug; 2 info
+logLevel = 2 #0 trace; 1 debug; 2 info
 openMenuButton = 22 #U used for closing too (ESC also closes)
-closeOnOtherMenuOpen = false #does not trigger when pauseGame = true
 showFactionMenu = true
 openNextMenuButton = 49 #https://www.creationkit.com/index.php?title=Input_Script (dec values) N=49
 pauseGame = true #set to False if you it should be like <= version 0.0.2 (or if you run some kind of SkyrimSouls Setup)
 showInventoryStats = true #show can small window in the inventory menu (over the display picture) 
 showInventoryStatsAutoOpen = false #if it should auto open or not, can be closed/open with openMenuButton
-showInventoryButton = 11 #0 currently typing in the searchbar would notice the input
+showInventoryButton = 11 #0(=Zero) currently typing in the searchbar would notice the input
 
 [Mods]
 skyrimUnbound = false #changes the check for thaneOfWhiterun

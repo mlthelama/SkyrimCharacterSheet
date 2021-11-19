@@ -1,5 +1,6 @@
 set(sources ${sources}
 	src/CLIK/Array.h
+	src/CLIK/GFx/Controls/Button.h
 	src/CLIK/GFx/Controls/CoreList.h
 	src/CLIK/GFx/Controls/ScrollingList.h
 	src/CLIK/GFx/Core/UIComponent.h

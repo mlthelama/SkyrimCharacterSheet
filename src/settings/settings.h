@@ -24,7 +24,6 @@ struct Settings {
 
     static inline iSetting logLevel{ "General"s, "logLevel"s, 0 };
     static inline iSetting openMenuButton{ "General"s, "openMenuButton", -1 };
-    static inline bSetting closeOnOtherMenuOpen{ "General"s, "closeOnOtherMenuOpen"s, true };
     static inline bSetting showFactionMenu{ "General"s, "showFactionMenu"s, true };
     static inline iSetting openFactionMenuButton{ "General"s, "openNextMenuButton"s, 0 };
     static inline bSetting pauseGame{ "General"s, "pauseGame"s, true };
