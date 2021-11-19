@@ -24,8 +24,10 @@ set(sources ${sources}
 	src/events/menumanager.h
 	src/handler/showhandler.h
 	src/main.cpp
+	src/scaleform/menus/factionmenu.cpp
 	src/scaleform/menus/factionmenu.h
 	src/scaleform/menus/statsinventorymenu.h
+	src/scaleform/menus/statsmenu.cpp
 	src/scaleform/menus/statsmenu.h
 	src/scaleform/scaleform.cpp
 	src/scaleform/scaleform.h

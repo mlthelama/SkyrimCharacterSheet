@@ -121,14 +121,18 @@ namespace MenuUtil {
         }
     }
 
+    static ShowMenu getNextMenu(ShowMenu a_menu) { return static_cast<ShowMenu>(static_cast<int>(a_menu) + 1); }
+
+    static ShowMenu getPrevMenu(ShowMenu a_menu) { return static_cast<ShowMenu>(static_cast<int>(a_menu) - 1); }
+
     static std::string_view getNextMenuName(ShowMenu a_menu) {
         //if cast to an int value outside the enum it should be _constUndefined
-        return getMenuName(static_cast<ShowMenu>(static_cast<int>(a_menu) + 1));
+        return getMenuName(getNextMenu(a_menu));
     }
 
     static std::string_view getPrevMenuName(ShowMenu a_menu) {
         //if cast to an int value outside the enum it should be _constUndefined
-        return getMenuName(static_cast<ShowMenu>(static_cast<int>(a_menu) - 1));
+        return getMenuName(getPrevMenu(a_menu));
     }
 
     static std::string buildDisplayString(std::string a_value,

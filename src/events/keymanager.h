@@ -91,6 +91,7 @@ public:
                 break;
             } else if (key == static_cast<uint32_t>(*Settings::openFactionMenuButton)) {
                 showHandler->HandleNextMenuButtonPress();
+                break;
             }
         }
         return EventResult::kContinue;

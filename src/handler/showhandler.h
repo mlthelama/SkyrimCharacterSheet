@@ -48,16 +48,8 @@ public:
 
     void HandleNextMenuButtonPress() {
         if (Scaleform::StatsMenu::IsMenuOpen()) {
-            if (*Settings::showFactionMenu) {
-                logger::debug("{} is open, open {}"sv,
-                    Scaleform::StatsMenu::MENU_NAME,
-                    Scaleform::FactionMenu::MENU_NAME);
-                SwapWindow(ShowMenu::mFaction, ShowMenu::mStats);
-            } else {
-                logger::debug("{} is open, {} is disabled via config"sv,
-                    Scaleform::StatsMenu::MENU_NAME,
-                    Scaleform::FactionMenu::MENU_NAME);
-            }
+            logger::debug("{} is open, open {}"sv, Scaleform::StatsMenu::MENU_NAME, Scaleform::FactionMenu::MENU_NAME);
+            SwapWindow(ShowMenu::mFaction, ShowMenu::mStats);
         } else if (Scaleform::FactionMenu::IsMenuOpen()) {
             logger::debug("{} is open, open {}"sv, Scaleform::FactionMenu::MENU_NAME, Scaleform::StatsMenu::MENU_NAME);
             SwapWindow(ShowMenu::mStats, ShowMenu::mFaction);
@@ -90,6 +82,8 @@ public:
         }
     }
 
+    void HandleMenuSwap(ShowMenu a_menu) { ShowWindow(a_menu); }
+
     ShowHandler() = default;
     ShowHandler(const ShowHandler&) = delete;
     ShowHandler(ShowHandler&&) = delete;
@@ -115,15 +109,12 @@ private:
 
     void ShowWindow(ShowMenu a_menu) {
         logger::trace("Gather Value and Show Window"sv);
-
         switch (a_menu) {
             case ShowMenu::mStats:
                 Scaleform::StatsMenu::Open();
                 break;
             case ShowMenu::mFaction:
-                if (*Settings::showFactionMenu) {
-                    Scaleform::FactionMenu::Open();
-                }
+                Scaleform::FactionMenu::Open();
                 break;
             case ShowMenu::mStatsInventory:
                 Scaleform::StatsInventoryMenu::Open();

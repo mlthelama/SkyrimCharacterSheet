@@ -4,7 +4,6 @@
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
 #include "data/playerdata.h"
-#include "scaleform/menus/factionmenu.h"
 
 namespace Scaleform {
     using StatsMenuValue = MenuUtil::StatsMenuValue;
@@ -14,6 +13,7 @@ namespace Scaleform {
     public:
         static constexpr std::string_view MENU_NAME = "ShowStats";
         static constexpr std::string_view FILE_NAME = MENU_NAME;
+        static constexpr ShowMenu _menu = ShowMenu::mStats;
 
         static void Register() {
             RE::UI::GetSingleton()->Register(MENU_NAME, Creator);
@@ -68,15 +68,16 @@ namespace Scaleform {
             logger::debug("Loading Menu {} was successful {}"sv, FILE_NAME, success);
             assert(success);
             _view = menu->uiMovie;
-            //_view->SetMouseCursorCount(0);
             if (*Settings::pauseGame) {
-                //menu->menuFlags |= Flag::kPausesGame;
                 menu->menuFlags.set(Flag::kPausesGame,
                     Flag::kUsesCursor,
                     Flag::kDisablePauseMenu,
                     Flag::kUpdateUsesCursor);
             } else {
-                menu->menuFlags |= Flag::kAllowSaving;
+                menu->menuFlags.set(Flag::kAllowSaving,
+                    Flag::kUsesCursor,
+                    Flag::kDisablePauseMenu,
+                    Flag::kUpdateUsesCursor);
             }
             menu->depthPriority = 0;
             menu->inputContext = Context::kNone;
@@ -99,10 +100,6 @@ namespace Scaleform {
         void PostCreate() override { StatsMenu::OnOpen(); }
 
         RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override {
-            /*if (a_message.menu == StatsMenu::MENU_NAME) {
-                return RE::UI_MESSAGE_RESULTS::kHandled;
-            }
-            return RE::UI_MESSAGE_RESULTS::kPassOn;*/
             switch (*a_message.type) {
                 case RE::UI_MESSAGE_TYPE::kHide:
                     OnClose();
@@ -363,7 +360,7 @@ namespace Scaleform {
             assert(a_params.GetArgCount() == 0);
             logger::debug("GUI Next Button Pressed"sv);
             Close();
-            //Scaleform::FactionMenu::Open();
+            ProcessNext(_menu);
         }
 
         static void Log(const RE::FxDelegateArgs& a_params) {
@@ -372,6 +369,8 @@ namespace Scaleform {
 
             logger::debug("{}: {}"sv, StatsMenu::MENU_NAME, a_params[0].GetString());
         }
+
+        static void ProcessNext(ShowMenu a_menu);
 
         RE::GPtr<RE::GFxMovieView> _view;
         bool _isActive = false;
@@ -422,7 +421,5 @@ namespace Scaleform {
             { StatsMenuValue::mWarrior, _perksWarriorItemListProvider },
             { StatsMenuValue::mThief, _perksThiefItemListProvider },
         };
-
-        ShowMenu _menu = ShowMenu::mStats;
     };
 }

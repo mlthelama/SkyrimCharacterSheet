@@ -1,9 +1,9 @@
 #pragma once
 #include "CLIK/Array.h"
+#include "CLIK/GFx/Controls/Button.h"
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
 #include "data/playerdata.h"
-#include "CLIK/GFx/Controls/Button.h"
 
 namespace Scaleform {
     using ShowMenu = MenuUtil::ShowMenu;
@@ -121,6 +121,7 @@ namespace Scaleform {
             a_processor->Process("Log", Log);
             a_processor->Process("CloseMenu", CloseMenu);
         }
+
     private:
         class Logger : public RE::GFxLog {
         public:
@@ -159,8 +160,7 @@ namespace Scaleform {
                 element_t{ std::ref(_armorItemList), "_root.rootObj.armorItemList"sv },
                 element_t{ std::ref(_weaponItemList), "_root.rootObj.weaponItemList"sv },
                 element_t{ std::ref(_effectItemList), "_root.rootObj.effectItemList"sv },
-                element_t{ std::ref(_menuClose), "_root.rootObj.menuClose"sv } 
-            };
+                element_t{ std::ref(_menuClose), "_root.rootObj.menuClose"sv } };
 
             for (const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
@@ -185,7 +185,7 @@ namespace Scaleform {
 
             _menuClose.Label("Close");
             _menuClose.Disabled(false);
-            _menuClose.Visible(false); //for now 
+            _menuClose.Visible(false);  //for now
 
             UpdateHeaders();
 
@@ -193,7 +193,7 @@ namespace Scaleform {
 
             _view->SetVisible(true);
             _rootObj.Visible(true);
-            
+
             DisableItemLists();
 
             logger::debug("Shown all Values for Menu {}"sv, MENU_NAME);
