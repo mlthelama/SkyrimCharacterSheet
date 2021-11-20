@@ -13,6 +13,7 @@ namespace Scaleform {
     public:
         static constexpr std::string_view MENU_NAME = "ShowStatsInventory";
         static constexpr std::string_view FILE_NAME = MENU_NAME;
+        static constexpr ShowMenu _menu = ShowMenu::mStatsInventory;
 
         static void Register() {
             RE::UI::GetSingleton()->Register(MENU_NAME, Creator);
@@ -276,7 +277,6 @@ namespace Scaleform {
             values.clear();
 
             //it seems the inventory needs a bit after an equipchange, so an item might be shown equiped
-            //might need implement skse taskinterface
             auto armor = PlayerData::GetSingleton()->getArmorMap();
             for (auto item : armor) {
                 _menuMap.find(StatsInventoryMenuValue::mEquip)
@@ -338,7 +338,5 @@ namespace Scaleform {
             { StatsInventoryMenuValue::mWeapon, _weaponItemListProvider },
             { StatsInventoryMenuValue::mEffect, _effectItemListProvider },
         };
-
-        ShowMenu _menu = ShowMenu::mStatsInventory;
     };
 }

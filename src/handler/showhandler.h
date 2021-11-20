@@ -108,7 +108,7 @@ private:
     }
 
     void ShowWindow(ShowMenu a_menu) {
-        logger::trace("Gather Value and Show Window"sv);
+        logger::trace("Show Window {}"sv, getMenuScaleformName(a_menu));
         switch (a_menu) {
             case ShowMenu::mStats:
                 Scaleform::StatsMenu::Open();

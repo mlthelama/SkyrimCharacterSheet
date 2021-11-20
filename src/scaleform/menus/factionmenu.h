@@ -77,8 +77,7 @@ namespace Scaleform {
                 menu->menuFlags.set(Flag::kAllowSaving,
                     Flag::kUsesCursor,
                     Flag::kDisablePauseMenu,
-                    Flag::kUpdateUsesCursor
-                );
+                    Flag::kUpdateUsesCursor);
             }
             menu->depthPriority = 0;
             menu->inputContext = Context::kNone;
