@@ -33,15 +33,17 @@ def copy_files(a_args, a_out):
     os.makedirs(gui_standard + '/',exist_ok=True)
     shutil.copy2(os.path.join(a_args.src_dir, "swf", "standard", "ShowStats.swf"), os.path.join(gui_standard, "ShowStats.swf"))
     shutil.copy2(os.path.join(a_args.src_dir, "swf", "standard", "ShowFactions.swf"), os.path.join(gui_standard, "ShowFactions.swf"))
+    shutil.copy2(os.path.join(a_args.src_dir, "swf", "standard", "ShowStatsInventory.swf"), os.path.join(gui_standard, "ShowStatsInventory.swf"))
 
     os.makedirs(gui_paper + '/',exist_ok=True)
     shutil.copy2(os.path.join(a_args.src_dir, "swf", "paper", "ShowStats.swf"), os.path.join(gui_paper, "ShowStats.swf"))
     shutil.copy2(os.path.join(a_args.src_dir, "swf", "paper", "ShowFactions.swf"), os.path.join(gui_paper, "ShowFactions.swf"))    
+    shutil.copy2(os.path.join(a_args.src_dir, "swf", "paper", "ShowStatsInventory.swf"), os.path.join(gui_paper, "ShowStatsInventory.swf"))
 
     os.makedirs(gui_paper_light + '/',exist_ok=True)
     shutil.copy2(os.path.join(a_args.src_dir, "swf", "paper_light", "ShowStats.swf"), os.path.join(gui_paper_light, "ShowStats.swf"))
     shutil.copy2(os.path.join(a_args.src_dir, "swf", "paper_light", "ShowFactions.swf"), os.path.join(gui_paper_light, "ShowFactions.swf"))
-
+    shutil.copy2(os.path.join(a_args.src_dir, "swf", "paper_light", "ShowStatsInventory.swf"), os.path.join(gui_paper_light, "ShowStatsInventory.swf"))
     
 
 def make_rel_archive(a_args, a_out):
