@@ -1,24 +1,21 @@
 #include "events.h"
 #include "scaleform/scaleform.h"
 
-void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
-    switch (a_msg->type) {
-        case SKSE::MessagingInterface::kDataLoaded:
-            logger::info("Data loaded"sv);
-            Events::SinkEventHandlers();
-            Scaleform::Register();
-            break;
+void InitLogger() {
+    static bool initialized = false;
+    if (!initialized) {
+        initialized = true;
+    } else {
+        return;
     }
-}
 
-extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info) {
     try {
 #ifndef NDEBUG
         auto sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
 #else
         auto path = logger::log_directory();
         if (!path) {
-            return false;
+            stl::report_and_fail("failed to get standard log path"sv);
         }
 
         *path /= Version::PROJECT;
@@ -37,39 +34,12 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
         spdlog::set_default_logger(move(log));
         spdlog::set_pattern("[%H:%M:%S.%f] %s(%#) [%^%l%$] %v"s);
 
-        logger::info(FMT_STRING("{} v{}"), Version::PROJECT, Version::NAME);
+        logger::info("{} v{}"sv, Version::PROJECT, Version::NAME);
 
-        a_info->infoVersion = SKSE::PluginInfo::kVersion;
-        a_info->name = Version::PROJECT.data();
-        a_info->version = Version::ASINT;
-
-        if (a_skse->IsEditor()) {
-            logger::critical("Loaded in editor, marking as incompatible"sv);
-            return false;
-        }
-
-        const auto ver = a_skse->RuntimeVersion();
-        if (ver < SKSE::RUNTIME_1_5_39) {
-            logger::critical(FMT_STRING("Unsupported runtime version {}"), ver.string());
-            return false;
-        }
-    } catch (const std::exception& e) {
-        logger::critical("failed, cause {}"sv, e.what());
-        return false;
-    }
-
-    return true;
-}
-
-
-extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse) {
-    try {
-        logger::info("ShowStats loading"sv);
         try {
             Settings::load();
+            logger::info("Settings Loaded"sv);
         } catch (const std::exception& e) { logger::warn("failed to load setting {}"sv, e.what()); }
-
-        SKSE::Init(a_skse);
 
         switch (*Settings::logLevel) {
             case _constLogTrace:
@@ -85,11 +55,35 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
                 spdlog::flush_on(spdlog::level::info);
                 break;
         }
+    } catch (const std::exception& e) { logger::critical("failed, cause {}"sv, e.what()); }
+}
 
-        auto messaging = SKSE::GetMessagingInterface();
-        if (!messaging->RegisterListener("SKSE", MessageHandler)) {
-            return false;
-        }
+extern "C" DLLEXPORT constexpr auto SKSEPlugin_Version = []() {
+    SKSE::PluginVersionData v{};
+    v.PluginVersion(Version::ASINT);
+    v.PluginName(Version::PROJECT.data());
+    v.AuthorName(Version::AUTHOR);
+    v.UsesAddressLibrary(true);
+    return v;
+}();
+
+extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse) {
+    try {
+        InitLogger();
+
+        logger::info("ShowStats loading"sv);
+
+        SKSE::Init(a_skse);
+
+        SKSE::GetMessagingInterface()->RegisterListener([](SKSE::MessagingInterface::Message* a_msg) {
+            switch (a_msg->type) {
+                case SKSE::MessagingInterface::kDataLoaded:
+                    logger::info("Data loaded"sv);
+                    Events::SinkEventHandlers();
+                    Scaleform::Register();
+                    break;
+            }
+        });
 
         logger::info("ShowStats loaded"sv);
     } catch (const std::exception& e) {

@@ -18,6 +18,7 @@ using namespace std::literals;
 
 namespace stl {
     using namespace SKSE::stl;
+    using SKSE::stl::report_and_fail;
 
     constexpr std::string_view safe_string(const char* a_str) { return a_str ? a_str : ""sv; }
 }

@@ -1,6 +1,6 @@
 {
   "name": "showstats",
-  "version-string": "0.0.0.1",
+  "version-string": "0.0.7.7",
   "description": "An info page",
   "homepage": "https://github.com/mlthelama/ShowStats",
   "license": "MIT",
@@ -8,7 +8,7 @@
 	"autotoml",
     "boost-atomic",
     "boost-stl-interfaces",
-    "span-lite",
-    "spdlog"
+    "spdlog",
+    "rsm-binary-io"
   ]
 }
