@@ -34,6 +34,7 @@ struct Settings {
 
     static inline bSetting showResistanceCap{ "specialHandling"s, "showResistanceCap"s, true };
 
+    //stat titles
     static inline sSetting showStatsTitleTitle{ "showStatsTitle"s, "title"s, _constUndefined };
     static inline sSetting showStatsTitlePlayer{ "showStatsTitle"s, "player"s, _constUndefined };
     static inline sSetting showStatsTitleAttack{ "showStatsTitle"s, "attack"s, _constUndefined };
@@ -44,6 +45,7 @@ struct Settings {
 
     static inline bSetting showStatsdisplayZero{ "showStatsSpecial"s, "displayZero"s, true };
 
+    //naming
     static inline sSetting nameString{ "showStatsName"s, "name"s, _constUndefined };
     static inline sSetting raceString{ "showStatsName"s, "race"s, _constUndefined };
     static inline sSetting levelString{ "showStatsName"s, "level"s, _constUndefined };
@@ -156,7 +158,14 @@ struct Settings {
     static inline sSetting bypassVendorStolenCheckString{ "showStatsName"s,
         "bypassVendorStolenCheck"s,
         _constUndefined };
+    static inline sSetting weaponReachString { "showStatsName"s, "weaponReach"s, _constUndefined };
+    static inline sSetting weaponReachLeftString{ "showStatsName"s, "weaponReachLeft"s, _constUndefined };
+    static inline sSetting weaponBaseDamageString{ "showStatsName"s, "weaponBaseDamage"s, _constUndefined };
+    static inline sSetting weaponBaseDamageLeftString{ "showStatsName"s, "weaponBaseDamageLeft"s, _constUndefined };
+    static inline sSetting weaponStaggerString{ "showStatsName"s, "weaponStagger"s, _constUndefined };
+    static inline sSetting weaponStaggerLeftString{ "showStatsName"s, "weaponStaggerLeft"s, _constUndefined };
 
+    //stat endings
     static inline sSetting heightStringEnding{ "showStatsEnding"s, "height"s, _constUndefined };
     static inline sSetting equipedWeightStringEnding{ "showStatsEnding"s, "equipedWeight"s, _constUndefined };
     static inline sSetting weightStringEnding{ "showStatsEnding"s, "weight"s, _constUndefined };
@@ -206,8 +215,8 @@ struct Settings {
         "leftWeaponSpeedMult"s,
         _constUndefined };
     static inline sSetting armorPerksStringEnding{ "showStatsEnding"s, "armorPerks"s, _constUndefined };
-    //factions do not need a ending
 
+    //stat menu
     static inline iSetting heightMenu{ "showStatsMenu"s, "height"s, 0 };
     static inline iSetting equipedWeightMenu{ "showStatsMenu"s, "equipedWeight"s, 0 };
     static inline iSetting weightMenu{ "showStatsMenu"s, "weight"s, 0 };
@@ -306,7 +315,14 @@ struct Settings {
     static inline iSetting bowStaggerBonusMenu{ "showStatsMenu"s, "bowStaggerBonus"s, 0 };
     static inline iSetting bypassVendorKeywordCheckMenu{ "showStatsMenu"s, "bypassVendorKeywordCheck"s, 0 };
     static inline iSetting bypassVendorStolenCheckMenu{ "showStatsMenu"s, "bypassVendorStolenCheck"s, 0 };
+    static inline iSetting weaponReachMenu{ "showStatsMenu"s, "weaponReach"s, 0 };
+    static inline iSetting weaponReachLeftMenu{ "showStatsMenu"s, "weaponReachLeft"s, 0 };
+    static inline iSetting weaponBaseDamageMenu{ "showStatsMenu"s, "weaponBaseDamage"s, 0 };
+    static inline iSetting weaponBaseDamageLeftMenu{ "showStatsMenu"s, "weaponBaseDamageLeft"s, 0 };
+    static inline iSetting weaponStaggerMenu{ "showStatsMenu"s, "weaponStagger"s, 0 };
+    static inline iSetting weaponStaggerLeftMenu{ "showStatsMenu"s, "weaponStaggerLeft"s, 0 };
 
+    //multiplier
     static inline iSetting weaponSpeedMultMult{ "showStatsMultiplier"s, "weaponSpeedMult"s, 1 };
     static inline iSetting shoutRecoveryMultMult{ "showStatsMultiplier"s, "shoutRecoveryMult"s, 1 };
     static inline iSetting movementNoiseMultMult{ "showStatsMultiplier"s, "movementNoiseMult"s, 1 };
@@ -317,11 +333,13 @@ struct Settings {
     static inline sSetting vampireString{ "showBeastName"s, "vampire"s, _constUndefined };
     static inline sSetting werewolfString{ "showBeastName"s, "werewolf"s, _constUndefined };
 
+    //factions title
     static inline sSetting showFactionsTitleTitle{ "showFactionsTitle"s, "title"s, _constUndefined };
     static inline sSetting showFactionsTitleFaction{ "showFactionsTitle"s, "faction"s, _constUndefined };
     static inline sSetting showFactionsTitleThane{ "showFactionsTitle"s, "thane"s, _constUndefined };
     static inline sSetting showFactionsTitleChampion{ "showFactionsTitle"s, "champion"s, _constUndefined };
 
+    //faction name
     static inline sSetting companionsString{ "showFactionsFactionNames"s, "companions"s, _constUndefined };
     static inline sSetting darkbrotherHoodString{ "showFactionsFactionNames"s, "darkbrotherHood"s, _constUndefined };
     static inline sSetting collegeOfWinterholdString{ "showFactionsFactionNames"s,
@@ -339,8 +357,10 @@ struct Settings {
     static inline sSetting dawnguardString{ "showFactionsFactionNames"s, "dawnguard"s, _constUndefined };
     static inline sSetting houseTelvanniString{ "showFactionsFactionNames"s, "houseTelvanni"s, _constUndefined };
 
+    //faction menu
     static inline iSetting factionMenu{ "showFactionsFactionMenu"s, "faction"s, 0 };
 
+    //faction ranks
     static inline sSetting bardRank{ "showFactionsFactionRank"s, "bard"s, _constUndefined };
     static inline sSetting assassinRank{ "showFactionsFactionRank"s, "assassin"s, _constUndefined };
     static inline sSetting listenerRank{ "showFactionsFactionRank"s, "listener"s, _constUndefined };
@@ -359,8 +379,10 @@ struct Settings {
     static inline sSetting honoraryMemberRank{ "showFactionsFactionRank"s, "honoraryMember"s, _constUndefined };
     static inline sSetting ysmirRank{ "showFactionsFactionRank"s, "ysmir"s, _constUndefined };
 
+    //thane menu
     static inline iSetting thaneMenu{ "showFactionsThaneMenu"s, "thane"s, 0 };
 
+    //thane names
     static inline sSetting thaneOfEastmarchName{ "showFactionsThaneName"s, "thaneOfEastmarch"s, _constUndefined };
     static inline sSetting thaneOfFalkreathName{ "showFactionsThaneName"s, "thaneOfFalkreath"s, _constUndefined };
     static inline sSetting thaneOfHaafingarName{ "showFactionsThaneName"s, "thaneOfHaafingar"s, _constUndefined };
@@ -371,8 +393,10 @@ struct Settings {
     static inline sSetting thaneOfWhiterunName{ "showFactionsThaneName"s, "thaneOfWhiterun"s, _constUndefined };
     static inline sSetting thaneOfWinterholdName{ "showFactionsThaneName"s, "thaneOfWinterhold"s, _constUndefined };
 
+    //champion menu
     static inline iSetting championMenu{ "showFactionsChampionMenu"s, "champion"s, 0 };
 
+    //champion name
     static inline sSetting azuraName{ "showFactionsChampionName"s, "azura"s, _constUndefined };
     static inline sSetting boethiahName{ "showFactionsChampionName"s, "boethiah"s, _constUndefined };
     static inline sSetting clavicusVileName{ "showFactionsChampionName"s, "clavicusVile"s, _constUndefined };
@@ -390,6 +414,7 @@ struct Settings {
     static inline sSetting sheogorathName{ "showFactionsChampionName"s, "sheogorath"s, _constUndefined };
     static inline sSetting vaerminaName{ "showFactionsChampionName"s, "vaermina"s, _constUndefined };
 
+    //stats inventory titles
     static inline sSetting showStatsInventoryTitleTitle{ "showStatsInventoryTitle"s, "title"s, _constUndefined };
     static inline sSetting showStatsInventoryTitleEquip{ "showStatsInventoryTitle"s, "equip"s, _constUndefined };
     static inline sSetting showStatsInventoryTitleArmor{ "showStatsInventoryTitle"s, "armor"s, _constUndefined };
@@ -398,6 +423,7 @@ struct Settings {
 
     static inline bSetting showStatsInventorydisplayZero{ "showStatsInventorySpecial"s, "displayZero"s, true };
 
+    //stats inventory menu
     static inline iSetting equipedWeightMenuInventory{ "showStatsInventoryMenu"s, "equipedWeight"s, 0 };
     static inline iSetting armorMenuInventory{ "showStatsInventoryMenu"s, "armor"s, 0 };
     static inline iSetting damageMenuInventory{ "showStatsInventoryMenu"s, "damage"s, 0 };
@@ -489,4 +515,10 @@ struct Settings {
     static inline iSetting armorPerksMenuInventory{ "showStatsInventoryMenu"s, "armorPerks"s, 0 };
     static inline iSetting massMenuInventory{ "showStatsInventoryMenu"s, "mass"s, 0 };
     static inline iSetting bowStaggerBonusMenuInventory{ "showStatsInventoryMenu"s, "bowStaggerBonus"s, 0 };
+    static inline iSetting weaponReachMenuInventory{ "showStatsInventoryMenu"s, "weaponReach"s, 0 };
+    static inline iSetting weaponReachLeftMenuInventory{ "showStatsInventoryMenu"s, "weaponReachLeft"s, 0 };
+    static inline iSetting weaponBaseDamageMenuInventory{ "showStatsInventoryMenu"s, "weaponBaseDamage"s, 0 };
+    static inline iSetting weaponBaseDamageLeftMenuInventory{ "showStatsInventoryMenu"s, "weaponBaseDamageLeft"s, 0 };
+    static inline iSetting weaponStaggerMenuInventory{ "showStatsInventoryMenu"s, "weaponStagger"s, 0 };
+    static inline iSetting weaponStaggerLeftMenuInventory{ "showStatsInventoryMenu"s, "weaponStaggerLeft"s, 0 };
 };
