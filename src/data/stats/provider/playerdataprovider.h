@@ -1,5 +1,4 @@
 #pragma once
-#include "utils/perkvisitor.h"
 
 class PlayerDataProvider {
 public:
@@ -13,11 +12,13 @@ public:
     }
 
     static std::string getArrowDamage(RE::PlayerCharacter*& a_player) {
-        RE::TESAmmo* ammo = a_player->GetCurrentAmmo();
+        RE::InventoryEntryData* equip = a_player->GetEquippedEntryData(false);
 
-        if (ammo) {
-            logger::trace("Item {} is arrow"sv, ammo->GetName());
-            return StringUtil::getStringValueFromFloat(ammo->data.damage);
+        if (equip) {
+            if (equip->object->GetFormType() == RE::FormType::Ammo) {
+                logger::trace("Item {} is arrow"sv, a_player->GetEquippedEntryData(false)->GetDisplayName());
+                return StringUtil::getStringValueFromFloat(a_player->GetDamage(a_player->GetEquippedEntryData(false)));
+            }
         }
         return "";
     }
@@ -58,7 +59,8 @@ public:
         float baseDamage = -1;
         auto hand = getEquippedWeapon(a_player, a_left);
         if (hand) {
-            baseDamage = static_cast<RE::TESObjectWEAP*>(hand->object)->attackDamage;
+            //currently not used, does not provide, base damage
+            //baseDamage = static_cast<RE::TESObjectWEAP*>(hand->object)->GetAttackDamage();
             logger::trace("Name {}, WeaponBaseDamage {}, Left {}"sv, hand->GetDisplayName(), baseDamage, a_left);
         }
         return (baseDamage == -1) ? "" : StringUtil::getStringValueFromFloat(baseDamage);
@@ -74,21 +76,10 @@ public:
         return (stagger == -1) ? "" : StringUtil::getStringValueFromFloat(stagger);
     }
 
-    static std::string handleWeaponCrit(RE::PlayerCharacter*& a_player, bool a_left) {
-        float crit = -1;
-        auto hand = getEquippedWeapon(a_player, a_left);
-        if (hand) {
-            auto critData = static_cast<RE::TESObjectWEAP*>(hand->object)->criticalData;
-            crit = critData.damage * critData.prcntMult;
-            logger::trace("Name {}, WeaponCritDamageRating {}, Left {}"sv, hand->GetDisplayName(), crit, a_left);
-        }
-        return (crit == -1) ? "" : StringUtil::getStringValueFromFloat(crit);
-    }
-
     static std::string getXP(RE::PlayerCharacter*& a_player) {
-        return StringUtil::delimitTwoValues(a_player->skills->data->xp,
-            a_player->skills->data->levelThreshold,
-            _constDelimiter);
+        return fmt::format(FMT_STRING("{}/{}"),
+            StringUtil::cutString(StringUtil::getStringValueFromFloat(a_player->skills->data->xp)),
+            StringUtil::cutString(StringUtil::getStringValueFromFloat(a_player->skills->data->levelThreshold)));
     }
 
     /* might need additional checks for mods that add more items 
@@ -152,18 +143,6 @@ public:
         for (auto item : slotMapString) { logger::trace("{}: {}"sv, item.first, item.second); }
 
         return slotMapString;
-    }
-
-    static float getFallDamageMod(RE::PlayerCharacter*& a_player) {
-        float fallDamageMod = 0;
-        if (a_player->HasPerkEntries(RE::BGSEntryPoint::ENTRY_POINTS::kModFallingDamage)) {
-            PerkVisiter perkVisit = PerkVisiter(a_player);
-            a_player->ForEachPerkEntry(RE::BGSEntryPoint::ENTRY_POINTS::kModFallingDamage, perkVisit);
-            fallDamageMod = perkVisit.GetResult();
-            logger::trace("perk visit got {} for FallingDamage"sv, fallDamageMod);
-        }
-
-        return fallDamageMod;
     }
 
 private:
@@ -265,7 +244,7 @@ private:
                 auto formid = effect->GetBaseObject()->GetFormID();
                 //Dragonhide
                 if (formid == 0x000CDB75) {
-                    logger::debug("Is Armor Spell {}, magnitude {}, formid {}"sv,
+                    logger::debug("Is Armor Spell {}, magnitude{}, formid {}"sv,
                         effect->GetBaseObject()->GetName(),
                         effect->magnitude,
                         StringUtil::intToHex(formid));
@@ -282,10 +261,6 @@ private:
             weapon = a_player->currentProcess->middleHigh->leftHand;
         } else {
             weapon = a_player->currentProcess->middleHigh->rightHand;
-        }
-
-        if (weapon) {
-            logger::trace("Equipped Item is {}, left {}"sv, weapon->GetDisplayName(), a_left);
         }
         return weapon;
     };

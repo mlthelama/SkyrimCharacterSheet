@@ -54,17 +54,6 @@ public:
         , _valueMultiplier(a_value_multiplier)
         , _cap(a_cap) {}
 
-    StatConfig(RE::ActorValue a_actor,
-        std::string a_display_name,
-        StatsMenuValue a_stats_menu,
-        StatsInventoryMenuValue a_stats_inventory_menu,
-        bool a_perm_av)
-        : _actor(a_actor)
-        , _displayName(a_display_name)
-        , _statsMenu(a_stats_menu)
-        , _statsInventoryMenu(a_stats_inventory_menu)
-        , _showPermAV(a_perm_av) {}
-
     RE::ActorValue getActor() { return _actor; }
 
     std::string getDisplayName() { return _displayName; }
@@ -79,8 +68,6 @@ public:
 
     float getCap() { return _cap; }
 
-    bool getShowPermAV() { return _showPermAV; }
-
     std::string getDisplay(std::string a_value) {
         if (!a_value.empty()) {
             logger::trace("display {} got value {}, building text ..."sv, _displayName, a_value);
@@ -91,7 +78,7 @@ public:
 
     void logStatConfig(StatsValue a_stats_value) {
         logger::trace(
-            "name {}, actor {}, displayName ({}), ending {}, statsMenu {}, statsInventoryMenu {}, valueMultiplier {}, cap {}, showPermAV {}"sv,
+            "name {}, actor {}, displayName ({}), ending {}, statsMenu {}, statsInventoryMenu {}, valueMultiplier {}, cap {}"sv,
             a_stats_value,
             _actor,
             _displayName,
@@ -99,8 +86,7 @@ public:
             _statsMenu,
             _statsInventoryMenu,
             _valueMultiplier,
-            _cap,
-            _showPermAV);
+            _cap);
     }
 
     StatConfig() = delete;
@@ -120,7 +106,6 @@ private:
     StatsInventoryMenuValue _statsInventoryMenu;
     int64_t _valueMultiplier = _constStaticMultiplier;
     float _cap = -1;
-    bool _showPermAV = false;
 };
 
 
@@ -190,8 +175,7 @@ public:
         mp[StatsValue::health] = std::make_unique<StatConfig>(ActorValue::kHealth,
             *Settings::healthString,
             MenuUtil::getStatsMenu(*Settings::healthMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::healthMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::healthMenuInventory));
         mp[StatsValue::healthRatePer] = std::make_unique<StatConfig>(ActorValue::kNone,
             *Settings::healthRateString,
             *Settings::healthRateStringEnding,
@@ -200,8 +184,7 @@ public:
         mp[StatsValue::magicka] = std::make_unique<StatConfig>(ActorValue::kMagicka,
             *Settings::magickaString,
             MenuUtil::getStatsMenu(*Settings::magickaMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::magickaMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::magickaMenuInventory));
         mp[StatsValue::magickaRatePer] = std::make_unique<StatConfig>(ActorValue::kNone,
             *Settings::magickaRateString,
             *Settings::magickaRateStringEnding,
@@ -210,8 +193,7 @@ public:
         mp[StatsValue::stamina] = std::make_unique<StatConfig>(ActorValue::kStamina,
             *Settings::staminaString,
             MenuUtil::getStatsMenu(*Settings::staminaMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::magickaRateMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::magickaRateMenuInventory));
         mp[StatsValue::staminaRatePer] = std::make_unique<StatConfig>(ActorValue::kNone,
             *Settings::staminaRateString,
             *Settings::staminaRateStringEnding,
@@ -267,93 +249,75 @@ public:
         mp[StatsValue::oneHanded] = std::make_unique<StatConfig>(ActorValue::kOneHanded,
             *Settings::oneHandedString,
             MenuUtil::getStatsMenu(*Settings::oneHandedMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::oneHandedMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::oneHandedMenuInventory));
         mp[StatsValue::twoHanded] = std::make_unique<StatConfig>(ActorValue::kTwoHanded,
             *Settings::twoHandedString,
             MenuUtil::getStatsMenu(*Settings::twoHandedMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::twoHandedMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::twoHandedMenuInventory));
         mp[StatsValue::archery] = std::make_unique<StatConfig>(ActorValue::kArchery,
             *Settings::archeryString,
             MenuUtil::getStatsMenu(*Settings::archeryMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::archeryMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::archeryMenuInventory));
         mp[StatsValue::block] = std::make_unique<StatConfig>(ActorValue::kBlock,
             *Settings::blockString,
             MenuUtil::getStatsMenu(*Settings::blockMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::blockMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::blockMenuInventory));
         mp[StatsValue::smithing] = std::make_unique<StatConfig>(ActorValue::kSmithing,
             *Settings::smithingString,
             MenuUtil::getStatsMenu(*Settings::smithingMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::smithingMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::smithingMenuInventory));
         mp[StatsValue::heavyArmor] = std::make_unique<StatConfig>(ActorValue::kHeavyArmor,
             *Settings::heavyArmorString,
             MenuUtil::getStatsMenu(*Settings::heavyArmorMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::heavyArmorMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::heavyArmorMenuInventory));
         mp[StatsValue::lightArmor] = std::make_unique<StatConfig>(ActorValue::kLightArmor,
             *Settings::lightArmorString,
             MenuUtil::getStatsMenu(*Settings::lightArmorMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::lightArmorMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::lightArmorMenuInventory));
         mp[StatsValue::pickpocket] = std::make_unique<StatConfig>(ActorValue::kPickpocket,
             *Settings::pickpocketString,
             MenuUtil::getStatsMenu(*Settings::pickpocketMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::pickpocketMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::pickpocketMenuInventory));
         mp[StatsValue::lockpicking] = std::make_unique<StatConfig>(ActorValue::kLockpicking,
             *Settings::lockpickingString,
             MenuUtil::getStatsMenu(*Settings::lockpickingMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::lockpickingMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::lockpickingMenuInventory));
         mp[StatsValue::sneak] = std::make_unique<StatConfig>(ActorValue::kSneak,
             *Settings::sneakString,
             MenuUtil::getStatsMenu(*Settings::sneakMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::sneakMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::sneakMenuInventory));
         mp[StatsValue::alchemy] = std::make_unique<StatConfig>(ActorValue::kAlchemy,
             *Settings::alchemyString,
             MenuUtil::getStatsMenu(*Settings::alchemyMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::alchemyMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::alchemyMenuInventory));
         mp[StatsValue::speech] = std::make_unique<StatConfig>(ActorValue::kSpeech,
             *Settings::speechString,
             MenuUtil::getStatsMenu(*Settings::speechMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::speechMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::speechMenuInventory));
         mp[StatsValue::enchanting] = std::make_unique<StatConfig>(ActorValue::kEnchanting,
             *Settings::enchantingString,
             MenuUtil::getStatsMenu(*Settings::enchantingMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::enchantingMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::enchantingMenuInventory));
         mp[StatsValue::alteration] = std::make_unique<StatConfig>(ActorValue::kAlteration,
             *Settings::alterationString,
             MenuUtil::getStatsMenu(*Settings::alterationMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::alterationMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::alterationMenuInventory));
         mp[StatsValue::conjuration] = std::make_unique<StatConfig>(ActorValue::kConjuration,
             *Settings::conjurationString,
             MenuUtil::getStatsMenu(*Settings::conjurationMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::conjurationMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::conjurationMenuInventory));
         mp[StatsValue::destruction] = std::make_unique<StatConfig>(ActorValue::kDestruction,
             *Settings::destructionString,
             MenuUtil::getStatsMenu(*Settings::destructionMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::destructionMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::destructionMenuInventory));
         mp[StatsValue::illusion] = std::make_unique<StatConfig>(ActorValue::kIllusion,
             *Settings::illusionString,
             MenuUtil::getStatsMenu(*Settings::illusionMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::illusionMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::illusionMenuInventory));
         mp[StatsValue::restoration] = std::make_unique<StatConfig>(ActorValue::kRestoration,
             *Settings::restorationString,
             MenuUtil::getStatsMenu(*Settings::restorationMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::restorationMenuInventory),
-            *Settings::displayPermanentAV);
+            MenuUtil::getStatsInventoryMenu(*Settings::restorationMenuInventory));
         mp[StatsValue::oneHandedPowerMod] = std::make_unique<StatConfig>(ActorValue::kOneHandedPowerModifier,
             *Settings::oneHandedPowerModString,
             MenuUtil::getStatsMenu(*Settings::oneHandedPowerModMenu),
@@ -658,7 +622,7 @@ public:
             *Settings::weaponBaseDamageString,
             MenuUtil::getStatsMenu(*Settings::weaponBaseDamageMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::weaponBaseDamageMenuInventory));
-        mp[StatsValue::weaponBaseDamageLeft] = std::make_unique<StatConfig>(ActorValue::kNone,
+        mp[StatsValue::weaponReachLeft] = std::make_unique<StatConfig>(ActorValue::kNone,
             *Settings::weaponBaseDamageLeftString,
             MenuUtil::getStatsMenu(*Settings::weaponBaseDamageLeftMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::weaponBaseDamageLeftMenuInventory));
@@ -670,20 +634,7 @@ public:
             *Settings::weaponStaggerLeftString,
             MenuUtil::getStatsMenu(*Settings::weaponStaggerLeftMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::weaponStaggerLeftMenuInventory));
-        mp[StatsValue::weaponCritDamageRating] = std::make_unique<StatConfig>(ActorValue::kNone,
-            *Settings::weaponCritDamageRatingString,
-            MenuUtil::getStatsMenu(*Settings::weaponCritDamageRatingMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::weaponCritDamageRatingMenuInventory));
-        mp[StatsValue::weaponCritDamageRatingLeft] = std::make_unique<StatConfig>(ActorValue::kNone,
-            *Settings::weaponCritDamageRatingLeftString,
-            MenuUtil::getStatsMenu(*Settings::weaponCritDamageRatingLeftMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::weaponCritDamageRatingLeftMenuInventory));
-        mp[StatsValue::fallDamageMod] = std::make_unique<StatConfig>(ActorValue::kNone,
-            *Settings::fallDamageModString,
-            *Settings::fallDamageModStringEnding,
-            MenuUtil::getStatsMenu(*Settings::fallDamageModMenu),
-            MenuUtil::getStatsInventoryMenu(*Settings::fallDamageModMenuInventory),
-            MenuUtil::getMultiplier(*Settings::fallDamageModMult));
+
         return mp;
     }
 
