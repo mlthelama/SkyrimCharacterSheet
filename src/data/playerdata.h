@@ -107,6 +107,24 @@ public:
                     valueText =
                         PlayerDataProvider::getDamageResistance(player, statConfig->getCap(), statConfig->getEnding());
                     break;
+                case StatsValue::weaponReach:
+                    valueText = PlayerDataProvider::handleWeaponReach(player, false);
+                    break;
+                case StatsValue::weaponReachLeft:
+                    valueText = PlayerDataProvider::handleWeaponReach(player, true);
+                    break;
+                case StatsValue::weaponBaseDamage:
+                    valueText = PlayerDataProvider::handleWeaponBaseDamage(player, false);
+                    break;
+                case StatsValue::weaponBaseDamageLeft:
+                    valueText = PlayerDataProvider::handleWeaponBaseDamage(player, true);
+                    break;
+                case StatsValue::weaponStagger:
+                    valueText = PlayerDataProvider::handleWeaponStagger(player, false);
+                    break;
+                case StatsValue::weaponStaggerLeft:
+                    valueText = PlayerDataProvider::handleWeaponStagger(player, true);
+                    break;
                 default:
                     if (statConfig->getActor() != RE::ActorValue::kNone) {
                         auto value = player->GetActorValue(statConfig->getActor()) * statConfig->getValueMultiplier();

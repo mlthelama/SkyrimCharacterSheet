@@ -30,7 +30,3 @@ namespace logger = SKSE::log;
 #include "settings/settings.h"
 #include "utils/constants.h"
 #include "utils/utils.h"
-
-#ifdef _MSC_VER
-#undef GetObject
-#endif

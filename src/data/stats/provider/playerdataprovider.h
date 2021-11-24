@@ -14,8 +14,8 @@ public:
     static std::string getArrowDamage(RE::PlayerCharacter*& a_player) {
         RE::InventoryEntryData* equip = a_player->GetEquippedEntryData(false);
 
-        if (equip != nullptr) {
-            if (equip->GetObject()->GetFormType() == RE::FormType::Ammo) {
+        if (equip) {
+            if (equip->object->GetFormType() == RE::FormType::Ammo) {
                 logger::trace("Item {} is arrow"sv, a_player->GetEquippedEntryData(false)->GetDisplayName());
                 return StringUtil::getStringValueFromFloat(a_player->GetDamage(a_player->GetEquippedEntryData(false)));
             }
@@ -24,36 +24,56 @@ public:
     }
 
     static std::string getDamage(RE::PlayerCharacter*& a_player, bool a_left) {
-        RE::InventoryEntryData* hand;
         float damage = -1;
-        if (a_left) {
-            hand = a_player->currentProcess->middleHigh->leftHand;
-        } else {
-            hand = a_player->currentProcess->middleHigh->rightHand;
-        }
-
-        if (hand != nullptr) {
+        auto hand = getEquippedWeapon(a_player, a_left);
+        if (hand) {
             damage = a_player->GetDamage(hand);
-            logger::trace("Name {}, Weapon Damage {}, Left {}"sv, hand->GetDisplayName(), damage, a_left);
+            logger::trace("Name {}, WeaponDamage {}, Left {}"sv, hand->GetDisplayName(), damage, a_left);
         }
         return (damage == -1) ? "" : StringUtil::getStringValueFromFloat(damage);
     }
 
     static std::string handleWeaponSpeed(RE::PlayerCharacter*& a_player, bool a_left) {
-        RE::InventoryEntryData* hand;
         float speed = -1;
-        if (a_left) {
-            hand = a_player->currentProcess->middleHigh->leftHand;
-        } else {
-            hand = a_player->currentProcess->middleHigh->rightHand;
-        }
+        auto hand = getEquippedWeapon(a_player, a_left);
 
         //could also get other weapon stats that way
-        if (hand != nullptr) {
-            speed = static_cast<RE::TESObjectWEAP*>(hand->GetObject())->GetSpeed();
-            logger::trace("Name {}, Weapon Speed {}, Left {}"sv, hand->GetDisplayName(), speed, a_left);
+        if (hand) {
+            speed = static_cast<RE::TESObjectWEAP*>(hand->object)->GetSpeed();
+            logger::trace("Name {}, WeaponSpeed {}, Left {}"sv, hand->GetDisplayName(), speed, a_left);
         }
         return (speed == -1) ? "" : StringUtil::getStringValueFromFloat(speed);
+    }
+
+    static std::string handleWeaponReach(RE::PlayerCharacter*& a_player, bool a_left) {
+        float reach = -1;
+        auto hand = getEquippedWeapon(a_player, a_left);
+        if (hand) {
+            reach = static_cast<RE::TESObjectWEAP*>(hand->object)->GetReach();
+            logger::trace("Name {}, WeaponReach {}, Left {}"sv, hand->GetDisplayName(), reach, a_left);
+        }
+        return (reach == -1) ? "" : StringUtil::getStringValueFromFloat(reach);
+    }
+
+    static std::string handleWeaponBaseDamage(RE::PlayerCharacter*& a_player, bool a_left) {
+        float baseDamage = -1;
+        auto hand = getEquippedWeapon(a_player, a_left);
+        if (hand) {
+            //currently not used, does not provide, base damage
+            //baseDamage = static_cast<RE::TESObjectWEAP*>(hand->object)->GetAttackDamage();
+            logger::trace("Name {}, WeaponBaseDamage {}, Left {}"sv, hand->GetDisplayName(), baseDamage, a_left);
+        }
+        return (baseDamage == -1) ? "" : StringUtil::getStringValueFromFloat(baseDamage);
+    }
+
+    static std::string handleWeaponStagger(RE::PlayerCharacter*& a_player, bool a_left) {
+        float stagger = -1;
+        auto hand = getEquippedWeapon(a_player, a_left);
+        if (hand) {
+            stagger = static_cast<RE::TESObjectWEAP*>(hand->object)->GetStagger();
+            logger::trace("Name {}, WeaponStagger {}, Left {}"sv, hand->GetDisplayName(), stagger, a_left);
+        }
+        return (stagger == -1) ? "" : StringUtil::getStringValueFromFloat(stagger);
     }
 
     static std::string getXP(RE::PlayerCharacter*& a_player) {
@@ -91,7 +111,6 @@ public:
         if (a_cap != -1) {
             damageResistanceString = ValueUtil::getValueWithCapIfNeeded(damageResistance, a_cap, a_ending);
         }
-
         return damageResistanceString;
     }
 
@@ -235,4 +254,14 @@ private:
         }
         return 0;
     }
+
+    static RE::InventoryEntryData* getEquippedWeapon(RE::PlayerCharacter*& a_player, bool a_left) {
+        RE::InventoryEntryData* weapon;
+        if (a_left) {
+            weapon = a_player->currentProcess->middleHigh->leftHand;
+        } else {
+            weapon = a_player->currentProcess->middleHigh->rightHand;
+        }
+        return weapon;
+    };
 };

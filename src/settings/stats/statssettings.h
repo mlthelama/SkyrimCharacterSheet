@@ -610,6 +610,30 @@ public:
             *Settings::damageLeftString,
             MenuUtil::getStatsMenu(*Settings::damageLeftMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::damageLeftMenuInventory));
+        mp[StatsValue::weaponReach] = std::make_unique<StatConfig>(ActorValue::kNone,
+            *Settings::weaponReachString,
+            MenuUtil::getStatsMenu(*Settings::weaponReachMenu),
+            MenuUtil::getStatsInventoryMenu(*Settings::weaponReachMenuInventory));
+        mp[StatsValue::weaponReachLeft] = std::make_unique<StatConfig>(ActorValue::kNone,
+            *Settings::weaponReachLeftString,
+            MenuUtil::getStatsMenu(*Settings::weaponReachLeftMenu),
+            MenuUtil::getStatsInventoryMenu(*Settings::weaponReachLeftMenuInventory));
+        mp[StatsValue::weaponBaseDamage] = std::make_unique<StatConfig>(ActorValue::kNone,
+            *Settings::weaponBaseDamageString,
+            MenuUtil::getStatsMenu(*Settings::weaponBaseDamageMenu),
+            MenuUtil::getStatsInventoryMenu(*Settings::weaponBaseDamageMenuInventory));
+        mp[StatsValue::weaponReachLeft] = std::make_unique<StatConfig>(ActorValue::kNone,
+            *Settings::weaponBaseDamageLeftString,
+            MenuUtil::getStatsMenu(*Settings::weaponBaseDamageLeftMenu),
+            MenuUtil::getStatsInventoryMenu(*Settings::weaponBaseDamageLeftMenuInventory));
+        mp[StatsValue::weaponStagger] = std::make_unique<StatConfig>(ActorValue::kNone,
+            *Settings::weaponStaggerString,
+            MenuUtil::getStatsMenu(*Settings::weaponStaggerMenu),
+            MenuUtil::getStatsInventoryMenu(*Settings::weaponStaggerMenuInventory));
+        mp[StatsValue::weaponStaggerLeft] = std::make_unique<StatConfig>(ActorValue::kNone,
+            *Settings::weaponStaggerLeftString,
+            MenuUtil::getStatsMenu(*Settings::weaponStaggerLeftMenu),
+            MenuUtil::getStatsInventoryMenu(*Settings::weaponStaggerLeftMenuInventory));
 
         return mp;
     }
