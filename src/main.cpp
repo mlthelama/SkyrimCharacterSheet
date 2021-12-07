@@ -64,6 +64,7 @@ extern "C" DLLEXPORT constexpr auto SKSEPlugin_Version = []() {
     v.PluginName(Version::PROJECT.data());
     v.AuthorName(Version::AUTHOR);
     v.UsesAddressLibrary(true);
+    v.CompatibleVersions({ SKSE::RUNTIME_LATEST });
     return v;
 }();
 
