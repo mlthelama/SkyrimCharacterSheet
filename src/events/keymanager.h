@@ -13,9 +13,6 @@ public:
         return std::addressof(singleton);
     }
 
-    static void Sink() { RE::BSInputDeviceManager::GetSingleton()->AddEventSink(KeyManager::GetSingleton()); }
-
-protected:
     auto ProcessEvent(RE::InputEvent* const* a_event,
         [[maybe_unused]] RE::BSTEventSource<RE::InputEvent*>* a_eventSource) -> EventResult {
         using EventType = RE::INPUT_EVENT_TYPE;
@@ -64,7 +61,7 @@ protected:
                     continue;
             }
 
-
+            
             if (ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME)) {
                 if (key == static_cast<uint32_t>(*Settings::showInventoryButton)) {
                     logger::debug("configured Key ({}) for Inventory pressed"sv, key);
@@ -106,6 +103,8 @@ protected:
         }
         return EventResult::kContinue;
     }
+
+    static void Sink() { RE::BSInputDeviceManager::GetSingleton()->AddEventSink(KeyManager::GetSingleton()); }
 
 private:
     KeyManager() = default;

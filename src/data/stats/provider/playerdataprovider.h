@@ -262,6 +262,10 @@ private:
         } else {
             weapon = a_player->currentProcess->middleHigh->rightHand;
         }
+
+        if (weapon) {
+            logger::trace("Equipped Item is {}, left {}"sv, weapon->GetDisplayName(), a_left);
+        }
         return weapon;
     };
 };

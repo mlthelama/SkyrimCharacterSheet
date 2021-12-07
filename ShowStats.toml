@@ -124,12 +124,12 @@ mass = 0 #1
 bowStaggerBonus = 0 #3
 bypassVendorKeywordCheck = 0 #1
 bypassVendorStolenCheck = 0 #1
-weaponReach = 0 #3
-weaponReachLeft = 0 #3
+weaponReach = 3 #3
+weaponReachLeft = 3 #3
 weaponBaseDamage = 0 #3 currently not working
 weaponBaseDamageLeft = 0 #3 currently not working
-weaponStagger = 0 #3
-weaponStaggerLeft = 0 #3
+weaponStagger = 3 #3
+weaponStaggerLeft = 3 #3
 
 [showStatsName]
 name = "Name"
