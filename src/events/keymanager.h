@@ -30,6 +30,8 @@ public:
 
         auto ui = RE::UI::GetSingleton();
         auto intfcStr = RE::InterfaceStrings::GetSingleton();
+        auto showHandler = ShowHandler::GetSingleton();
+
         if (ui->IsMenuOpen(intfcStr->console)) {
             return EventResult::kContinue;
         }
@@ -59,10 +61,10 @@ public:
                     continue;
             }
 
-            if (RE::UI::GetSingleton()->IsMenuOpen(RE::InventoryMenu::MENU_NAME)) {
+            
+            if (ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME)) {
                 if (key == static_cast<uint32_t>(*Settings::showInventoryButton)) {
                     logger::debug("configured Key ({}) for Inventory pressed"sv, key);
-                    auto showHandler = ShowHandler::GetSingleton();
                     if (!showHandler->IsMenuOpen(ShowMenu::mStatsInventory)) {
                         showHandler->HandleInventoryStatsOpen();
                     } else {
@@ -77,8 +79,13 @@ public:
             }
 
             /*if the game is not paused with the menu, it triggers the menu always in the background*/
-            auto showHandler = ShowHandler::GetSingleton();
             if (ui->GameIsPaused() && !showHandler->IsMenuOpen()) {
+                continue;
+            }
+
+            //for whatever reason i can open the menu while at a crafting station
+            //so let that not happen
+            if (ui->IsMenuOpen(RE::CraftingMenu::MENU_NAME)) {
                 continue;
             }
 
@@ -86,7 +93,7 @@ public:
                 logger::debug("configured Key ({}) pressed"sv, key);
                 showHandler->HandleMainButtonPress();
                 break;
-            } else if (key == RE::BSWin32KeyboardDevice::Key::kEscape) {
+            } else if (showHandler->IsMenuOpen() && key == RE::BSWin32KeyboardDevice::Key::kEscape) {
                 showHandler->CloseAllWindows();
                 break;
             } else if (key == static_cast<uint32_t>(*Settings::openFactionMenuButton)) {

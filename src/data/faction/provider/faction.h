@@ -126,9 +126,9 @@ private:
         { 0x0002BF9B, FactionValue::stormcloaks },
         { 0x0002C6C8, FactionValue::greybeard },
         { 0x02003376, FactionValue::volkiharVampireClan },
-        { 0x02014217, FactionValue::dawnguard },
+        //{ 0x02014217, FactionValue::dawnguard },
+        { 0x02003375, FactionValue::dawnguard },
         { 0x04019B8A, FactionValue::houseTelvanni } };
-
 
     void logMap() {
         for (const auto& item : _factionRankList) { logger::trace("faction {}, rank {}"sv, item.first, item.second); }
