@@ -23,7 +23,7 @@ thief = "Thief"
 warrior = "Warrior"
 
 [showStatsSpecial]
-displayZero = true #do or do not display values if they are 0
+displayZero = false #do or do not display values if they are 0
 
 [showStatsMenu]
 height = 0 #1 #non/disabled(0),player(1),defence(2),attack(3),magic(4),warrior(5),thief(6)
@@ -124,6 +124,12 @@ mass = 0 #1
 bowStaggerBonus = 0 #3
 bypassVendorKeywordCheck = 0 #1
 bypassVendorStolenCheck = 0 #1
+weaponReach = 3 #3
+weaponReachLeft = 3 #3
+weaponBaseDamage = 0 #3 currently not working
+weaponBaseDamageLeft = 0 #3 currently not working
+weaponStagger = 3 #3
+weaponStaggerLeft = 3 #3
 
 [showStatsName]
 name = "Name"
@@ -230,6 +236,12 @@ mass = "Mass"
 bowStaggerBonus = "Bow Stagger Bonus"
 bypassVendorKeywordCheck = "Vendor any Item"
 bypassVendorStolenCheck = "Vendor stolen Item"
+weaponReach = "Reach"
+weaponReachLeft = "Reach Left"
+weaponBaseDamage = "Base Damage"
+weaponBaseDamageLeft = "Base Damage Left"
+weaponStagger = "Stagger"
+weaponStaggerLeft = "Stagger Left"
 
 [showStatsEnding]
 height = ""
@@ -469,3 +481,9 @@ leftItemCharge = 0 #3
 armorPerks = 2
 mass = 0 #2
 bowStaggerBonus = 0 #4
+weaponReach = 3
+weaponReachLeft = 3
+weaponBaseDamage = 0 #3 currently not working
+weaponBaseDamageLeft = 0 #3 currently not working
+weaponStagger = 3
+weaponStaggerLeft = 3

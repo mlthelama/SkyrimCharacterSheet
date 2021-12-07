@@ -106,6 +106,12 @@ enum class StatsValue {
     bowStaggerBonus,
     bypassVendorKeywordCheck,
     bypassVendorStolenCheck,
+    weaponReach,
+    weaponReachLeft,
+    weaponBaseDamage,
+    weaponBaseDamageLeft,
+    weaponStagger,
+    weaponStaggerLeft,
 };
 
 enum class FactionValue {

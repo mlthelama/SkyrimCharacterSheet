@@ -72,14 +72,16 @@ namespace Scaleform {
                 menu->menuFlags.set(Flag::kPausesGame,
                     Flag::kUsesCursor,
                     Flag::kDisablePauseMenu,
-                    Flag::kUpdateUsesCursor);
+                    Flag::kUpdateUsesCursor,
+                    Flag::kTopmostRenderedMenu);
             } else {
                 menu->menuFlags.set(Flag::kAllowSaving,
                     Flag::kUsesCursor,
                     Flag::kDisablePauseMenu,
-                    Flag::kUpdateUsesCursor);
+                    Flag::kUpdateUsesCursor,
+                    Flag::kTopmostRenderedMenu);
             }
-            menu->depthPriority = 0;
+            menu->depthPriority = 5;
             menu->inputContext = Context::kNone;
             InitExtensions();
 

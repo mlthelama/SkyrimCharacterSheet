@@ -24,13 +24,21 @@ public:
             return EventResult::kContinue;
         }
 
-        if (a_event->opening && a_event->menuName == RE::InventoryMenu::MENU_NAME &&
-            *Settings::showInventoryStatsAutoOpen) {
-            ShowHandler::GetSingleton()->HandleInventoryStatsOpen();
+        //sometimes it can happen, if you press menu button and inventory it opens both
+        //that should not happen
+        auto showhandler = ShowHandler::GetSingleton();
+        if (a_event->opening && a_event->menuName == RE::InventoryMenu::MENU_NAME) {
+            if (showhandler->IsMenuOpen()) {
+                showhandler->CloseWindow(ShowMenu::mStats);
+            }
+
+            if (*Settings::showInventoryStatsAutoOpen) {
+                showhandler->HandleInventoryStatsOpen();
+            }
         }
 
         if (!a_event->opening && a_event->menuName == RE::InventoryMenu::MENU_NAME) {
-            ShowHandler::GetSingleton()->CloseWindow(ShowMenu::mStatsInventory);
+            showhandler->CloseWindow(ShowMenu::mStatsInventory);
         }
 
         return EventResult::kContinue;
