@@ -5,6 +5,7 @@
 #include "CLIK/TextField.h"
 #include "data/factiondata.h"
 
+
 namespace Scaleform {
     using FactionMenuValue = MenuUtil::FactionMenuValue;
     using ShowMenu = MenuUtil::ShowMenu;

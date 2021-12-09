@@ -11,6 +11,9 @@ public:
         return std::addressof(singleton);
     }
 
+    static void Sink() { RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink(EquipManager::GetSingleton()); }
+
+protected:
     auto ProcessEvent(const RE::TESEquipEvent* a_event,
         [[maybe_unused]] RE::BSTEventSource<RE::TESEquipEvent>* a_eventSource) -> EventResult {
         if (!a_event || !a_event->actor || !a_event->actor->IsPlayerRef()) {
@@ -33,8 +36,6 @@ public:
 
         return EventResult::kContinue;
     }
-
-    static void Sink() { RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink(EquipManager::GetSingleton()); }
 
 private:
     EquipManager() = default;

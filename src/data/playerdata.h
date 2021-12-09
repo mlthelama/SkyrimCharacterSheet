@@ -3,7 +3,6 @@
 #include "data/stats/statitem.h"
 #include "settings/stats/statssettings.h"
 
-
 class PlayerData {
     using StatsItemMap = std::map<StatsValue, std::unique_ptr<StatItem>>;
     using ShowMenu = MenuUtil::ShowMenu;
@@ -124,6 +123,16 @@ public:
                     break;
                 case StatsValue::weaponStaggerLeft:
                     valueText = PlayerDataProvider::handleWeaponStagger(player, true);
+                    break;
+                case StatsValue::weaponCritDamageRating:
+                    valueText = PlayerDataProvider::handleWeaponCrit(player, false);
+                    break;
+                case StatsValue::weaponCritDamageRatingLeft:
+                    valueText = PlayerDataProvider::handleWeaponCrit(player, true);
+                    break;
+                case StatsValue::fallDamageMod:
+                    valueText = StringUtil::getStringValueFromFloat(
+                        PlayerDataProvider::getFallDamageMod(player) * statConfig->getValueMultiplier());
                     break;
                 default:
                     if (statConfig->getActor() != RE::ActorValue::kNone) {

@@ -18,6 +18,7 @@ public:
             static_cast<RE::BSTEventSink<RE::MenuOpenCloseEvent>*>(MenuManager::GetSingleton()));
     }
 
+protected:
     auto ProcessEvent(RE::MenuOpenCloseEvent const* a_event,
         [[maybe_unused]] RE::BSTEventSource<RE::MenuOpenCloseEvent>* a_eventSource) -> EventResult {
         if (!a_event) {
