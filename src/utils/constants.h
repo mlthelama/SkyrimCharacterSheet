@@ -112,6 +112,9 @@ enum class StatsValue {
     weaponBaseDamageLeft,
     weaponStagger,
     weaponStaggerLeft,
+    weaponCritDamageRating,
+    weaponCritDamageRatingLeft,
+    fallDamageMod
 };
 
 enum class FactionValue {
