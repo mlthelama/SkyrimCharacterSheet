@@ -29,6 +29,7 @@ struct Settings {
     static inline bSetting showInventoryStats{ "General"s, "showInventoryStats"s, true };
     static inline bSetting showInventoryStatsAutoOpen{ "General"s, "showInventoryStatsAutoOpen"s, true };
     static inline iSetting showInventoryButton{ "General"s, "showInventoryButton"s, 0 };
+    static inline bSetting displayPermanentAV{ "General"s, "displayPermanentAV"s, true };
 
     static inline bSetting skyrimUnbound{ "Mods"s, "skyrimUnbound"s, true };
 
