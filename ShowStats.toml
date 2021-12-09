@@ -130,6 +130,9 @@ weaponBaseDamage = 0 #3 currently not working
 weaponBaseDamageLeft = 0 #3 currently not working
 weaponStagger = 3 #3
 weaponStaggerLeft = 3 #3
+weaponCritDamageRating = 0 #3
+weaponCritDamageRatingLeft = 0 #3
+fallDamageMod = 0 #1
 
 [showStatsName]
 name = "Name"
@@ -242,6 +245,9 @@ weaponBaseDamage = "Base Damage"
 weaponBaseDamageLeft = "Base Damage Left"
 weaponStagger = "Stagger"
 weaponStaggerLeft = "Stagger Left"
+weaponCritDamageRating = "Critical Damage Rating"
+weaponCritDamageRatingLeft = "Critical Damage Rating Left"
+fallDamageMod = "Fall Damage Mod"
 
 [showStatsEnding]
 height = ""
@@ -289,6 +295,7 @@ illusionMod = "%"
 restorationMod = "%"
 leftWeaponSpeedMult = "" # should be in %
 armorPerks = "%"
+fallDamageMod = "%"
 
 [showStatsMultiplier]
 weaponSpeedMult = 1 #0 will not work, cause math you know
@@ -297,6 +304,7 @@ movementNoiseMult = 100
 combatHealthRegenMultiply = 100
 leftWeaponSpeedMult = 1
 armorPerks = 100
+fallDamageMod = 100
 
 [showBeastName]
 vampire = "Vampire"
@@ -487,3 +495,6 @@ weaponBaseDamage = 0 #3 currently not working
 weaponBaseDamageLeft = 0 #3 currently not working
 weaponStagger = 3
 weaponStaggerLeft = 3
+weaponCritDamageRating = 0 #3
+weaponCritDamageRatingLeft = 0 #3
+fallDamageMod = 0 #4

@@ -158,12 +158,17 @@ struct Settings {
     static inline sSetting bypassVendorStolenCheckString{ "showStatsName"s,
         "bypassVendorStolenCheck"s,
         _constUndefined };
-    static inline sSetting weaponReachString { "showStatsName"s, "weaponReach"s, _constUndefined };
+    static inline sSetting weaponReachString{ "showStatsName"s, "weaponReach"s, _constUndefined };
     static inline sSetting weaponReachLeftString{ "showStatsName"s, "weaponReachLeft"s, _constUndefined };
     static inline sSetting weaponBaseDamageString{ "showStatsName"s, "weaponBaseDamage"s, _constUndefined };
     static inline sSetting weaponBaseDamageLeftString{ "showStatsName"s, "weaponBaseDamageLeft"s, _constUndefined };
     static inline sSetting weaponStaggerString{ "showStatsName"s, "weaponStagger"s, _constUndefined };
     static inline sSetting weaponStaggerLeftString{ "showStatsName"s, "weaponStaggerLeft"s, _constUndefined };
+    static inline sSetting weaponCritDamageRatingString{ "showStatsName"s, "weaponCritDamageRating"s, _constUndefined };
+    static inline sSetting weaponCritDamageRatingLeftString{ "showStatsName"s,
+        "weaponCritDamageRatingLeft"s,
+        _constUndefined };
+    static inline sSetting fallDamageModString{ "showStatsName"s, "fallDamageMod"s, _constUndefined };
 
     //stat endings
     static inline sSetting heightStringEnding{ "showStatsEnding"s, "height"s, _constUndefined };
@@ -215,6 +220,7 @@ struct Settings {
         "leftWeaponSpeedMult"s,
         _constUndefined };
     static inline sSetting armorPerksStringEnding{ "showStatsEnding"s, "armorPerks"s, _constUndefined };
+    static inline sSetting fallDamageModStringEnding{ "showStatsEnding"s, "fallDamageMod"s, _constUndefined };
 
     //stat menu
     static inline iSetting heightMenu{ "showStatsMenu"s, "height"s, 0 };
@@ -321,6 +327,9 @@ struct Settings {
     static inline iSetting weaponBaseDamageLeftMenu{ "showStatsMenu"s, "weaponBaseDamageLeft"s, 0 };
     static inline iSetting weaponStaggerMenu{ "showStatsMenu"s, "weaponStagger"s, 0 };
     static inline iSetting weaponStaggerLeftMenu{ "showStatsMenu"s, "weaponStaggerLeft"s, 0 };
+    static inline iSetting weaponCritDamageRatingMenu{ "showStatsMenu"s, "weaponCritDamageRating"s, 0 };
+    static inline iSetting weaponCritDamageRatingLeftMenu{ "showStatsMenu"s, "weaponCritDamageRatingLeft"s, 0 };
+    static inline iSetting fallDamageModMenu{ "showStatsMenu"s, "fallDamageMod"s, 0 };
 
     //multiplier
     static inline iSetting weaponSpeedMultMult{ "showStatsMultiplier"s, "weaponSpeedMult"s, 1 };
@@ -329,6 +338,7 @@ struct Settings {
     static inline iSetting combatHealthRegenMultiplyMult{ "showStatsMultiplier"s, "combatHealthRegenMultiply"s, 1 };
     static inline iSetting leftWeaponSpeedMultMult{ "showStatsMultiplier"s, "leftWeaponSpeedMult"s, 1 };
     static inline iSetting armorPerksMult{ "showStatsMultiplier"s, "armorPerks"s, 1 };
+    static inline iSetting fallDamageModMult{ "showStatsMultiplier"s, "fallDamageMod"s, 1 };
 
     static inline sSetting vampireString{ "showBeastName"s, "vampire"s, _constUndefined };
     static inline sSetting werewolfString{ "showBeastName"s, "werewolf"s, _constUndefined };
@@ -521,4 +531,11 @@ struct Settings {
     static inline iSetting weaponBaseDamageLeftMenuInventory{ "showStatsInventoryMenu"s, "weaponBaseDamageLeft"s, 0 };
     static inline iSetting weaponStaggerMenuInventory{ "showStatsInventoryMenu"s, "weaponStagger"s, 0 };
     static inline iSetting weaponStaggerLeftMenuInventory{ "showStatsInventoryMenu"s, "weaponStaggerLeft"s, 0 };
+    static inline iSetting weaponCritDamageRatingMenuInventory{ "showStatsInventoryMenu"s,
+        "weaponCritDamageRating"s,
+        0 };
+    static inline iSetting weaponCritDamageRatingLeftMenuInventory{ "showStatsInventoryMenu"s,
+        "weaponCritDamageRatingLeft"s,
+        0 };
+    static inline iSetting fallDamageModMenuInventory{ "showStatsInventoryMenu"s, "fallDamageMod"s, 0 };
 };

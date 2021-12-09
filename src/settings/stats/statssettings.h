@@ -622,7 +622,7 @@ public:
             *Settings::weaponBaseDamageString,
             MenuUtil::getStatsMenu(*Settings::weaponBaseDamageMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::weaponBaseDamageMenuInventory));
-        mp[StatsValue::weaponReachLeft] = std::make_unique<StatConfig>(ActorValue::kNone,
+        mp[StatsValue::weaponBaseDamageLeft] = std::make_unique<StatConfig>(ActorValue::kNone,
             *Settings::weaponBaseDamageLeftString,
             MenuUtil::getStatsMenu(*Settings::weaponBaseDamageLeftMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::weaponBaseDamageLeftMenuInventory));
@@ -634,7 +634,20 @@ public:
             *Settings::weaponStaggerLeftString,
             MenuUtil::getStatsMenu(*Settings::weaponStaggerLeftMenu),
             MenuUtil::getStatsInventoryMenu(*Settings::weaponStaggerLeftMenuInventory));
-
+        mp[StatsValue::weaponCritDamageRating] = std::make_unique<StatConfig>(ActorValue::kNone,
+            *Settings::weaponCritDamageRatingString,
+            MenuUtil::getStatsMenu(*Settings::weaponCritDamageRatingMenu),
+            MenuUtil::getStatsInventoryMenu(*Settings::weaponCritDamageRatingMenuInventory));
+        mp[StatsValue::weaponCritDamageRatingLeft] = std::make_unique<StatConfig>(ActorValue::kNone,
+            *Settings::weaponCritDamageRatingLeftString,
+            MenuUtil::getStatsMenu(*Settings::weaponCritDamageRatingLeftMenu),
+            MenuUtil::getStatsInventoryMenu(*Settings::weaponCritDamageRatingLeftMenuInventory));
+        mp[StatsValue::fallDamageMod] = std::make_unique<StatConfig>(ActorValue::kNone,
+            *Settings::fallDamageModString,
+            *Settings::fallDamageModStringEnding,
+            MenuUtil::getStatsMenu(*Settings::fallDamageModMenu),
+            MenuUtil::getStatsInventoryMenu(*Settings::fallDamageModMenuInventory),
+            MenuUtil::getMultiplier(*Settings::fallDamageModMult));
         return mp;
     }
 
