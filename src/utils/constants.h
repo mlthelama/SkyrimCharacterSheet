@@ -112,6 +112,9 @@ enum class StatsValue {
     weaponBaseDamageLeft,
     weaponStagger,
     weaponStaggerLeft,
+    weaponCritDamageRating,
+    weaponCritDamageRatingLeft,
+    fallDamageMod
 };
 
 enum class FactionValue {
@@ -160,3 +163,4 @@ constexpr int32_t _constLogInfo = 2;
 
 constexpr auto _constStaticDisplayValue = "yes"sv;
 constexpr auto _constStaticMultiplier = 1;
+constexpr auto _constDelimiter = "/"sv;

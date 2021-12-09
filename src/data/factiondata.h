@@ -5,7 +5,6 @@
 #include "data/faction/provider/thane.h"
 #include "settings/stats/factionsettings.h"
 
-
 class FactionData {
     using FactionItemMap = std::map<FactionValue, std::unique_ptr<FactionItem>>;
     using FactionMenuValue = MenuUtil::FactionMenuValue;
