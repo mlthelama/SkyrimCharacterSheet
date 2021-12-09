@@ -27,6 +27,12 @@ namespace StringUtil {
 
         return stream.str();
     }
+
+    template <typename T>
+    static std::string delimitTwoValues(float a_v1, float a_v2, T v_d) {
+        return fmt::format(FMT_STRING("{}{}{}"), getStringValueFromFloat(a_v1), v_d, getStringValueFromFloat(a_v2));
+    }
+
 }
 
 namespace MenuUtil {
@@ -183,6 +189,13 @@ namespace ValueUtil {
                 StringUtil::getStringValueFromFloat(a_res));
         }
         return value;
+    }
+
+    static std::string getValueWithPermAV(float a_av, float a_perm_av) {
+        if (a_av != a_perm_av) {
+            return StringUtil::delimitTwoValues(a_av, a_perm_av, _constDelimiter);
+        }
+        return StringUtil::getStringValueFromFloat(a_av);
     }
 }
 

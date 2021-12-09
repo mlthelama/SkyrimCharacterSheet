@@ -136,11 +136,17 @@ public:
                     break;
                 default:
                     if (statConfig->getActor() != RE::ActorValue::kNone) {
+                        //for whatever reason magicka, stamina and health enchantments count as permanent
                         auto value = player->GetActorValue(statConfig->getActor()) * statConfig->getValueMultiplier();
+
                         if (statConfig->getCap() != -1) {
                             valueText = ValueUtil::getValueWithCapIfNeeded(value,
                                 statConfig->getCap(),
                                 statConfig->getEnding());
+                        } else if (statConfig->getShowPermAV()) {
+                            auto permAV = player->GetPermanentActorValue(statConfig->getActor()) *
+                                          statConfig->getValueMultiplier();
+                            valueText = ValueUtil::getValueWithPermAV(value, permAV);
                         } else {
                             valueText = StringUtil::getStringValueFromFloat(value);
                         }
@@ -156,10 +162,13 @@ public:
                 continue;
             }
 
+            //todo fix for some values should be shown if 0, atm hardcode noise here
             if ((!*Settings::showStatsInventorydisplayZero && valueText == "0" &&
                     a_menu == ShowMenu::mStatsInventory) ||
                 (!*Settings::showStatsdisplayZero && valueText == "0" && a_menu == ShowMenu::mStats)) {
-                continue;
+                if (statConfig->getActor() != RE::ActorValue::kMovementNoiseMult) {
+                    continue;
+                }
             }
 
             if (valueText != "") {

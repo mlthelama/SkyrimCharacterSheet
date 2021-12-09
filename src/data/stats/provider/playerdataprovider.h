@@ -13,13 +13,11 @@ public:
     }
 
     static std::string getArrowDamage(RE::PlayerCharacter*& a_player) {
-        RE::InventoryEntryData* equip = a_player->GetEquippedEntryData(false);
+        RE::TESAmmo* ammo = a_player->GetCurrentAmmo();
 
-        if (equip) {
-            if (equip->object->GetFormType() == RE::FormType::Ammo) {
-                logger::trace("Item {} is arrow"sv, a_player->GetEquippedEntryData(false)->GetDisplayName());
-                return StringUtil::getStringValueFromFloat(a_player->GetDamage(a_player->GetEquippedEntryData(false)));
-            }
+        if (ammo) {
+            logger::trace("Item {} is arrow"sv, ammo->GetName());
+            return StringUtil::getStringValueFromFloat(ammo->data.damage);
         }
         return "";
     }
@@ -88,9 +86,9 @@ public:
     }
 
     static std::string getXP(RE::PlayerCharacter*& a_player) {
-        return fmt::format(FMT_STRING("{}/{}"),
-            StringUtil::cutString(StringUtil::getStringValueFromFloat(a_player->skills->data->xp)),
-            StringUtil::cutString(StringUtil::getStringValueFromFloat(a_player->skills->data->levelThreshold)));
+        return StringUtil::delimitTwoValues(a_player->skills->data->xp,
+            a_player->skills->data->levelThreshold,
+            _constDelimiter);
     }
 
     /* might need additional checks for mods that add more items 
