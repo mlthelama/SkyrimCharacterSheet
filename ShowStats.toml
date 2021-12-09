@@ -6,6 +6,7 @@ pauseGame = true #set to False if you it should be like <= version 0.0.2 (or if 
 showInventoryStats = true #show can small window in the inventory menu (over the display picture) 
 showInventoryStatsAutoOpen = false #if it should auto open or not, can be closed/open with openMenuButton
 showInventoryButton = 11 #0(=Zero) currently typing in the searchbar would notice the input
+displayPermanentAV = false # if pAV != AV it will be displayed AV/pAV
 
 [Mods]
 skyrimUnbound = false #changes the check for thaneOfWhiterun
@@ -126,8 +127,8 @@ bypassVendorKeywordCheck = 0 #1
 bypassVendorStolenCheck = 0 #1
 weaponReach = 3 #3
 weaponReachLeft = 3 #3
-weaponBaseDamage = 0 #3 currently not working
-weaponBaseDamageLeft = 0 #3 currently not working
+weaponBaseDamage = 0 #3
+weaponBaseDamageLeft = 0 #3
 weaponStagger = 3 #3
 weaponStaggerLeft = 3 #3
 weaponCritDamageRating = 0 #3
@@ -491,8 +492,8 @@ mass = 0 #2
 bowStaggerBonus = 0 #4
 weaponReach = 3
 weaponReachLeft = 3
-weaponBaseDamage = 0 #3 currently not working
-weaponBaseDamageLeft = 0 #3 currently not working
+weaponBaseDamage = 0 #3
+weaponBaseDamageLeft = 0 #3
 weaponStagger = 3
 weaponStaggerLeft = 3
 weaponCritDamageRating = 0 #3
