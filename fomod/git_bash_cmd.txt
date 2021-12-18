@@ -1,1 +1,1 @@
-python build_zip.py --src-dir /e/try/ShowStats/src/skse64/ShowStats-CommonLibSSE/  --dll /e/try/ShowStats/src/skse64/ShowStats-CommonLibSSE/build/Release/ShowStats.dll --name ShowStats
+python build_zip.py --src-dir /e/source/skse/skse64/ShowStats/  --dll /e/source/skse/skse64/ShowStats/build/Release/ShowStats.dll --name ShowStats
