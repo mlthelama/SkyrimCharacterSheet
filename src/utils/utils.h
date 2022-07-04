@@ -1,4 +1,5 @@
 #pragma once
+#include "settings/gamesettings.h"
 
 namespace StringUtil {
     static std::string cutString(std::string a_value) {
@@ -176,7 +177,10 @@ namespace MenuUtil {
 
 namespace ValueUtil {
     static float calculateArmorDamageRes(float a_armor_rating, int32_t a_pieces_worn) {
-        return (float(a_armor_rating * 0.12) + float(3 * a_pieces_worn));
+        //return (float(a_armor_rating * 0.12) + float(3 * a_pieces_worn));
+        auto gamesettings = GameSettings::GetSingleton();       
+
+        return (float(a_armor_rating * gamesettings->armorScalingFactor) + float((gamesettings->armorBaseFactor*100) * a_pieces_worn));
     }
 
     static std::string getValueWithCapIfNeeded(float a_res, float a_cap, std::string a_ending) {

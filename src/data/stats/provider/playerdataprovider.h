@@ -94,6 +94,7 @@ public:
     /* might need additional checks for mods that add more items 
     * each light, heavy or shield gives 3% res + for some reason there is a 12 base res
     * formula would be ((totalArmorRating * 0.12) + (3 * piecesWorn));
+    * the 3% is provided by fArmorBaseFactor
     */
     static std::string getDamageResistance(RE::PlayerCharacter*& a_player, float a_cap, std::string a_ending) {
         const auto inv = a_player->GetInventory([](RE::TESBoundObject& a_object) { return a_object.IsArmor(); });
@@ -154,6 +155,10 @@ public:
         return slotMapString;
     }
 
+    //kModSneakAttackMult should work with that as well
+    //kModPlayerIntimidation
+    //kModEnchantmentPower
+    // maybe some more
     static float getFallDamageMod(RE::PlayerCharacter*& a_player) {
         float fallDamageMod = 0;
         if (a_player->HasPerkEntries(RE::BGSEntryPoint::ENTRY_POINTS::kModFallingDamage)) {
