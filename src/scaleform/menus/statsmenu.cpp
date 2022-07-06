@@ -1,6 +1,6 @@
 #include "scaleform/menus/statsmenu.h"
 #include "handler/showhandler.h"
 
-void Scaleform::StatsMenu::ProcessNext(ShowMenu a_menu) {
-    ShowHandler::GetSingleton()->HandleMenuSwap(MenuUtil::getNextMenu(a_menu));
+void scaleform::stats_menu::process_next(const show_menu a_menu) {
+    show_handler::get_singleton()->handle_menu_swap(get_next_menu(a_menu));
 }

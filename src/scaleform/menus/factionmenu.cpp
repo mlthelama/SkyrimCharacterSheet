@@ -1,6 +1,6 @@
 #include "scaleform/menus/factionmenu.h"
 #include "handler/showhandler.h"
 
-void Scaleform::FactionMenu::ProcessPrev(ShowMenu a_menu) {
-    ShowHandler::GetSingleton()->HandleMenuSwap(MenuUtil::getPrevMenu(a_menu));
+void scaleform::FactionMenu::process_prev(const show_menu a_menu) {
+    show_handler::get_singleton()->handle_menu_swap(get_prev_menu(a_menu));
 }

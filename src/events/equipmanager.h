@@ -1,48 +1,48 @@
 #pragma once
 #include "handler/showhandler.h"
 
-class EquipManager : public RE::BSTEventSink<RE::TESEquipEvent> {
+class equip_manager final : public RE::BSTEventSink<RE::TESEquipEvent> {
 public:
-    using EventResult = RE::BSEventNotifyControl;
-    using ShowMenu = MenuUtil::ShowMenu;
+    using event_result = RE::BSEventNotifyControl;
+    using show_menu = menu_util::show_menu;
 
-    static EquipManager* GetSingleton() {
-        static EquipManager singleton;
+    static equip_manager* get_singleton() {
+        static equip_manager singleton;
         return std::addressof(singleton);
     }
 
-    static void Sink() { RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink(EquipManager::GetSingleton()); }
+    static void sink() { RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink(get_singleton()); }
+
+    equip_manager(const equip_manager&) = delete;
+    equip_manager(equip_manager&&) = delete;
+
+    equip_manager& operator=(const equip_manager&) = delete;
+    equip_manager& operator=(equip_manager&&) = delete;
 
 protected:
-    auto ProcessEvent(const RE::TESEquipEvent* a_event,
-        [[maybe_unused]] RE::BSTEventSource<RE::TESEquipEvent>* a_eventSource) -> EventResult {
+    auto ProcessEvent(const RE::TESEquipEvent* a_event, [[maybe_unused]] RE::BSTEventSource<RE::TESEquipEvent>* a_event_source) -> event_result override {
         if (!a_event || !a_event->actor || !a_event->actor->IsPlayerRef()) {
-            return EventResult::kContinue;
+            return event_result::kContinue;
         }
-        auto formid = RE::TESForm::LookupByID(a_event->baseObject);
+        const auto formid = RE::TESForm::LookupByID(a_event->baseObject);
 
         if (!formid) {
-            return EventResult::kContinue;
+            return event_result::kContinue;
         }
 
         if (formid->IsArmor() || formid->IsWeapon() || formid->IsAmmo()) {
             logger::trace("Player {} {}"sv, (a_event->equipped ? "equipped" : "unequipped"), formid->GetName());
             //if menu is open trigger reload of data
-            auto showHandler = ShowHandler::GetSingleton();
-            if (showHandler->IsMenuOpen(ShowMenu::mStatsInventory)) {
-                showHandler->HandleInventoryStatsUpdate();
+            if ([[maybe_unused]] const auto show_handler = show_handler::get_singleton();
+                show_handler::is_menu_open(show_menu::m_stats_inventory)) {
+                show_handler::handle_inventory_stats_update();
             }
         }
 
-        return EventResult::kContinue;
+        return event_result::kContinue;
     }
 
 private:
-    EquipManager() = default;
-    EquipManager(const EquipManager&) = delete;
-    EquipManager(EquipManager&&) = delete;
-    virtual ~EquipManager() = default;
-
-    EquipManager& operator=(const EquipManager&) = delete;
-    EquipManager& operator=(EquipManager&&) = delete;
+    equip_manager() = default;
+    ~equip_manager() override = default;
 };

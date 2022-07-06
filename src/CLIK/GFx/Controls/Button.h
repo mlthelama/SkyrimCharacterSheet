@@ -7,7 +7,7 @@ namespace CLIK {
         namespace Controls {
             class Button : public Core::UIComponent {
             private:
-                using super = Core::UIComponent;
+                using super = UIComponent;
 
             public:
                 Button() = default;

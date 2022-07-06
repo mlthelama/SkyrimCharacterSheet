@@ -3,16 +3,16 @@
 #include "events/keymanager.h"
 #include "events/menumanager.h"
 
-namespace Events {
-    void SinkEventHandlers() {
-        KeyManager::Sink();
+namespace events {
+    void sink_event_handlers() {
+        key_manager::sink();
         logger::info("Added Input Event"sv);
 
-        if (*Settings::showInventoryStats) {
-            MenuManager::Sink();
+        if (*settings::show_inventory_stats) {
+            menu_manager::sink();
             logger::info("Added Menu Event"sv);
 
-            EquipManager::Sink();
+            equip_manager::sink();
             logger::info("Added Equip Event"sv);
         }
     }

@@ -4,10 +4,10 @@
 #include "settings/stats/statssettings.h"
 
 class PlayerData {
-    using StatsItemMap = std::map<StatsValue, std::unique_ptr<StatItem>>;
-    using ShowMenu = MenuUtil::ShowMenu;
-    using StatsInventoryMenuValue = MenuUtil::StatsInventoryMenuValue;
-    using StatsMenuValue = MenuUtil::StatsMenuValue;
+    using StatsItemMap = std::map<stats_value, std::unique_ptr<stat_item>>;
+    using ShowMenu = menu_util::show_menu;
+    using StatsInventoryMenuValue = menu_util::stats_inventory_menu_value;
+    using StatsMenuValue = menu_util::stats_menu_value;
     using SlotArmorMap = std::map<std::string, std::string_view>;
 
 public:
@@ -22,18 +22,18 @@ public:
 
         auto player = RE::PlayerCharacter::GetSingleton();
 
-        auto statSettingMap = StatSetting::GetSingleton()->load();
+        auto statSettingMap = stat_setting::get_singleton()->load();
         logger::debug("Config Map Size is {}"sv, statSettingMap.size());
 
         for (auto& element : statSettingMap) {
             auto statValue = element.first;
             auto statConfig = element.second.get();
 
-            statConfig->logStatConfig(statValue);
+            statConfig->log_stat_config(statValue);
 
-            if ((a_menu == ShowMenu::mStats && statConfig->getStatsMenu() == StatsMenuValue::mNone) ||
-                (a_menu == ShowMenu::mStatsInventory &&
-                    statConfig->getStatsInventoryMenu() == StatsInventoryMenuValue::mNone)) {
+            if ((a_menu == ShowMenu::m_stats && statConfig->get_stats_menu() == StatsMenuValue::m_none) ||
+                (a_menu == ShowMenu::m_stats_inventory &&
+                    statConfig->get_stats_inventory_menu() == StatsInventoryMenuValue::m_none)) {
                 continue;
             }
 
@@ -41,119 +41,121 @@ public:
             std::string valueText = "";
 
             switch (statValue) {
-                case StatsValue::name:
+                case stats_value::name:
                     valueText = player->GetName();
                     break;
-                case StatsValue::race:
+                case stats_value::race:
                     valueText = player->GetRace()->GetFullName();
                     break;
-                case StatsValue::level:
+                case stats_value::level:
                     valueText = std::to_string(player->GetLevel());
                     break;
-                case StatsValue::perkCount:
+                case stats_value::perk_count:
                     valueText = std::to_string(player->perkCount);
                     break;
-                case StatsValue::height:
-                    valueText = StringUtil::getStringValueFromFloat(player->GetHeight());
+                case stats_value::height:
+                    valueText = string_util::get_string_value_from_float(player->GetHeight());
                     break;
-                case StatsValue::equipedWeight:
-                    valueText = StringUtil::getStringValueFromFloat(player->GetWeight());
+                case stats_value::equipped_weight:
+                    valueText = string_util::get_string_value_from_float(player->GetWeight());
                     break;
-                case StatsValue::skillTrainingsThisLevel:
+                case stats_value::skill_trainings_this_level:
                     valueText = std::to_string(player->skillTrainingsThisLevel);
                     break;
-                case StatsValue::damageArrow:
-                    valueText = PlayerDataProvider::getArrowDamage(player);
+                case stats_value::damage_arrow:
+                    valueText = player_data_provider::get_arrow_damage(player);
                     break;
-                case StatsValue::damage:
-                    valueText = PlayerDataProvider::getDamage(player, false);
+                case stats_value::damage:
+                    valueText = player_data_provider::get_damage(player, false);
                     break;
-                case StatsValue::damageLeft:
-                    valueText = PlayerDataProvider::getDamage(player, true);
+                case stats_value::damage_left:
+                    valueText = player_data_provider::get_damage(player, true);
                     break;
-                case StatsValue::beast:
-                    valueText = PlayerDataProvider::getBeast(player->GetActorValue(RE::ActorValue::kVampirePerks),
+                case stats_value::beast:
+                    valueText = player_data_provider::get_beast(player->GetActorValue(RE::ActorValue::kVampirePerks),
                         player->GetActorValue(RE::ActorValue::kWerewolfPerks));
                     break;
-                case StatsValue::healthRatePer:
-                    valueText = StringUtil::getStringValueFromFloat(
-                        StringUtil::calculateValue(player->GetActorValue(RE::ActorValue::kHealRateMult),
+                case stats_value::health_rate_per:
+                    valueText = string_util::get_string_value_from_float(
+                        string_util::calculate_value(player->GetActorValue(RE::ActorValue::kHealRateMult),
                             player->GetActorValue(RE::ActorValue::kHealRate)));
                     break;
-                case StatsValue::magickaRatePer:
-                    valueText = StringUtil::getStringValueFromFloat(
-                        StringUtil::calculateValue(player->GetActorValue(RE::ActorValue::kMagickaRateMult),
+                case stats_value::magicka_rate_per:
+                    valueText = string_util::get_string_value_from_float(
+                        string_util::calculate_value(player->GetActorValue(RE::ActorValue::kMagickaRateMult),
                             player->GetActorValue(RE::ActorValue::kMagickaRate)));
                     break;
-                case StatsValue::staminaRatePer:
-                    valueText = StringUtil::getStringValueFromFloat(
-                        StringUtil::calculateValue(player->GetActorValue(RE::ActorValue::kStaminaRateMult),
+                case stats_value::stamina_rate_per:
+                    valueText = string_util::get_string_value_from_float(
+                        string_util::calculate_value(player->GetActorValue(RE::ActorValue::kStaminaRateMult),
                             player->GetActorValue(RE::ActorValue::KStaminaRate)));
                     break;
-                case StatsValue::xp:
-                    valueText = PlayerDataProvider::getXP(player);
+                case stats_value::xp:
+                    valueText = player_data_provider::get_xp(player);
                     break;
-                case StatsValue::weight:
-                    valueText = StringUtil::getStringValueFromFloat(player->GetWeight());
+                case stats_value::weight:
+                    valueText = string_util::get_string_value_from_float(player->GetWeight());
                     break;
-                case StatsValue::weaponSpeedMult:
-                    valueText = PlayerDataProvider::handleWeaponSpeed(player, false);
+                case stats_value::weapon_speed_mult:
+                    valueText = player_data_provider::handle_weapon_speed(player, false);
                     break;
-                case StatsValue::leftWeaponSpeedMult:
-                    valueText = PlayerDataProvider::handleWeaponSpeed(player, true);
+                case stats_value::left_weapon_speed_mult:
+                    valueText = player_data_provider::handle_weapon_speed(player, true);
                     break;
-                case StatsValue::resistDamage:
-                    valueText =
-                        PlayerDataProvider::getDamageResistance(player, statConfig->getCap(), statConfig->getEnding());
+                case stats_value::resist_damage:
+                    valueText = player_data_provider::get_damage_resistance(player,
+                        statConfig->get_cap(),
+                        statConfig->get_ending());
                     break;
-                case StatsValue::weaponReach:
-                    valueText = PlayerDataProvider::handleWeaponReach(player, false);
+                case stats_value::weapon_reach:
+                    valueText = player_data_provider::handle_weapon_reach(player, false);
                     break;
-                case StatsValue::weaponReachLeft:
-                    valueText = PlayerDataProvider::handleWeaponReach(player, true);
+                case stats_value::weapon_reach_left:
+                    valueText = player_data_provider::handle_weapon_reach(player, true);
                     break;
-                case StatsValue::weaponBaseDamage:
-                    valueText = PlayerDataProvider::handleWeaponBaseDamage(player, false);
+                case stats_value::weapon_base_damage:
+                    valueText = player_data_provider::handle_weapon_base_damage(player, false);
                     break;
-                case StatsValue::weaponBaseDamageLeft:
-                    valueText = PlayerDataProvider::handleWeaponBaseDamage(player, true);
+                case stats_value::weapon_base_damage_left:
+                    valueText = player_data_provider::handle_weapon_base_damage(player, true);
                     break;
-                case StatsValue::weaponStagger:
-                    valueText = PlayerDataProvider::handleWeaponStagger(player, false);
+                case stats_value::weapon_stagger:
+                    valueText = player_data_provider::handle_weapon_stagger(player, false);
                     break;
-                case StatsValue::weaponStaggerLeft:
-                    valueText = PlayerDataProvider::handleWeaponStagger(player, true);
+                case stats_value::weapon_stagger_left:
+                    valueText = player_data_provider::handle_weapon_stagger(player, true);
                     break;
-                case StatsValue::weaponCritDamageRating:
-                    valueText = PlayerDataProvider::handleWeaponCrit(player, false);
+                case stats_value::weapon_crit_damage_rating:
+                    valueText = player_data_provider::handle_weapon_crit(player, false);
                     break;
-                case StatsValue::weaponCritDamageRatingLeft:
-                    valueText = PlayerDataProvider::handleWeaponCrit(player, true);
+                case stats_value::weapon_crit_damage_rating_left:
+                    valueText = player_data_provider::handle_weapon_crit(player, true);
                     break;
-                case StatsValue::fallDamageMod:
-                    valueText = StringUtil::getStringValueFromFloat(
-                        PlayerDataProvider::getFallDamageMod(player) * statConfig->getValueMultiplier());
+                case stats_value::fall_damage_mod:
+                    valueText = string_util::get_string_value_from_float(
+                        player_data_provider::get_fall_damage_mod(player) * statConfig->get_value_multiplier());
                     break;
                 default:
-                    if (statConfig->getActor() != RE::ActorValue::kNone) {
+                    if (statConfig->get_actor() != RE::ActorValue::kNone) {
                         //for whatever reason magicka, stamina and health enchantments count as permanent
-                        auto value = player->GetActorValue(statConfig->getActor()) * statConfig->getValueMultiplier();
+                        auto value =
+                            player->GetActorValue(statConfig->get_actor()) * statConfig->get_value_multiplier();
 
-                        if (statConfig->getCap() != -1) {
-                            valueText = ValueUtil::getValueWithCapIfNeeded(value,
-                                statConfig->getCap(),
-                                statConfig->getEnding());
-                        } else if (statConfig->getShowPermAV()) {
-                            auto permAV = player->GetPermanentActorValue(statConfig->getActor()) *
-                                          statConfig->getValueMultiplier();
-                            valueText = ValueUtil::getValueWithPermAV(value, permAV);
+                        if (statConfig->get_cap() != -1) {
+                            valueText = value_util::get_value_with_cap_if_needed(value,
+                                statConfig->get_cap(),
+                                statConfig->get_ending());
+                        } else if (statConfig->get_show_perm_av()) {
+                            auto permAV = player->GetPermanentActorValue(statConfig->get_actor()) *
+                                          statConfig->get_value_multiplier();
+                            valueText = value_util::get_value_with_perm_av(value, permAV);
                         } else {
-                            valueText = StringUtil::getStringValueFromFloat(value);
+                            valueText = string_util::get_string_value_from_float(value);
                         }
                     } else {
                         logger::warn("unhandeled stat, name {}, displayName {}"sv,
                             statValue,
-                            statConfig->getDisplayName());
+                            statConfig->get_display_name());
                     }
                     break;
             }
@@ -163,21 +165,21 @@ public:
             }
 
             //todo fix for some values should be shown if 0, atm hardcode noise here
-            if ((!*Settings::showStatsInventorydisplayZero && valueText == "0" &&
-                    a_menu == ShowMenu::mStatsInventory) ||
-                (!*Settings::showStatsdisplayZero && valueText == "0" && a_menu == ShowMenu::mStats)) {
-                if (statConfig->getActor() != RE::ActorValue::kMovementNoiseMult) {
+            if ((!*settings::show_stats_inventorydisplay_zero && valueText == "0" &&
+                    a_menu == ShowMenu::m_stats_inventory) ||
+                (!*settings::show_stat_sdisplay_zero && valueText == "0" && a_menu == ShowMenu::m_stats)) {
+                if (statConfig->get_actor() != RE::ActorValue::kMovementNoiseMult) {
                     continue;
                 }
             }
 
             if (valueText != "") {
-                if (a_menu == ShowMenu::mStats) {
+                if (a_menu == ShowMenu::m_stats) {
                     simp[statValue] =
-                        std::make_unique<StatItem>(statConfig->getDisplay(valueText), statConfig->getStatsMenu());
+                        std::make_unique<stat_item>(statConfig->get_display(valueText), statConfig->get_stats_menu());
                 } else {
-                    simp[statValue] = std::make_unique<StatItem>(statConfig->getDisplay(valueText),
-                        statConfig->getStatsInventoryMenu());
+                    simp[statValue] = std::make_unique<stat_item>(statConfig->get_display(valueText),
+                        statConfig->get_stats_inventory_menu());
                 }
             }
         }
@@ -195,7 +197,7 @@ public:
 
     SlotArmorMap getArmorMap() {
         auto player = RE::PlayerCharacter::GetSingleton();
-        return PlayerDataProvider::getEquipment(player);
+        return player_data_provider::get_equipment(player);
     }
 
 private:

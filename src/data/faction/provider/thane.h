@@ -1,99 +1,101 @@
 #pragma once
 
-class Thane {
-    using valueStringMap = std::map<FactionValue, std::string>;
+class thane {
+    using value_string_map = std::map<FactionValue, std::string>;
 
 public:
-    static Thane* GetSingleton() {
-        static Thane singleton;
+    static thane* get_singleton() {
+        static thane singleton;
         return std::addressof(singleton);
     }
 
-    std::string getThane(FactionValue a_stat) {
-        if (_thaneList.find(a_stat) == _thaneList.end()) {
+    std::string get_thane(const FactionValue a_stat) {
+        if (!thane_list_.contains(a_stat)) {
             return "";
-        } else {
-            return _thaneList.find(a_stat)->second;
         }
+        return thane_list_.find(a_stat)->second;
     }
 
-    void getRegionThanes() {
-        clearList();
-        for (const auto& thane : _thaneQuestStageMap) {
-            auto thaneValue = thane.first;
-            for (const auto& formid : thane.second) {
-                auto qst = RE::TESForm::LookupByID(formid.first)->As<RE::TESQuest>();
-                logger::trace("Thane {} working with formid {}"sv, thaneValue, StringUtil::intToHex(qst));
-                auto isThane = false;
+    void get_region_thanes() {
+        clear_list();
+        for (const auto& [fst, snd] : thane_quest_stage_map_) {
+            auto thane_value = fst;
+            for (const auto& [a_form_id, a_stage] : snd) {
+                const auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
+                logger::trace("Thane {} working with formid {}"sv, thane_value, string_util::int_to_hex(qst));
+                auto is_thane = false;
 
-                auto qstDone = QuestUtil::isQuestStageComplete(qst, formid.second);
+                const auto qst_done = quest_util::is_quest_stage_complete(qst, a_stage);
 
-                if (thaneValue == FactionValue::thaneOfEastmarch) {
-                    auto eastmarchCWQuest = RE::TESForm::LookupByID(0x00035A23)->As<RE::TESQuest>();
-                    auto CWObjectQuest = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>();
-                    auto preQuests = (QuestUtil::isOneQuestStageComplete(eastmarchCWQuest,
-                                         std::vector{ QuestUtil::getAs(200), QuestUtil::getAs(255) })) ||
-                                     (QuestUtil::isOneQuestStageComplete(CWObjectQuest,
-                                         std::vector{ QuestUtil::getAs(9000), QuestUtil::getAs(9999) }));
+                if (thane_value == FactionValue::thane_of_eastmarch) {
+                    const auto eastmarch_cw_quest = RE::TESForm::LookupByID(0x00035A23)->As<RE::TESQuest>();
+                    const auto cw_object_quest = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>();
 
 
-                    if (preQuests && qstDone) {
-                        isThane = true;
+                    if (const auto pre_quests = (quest_util::is_one_quest_stage_complete(eastmarch_cw_quest,
+                                                    std::vector{ quest_util::get_as(200), quest_util::get_as(255) })) ||
+                                                (quest_util::is_one_quest_stage_complete(cw_object_quest,
+                                                    std::vector{ quest_util::get_as(9000), quest_util::get_as(9999) }));
+                        pre_quests && qst_done) {
+                        is_thane = true;
                     }
-                } else if (thaneValue == FactionValue::thaneOfWhiterun && !*Settings::skyrimUnbound) {
-                    auto dragonsRisingQst = RE::TESForm::LookupByID(0x0002610C)->As<RE::TESQuest>();
-                    auto CWObjectQst = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>();
-                    auto preQuests = QuestUtil::isOneQuestStageComplete(CWObjectQst,
-                        std::vector{ QuestUtil::getAs(9000), QuestUtil::getAs(9999) });
-                    auto dragonRising =
-                        QuestUtil::isOneQuestStageComplete(dragonsRisingQst, std::vector{ QuestUtil::getAs(160) });
+                } else if (thane_value == FactionValue::thane_of_whiterun && !*settings::skyrim_unbound) {
+                    const auto dragons_rising_qst = RE::TESForm::LookupByID(0x0002610C)->As<RE::TESQuest>();
+                    const auto cw_object_qst = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>();
+                    const auto pre_quests = quest_util::is_one_quest_stage_complete(cw_object_qst,
+                        std::vector{ quest_util::get_as(9000), quest_util::get_as(9999) });
 
-                    if ((dragonRising) || (preQuests && qstDone)) {
-                        isThane = true;
+                    if (const auto dragon_rising = quest_util::is_one_quest_stage_complete(dragons_rising_qst,
+                            std::vector{ quest_util::get_as(160) });
+                        (dragon_rising) || (pre_quests && qst_done)) {
+                        is_thane = true;
                     }
-                } else if (qstDone) {
-                    isThane = qstDone;
+                } else if (qst_done) {
+                    is_thane = qst_done;
                 }
 
-                if (isThane) {
-                    logger::trace("Thane of {}"sv, thaneValue);
-                    _thaneList.insert(std::pair<FactionValue, std::string>(thaneValue, _constStaticDisplayValue));
+                if (is_thane) {
+                    logger::trace("Thane of {}"sv, thane_value);
+                    thane_list_.insert(std::pair<FactionValue, std::string>(thane_value, const_static_display_value));
                 }
             }
         }
 
-        logger::trace("got {} items in thane list."sv, _thaneList.size());
-        logMap();
+        logger::trace("got {} items in thane list."sv, thane_list_.size());
+        log_map();
     }
 
-    void clearList() { _thaneList.clear(); }
+    void clear_list() { thane_list_.clear(); }
+
+
+    thane(const thane&) = delete;
+    thane(thane&&) = delete;
+
+    thane& operator=(const thane&) = delete;
+    thane& operator=(thane&&) = delete;
 
 private:
-    Thane() = default;
-    Thane(const Thane&) = delete;
-    Thane(Thane&&) = delete;
+    thane() = default;
 
-    ~Thane() = default;
+    ~thane() = default;
 
-    Thane& operator=(const Thane&) = delete;
-    Thane& operator=(Thane&&) = delete;
+    value_string_map thane_list_;
 
-    valueStringMap _thaneList;
-
-    inline static std::map<FactionValue, std::map<RE::FormID, uint16_t>> _thaneQuestStageMap = {
-        { FactionValue::thaneOfEastmarch, { { 0x000A2CA6, QuestUtil::getAs(25) } } },
-        { FactionValue::thaneOfFalkreath, { { 0x000A34DE, QuestUtil::getAs(25) } } },
-        { FactionValue::thaneOfHaafingar, { { 0x000A2C9B, QuestUtil::getAs(25) } } },
-        { FactionValue::thaneOfHjaalmarch, { { 0x000A34CE, QuestUtil::getAs(25) } } },
-        { FactionValue::thaneOfThePale, { { 0x000A34D4, QuestUtil::getAs(25) } } },
-        { FactionValue::thaneOfTheReach, { { 0x000A2C86, QuestUtil::getAs(25) } } },
-        { FactionValue::thaneOfTheRift, { { 0x00065BDF, QuestUtil::getAs(20) } } },  //rift quest is special
-        { FactionValue::thaneOfWhiterun,
-            { { 0x000A2C9E, QuestUtil::getAs(25) } } },  //just if stormcloaks won the war, otherwise MQ104/0002610C/160
-        { FactionValue::thaneOfWinterhold, { { 0x000A34D7, QuestUtil::getAs(25) } } }
+    inline static std::map<FactionValue, std::map<RE::FormID, uint16_t>> thane_quest_stage_map_ = {
+        { FactionValue::thane_of_eastmarch, { { 0x000A2CA6, quest_util::get_as(25) } } },
+        { FactionValue::thane_of_falkreath, { { 0x000A34DE, quest_util::get_as(25) } } },
+        { FactionValue::thane_of_haafingar, { { 0x000A2C9B, quest_util::get_as(25) } } },
+        { FactionValue::thane_of_hjaalmarch, { { 0x000A34CE, quest_util::get_as(25) } } },
+        { FactionValue::thane_of_the_pale, { { 0x000A34D4, quest_util::get_as(25) } } },
+        { FactionValue::thane_of_the_reach, { { 0x000A2C86, quest_util::get_as(25) } } },
+        { FactionValue::thane_of_the_rift, { { 0x00065BDF, quest_util::get_as(20) } } },  //rift quest is special
+        { FactionValue::thane_of_whiterun,
+            { { 0x000A2C9E,
+                quest_util::get_as(25) } } },  //just if stormcloaks won the war, otherwise MQ104/0002610C/160
+        { FactionValue::thane_of_winterhold, { { 0x000A34D7, quest_util::get_as(25) } } }
     };
 
-    void logMap() {
-        for (const auto& item : _thaneList) { logger::trace("thane {}, {}"sv, item.first, item.second); }
+    void log_map() const {
+        for (const auto& [fst, snd] : thane_list_) { logger::trace("thane {}, {}"sv, fst, snd); }
     }
 };

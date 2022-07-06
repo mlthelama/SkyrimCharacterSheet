@@ -3,11 +3,11 @@
 #include "scaleform/menus/statsinventorymenu.h"
 #include "scaleform/menus/statsmenu.h"
 
-namespace Scaleform {
+namespace scaleform {
     void Register() {
-        StatsMenu::Register();
+        stats_menu::Register();
         FactionMenu::Register();
-        StatsInventoryMenu::Register();
+        stats_inventory_menu::Register();
         logger::info("Registered all forms");
     }
 }

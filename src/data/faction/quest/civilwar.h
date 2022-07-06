@@ -1,79 +1,80 @@
 #pragma once
 
-class CivilWar {
+class civil_war {
 public:
-    static CivilWar* GetSingleton() {
-        static CivilWar singleton;
+    static civil_war* get_singleton() {
+        static civil_war singleton;
         return std::addressof(singleton);
     }
 
     //handle jagged crown switch
-    std::string getImperialLegionRank() {
-        auto rankName = _constStringEmpty;
-        for (const auto& rank : _imperialQuestStageMap) {
-            auto rankValue = rank.first;
-            logger::trace("Checking Imperal Rank {}"sv, getImperialRankName(rankValue));
-            auto rankDone = false;
-            for (const auto& qst : rank.second) {
-                auto qstDone = QuestUtil::isOneQuestStageComplete(qst.first, qst.second);
-                logger::trace("checked quest {}, done {}"sv, StringUtil::intToHex(qst.first), qstDone);
-                if (!qstDone) {
-                    rankDone = false;
+    [[nodiscard]] std::string get_imperial_legion_rank() const {
+        auto rank_name = const_string_empty_;
+        for (const auto& [fst, snd] : _imperialQuestStageMap) {
+            const auto rank_value = fst;
+            logger::trace("Checking Imperal Rank {}"sv, get_imperial_rank_name(rank_value));
+            auto rank_done = false;
+            for (const auto& [a_form_id, a_stages] : snd) {
+                auto qst_done = quest_util::is_one_quest_stage_complete(a_form_id, a_stages);
+                logger::trace("checked quest {}, done {}"sv, string_util::int_to_hex(a_form_id), qst_done);
+                if (!qst_done) {
+                    rank_done = false;
                     break;
                 }
-                rankDone = qstDone;
+                rank_done = qst_done;
             }
-            if (rankDone) {
-                logger::trace("Imperial Rank {} done."sv, getImperialRankName(rankValue));
-                rankName = getImperialRankName(rankValue);
+            if (rank_done) {
+                logger::trace("Imperial Rank {} done."sv, get_imperial_rank_name(rank_value));
+                rank_name = get_imperial_rank_name(rank_value);
             } else {
                 break;
             }
         }
-        logger::trace("Check Done Rank {}"sv, rankName);
-        return rankName;
+        logger::trace("Check Done Rank {}"sv, rank_name);
+        return rank_name;
     }
 
     //handle jagged crown switch
-    std::string getStormcloakRank() {
-        auto rankName = _constStringEmpty;
-        for (const auto& rank : _stormcloakQuestStageMap) {
-            auto rankValue = rank.first;
-            logger::trace("Checking Stormcloak Rank {}"sv, getStormcloakRankName(rankValue));
-            auto rankDone = false;
-            for (const auto& qst : rank.second) {
-                auto qstDone = QuestUtil::isOneQuestStageComplete(qst.first, qst.second);
-                logger::trace("checked quest {}, done {}"sv, StringUtil::intToHex(qst.first), qstDone);
-                if (!qstDone) {
-                    rankDone = false;
+    [[nodiscard]] std::string get_stormcloak_rank() const {
+        auto rank_name = const_string_empty_;
+        for (const auto& [fst, snd] : stormcloak_quest_stage_map_) {
+            const auto rank_value = fst;
+            logger::trace("Checking Stormcloak Rank {}"sv, get_stormcloak_rank_name(rank_value));
+            auto rank_done = false;
+            for (const auto& [a_form_id, a_stages] : snd) {
+                auto qst_done = quest_util::is_one_quest_stage_complete(a_form_id, a_stages);
+                logger::trace("checked quest {}, done {}"sv, string_util::int_to_hex(a_form_id), qst_done);
+                if (!qst_done) {
+                    rank_done = false;
                     break;
                 }
-                rankDone = qstDone;
+                rank_done = qst_done;
             }
-            if (rankDone) {
-                logger::trace("Stormcloak Rank {} done."sv, getStormcloakRankName(rankValue));
-                rankName = getStormcloakRankName(rankValue);
+            if (rank_done) {
+                logger::trace("Stormcloak Rank {} done."sv, get_stormcloak_rank_name(rank_value));
+                rank_name = get_stormcloak_rank_name(rank_value);
             } else {
                 break;
             }
         }
-        logger::trace("Check Done Rank {}"sv, rankName);
-        return rankName;
+        logger::trace("Check Done Rank {}"sv, rank_name);
+        return rank_name;
     }
 
+    civil_war(const civil_war&) = delete;
+    civil_war(civil_war&&) = delete;
+
+    civil_war& operator=(const civil_war&) = delete;
+    civil_war& operator=(civil_war&&) = delete;
+
 private:
-    CivilWar() = default;
-    CivilWar(const CivilWar&) = delete;
-    CivilWar(CivilWar&&) = delete;
+    civil_war() = default;
 
-    ~CivilWar() = default;
+    ~civil_war() = default;
 
-    CivilWar& operator=(const CivilWar&) = delete;
-    CivilWar& operator=(CivilWar&&) = delete;
+    const std::string const_string_empty_;
 
-    const std::string _constStringEmpty = "";
-
-    enum class ImperialRank {
+    enum class imperial_rank {
         auxiliary,
         quaestor,
         praefect,
@@ -81,36 +82,36 @@ private:
         legate,
     };
 
-    inline static std::map<ImperialRank, std::string_view> _imperalRankNameMap = { { ImperialRank::auxiliary,
-                                                                                       *Settings::auxiliaryRank },
-        { ImperialRank::quaestor, *Settings::quaestorRank },
-        { ImperialRank::praefect, *Settings::praefectRank },
-        { ImperialRank::tribune, *Settings::tribuneRank },
-        { ImperialRank::legate, *Settings::legateRank } };
+    inline static std::map<imperial_rank, std::string_view> imperial_rank_name_map_ = { { imperial_rank::auxiliary,
+                                                                                            *settings::auxiliaryRank },
+        { imperial_rank::quaestor, *settings::quaestorRank },
+        { imperial_rank::praefect, *settings::praefectRank },
+        { imperial_rank::tribune, *settings::tribuneRank },
+        { imperial_rank::legate, *settings::legateRank } };
 
-    static std::string_view getImperialRankName(ImperialRank a_rank) {
-        if (_imperalRankNameMap.find(a_rank) == _imperalRankNameMap.end()) {
+    static std::string_view get_imperial_rank_name(imperial_rank a_rank) {
+        if (!imperial_rank_name_map_.contains(a_rank)) {
             logger::warn("can not find Name for Rank {}"sv, a_rank);
             return "";
-        } else {
-            return _imperalRankNameMap.find(a_rank)->second;
         }
+        return imperial_rank_name_map_.find(a_rank)->second;
     }
 
-    inline static std::map<ImperialRank, std::map<RE::FormID, std::vector<uint16_t>>> _imperialQuestStageMap = {
-        { ImperialRank::auxiliary, { { 0x000D517A, std::vector{ QuestUtil::getAs(200) } } } },
-        { ImperialRank::quaestor, { { 0x00096E71, std::vector{ QuestUtil::getAs(9000), QuestUtil::getAs(9999) } } } },
-        { ImperialRank::praefect,
-            { { 0x0003BCC4, std::vector{ QuestUtil::getAs(200), QuestUtil::getAs(255) } },
-                { 0x00083042, std::vector{ QuestUtil::getAs(9000), QuestUtil::getAs(9999) } } } },
-        { ImperialRank::tribune,
-            { { 0x000504F0, std::vector{ QuestUtil::getAs(200), QuestUtil::getAs(255) } },
-                { 0x00083042, std::vector{ QuestUtil::getAs(9000), QuestUtil::getAs(9999) } } } },
-        { ImperialRank::legate, { { 0x00035A23, std::vector{ QuestUtil::getAs(200), QuestUtil::getAs(255) } } } },
+    inline static std::map<imperial_rank, std::map<RE::FormID, std::vector<uint16_t>>> _imperialQuestStageMap = {
+        { imperial_rank::auxiliary, { { 0x000D517A, std::vector{ quest_util::get_as(200) } } } },
+        { imperial_rank::quaestor,
+            { { 0x00096E71, std::vector{ quest_util::get_as(9000), quest_util::get_as(9999) } } } },
+        { imperial_rank::praefect,
+            { { 0x0003BCC4, std::vector{ quest_util::get_as(200), quest_util::get_as(255) } },
+                { 0x00083042, std::vector{ quest_util::get_as(9000), quest_util::get_as(9999) } } } },
+        { imperial_rank::tribune,
+            { { 0x000504F0, std::vector{ quest_util::get_as(200), quest_util::get_as(255) } },
+                { 0x00083042, std::vector{ quest_util::get_as(9000), quest_util::get_as(9999) } } } },
+        { imperial_rank::legate, { { 0x00035A23, std::vector{ quest_util::get_as(200), quest_util::get_as(255) } } } },
     };
 
 
-    enum class StormcloakRank {
+    enum class stormcloak_rank {
         unblooded,
         iceVeins,
         boneBreaker,
@@ -118,32 +119,33 @@ private:
         stormblade,
     };
 
-    inline static std::map<StormcloakRank, std::string_view> _stormcloakRankNameMap = { { StormcloakRank::unblooded,
-                                                                                            *Settings::unbloodedRank },
-        { StormcloakRank::iceVeins, *Settings::iceVeinsRank },
-        { StormcloakRank::boneBreaker, *Settings::boneBreakerRank },
-        { StormcloakRank::snowHammer, *Settings::snowHammerRank },
-        { StormcloakRank::stormblade, *Settings::stormbladeRank } };
+    inline static std::map<stormcloak_rank, std::string_view> stormcloak_rank_name_map_ = {
+        { stormcloak_rank::unblooded, *settings::unbloodedRank },
+        { stormcloak_rank::iceVeins, *settings::iceVeinsRank },
+        { stormcloak_rank::boneBreaker, *settings::boneBreakerRank },
+        { stormcloak_rank::snowHammer, *settings::snowHammerRank },
+        { stormcloak_rank::stormblade, *settings::stormbladeRank }
+    };
 
-    static std::string_view getStormcloakRankName(StormcloakRank a_rank) {
-        if (_stormcloakRankNameMap.find(a_rank) == _stormcloakRankNameMap.end()) {
+    static std::string_view get_stormcloak_rank_name(stormcloak_rank a_rank) {
+        if (!stormcloak_rank_name_map_.contains(a_rank)) {
             logger::warn("can not find Name for Rank {}"sv, a_rank);
             return "";
-        } else {
-            return _stormcloakRankNameMap.find(a_rank)->second;
         }
+        return stormcloak_rank_name_map_.find(a_rank)->second;
     }
 
-    inline static std::map<StormcloakRank, std::map<RE::FormID, std::vector<uint16_t>>> _stormcloakQuestStageMap = {
-        { StormcloakRank::unblooded, { { 0x000E2D29, std::vector{ QuestUtil::getAs(200) } } } },
-        { StormcloakRank::iceVeins, { { 0x00096E71, std::vector{ QuestUtil::getAs(9000), QuestUtil::getAs(9999) } } } },
-        { StormcloakRank::boneBreaker,
-            { { 0x00035A23, std::vector{ QuestUtil::getAs(200), QuestUtil::getAs(255) } } } },
-        { StormcloakRank::snowHammer,
-            { { 0x000504F0, std::vector{ QuestUtil::getAs(200), QuestUtil::getAs(255) } },
-                { 0x00083042, std::vector{ QuestUtil::getAs(9000), QuestUtil::getAs(9999) } } } },
-        { StormcloakRank::stormblade,
-            { { 0x0003BCC4, std::vector{ QuestUtil::getAs(200), QuestUtil::getAs(255) } },
-                { 0x00083042, std::vector{ QuestUtil::getAs(9000), QuestUtil::getAs(9999) } } } },
+    inline static std::map<stormcloak_rank, std::map<RE::FormID, std::vector<uint16_t>>> stormcloak_quest_stage_map_ = {
+        { stormcloak_rank::unblooded, { { 0x000E2D29, std::vector{ quest_util::get_as(200) } } } },
+        { stormcloak_rank::iceVeins,
+            { { 0x00096E71, std::vector{ quest_util::get_as(9000), quest_util::get_as(9999) } } } },
+        { stormcloak_rank::boneBreaker,
+            { { 0x00035A23, std::vector{ quest_util::get_as(200), quest_util::get_as(255) } } } },
+        { stormcloak_rank::snowHammer,
+            { { 0x000504F0, std::vector{ quest_util::get_as(200), quest_util::get_as(255) } },
+                { 0x00083042, std::vector{ quest_util::get_as(9000), quest_util::get_as(9999) } } } },
+        { stormcloak_rank::stormblade,
+            { { 0x0003BCC4, std::vector{ quest_util::get_as(200), quest_util::get_as(255) } },
+                { 0x00083042, std::vector{ quest_util::get_as(9000), quest_util::get_as(9999) } } } },
     };
 };

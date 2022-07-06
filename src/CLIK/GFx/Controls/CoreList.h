@@ -9,7 +9,7 @@ namespace CLIK {
         namespace Controls {
             class CoreList : public Core::UIComponent {
             private:
-                using super = Core::UIComponent;
+                using super = UIComponent;
 
             public:
                 CoreList() = default;

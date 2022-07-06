@@ -1,131 +1,132 @@
 #pragma once
 
-class FactionConfig {
-    using FactionMenuValue = MenuUtil::FactionMenuValue;
+class faction_config {
+    using faction_menu_value = menu_util::faction_menu_value;
 
 public:
-    FactionConfig(std::string a_display_name, FactionMenuValue a_menu)
-        : _displayName(a_display_name), _menu(a_menu), _displayIsValue(false) {}
+    faction_config(std::string a_display_name, const faction_menu_value a_menu)
+        : display_name_(std::move(a_display_name)), menu_(a_menu), display_is_value_(false) {}
 
-    FactionConfig(std::string a_display_name, FactionMenuValue a_menu, bool a_display_is_value)
-        : _displayName(a_display_name), _menu(a_menu), _displayIsValue(a_display_is_value) {}
+    faction_config(std::string a_display_name, const faction_menu_value a_menu, const bool a_display_is_value)
+        : display_name_(std::move(a_display_name)), menu_(a_menu), display_is_value_(a_display_is_value) {}
 
-    std::string getDisplayName() { return _displayName; }
+    std::string get_display_name() { return display_name_; }
 
-    FactionMenuValue getMenu() { return _menu; }
+    [[nodiscard]] faction_menu_value get_menu() const { return menu_; }
 
-    bool getDisplayIsValue() { return _displayIsValue; }
+    [[nodiscard]] bool get_display_is_value() const { return display_is_value_; }
 
-    std::string getDisplay(std::string a_value) {
+    std::string get_display(const std::string& a_value) {
         if (!a_value.empty()) {
-            logger::trace("display {} got value {}, building text ..."sv, _displayName, a_value);
-            return MenuUtil::buildDisplayString(a_value, _displayName, "", _displayIsValue);
+            logger::trace("display {} got value {}, building text ..."sv, display_name_, a_value);
+            return menu_util::build_display_string(a_value, display_name_, "", display_is_value_);
         }
         return "";
     }
 
-    void logStatConfig(FactionValue a_stats_value) {
+    void log_stat_config(FactionValue a_stats_value) {
         logger::trace("name {}, displayname ({}), menu {}, displayIsValue {}"sv,
             a_stats_value,
-            _displayName,
-            _menu,
-            _displayIsValue);
+            display_name_,
+            menu_,
+            display_is_value_);
     }
 
-    FactionConfig() = delete;
-    FactionConfig(const FactionConfig&) = default;
-    FactionConfig(FactionConfig&&) = delete;
+    faction_config() = delete;
+    faction_config(const faction_config&) = default;
+    faction_config(faction_config&&) = delete;
 
-    ~FactionConfig() = default;
+    ~faction_config() = default;
 
-    FactionConfig& operator=(const FactionConfig&) = default;
-    FactionConfig& operator=(FactionConfig&&) = delete;
+    faction_config& operator=(const faction_config&) = default;
+    faction_config& operator=(faction_config&&) = delete;
 
 private:
-    std::string _displayName;
-    FactionMenuValue _menu;
-    bool _displayIsValue = false;
+    std::string display_name_;
+    faction_menu_value menu_;
+    bool display_is_value_ = false;
 };
 
-class FactionSetting {
-    using FactionMap = std::map<FactionValue, std::unique_ptr<FactionConfig>>;
+class faction_setting {
+    using faction_map = std::map<FactionValue, std::unique_ptr<faction_config>>;
 
 public:
-    static FactionSetting* GetSingleton() {
-        static FactionSetting singleton;
+    static faction_setting* get_singleton() {
+        static faction_setting singleton;
         return std::addressof(singleton);
     }
 
-    FactionMap load() {
-        auto factionMenu = MenuUtil::getFactionMenu(*Settings::factionMenu);
-        auto thaneMenu = MenuUtil::getFactionMenu(*Settings::thaneMenu);
-        auto championMenu = MenuUtil::getFactionMenu(*Settings::championMenu);
+    faction_map load() const {
+        auto faction_menu = menu_util::get_faction_menu(*settings::factionMenu);
+        auto thane_menu = menu_util::get_faction_menu(*settings::thaneMenu);
+        auto champion_menu = menu_util::get_faction_menu(*settings::championMenu);
 
-        FactionMap mp;
-        mp[FactionValue::darkbrotherHood] =
-            std::make_unique<FactionConfig>(*Settings::darkbrotherHoodString, factionMenu);
-        mp[FactionValue::thiefsGuild] = std::make_unique<FactionConfig>(*Settings::thiefsGuildString, factionMenu);
-        mp[FactionValue::orcFriend] = std::make_unique<FactionConfig>(*Settings::orcFriendString, factionMenu);
-        mp[FactionValue::collegeOfWinterhold] =
-            std::make_unique<FactionConfig>(*Settings::collegeOfWinterholdString, factionMenu);
-        mp[FactionValue::companions] = std::make_unique<FactionConfig>(*Settings::companionsString, factionMenu);
-        mp[FactionValue::imperialLegion] =
-            std::make_unique<FactionConfig>(*Settings::imperialLegionString, factionMenu);
-        mp[FactionValue::stormcloaks] = std::make_unique<FactionConfig>(*Settings::stormcloaksString, factionMenu);
-        mp[FactionValue::greybeard] = std::make_unique<FactionConfig>(*Settings::greybeardString, factionMenu);
-        mp[FactionValue::bard] = std::make_unique<FactionConfig>(*Settings::bardString, factionMenu);
-        mp[FactionValue::volkiharVampireClan] =
-            std::make_unique<FactionConfig>(*Settings::volkiharVampireClanString, factionMenu);
-        mp[FactionValue::dawnguard] = std::make_unique<FactionConfig>(*Settings::dawnguardString, factionMenu);
-        mp[FactionValue::houseTelvanni] = std::make_unique<FactionConfig>(*Settings::houseTelvanniString, factionMenu);
+        faction_map mp;
+        mp[FactionValue::darkbrotherhood] =
+            std::make_unique<faction_config>(*settings::darkbrotherHoodString, faction_menu);
+        mp[FactionValue::thiefs_guild] = std::make_unique<faction_config>(*settings::thiefsGuildString, faction_menu);
+        mp[FactionValue::orc_friend] = std::make_unique<faction_config>(*settings::orcFriendString, faction_menu);
+        mp[FactionValue::college_of_winterhold] =
+            std::make_unique<faction_config>(*settings::collegeOfWinterholdString, faction_menu);
+        mp[FactionValue::companions] = std::make_unique<faction_config>(*settings::companionsString, faction_menu);
+        mp[FactionValue::imperial_legion] =
+            std::make_unique<faction_config>(*settings::imperialLegionString, faction_menu);
+        mp[FactionValue::stormcloaks] = std::make_unique<faction_config>(*settings::stormcloaksString, faction_menu);
+        mp[FactionValue::greybeard] = std::make_unique<faction_config>(*settings::greybeardString, faction_menu);
+        mp[FactionValue::bard] = std::make_unique<faction_config>(*settings::bardString, faction_menu);
+        mp[FactionValue::volkihar_vampire_clan] =
+            std::make_unique<faction_config>(*settings::volkiharVampireClanString, faction_menu);
+        mp[FactionValue::dawnguard] = std::make_unique<faction_config>(*settings::dawnguardString, faction_menu);
+        mp[FactionValue::house_telvanni] =
+            std::make_unique<faction_config>(*settings::houseTelvanniString, faction_menu);
 
-        mp[FactionValue::thaneOfEastmarch] =
-            std::make_unique<FactionConfig>(*Settings::thaneOfEastmarchName, thaneMenu, true);
-        mp[FactionValue::thaneOfFalkreath] =
-            std::make_unique<FactionConfig>(*Settings::thaneOfFalkreathName, thaneMenu, true);
-        mp[FactionValue::thaneOfHaafingar] =
-            std::make_unique<FactionConfig>(*Settings::thaneOfHaafingarName, thaneMenu, true);
-        mp[FactionValue::thaneOfHjaalmarch] =
-            std::make_unique<FactionConfig>(*Settings::thaneOfHjaalmarchName, thaneMenu, true);
-        mp[FactionValue::thaneOfThePale] =
-            std::make_unique<FactionConfig>(*Settings::thaneOfThePaleName, thaneMenu, true);
-        mp[FactionValue::thaneOfTheReach] =
-            std::make_unique<FactionConfig>(*Settings::thaneOfTheReachName, thaneMenu, true);
-        mp[FactionValue::thaneOfTheRift] =
-            std::make_unique<FactionConfig>(*Settings::thaneOfTheRiftName, thaneMenu, true);
-        mp[FactionValue::thaneOfWhiterun] =
-            std::make_unique<FactionConfig>(*Settings::thaneOfWhiterunName, thaneMenu, true);
-        mp[FactionValue::thaneOfWinterhold] =
-            std::make_unique<FactionConfig>(*Settings::thaneOfWinterholdName, thaneMenu, true);
+        mp[FactionValue::thane_of_eastmarch] =
+            std::make_unique<faction_config>(*settings::thaneOfEastmarchName, thane_menu, true);
+        mp[FactionValue::thane_of_falkreath] =
+            std::make_unique<faction_config>(*settings::thaneOfFalkreathName, thane_menu, true);
+        mp[FactionValue::thane_of_haafingar] =
+            std::make_unique<faction_config>(*settings::thaneOfHaafingarName, thane_menu, true);
+        mp[FactionValue::thane_of_hjaalmarch] =
+            std::make_unique<faction_config>(*settings::thaneOfHjaalmarchName, thane_menu, true);
+        mp[FactionValue::thane_of_the_pale] =
+            std::make_unique<faction_config>(*settings::thaneOfThePaleName, thane_menu, true);
+        mp[FactionValue::thane_of_the_reach] =
+            std::make_unique<faction_config>(*settings::thaneOfTheReachName, thane_menu, true);
+        mp[FactionValue::thane_of_the_rift] =
+            std::make_unique<faction_config>(*settings::thaneOfTheRiftName, thane_menu, true);
+        mp[FactionValue::thane_of_whiterun] =
+            std::make_unique<faction_config>(*settings::thaneOfWhiterunName, thane_menu, true);
+        mp[FactionValue::thane_of_winterhold] =
+            std::make_unique<faction_config>(*settings::thaneOfWinterholdName, thane_menu, true);
 
-        mp[FactionValue::azura] = std::make_unique<FactionConfig>(*Settings::azuraName, championMenu, true);
-        mp[FactionValue::clavicusVile] =
-            std::make_unique<FactionConfig>(*Settings::clavicusVileName, championMenu, true);
-        mp[FactionValue::hermaeusMora] =
-            std::make_unique<FactionConfig>(*Settings::hermaeusMoraName, championMenu, true);
-        mp[FactionValue::hircine] = std::make_unique<FactionConfig>(*Settings::hircineName, championMenu, true);
-        mp[FactionValue::malacath] = std::make_unique<FactionConfig>(*Settings::malacathName, championMenu, true);
-        mp[FactionValue::mehrunesDagon] =
-            std::make_unique<FactionConfig>(*Settings::mehrunesDagonName, championMenu, true);
-        mp[FactionValue::mephala] = std::make_unique<FactionConfig>(*Settings::mephalaName, championMenu, true);
-        mp[FactionValue::meridia] = std::make_unique<FactionConfig>(*Settings::meridiaName, championMenu, true);
-        mp[FactionValue::molagBal] = std::make_unique<FactionConfig>(*Settings::molagBalName, championMenu, true);
-        mp[FactionValue::namira] = std::make_unique<FactionConfig>(*Settings::namiraName, championMenu, true);
-        mp[FactionValue::nocturnal] = std::make_unique<FactionConfig>(*Settings::nocturnalName, championMenu, true);
-        mp[FactionValue::peryite] = std::make_unique<FactionConfig>(*Settings::peryiteName, championMenu, true);
-        mp[FactionValue::sanguine] = std::make_unique<FactionConfig>(*Settings::sanguineName, championMenu, true);
-        mp[FactionValue::sheogorath] = std::make_unique<FactionConfig>(*Settings::sheogorathName, championMenu, true);
-        mp[FactionValue::vaermina] = std::make_unique<FactionConfig>(*Settings::vaerminaName, championMenu, true);
+        mp[FactionValue::azura] = std::make_unique<faction_config>(*settings::azuraName, champion_menu, true);
+        mp[FactionValue::clavicus_vile] =
+            std::make_unique<faction_config>(*settings::clavicusVileName, champion_menu, true);
+        mp[FactionValue::hermaeus_mora] =
+            std::make_unique<faction_config>(*settings::hermaeusMoraName, champion_menu, true);
+        mp[FactionValue::hircine] = std::make_unique<faction_config>(*settings::hircineName, champion_menu, true);
+        mp[FactionValue::malacath] = std::make_unique<faction_config>(*settings::malacathName, champion_menu, true);
+        mp[FactionValue::mehrunes_dagon] =
+            std::make_unique<faction_config>(*settings::mehrunesDagonName, champion_menu, true);
+        mp[FactionValue::mephala] = std::make_unique<faction_config>(*settings::mephalaName, champion_menu, true);
+        mp[FactionValue::meridia] = std::make_unique<faction_config>(*settings::meridiaName, champion_menu, true);
+        mp[FactionValue::molagBal] = std::make_unique<faction_config>(*settings::molagBalName, champion_menu, true);
+        mp[FactionValue::namira] = std::make_unique<faction_config>(*settings::namiraName, champion_menu, true);
+        mp[FactionValue::nocturnal] = std::make_unique<faction_config>(*settings::nocturnalName, champion_menu, true);
+        mp[FactionValue::peryite] = std::make_unique<faction_config>(*settings::peryiteName, champion_menu, true);
+        mp[FactionValue::sanguine] = std::make_unique<faction_config>(*settings::sanguineName, champion_menu, true);
+        mp[FactionValue::sheogorath] = std::make_unique<faction_config>(*settings::sheogorathName, champion_menu, true);
+        mp[FactionValue::vaermina] = std::make_unique<faction_config>(*settings::vaerminaName, champion_menu, true);
 
         return mp;
     }
 
-    FactionSetting() = default;
-    FactionSetting(const FactionSetting&) = default;
-    FactionSetting(FactionSetting&&) = delete;
+    faction_setting() = default;
+    faction_setting(const faction_setting&) = default;
+    faction_setting(faction_setting&&) = delete;
 
-    ~FactionSetting() = default;
+    ~faction_setting() = default;
 
-    FactionSetting& operator=(const FactionSetting&) = default;
-    FactionSetting& operator=(FactionSetting&&) = delete;
+    faction_setting& operator=(const faction_setting&) = default;
+    faction_setting& operator=(faction_setting&&) = delete;
 };

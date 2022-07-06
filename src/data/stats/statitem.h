@@ -1,41 +1,45 @@
 #pragma once
 
-class StatItem {
-    using StatsMenuValue = MenuUtil::StatsMenuValue;
-    using ShowMenu = MenuUtil::ShowMenu;
-    using StatsInventoryMenuValue = MenuUtil::StatsInventoryMenuValue;
+class stat_item {
+    using stats_menu_value = menu_util::stats_menu_value;
+    using show_menu = menu_util::show_menu;
+    using stats_inventory_menu_value = menu_util::stats_inventory_menu_value;
 
 public:
-    StatItem(std::string a_gui_text, StatsMenuValue a_stats_menu) : _guiText(a_gui_text), _statsMenu(a_stats_menu) {}
+    stat_item(std::string a_gui_text, const stats_menu_value a_stats_menu)
+        : gui_text_(std::move(a_gui_text)), stats_menu_(a_stats_menu) {}
 
-    StatItem(std::string a_gui_text, StatsInventoryMenuValue a_stats_inventory_menu)
-        : _guiText(a_gui_text), _statsInventoryMenu(a_stats_inventory_menu) {}
+    stat_item(std::string a_gui_text, const stats_inventory_menu_value a_stats_inventory_menu)
+        : gui_text_(std::move(a_gui_text)), stats_inventory_menu_(a_stats_inventory_menu) {}
 
-    std::string getGuiText() { return _guiText; }
+    std::string get_gui_text() { return gui_text_; }
 
-    StatsMenuValue getStatsMenu() { return _statsMenu; }
+    [[nodiscard]] stats_menu_value get_stats_menu() const { return stats_menu_; }
 
-    StatsInventoryMenuValue getStatsInventoryMenu() { return _statsInventoryMenu; }
+    [[nodiscard]] stats_inventory_menu_value get_stats_inventory_menu() const { return stats_inventory_menu_; }
 
-    void logStatItem(StatsValue a_stats_value, ShowMenu a_menu) {
-        if (a_menu == ShowMenu::mStats) {
-            logger::trace("name {}, guiText {}, StatsMenu {}"sv, a_stats_value, _guiText, _statsMenu);
+    void log_stat_item(stats_value a_stats_value, const show_menu a_menu) {
+        if (a_menu == show_menu::m_stats) {
+            logger::trace("name {}, guiText {}, StatsMenu {}"sv, a_stats_value, gui_text_, stats_menu_);
         } else {
-            logger::trace("name {}, guiText {}, StatsInventoryMenu {}"sv, a_stats_value, _guiText, _statsInventoryMenu);
+            logger::trace("name {}, guiText {}, StatsInventoryMenu {}"sv,
+                a_stats_value,
+                gui_text_,
+                stats_inventory_menu_);
         }
     }
 
-    StatItem() = default;
-    StatItem(const StatItem&) = delete;
-    StatItem(StatItem&&) = delete;
+    stat_item() = default;
+    stat_item(const stat_item&) = delete;
+    stat_item(stat_item&&) = delete;
 
-    ~StatItem() = default;
+    ~stat_item() = default;
 
-    StatItem& operator=(const StatItem&) = delete;
-    StatItem& operator=(StatItem&&) = delete;
+    stat_item& operator=(const stat_item&) = delete;
+    stat_item& operator=(stat_item&&) = delete;
 
 private:
-    std::string _guiText;
-    StatsMenuValue _statsMenu = StatsMenuValue::mNone;
-    StatsInventoryMenuValue _statsInventoryMenu = StatsInventoryMenuValue::mNone;
+    std::string gui_text_;
+    stats_menu_value stats_menu_ = stats_menu_value::m_none;
+    stats_inventory_menu_value stats_inventory_menu_ = stats_inventory_menu_value::m_none;
 };

@@ -5,81 +5,81 @@
 #include "data/faction/provider/thane.h"
 #include "settings/stats/factionsettings.h"
 
-class FactionData {
-    using FactionItemMap = std::map<FactionValue, std::unique_ptr<FactionItem>>;
-    using FactionMenuValue = MenuUtil::FactionMenuValue;
+class faction_data {
+    using faction_item_map = std::map<FactionValue, std::unique_ptr<faction_item>>;
+    using faction_menu_value = menu_util::faction_menu_value;
 
 public:
-    static FactionData* GetSingleton() {
-        static FactionData singleton;
+    static faction_data* get_singleton() {
+        static faction_data singleton;
         return std::addressof(singleton);
     }
 
-    FactionItemMap getValuesToDisplay() {
-        FactionItemMap fimp;
+    [[nodiscard]] faction_item_map get_values_to_display() const {
+        faction_item_map fimp;
 
-        auto player = RE::PlayerCharacter::GetSingleton();
-        auto faction = Faction::GetSingleton();
-        auto thane = Thane::GetSingleton();
-        auto champion = Champion::GetSingleton();
+        const auto player = RE::PlayerCharacter::GetSingleton();
+        const auto faction = faction::get_singleton();
+        const auto thane = thane::get_singleton();
+        const auto champion = champion::get_singleton();
 
-        if (MenuUtil::getFactionMenu(*Settings::factionMenu) != FactionMenuValue::mNone) {
-            faction->getFactions(player);
+        if (menu_util::get_faction_menu(*settings::factionMenu) != faction_menu_value::m_none) {
+            faction->get_factions(player);
         }
-        if (MenuUtil::getFactionMenu(*Settings::thaneMenu) != FactionMenuValue::mNone) {
-            thane->getRegionThanes();
+        if (menu_util::get_faction_menu(*settings::thaneMenu) != faction_menu_value::m_none) {
+            thane->get_region_thanes();
         }
-        if (MenuUtil::getFactionMenu(*Settings::championMenu) != FactionMenuValue::mNone) {
-            champion->getChampions();
+        if (menu_util::get_faction_menu(*settings::championMenu) != faction_menu_value::m_none) {
+            champion->get_champions();
         }
 
-        auto factionSettingMap = FactionSetting::GetSingleton()->load();
-        logger::debug("Config Map Size is {}"sv, factionSettingMap.size());
+        auto faction_setting_map = faction_setting::get_singleton()->load();
+        logger::debug("Config Map Size is {}"sv, faction_setting_map.size());
 
-        for (auto& element : factionSettingMap) {
-            auto factionValue = element.first;
-            auto factionConfig = element.second.get();
+        for (auto& [fst, snd] : faction_setting_map) {
+            auto faction_value = fst;
+            const auto faction_config = snd.get();
 
-            factionConfig->logStatConfig(factionValue);
+            faction_config->log_stat_config(faction_value);
 
-            if (factionConfig->getMenu() == FactionMenuValue::mNone) {
+            if (faction_config->get_menu() == faction_menu_value::m_none) {
                 continue;
             }
-            std::string valueText = "";
+            std::string value_text;
 
-            switch (factionValue) {
+            switch (faction_value) {
                 case FactionValue::companions:
-                case FactionValue::darkbrotherHood:
-                case FactionValue::collegeOfWinterhold:
-                case FactionValue::orcFriend:
-                case FactionValue::thiefsGuild:
-                case FactionValue::imperialLegion:
+                case FactionValue::darkbrotherhood:
+                case FactionValue::college_of_winterhold:
+                case FactionValue::orc_friend:
+                case FactionValue::thiefs_guild:
+                case FactionValue::imperial_legion:
                 case FactionValue::stormcloaks:
                 case FactionValue::greybeard:
                 case FactionValue::bard:
-                case FactionValue::volkiharVampireClan:
+                case FactionValue::volkihar_vampire_clan:
                 case FactionValue::dawnguard:
-                case FactionValue::houseTelvanni:
-                    valueText = faction->getRank(factionValue);
+                case FactionValue::house_telvanni:
+                    value_text = faction->get_rank(faction_value);
                     break;
-                case FactionValue::thaneOfEastmarch:
-                case FactionValue::thaneOfFalkreath:
-                case FactionValue::thaneOfHaafingar:
-                case FactionValue::thaneOfHjaalmarch:
-                case FactionValue::thaneOfThePale:
-                case FactionValue::thaneOfTheReach:
-                case FactionValue::thaneOfTheRift:
-                case FactionValue::thaneOfWhiterun:
-                case FactionValue::thaneOfWinterhold:
-                    valueText = thane->getThane(factionValue);
+                case FactionValue::thane_of_eastmarch:
+                case FactionValue::thane_of_falkreath:
+                case FactionValue::thane_of_haafingar:
+                case FactionValue::thane_of_hjaalmarch:
+                case FactionValue::thane_of_the_pale:
+                case FactionValue::thane_of_the_reach:
+                case FactionValue::thane_of_the_rift:
+                case FactionValue::thane_of_whiterun:
+                case FactionValue::thane_of_winterhold:
+                    value_text = thane->get_thane(faction_value);
                     break;
                 case FactionValue::azura:
                 case FactionValue::boethiah:
-                case FactionValue::clavicusVile:
-                case FactionValue::hermaeusMora:
+                case FactionValue::clavicus_vile:
+                case FactionValue::hermaeus_mora:
                 case FactionValue::hircine:
                 case FactionValue::malacath:
-                case FactionValue::mehrunesDagon:
+                case FactionValue::mehrunes_dagon:
                 case FactionValue::mephala:
                 case FactionValue::meridia:
                 case FactionValue::molagBal:
@@ -89,42 +89,43 @@ public:
                 case FactionValue::sanguine:
                 case FactionValue::sheogorath:
                 case FactionValue::vaermina:
-                    valueText = champion->getChampion(factionValue);
+                    value_text = champion->get_champion(faction_value);
                     break;
                 default:
                     logger::warn("unhandeled stat, name {}, displayName {}"sv,
-                        factionValue,
-                        factionConfig->getDisplayName());
+                        faction_value,
+                        faction_config->get_display_name());
                     break;
             }
 
 
-            if (valueText != "") {
-                fimp[factionValue] =
-                    std::make_unique<FactionItem>(factionConfig->getDisplay(valueText), factionConfig->getMenu());
+            if (!value_text.empty()) {
+                fimp[faction_value] =
+                    std::make_unique<faction_item>(faction_config->get_display(value_text), faction_config->get_menu());
             }
         }
 
         logger::debug("Display Map Size is {}"sv, fimp.size());
-        clearLists(thane, faction, champion);
-        for (auto& element : factionSettingMap) { element.second.reset(); }
-        factionSettingMap.clear();
+        clear_lists(thane, faction, champion);
+        for (auto& [fst, snd] : faction_setting_map) { snd.reset(); }
+        faction_setting_map.clear();
         return fimp;
     }
 
+    faction_data(const faction_data&) = delete;
+    faction_data(faction_data&&) = delete;
+
+    faction_data& operator=(const faction_data&) = delete;
+    faction_data& operator=(faction_data&&) = delete;
+
 private:
-    FactionData() = default;
-    FactionData(const FactionData&) = delete;
-    FactionData(FactionData&&) = delete;
+    faction_data() = default;
 
-    ~FactionData() = default;
+    ~faction_data() = default;
 
-    FactionData& operator=(const FactionData&) = delete;
-    FactionData& operator=(FactionData&&) = delete;
-
-    void clearLists(Thane* a_thane, Faction* a_faction, Champion* a_champion) {
-        a_thane->clearList();
-        a_faction->clearList();
-        a_champion->clearList();
+    static void clear_lists(thane* a_thane, faction* a_faction, champion* a_champion) {
+        a_thane->clear_list();
+        a_faction->clear_list();
+        a_champion->clear_list();
     }
 };

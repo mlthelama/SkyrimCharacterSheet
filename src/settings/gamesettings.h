@@ -1,43 +1,43 @@
 #pragma once
 
-class GameSettings {
+class game_settings {
 public:
-    static GameSettings* GetSingleton() {
-        static GameSettings singleton;
+    static game_settings* get_singleton() {
+        static game_settings singleton;
         return std::addressof(singleton);
     }
 
-    void getAndSetSettings() {
-        auto gameSetting = RE::GameSettingCollection::GetSingleton();
-        maxArmorResistance = getFloatSetting("fMaxArmorRating", gameSetting);
-        maxResistance = getFloatSetting("fPlayerMaxResistance", gameSetting);
-        armorBaseFactor = getFloatSetting("fArmorBaseFactor", gameSetting);
-        armorScalingFactor = getFloatSetting("fArmorScalingFactor", gameSetting);
+    void get_and_set_settings() {
+        auto game_setting = RE::GameSettingCollection::GetSingleton();
+        max_armor_resistance = get_float_setting("fMaxArmorRating", game_setting);
+        max_resistance = get_float_setting("fPlayerMaxResistance", game_setting);
+        armor_base_factor = get_float_setting("fArmorBaseFactor", game_setting);
+        armor_scaling_factor = get_float_setting("fArmorScalingFactor", game_setting);
 
         logger::debug("fMaxArmorRating {}, fPlayerMaxResistance {}, fArmorBaseFactor {}, fArmorScalingFactor {}"sv,
-            maxArmorResistance,
-            maxResistance,
-            armorBaseFactor,
-            armorScalingFactor);
+            max_armor_resistance,
+            max_resistance,
+            armor_base_factor,
+            armor_scaling_factor);
     }
 
-    float maxArmorResistance = -1;
-    float maxResistance = -1;
-    float armorBaseFactor = -1;
-    float armorScalingFactor = -1;
+    float max_armor_resistance = -1;
+    float max_resistance = -1;
+    float armor_base_factor = -1;
+    float armor_scaling_factor = -1;
 
 protected:
-    GameSettings() = default;
-    GameSettings(const GameSettings&) = delete;
-    GameSettings(GameSettings&&) = delete;
+    game_settings() = default;
+    game_settings(const game_settings&) = delete;
+    game_settings(game_settings&&) = delete;
 
-    ~GameSettings() = default;
+    ~game_settings() = default;
 
-    GameSettings& operator=(const GameSettings&) = delete;
-    GameSettings& operator=(GameSettings&&) = delete;
+    game_settings& operator=(const game_settings&) = delete;
+    game_settings& operator=(game_settings&&) = delete;
 
 private:
-    float getFloatSetting(const char* a_name, RE::GameSettingCollection*& a_game_setting) {
+    static float get_float_setting(const char* a_name, RE::GameSettingCollection*& a_game_setting) {
         return a_game_setting->GetSetting(a_name)->GetFloat();
     }
 };

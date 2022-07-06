@@ -5,58 +5,64 @@
 #include "CLIK/TextField.h"
 #include "data/playerdata.h"
 
-namespace Scaleform {
-    using ShowMenu = MenuUtil::ShowMenu;
-    using StatsInventoryMenuValue = MenuUtil::StatsInventoryMenuValue;
+namespace scaleform {
+    using show_menu = menu_util::show_menu;
+    using stats_inventory_menu_value = menu_util::stats_inventory_menu_value;
 
-    class StatsInventoryMenu : public RE::IMenu {
+    class stats_inventory_menu final : public RE::IMenu {
     public:
-        static constexpr std::string_view MENU_NAME = "ShowStatsInventory";
-        static constexpr std::string_view FILE_NAME = MENU_NAME;
-        static constexpr ShowMenu _menu = ShowMenu::mStatsInventory;
+        static constexpr std::string_view menu_name = "ShowStatsInventory";
+        static constexpr std::string_view file_name = menu_name;
+        static constexpr show_menu menu = show_menu::m_stats_inventory;
 
         static void Register() {
-            RE::UI::GetSingleton()->Register(MENU_NAME, Creator);
-            logger::info("Registered {}"sv, MENU_NAME);
+            RE::UI::GetSingleton()->Register(menu_name, creator);
+            logger::info("Registered {}"sv, menu_name);
         }
 
-        static void Open() {
-            if (!StatsInventoryMenu::IsMenuOpen()) {
-                logger::debug("Open Menu {}"sv, MENU_NAME);
-                RE::UIMessageQueue::GetSingleton()->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kShow, nullptr);
+        static void open() {
+            if (!is_menu_open()) {
+                logger::debug("Open Menu {}"sv, menu_name);
+                RE::UIMessageQueue::GetSingleton()->AddMessage(menu_name, RE::UI_MESSAGE_TYPE::kShow, nullptr);
             }
         }
 
-        static void Close() {
-            if (StatsInventoryMenu::IsMenuOpen()) {
-                logger::debug("Close Menu {}"sv, MENU_NAME);
-                RE::UIMessageQueue::GetSingleton()->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
+        static void close() {
+            if (is_menu_open()) {
+                logger::debug("Close Menu {}"sv, menu_name);
+                RE::UIMessageQueue::GetSingleton()->AddMessage(menu_name, RE::UI_MESSAGE_TYPE::kHide, nullptr);
             }
         }
 
-        static bool IsMenuOpen() {
-            auto isOpen = RE::UI::GetSingleton()->IsMenuOpen(MENU_NAME);
-            if (isOpen) {
-                logger::trace("Menu {} is open {}"sv, MENU_NAME, isOpen);
+        static bool is_menu_open() {
+            auto is_open = RE::UI::GetSingleton()->IsMenuOpen(menu_name);
+            if (is_open) {
+                logger::trace("Menu {} is open {}"sv, menu_name, is_open);
             }
-            return isOpen;
+            return is_open;
         }
 
-        void RefreshLists() {
-            if (IsMenuOpen()) {
-                UpdateLists();
+        void refresh_lists() {
+            if (is_menu_open()) {
+                update_lists();
             }
         }
+
+        stats_inventory_menu(const stats_inventory_menu&) = delete;
+        stats_inventory_menu(stats_inventory_menu&&) = delete;
+
+        stats_inventory_menu& operator=(const stats_inventory_menu&) = delete;
+        stats_inventory_menu& operator=(stats_inventory_menu&&) = delete;
 
     protected:
-        StatsInventoryMenu() {
-            using Context = RE::UserEvents::INPUT_CONTEXT_ID;
-            using Flag = RE::UI_MENU_FLAGS;
+        stats_inventory_menu() {
+            using context = RE::UserEvents::INPUT_CONTEXT_ID;
+            using flag = RE::UI_MENU_FLAGS;
 
-            auto menu = static_cast<RE::IMenu*>(this);
-            auto scaleformManager = RE::BSScaleformManager::GetSingleton();
-            [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu,
-                FILE_NAME,
+            const auto a_menu = static_cast<IMenu*>(this);
+            const auto scaleform_manager = RE::BSScaleformManager::GetSingleton();
+            [[maybe_unused]] const auto success = scaleform_manager->LoadMovieEx(a_menu,
+                file_name,
                 RE::BSScaleformManager::ScaleModeType::kExactFit,
                 [&](RE::GFxMovieDef* a_def) -> void {
                     fxDelegate.reset(new RE::FxDelegate);
@@ -70,33 +76,29 @@ namespace Scaleform {
                         a_def->GetHeight());
                     a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
                 });
-            MenuUtil::logResolution();
-            logger::debug("Loading Menu {} was successful {}"sv, FILE_NAME, success);
+            menu_util::log_resolution();
+            logger::debug("Loading Menu {} was successful {}"sv, file_name, success);
             assert(success);
-            _view = menu->uiMovie;
+            view_ = a_menu->uiMovie;
             //_view->SetMouseCursorCount(0);
-            menu->menuFlags |= Flag::kUsesCursor;
+            a_menu->menuFlags |= flag::kUsesCursor;
 
             //menu->depthPriority = 0;
             //menu->inputContext = Context::kNone;
 
-            InitExtensions();
+            init_extensions();
 
-            _isActive = true;
-            _view->SetVisible(true);
+            is_active_ = true;
+            view_->SetVisible(true);
         }
 
-        StatsInventoryMenu(const StatsInventoryMenu&) = delete;
-        StatsInventoryMenu(StatsInventoryMenu&&) = delete;
 
-        ~StatsInventoryMenu() = default;
+        ~stats_inventory_menu() override = default;
 
-        StatsInventoryMenu& operator=(const StatsInventoryMenu&) = delete;
-        StatsInventoryMenu& operator=(StatsInventoryMenu&&) = delete;
 
-        static stl::owner<RE::IMenu*> Creator() { return new StatsInventoryMenu(); }
+        static stl::owner<IMenu*> creator() { return new stats_inventory_menu(); }
 
-        void PostCreate() override { StatsInventoryMenu::OnOpen(); }
+        void PostCreate() override { on_open(); }
 
         //might not work that well if InventoryMenu is open
         RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override {
@@ -108,235 +110,234 @@ namespace Scaleform {
                     return RE::IMenu::ProcessMessage(a_message);
             }*/
 
-            if (a_message.menu == StatsInventoryMenu::MENU_NAME) {
+            if (a_message.menu == menu_name) {
                 return RE::UI_MESSAGE_RESULTS::kHandled;
             }
             return RE::UI_MESSAGE_RESULTS::kPassOn;
         }
 
-        void AdvanceMovie(float a_interval, uint32_t a_currentTime) override {
-            RE::IMenu::AdvanceMovie(a_interval, a_currentTime);
+        void AdvanceMovie(const float a_interval, const uint32_t a_current_time) override {
+            IMenu::AdvanceMovie(a_interval, a_current_time);
         }
 
         void Accept(CallbackProcessor* a_processor) override {
-            a_processor->Process("Log", Log);
-            a_processor->Process("CloseMenu", CloseMenu);
+            a_processor->Process("Log", log);
+            a_processor->Process("CloseMenu", close_menu);
         }
 
     private:
         class Logger : public RE::GFxLog {
         public:
-            void LogMessageVarg(LogMessageType, const char* a_fmt, std::va_list a_argList) override {
+            void LogMessageVarg(LogMessageType, const char* a_fmt, const std::va_list a_arg_list) override {
                 std::string fmt(a_fmt ? a_fmt : "");
                 while (!fmt.empty() && fmt.back() == '\n') { fmt.pop_back(); }
 
                 std::va_list args;
-                va_copy(args, a_argList);
-                std::vector<char> buf(static_cast<std::size_t>(std::vsnprintf(0, 0, fmt.c_str(), a_argList) + 1));
+                va_copy(args, a_arg_list);
+                std::vector<char> buf(
+                    static_cast<std::size_t>(std::vsnprintf(nullptr, 0, fmt.c_str(), a_arg_list) + 1));
                 std::vsnprintf(buf.data(), buf.size(), fmt.c_str(), args);
                 va_end(args);
 
-                logger::info("{}: {}"sv, StatsInventoryMenu::MENU_NAME, buf.data());
+                logger::info("{}: {}"sv, menu_name, buf.data());
             }
         };
 
-        void InitExtensions() {
+        void init_extensions() const {
             const RE::GFxValue boolean(true);
-            bool success;
 
-            success = _view->SetVariable("_global.gfxExtensions", boolean);
+            [[maybe_unused]] bool success = view_->SetVariable("_global.gfxExtensions", boolean);
             assert(success);
             /*success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
             assert(success);*/
         }
 
-        void OnOpen() {
+        void on_open() {
             using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
-            std::array objects{ element_t{ std::ref(_rootObj), "_root.rootObj"sv },
-                element_t{ std::ref(_equipHeader), "_root.rootObj.inventoryEquipHeader"sv },
-                element_t{ std::ref(_armorHeader), "_root.rootObj.inventoryArmorHeader"sv },
-                element_t{ std::ref(_weaponHeader), "_root.rootObj.inventoryWeaponHeader"sv },
-                element_t{ std::ref(_effectHeader), "_root.rootObj.inventoryEffectHeader"sv },
-                element_t{ std::ref(_equipItemList), "_root.rootObj.equipItemList"sv },
-                element_t{ std::ref(_armorItemList), "_root.rootObj.armorItemList"sv },
-                element_t{ std::ref(_weaponItemList), "_root.rootObj.weaponItemList"sv },
-                element_t{ std::ref(_effectItemList), "_root.rootObj.effectItemList"sv },
-                element_t{ std::ref(_menuClose), "_root.rootObj.menuClose"sv } };
 
-            for (const auto& [object, path] : objects) {
+            for (std::array objects{ element_t{ std::ref(root_obj_), "_root.rootObj"sv },
+                     element_t{ std::ref(equip_header_), "_root.rootObj.inventoryEquipHeader"sv },
+                     element_t{ std::ref(armor_header_), "_root.rootObj.inventoryArmorHeader"sv },
+                     element_t{ std::ref(weapon_header_), "_root.rootObj.inventoryWeaponHeader"sv },
+                     element_t{ std::ref(effect_header_), "_root.rootObj.inventoryEffectHeader"sv },
+                     element_t{ std::ref(equip_item_list_), "_root.rootObj.equipItemList"sv },
+                     element_t{ std::ref(armor_item_list_), "_root.rootObj.armorItemList"sv },
+                     element_t{ std::ref(weapon_item_list_), "_root.rootObj.weaponItemList"sv },
+                     element_t{ std::ref(effect_item_list_), "_root.rootObj.effectItemList"sv },
+                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
+                 const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
-                [[maybe_unused]] const auto success = _view->GetVariable(std::addressof(instance), path.data());
+                [[maybe_unused]] const auto success = view_->GetVariable(std::addressof(instance), path.data());
                 assert(success && instance.IsObject());
             }
-            logger::debug("Loaded all SWF objects successfully for {}"sv, MENU_NAME);
+            logger::debug("Loaded all SWF objects successfully for {}"sv, menu_name);
 
-            _rootObj.Visible(false);
+            root_obj_.Visible(false);
 
-            _view->CreateArray(std::addressof(_equipItemListProvider));
-            _equipItemList.DataProvider(CLIK::Array{ _equipItemListProvider });
+            view_->CreateArray(std::addressof(equip_item_list_provider_));
+            equip_item_list_.DataProvider(CLIK::Array{ equip_item_list_provider_ });
 
-            _view->CreateArray(std::addressof(_armorItemListProvider));
-            _armorItemList.DataProvider(CLIK::Array{ _armorItemListProvider });
+            view_->CreateArray(std::addressof(armor_item_list_provider_));
+            armor_item_list_.DataProvider(CLIK::Array{ armor_item_list_provider_ });
 
-            _view->CreateArray(std::addressof(_weaponItemListProvider));
-            _weaponItemList.DataProvider(CLIK::Array{ _weaponItemListProvider });
+            view_->CreateArray(std::addressof(weapon_item_list_provider_));
+            weapon_item_list_.DataProvider(CLIK::Array{ weapon_item_list_provider_ });
 
-            _view->CreateArray(std::addressof(_effectItemListProvider));
-            _effectItemList.DataProvider(CLIK::Array{ _effectItemListProvider });
+            view_->CreateArray(std::addressof(effect_item_list_provider_));
+            effect_item_list_.DataProvider(CLIK::Array{ effect_item_list_provider_ });
 
-            _menuClose.Label("Close");
-            _menuClose.Disabled(false);
-            _menuClose.Visible(false);  //for now
+            menu_close_.Label("Close");
+            menu_close_.Disabled(false);
+            menu_close_.Visible(false);  //for now
 
-            UpdateHeaders();
+            update_headers();
 
-            UpdateLists();
+            update_lists();
 
-            _view->SetVisible(true);
-            _rootObj.Visible(true);
+            view_->SetVisible(true);
+            root_obj_.Visible(true);
 
-            DisableItemLists();
+            disable_item_lists();
 
-            logger::debug("Shown all Values for Menu {}"sv, MENU_NAME);
+            logger::debug("Shown all Values for Menu {}"sv, menu_name);
         }
 
-        void UpdateText(CLIK::TextField a_field, std::string_view a_string) {
+        static void update_text(CLIK::TextField a_field, const std::string_view a_string) {
             a_field.AutoSize(CLIK::Object{ "left" });
             a_field.HTMLText(a_string);
             a_field.Visible(true);
         }
 
-        void UpdateHeaders() {
-            UpdateText(_equipHeader, static_cast<std::string_view>(*Settings::showStatsInventoryTitleEquip));
-            UpdateText(_armorHeader, static_cast<std::string_view>(*Settings::showStatsInventoryTitleArmor));
-            UpdateText(_weaponHeader, static_cast<std::string_view>(*Settings::showStatsInventoryTitleWeapon));
-            UpdateText(_effectHeader, static_cast<std::string_view>(*Settings::showStatsInventoryTitleEffect));
+        void update_headers() const {
+            update_text(equip_header_, static_cast<std::string_view>(*settings::show_stats_inventory_title_equip));
+            update_text(armor_header_, static_cast<std::string_view>(*settings::show_stats_inventory_title_armor));
+            update_text(weapon_header_, static_cast<std::string_view>(*settings::show_stats_inventory_title_weapon));
+            update_text(effect_header_, static_cast<std::string_view>(*settings::show_stats_inventory_title_effect));
         }
 
-        RE::GFxValue buildGFxValue(std::string a_val) {
+        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string& a_val) const {
             RE::GFxValue value;
-            _view->CreateObject(std::addressof(value));
+            view_->CreateObject(std::addressof(value));
             value.SetMember("displayName", { static_cast<std::string_view>(a_val) });
             return value;
         }
 
-        void ClearProviders() {
-            _equipItemListProvider.ClearElements();
-            _armorItemListProvider.ClearElements();
-            _weaponItemListProvider.ClearElements();
-            _effectItemListProvider.ClearElements();
+        void clear_providers() {
+            equip_item_list_provider_.ClearElements();
+            armor_item_list_provider_.ClearElements();
+            weapon_item_list_provider_.ClearElements();
+            effect_item_list_provider_.ClearElements();
         }
 
-        void InvalidateItemLists() {
-            _equipItemList.Invalidate();
-            _armorItemList.Invalidate();
-            _weaponItemList.Invalidate();
-            _effectItemList.Invalidate();
+        void invalidate_item_lists() {
+            equip_item_list_.Invalidate();
+            armor_item_list_.Invalidate();
+            weapon_item_list_.Invalidate();
+            effect_item_list_.Invalidate();
         }
 
-        void InvalidateDataItemLists() {
-            _equipItemList.InvalidateData();
-            _armorItemList.InvalidateData();
-            _weaponItemList.InvalidateData();
-            _effectItemList.InvalidateData();
+        void invalidate_data_item_lists() {
+            equip_item_list_.InvalidateData();
+            armor_item_list_.InvalidateData();
+            weapon_item_list_.InvalidateData();
+            effect_item_list_.InvalidateData();
         }
 
-        void UpdateLists() {
-            ClearProviders();
-            InvalidateItemLists();
+        void update_lists() {
+            clear_providers();
+            invalidate_item_lists();
 
-            UpdateMenuValues();
+            update_menu_values();
 
-            InvalidateDataItemLists();
+            invalidate_data_item_lists();
         }
 
-        void UpdateMenuValues() {
-            auto values = PlayerData::GetSingleton()->getValuesToDisplay(_menu, MENU_NAME);
+        void update_menu_values() const {
+            auto values = PlayerData::GetSingleton()->getValuesToDisplay(menu, menu_name);
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
 
-            for (auto& element : values) {
-                auto statValue = element.first;
-                auto statItem = element.second.get();
+            for (auto& [fst, snd] : values) {
+                auto stat_value = fst;
+                const auto stat_item = snd.get();
 
-                statItem->logStatItem(statValue, _menu);
+                stat_item->log_stat_item(stat_value, menu);
 
-                if (statItem->getGuiText().empty() || statItem->getGuiText() == "" ||
-                    statItem->getStatsInventoryMenu() == StatsInventoryMenuValue::mNone ||
-                    statItem->getStatsInventoryMenu() == StatsInventoryMenuValue::mEquip) {
+                if (stat_item->get_gui_text().empty() ||
+                    stat_item->get_stats_inventory_menu() == stats_inventory_menu_value::m_none ||
+                    stat_item->get_stats_inventory_menu() == stats_inventory_menu_value::m_equip) {
                     continue;
                 }
 
-                _menuMap.find(statItem->getStatsInventoryMenu())
-                    ->second.PushBack(buildGFxValue(statItem->getGuiText()));
+                menu_map_.find(stat_item->get_stats_inventory_menu())
+                    ->second.PushBack(build_gfx_value(stat_item->get_gui_text()));
                 logger::trace("added to Menu {}, Name {}, GuiText ({})"sv,
-                    statItem->getStatsInventoryMenu(),
-                    statValue,
-                    statItem->getGuiText());
+                    stat_item->get_stats_inventory_menu(),
+                    stat_value,
+                    stat_item->get_gui_text());
             }
-            for (auto& element : values) { element.second.reset(); }
+            for (auto& [fst, snd] : values) { snd.reset(); }
             values.clear();
 
             //it seems the inventory needs a bit after an equipchange, so an item might be shown equiped
-            auto armor = PlayerData::GetSingleton()->getArmorMap();
-            for (auto item : armor) {
-                _menuMap.find(StatsInventoryMenuValue::mEquip)
-                    ->second.PushBack(buildGFxValue(fmt::format(FMT_STRING("{}: {}"), item.first, item.second)));
+            for (const auto armor = PlayerData::GetSingleton()->getArmorMap(); auto [fst, snd] : armor) {
+                menu_map_.find(stats_inventory_menu_value::m_equip)
+                    ->second.PushBack(build_gfx_value(fmt::format(FMT_STRING("{}: {}"), fst, snd)));
             }
 
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
         }
 
-        void OnClose() { return; }
+        static void on_close() { return; }
 
-        void DisableItemLists() {
-            _equipItemList.Disabled(true);
-            _armorItemList.Disabled(true);
-            _weaponItemList.Disabled(true);
-            _effectItemList.Disabled(true);
+        void disable_item_lists() {
+            equip_item_list_.Disabled(true);
+            armor_item_list_.Disabled(true);
+            weapon_item_list_.Disabled(true);
+            effect_item_list_.Disabled(true);
         }
 
-        static void CloseMenu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
+        static void close_menu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
             assert(a_params.GetArgCount() == 0);
             logger::debug("GUI Close Button Pressed"sv);
-            Close();
+            close();
         }
 
-        static void Log(const RE::FxDelegateArgs& a_params) {
+        static void log(const RE::FxDelegateArgs& a_params) {
             assert(a_params.GetArgCount() == 1);
             assert(a_params[0].IsString());
 
-            logger::debug("{}: {}"sv, StatsInventoryMenu::MENU_NAME, a_params[0].GetString());
+            logger::debug("{}: {}"sv, menu_name, a_params[0].GetString());
         }
 
-        RE::GPtr<RE::GFxMovieView> _view;
-        bool _isActive = false;
+        RE::GPtr<RE::GFxMovieView> view_;
+        bool is_active_ = false;
 
-        CLIK::MovieClip _rootObj;
+        CLIK::MovieClip root_obj_;
 
-        CLIK::TextField _equipHeader;
-        CLIK::TextField _armorHeader;
-        CLIK::TextField _weaponHeader;
-        CLIK::TextField _effectHeader;
+        CLIK::TextField equip_header_;
+        CLIK::TextField armor_header_;
+        CLIK::TextField weapon_header_;
+        CLIK::TextField effect_header_;
 
-        CLIK::GFx::Controls::ScrollingList _equipItemList;
-        RE::GFxValue _equipItemListProvider;
+        CLIK::GFx::Controls::ScrollingList equip_item_list_;
+        RE::GFxValue equip_item_list_provider_;
 
-        CLIK::GFx::Controls::ScrollingList _armorItemList;
-        RE::GFxValue _armorItemListProvider;
+        CLIK::GFx::Controls::ScrollingList armor_item_list_;
+        RE::GFxValue armor_item_list_provider_;
 
-        CLIK::GFx::Controls::ScrollingList _weaponItemList;
-        RE::GFxValue _weaponItemListProvider;
+        CLIK::GFx::Controls::ScrollingList weapon_item_list_;
+        RE::GFxValue weapon_item_list_provider_;
 
-        CLIK::GFx::Controls::ScrollingList _effectItemList;
-        RE::GFxValue _effectItemListProvider;
+        CLIK::GFx::Controls::ScrollingList effect_item_list_;
+        RE::GFxValue effect_item_list_provider_;
 
-        CLIK::GFx::Controls::Button _menuClose;
+        CLIK::GFx::Controls::Button menu_close_;
 
-        std::map<StatsInventoryMenuValue, RE::GFxValue&> _menuMap = {
-            { StatsInventoryMenuValue::mEquip, _equipItemListProvider },
-            { StatsInventoryMenuValue::mArmor, _armorItemListProvider },
-            { StatsInventoryMenuValue::mWeapon, _weaponItemListProvider },
-            { StatsInventoryMenuValue::mEffect, _effectItemListProvider },
+        std::map<stats_inventory_menu_value, RE::GFxValue&> menu_map_ = {
+            { stats_inventory_menu_value::m_equip, equip_item_list_provider_ },
+            { stats_inventory_menu_value::m_armor, armor_item_list_provider_ },
+            { stats_inventory_menu_value::m_weapon, weapon_item_list_provider_ },
+            { stats_inventory_menu_value::m_effect, effect_item_list_provider_ },
         };
     };
 }

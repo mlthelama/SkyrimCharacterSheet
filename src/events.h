@@ -1,5 +1,5 @@
 #pragma once
 
-namespace Events {
-    void SinkEventHandlers();
+namespace events {
+    void sink_event_handlers();
 }

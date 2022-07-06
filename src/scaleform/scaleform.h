@@ -1,4 +1,4 @@
 #pragma once
-namespace Scaleform {
+namespace scaleform {
     void Register();
 }
