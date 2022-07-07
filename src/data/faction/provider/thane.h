@@ -88,10 +88,10 @@ private:
         { FactionValue::thane_of_hjaalmarch, { { 0x000A34CE, quest_util::get_as(25) } } },
         { FactionValue::thane_of_the_pale, { { 0x000A34D4, quest_util::get_as(25) } } },
         { FactionValue::thane_of_the_reach, { { 0x000A2C86, quest_util::get_as(25) } } },
-        { FactionValue::thane_of_the_rift, { { 0x00065BDF, quest_util::get_as(20) } } },  //rift quest is special
+        { FactionValue::thane_of_the_rift, { { 0x00065BDF, quest_util::get_as(20) } } }, //rift quest is special
         { FactionValue::thane_of_whiterun,
-            { { 0x000A2C9E,
-                quest_util::get_as(25) } } },  //just if stormcloaks won the war, otherwise MQ104/0002610C/160
+          { { 0x000A2C9E,
+              quest_util::get_as(25) } } }, //just if stormcloaks won the war, otherwise MQ104/0002610C/160
         { FactionValue::thane_of_winterhold, { { 0x000A34D7, quest_util::get_as(25) } } }
     };
 

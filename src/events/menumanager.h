@@ -20,8 +20,8 @@ public:
     menu_manager& operator=(menu_manager&&) = delete;
 
 protected:
-    auto ProcessEvent(RE::MenuOpenCloseEvent const* a_event,
-        [[maybe_unused]] RE::BSTEventSource<RE::MenuOpenCloseEvent>* a_event_source) -> event_result override {
+    event_result ProcessEvent(const RE::MenuOpenCloseEvent* a_event,
+        [[maybe_unused]] RE::BSTEventSource<RE::MenuOpenCloseEvent>* a_event_source) override {
         if (!a_event) {
             return event_result::kContinue;
         }

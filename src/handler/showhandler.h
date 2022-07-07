@@ -18,7 +18,7 @@ public:
                 scaleform::stats_menu::close();
                 break;
             case show_menu::m_faction:
-                scaleform::FactionMenu::close();
+                scaleform::faction_menu::close();
                 break;
             case show_menu::m_stats_inventory:
                 scaleform::stats_inventory_menu::close();
@@ -39,7 +39,7 @@ public:
     static void handle_main_button_press() {
         if (scaleform::stats_menu::is_menu_open()) {
             close_window(show_menu::m_stats);
-        } else if (scaleform::FactionMenu::is_menu_open()) {
+        } else if (scaleform::faction_menu::is_menu_open()) {
             close_window(show_menu::m_faction);
         } else {
             show_window(show_menu::m_stats);
@@ -48,16 +48,20 @@ public:
 
     static void handle_next_menu_button_press() {
         if (scaleform::stats_menu::is_menu_open()) {
-            logger::debug("{} is open, open {}"sv, scaleform::stats_menu::menu_name, scaleform::FactionMenu::menu_name);
+            logger::debug("{} is open, open {}"sv,
+                scaleform::stats_menu::menu_name,
+                scaleform::faction_menu::menu_name);
             swap_window(show_menu::m_faction, show_menu::m_stats);
-        } else if (scaleform::FactionMenu::is_menu_open()) {
-            logger::debug("{} is open, open {}"sv, scaleform::FactionMenu::menu_name, scaleform::stats_menu::menu_name);
+        } else if (scaleform::faction_menu::is_menu_open()) {
+            logger::debug("{} is open, open {}"sv,
+                scaleform::faction_menu::menu_name,
+                scaleform::stats_menu::menu_name);
             swap_window(show_menu::m_stats, show_menu::m_faction);
         }
     }
 
     static bool is_menu_open() {
-        return (scaleform::stats_menu::is_menu_open() || scaleform::FactionMenu::is_menu_open());
+        return (scaleform::stats_menu::is_menu_open() || scaleform::faction_menu::is_menu_open());
     }
 
     static bool is_menu_open(const show_menu a_menu_open) {
@@ -76,7 +80,7 @@ public:
             const auto task = SKSE::GetTaskInterface();
             task->AddUITask([]() {
                 if (const auto menu = RE::UI::GetSingleton()->GetMenu<scaleform::stats_inventory_menu>(
-                        scaleform::stats_inventory_menu::menu_name)) {
+                    scaleform::stats_inventory_menu::menu_name)) {
                     menu->refresh_lists();
                 }
             });
@@ -96,7 +100,7 @@ public:
 private:
     inline static std::map<show_menu, std::string_view> menu_scale_form_name_ = {
         { show_menu::m_stats, scaleform::stats_menu::menu_name },
-        { show_menu::m_faction, scaleform::FactionMenu::menu_name },
+        { show_menu::m_faction, scaleform::faction_menu::menu_name },
         { show_menu::m_stats_inventory, scaleform::stats_inventory_menu::menu_name }
     };
 
@@ -115,7 +119,7 @@ private:
                 scaleform::stats_menu::open();
                 break;
             case show_menu::m_faction:
-                scaleform::FactionMenu::open();
+                scaleform::faction_menu::open();
                 break;
             case show_menu::m_stats_inventory:
                 scaleform::stats_inventory_menu::open();

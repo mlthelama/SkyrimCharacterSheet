@@ -5,10 +5,13 @@ class faction_config {
 
 public:
     faction_config(std::string a_display_name, const faction_menu_value a_menu)
-        : display_name_(std::move(a_display_name)), menu_(a_menu), display_is_value_(false) {}
+        : display_name_(std::move(a_display_name))
+        , menu_(a_menu) {}
 
     faction_config(std::string a_display_name, const faction_menu_value a_menu, const bool a_display_is_value)
-        : display_name_(std::move(a_display_name)), menu_(a_menu), display_is_value_(a_display_is_value) {}
+        : display_name_(std::move(a_display_name))
+        , menu_(a_menu)
+        , display_is_value_(a_display_is_value) {}
 
     std::string get_display_name() { return display_name_; }
 
@@ -56,7 +59,7 @@ public:
         return std::addressof(singleton);
     }
 
-    faction_map load() const {
+    [[nodiscard]] faction_map load() const {
         auto faction_menu = menu_util::get_faction_menu(*settings::factionMenu);
         auto thane_menu = menu_util::get_faction_menu(*settings::thaneMenu);
         auto champion_menu = menu_util::get_faction_menu(*settings::championMenu);

@@ -117,17 +117,22 @@ private:
 
     //0x00072834 //blades, player might not be in there
     inline static std::map<RE::FormID, FactionValue> const_faction_map_ = { { 0x00048362, FactionValue::companions },
-        { 0x0001BDB3, FactionValue::darkbrotherhood },
-        { 0x0001F259, FactionValue::college_of_winterhold },
-        { 0x00024029, FactionValue::orc_friend },
-        { 0x00029DA9, FactionValue::thiefs_guild },
-        { 0x0002BF9A, FactionValue::imperial_legion },
-        { 0x0002BF9B, FactionValue::stormcloaks },
-        { 0x0002C6C8, FactionValue::greybeard },
-        { 0x02003376, FactionValue::volkihar_vampire_clan },
-        //{ 0x02014217, FactionValue::dawnguard },
-        { 0x02003375, FactionValue::dawnguard },
-        { 0x04019B8A, FactionValue::house_telvanni } };
+                                                                            { 0x0001BDB3,
+                                                                              FactionValue::darkbrotherhood },
+                                                                            { 0x0001F259,
+                                                                              FactionValue::college_of_winterhold },
+                                                                            { 0x00024029, FactionValue::orc_friend },
+                                                                            { 0x00029DA9, FactionValue::thiefs_guild },
+                                                                            { 0x0002BF9A,
+                                                                              FactionValue::imperial_legion },
+                                                                            { 0x0002BF9B, FactionValue::stormcloaks },
+                                                                            { 0x0002C6C8, FactionValue::greybeard },
+                                                                            { 0x02003376,
+                                                                              FactionValue::volkihar_vampire_clan },
+                                                                            //{ 0x02014217, FactionValue::dawnguard },
+                                                                            { 0x02003375, FactionValue::dawnguard },
+                                                                            { 0x04019B8A,
+                                                                              FactionValue::house_telvanni } };
 
     void log_map() const {
         for (const auto& [fst, snd] : faction_rank_list_) { logger::trace("faction {}, rank {}"sv, fst, snd); }
@@ -137,7 +142,7 @@ private:
         auto& rank = *settings::assassinRank;
         //hail sithis
         if (quest_util::is_one_quest_stage_complete(0x0001EA59,
-                std::vector{ quest_util::get_as(200), quest_util::get_as(255) })) {
+            std::vector{ quest_util::get_as(200), quest_util::get_as(255) })) {
             rank = *settings::listenerRank;
         }
         return rank;

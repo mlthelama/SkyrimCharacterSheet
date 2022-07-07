@@ -21,7 +21,8 @@ public:
     key_manager& operator=(key_manager&&) = delete;
 
 protected:
-    auto ProcessEvent(RE::InputEvent* const* a_event, [[maybe_unused]] RE::BSTEventSource<RE::InputEvent*>* a_event_source) -> event_result override {
+    event_result ProcessEvent(RE::InputEvent* const* a_event,
+        [[maybe_unused]] RE::BSTEventSource<RE::InputEvent*>* a_event_source) override {
         using event_type = RE::INPUT_EVENT_TYPE;
         using device_type = RE::INPUT_DEVICE;
 
@@ -49,7 +50,8 @@ protected:
             }
 
             //this stays static_cast
-            const auto button = static_cast<RE::ButtonEvent*>(event);  // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+            const auto button = static_cast<RE::ButtonEvent*>(event);
+            // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
             if (!button->IsDown()) {
                 continue;
             }

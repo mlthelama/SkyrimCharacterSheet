@@ -387,7 +387,7 @@ public:
             *settings::pickpocketPowerModString,
             menu_util::get_stats_menu(*settings::pickpocket_power_mod_menu),
             menu_util::get_stats_inventory_menu(*settings::pickpocket_power_mod_menu_inventory));
-        mp[stats_value::lockpickingPowerMod] = std::make_unique<stat_config>(actor_value::kLockpickingPowerModifier,
+        mp[stats_value::lockpicking_power_mod] = std::make_unique<stat_config>(actor_value::kLockpickingPowerModifier,
             *settings::lockpickingPowerModString,
             menu_util::get_stats_menu(*settings::lockpicking_power_mod_menu),
             menu_util::get_stats_inventory_menu(*settings::lockpicking_power_mod_menu_inventory));

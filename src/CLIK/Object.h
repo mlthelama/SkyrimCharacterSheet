@@ -3,32 +3,44 @@
 namespace CLIK {
     class Object {
     public:
-        Object() : _instance() {}
+        Object()
+            : _instance() {}
 
-        Object(const Object& a_rhs) : _instance() { SetInstance(a_rhs); }
+        Object(const Object& a_rhs)
+            : _instance() { SetInstance(a_rhs); }
 
-        Object(Object&& a_rhs) : _instance() { SetInstance(std::move(a_rhs)); }
+        Object(Object&& a_rhs)
+            : _instance() { SetInstance(std::move(a_rhs)); }
 
-        explicit Object(std::nullptr_t) : _instance() { SetInstance(nullptr); }
+        explicit Object(std::nullptr_t)
+            : _instance() { SetInstance(nullptr); }
 
-        explicit Object(double a_rhs) : _instance() { SetInstance(a_rhs); }
+        explicit Object(double a_rhs)
+            : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(bool a_rhs) : _instance() { SetInstance(a_rhs); }
+        explicit Object(bool a_rhs)
+            : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(const char* a_rhs) : _instance() { SetInstance(a_rhs); }
+        explicit Object(const char* a_rhs)
+            : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(std::string_view a_rhs) : _instance() { SetInstance(a_rhs); }
+        explicit Object(std::string_view a_rhs)
+            : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(const wchar_t* a_rhs) : _instance() { SetInstance(a_rhs); }
+        explicit Object(const wchar_t* a_rhs)
+            : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(std::wstring_view a_rhs) : _instance() { SetInstance(a_rhs); }
+        explicit Object(std::wstring_view a_rhs)
+            : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(const RE::GFxValue& a_rhs) : _instance() {
+        explicit Object(const RE::GFxValue& a_rhs)
+            : _instance() {
             SetInstance(a_rhs);
             assert(IsObject());
         }
 
-        explicit Object(RE::GFxValue&& a_rhs) : _instance() {
+        explicit Object(RE::GFxValue&& a_rhs)
+            : _instance() {
             SetInstance(std::move(a_rhs));
             assert(IsObject());
         }
@@ -187,9 +199,11 @@ namespace CLIK {
         bool IsObject() const { return _instance.IsObject(); }
 
         bool Invoke(const char* a_name) { return _instance.Invoke(a_name, nullptr, nullptr, 0); }
+
         bool Invoke(const char* a_name, RE::GFxValue* a_result) {
             return _instance.Invoke(a_name, a_result, nullptr, 0);
         }
+
         bool Invoke(const char* a_name, RE::GFxValue* a_result, const RE::GFxValue* a_args, RE::UPInt a_numArgs) {
             return _instance.Invoke(a_name, a_result, a_args, a_numArgs);
         }

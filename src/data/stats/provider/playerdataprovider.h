@@ -35,7 +35,7 @@ public:
 
         //could also get other weapon stats that way
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
-            speed = static_cast<RE::TESObjectWEAP*>(hand->object)->GetSpeed(); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+            speed = static_cast<RE::TESObjectWEAP*>(hand->object)->GetSpeed();
             logger::trace("Name {}, WeaponSpeed {}, Left {}"sv, hand->GetDisplayName(), speed, a_left);
         }
         return (speed == -1) ? "" : string_util::get_string_value_from_float(speed);
@@ -44,7 +44,7 @@ public:
     static std::string handle_weapon_reach(RE::PlayerCharacter*& a_player, bool a_left) {
         float reach = -1;
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
-            reach = static_cast<RE::TESObjectWEAP*>(hand->object)->GetReach(); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+            reach = static_cast<RE::TESObjectWEAP*>(hand->object)->GetReach();
             logger::trace("Name {}, WeaponReach {}, Left {}"sv, hand->GetDisplayName(), reach, a_left);
         }
         return (reach == -1) ? "" : string_util::get_string_value_from_float(reach);
@@ -53,7 +53,7 @@ public:
     static std::string handle_weapon_base_damage(RE::PlayerCharacter*& a_player, bool a_left) {
         float base_damage = -1;
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
-            base_damage = static_cast<RE::TESObjectWEAP*>(hand->object)->attackDamage; // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+            base_damage = static_cast<RE::TESObjectWEAP*>(hand->object)->attackDamage;
             logger::trace("Name {}, WeaponBaseDamage {}, Left {}"sv, hand->GetDisplayName(), base_damage, a_left);
         }
         return (base_damage == -1) ? "" : string_util::get_string_value_from_float(base_damage);
@@ -62,7 +62,7 @@ public:
     static std::string handle_weapon_stagger(RE::PlayerCharacter*& a_player, bool a_left) {
         float stagger = -1;
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
-            stagger = static_cast<RE::TESObjectWEAP*>(hand->object)->GetStagger(); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+            stagger = static_cast<RE::TESObjectWEAP*>(hand->object)->GetStagger();
             logger::trace("Name {}, WeaponStagger {}, Left {}"sv, hand->GetDisplayName(), stagger, a_left);
         }
         return (stagger == -1) ? "" : string_util::get_string_value_from_float(stagger);
@@ -72,7 +72,7 @@ public:
         float crit = -1;
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
             const auto [prcntMult, pad04, effect, damage, flags, pad13, pad14] =
-                static_cast<RE::TESObjectWEAP*>(hand->object)->criticalData; // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+                static_cast<RE::TESObjectWEAP*>(hand->object)->criticalData;
             crit = prcntMult * damage;
             logger::trace("Name {}, WeaponCritDamageRating {}, Left {}"sv, hand->GetDisplayName(), crit, a_left);
         }
@@ -214,38 +214,38 @@ private:
     };
 
     inline static std::vector<armor_slot> slot_types_ = { armor_slot::k_none,
-        armor_slot::k_head,
-        armor_slot::k_hair,
-        armor_slot::k_body,
-        armor_slot::k_hands,
-        armor_slot::k_forearms,
-        armor_slot::k_amulet,
-        armor_slot::k_ring,
-        armor_slot::k_feet,
-        armor_slot::k_calves,
-        armor_slot::k_shield,
-        armor_slot::k_tail,
-        armor_slot::k_long_hair,
-        armor_slot::k_circlet,
-        armor_slot::k_ears,
-        armor_slot::k_face_mouth,
-        armor_slot::k_neck,
-        armor_slot::k_chest_primary,
-        armor_slot::k_back,
-        armor_slot::k_misc,
-        armor_slot::k_pelvis_primary,
-        armor_slot::k_decapitate_head,
-        armor_slot::k_decapitate,
-        armor_slot::k_pelvis_secondary,
-        armor_slot::k_leg_primary,
-        armor_slot::k_leg_secondary,
-        armor_slot::k_face_alternate,
-        armor_slot::k_chest_secondary,
-        armor_slot::k_shoulder,
-        armor_slot::k_arm_secondary,
-        armor_slot::k_arm_primary,
-        armor_slot::k_misc_fx,
-        armor_slot::k_fx01 };
+                                                          armor_slot::k_head,
+                                                          armor_slot::k_hair,
+                                                          armor_slot::k_body,
+                                                          armor_slot::k_hands,
+                                                          armor_slot::k_forearms,
+                                                          armor_slot::k_amulet,
+                                                          armor_slot::k_ring,
+                                                          armor_slot::k_feet,
+                                                          armor_slot::k_calves,
+                                                          armor_slot::k_shield,
+                                                          armor_slot::k_tail,
+                                                          armor_slot::k_long_hair,
+                                                          armor_slot::k_circlet,
+                                                          armor_slot::k_ears,
+                                                          armor_slot::k_face_mouth,
+                                                          armor_slot::k_neck,
+                                                          armor_slot::k_chest_primary,
+                                                          armor_slot::k_back,
+                                                          armor_slot::k_misc,
+                                                          armor_slot::k_pelvis_primary,
+                                                          armor_slot::k_decapitate_head,
+                                                          armor_slot::k_decapitate,
+                                                          armor_slot::k_pelvis_secondary,
+                                                          armor_slot::k_leg_primary,
+                                                          armor_slot::k_leg_secondary,
+                                                          armor_slot::k_face_alternate,
+                                                          armor_slot::k_chest_secondary,
+                                                          armor_slot::k_shoulder,
+                                                          armor_slot::k_arm_secondary,
+                                                          armor_slot::k_arm_primary,
+                                                          armor_slot::k_misc_fx,
+                                                          armor_slot::k_fx01 };
 
     static double get_slotid_from_bit_mask(armor_slot a_armor_slot) {
         return std::log(static_cast<int32_t>(a_armor_slot)) / std::log1p(1) + 30;

@@ -5,7 +5,8 @@ class faction_item {
 
 public:
     faction_item(std::string a_gui_text, const faction_menu_value a_faction_menu)
-        : gui_text_(std::move(a_gui_text)), faction_menu_(a_faction_menu) {}
+        : gui_text_(std::move(a_gui_text))
+        , faction_menu_(a_faction_menu) {}
 
     std::string get_gui_text() { return gui_text_; }
 

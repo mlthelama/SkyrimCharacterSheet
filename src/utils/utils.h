@@ -55,7 +55,7 @@ namespace menu_util {
         m_magic = 4,
         m_warrior = 5,
         m_thief = 6,
-        m_special = 7  //header or bottom
+        m_special = 7 //header or bottom
     };
 
     /* config can not work with enums, so lets map it*/
@@ -83,7 +83,7 @@ namespace menu_util {
     enum class stats_inventory_menu_value { m_none = 0, m_equip = 1, m_armor = 2, m_weapon = 3, m_effect = 4 };
 
     /* config can not work with enums, so lets map it*/
-    inline static std::map<int64_t, stats_inventory_menu_value> _constConfigStatsInventoryMenu = {
+    inline static std::map<int64_t, stats_inventory_menu_value> const_config_stats_inventory_menu = {
         { static_cast<int64_t>(stats_inventory_menu_value::m_none), stats_inventory_menu_value::m_none },
         { static_cast<int64_t>(stats_inventory_menu_value::m_equip), stats_inventory_menu_value::m_equip },
         { static_cast<int64_t>(stats_inventory_menu_value::m_armor), stats_inventory_menu_value::m_armor },
@@ -119,11 +119,11 @@ namespace menu_util {
 
     static stats_inventory_menu_value get_stats_inventory_menu(int64_t a_menu_id) {
         //in case the config value does not match
-        if (!_constConfigStatsInventoryMenu.contains(a_menu_id)) {
+        if (!const_config_stats_inventory_menu.contains(a_menu_id)) {
             logger::warn("({}) can not find Menu {}"sv, get_menu_name(show_menu::m_stats_inventory), a_menu_id);
             return stats_inventory_menu_value::m_none;
         }
-        return _constConfigStatsInventoryMenu.find(a_menu_id)->second;
+        return const_config_stats_inventory_menu.find(a_menu_id)->second;
     }
 
     static show_menu get_next_menu(show_menu a_menu) { return static_cast<show_menu>(static_cast<int>(a_menu) + 1); }
@@ -218,9 +218,12 @@ namespace vector_util {
         auto deli_string =
             a_vec.empty() ?
                 "" :
-                std::accumulate(std::begin(a_vec), std::end(a_vec), std::string{}, [](std::string r, int p) {
-                    return std::move(r) + std::to_string(p) + ",";
-                });
+                std::accumulate(std::begin(a_vec),
+                    std::end(a_vec),
+                    std::string{},
+                    [](std::string r, int p) {
+                        return std::move(r) + std::to_string(p) + ",";
+                    });
 
         if (!deli_string.empty()) {
             deli_string.pop_back();

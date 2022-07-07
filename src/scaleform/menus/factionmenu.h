@@ -10,7 +10,7 @@ namespace scaleform {
     using faction_menu_value = menu_util::faction_menu_value;
     using show_menu = menu_util::show_menu;
 
-    class FactionMenu final : public RE::IMenu {
+    class faction_menu final : public RE::IMenu {
     public:
         static constexpr std::string_view menu_name = "ShowFactions";
         static constexpr std::string_view file_name = menu_name;
@@ -43,20 +43,20 @@ namespace scaleform {
             return is_open;
         }
 
-        FactionMenu(const FactionMenu&) = delete;
-        FactionMenu(FactionMenu&&) = delete;
+        faction_menu(const faction_menu&) = delete;
+        faction_menu(faction_menu&&) = delete;
 
-        FactionMenu& operator=(const FactionMenu&) = delete;
-        FactionMenu& operator=(FactionMenu&&) = delete;
+        faction_menu& operator=(const faction_menu&) = delete;
+        faction_menu& operator=(faction_menu&&) = delete;
 
     protected:
-        FactionMenu() {
+        faction_menu() {
             using context = RE::UserEvents::INPUT_CONTEXT_ID;
             using flag = RE::UI_MENU_FLAGS;
 
             const auto a_menu = static_cast<IMenu*>(this);
-            const auto scaleformManager = RE::BSScaleformManager::GetSingleton();
-            [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(a_menu,
+            const auto scaleform_manager = RE::BSScaleformManager::GetSingleton();
+            [[maybe_unused]] const auto success = scaleform_manager->LoadMovieEx(a_menu,
                 file_name,
                 RE::BSScaleformManager::ScaleModeType::kExactFit,
                 [&](RE::GFxMovieDef* a_def) -> void {
@@ -97,10 +97,10 @@ namespace scaleform {
         }
 
 
-        ~FactionMenu() override = default;
+        ~faction_menu() override = default;
 
 
-        static stl::owner<IMenu*> creator() { return new FactionMenu(); }
+        static stl::owner<IMenu*> creator() { return new faction_menu(); }
 
         void PostCreate() override { on_open(); }
 
@@ -145,7 +145,7 @@ namespace scaleform {
         void init_extensions() const {
             const RE::GFxValue boolean(true);
 
-            [[maybe_unused]] bool success = view_->SetVariable("_global.gfxExtensions", boolean);
+            [[maybe_unused]] const bool success = view_->SetVariable("_global.gfxExtensions", boolean);
             assert(success);
             //success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
             //assert(success);
@@ -155,18 +155,18 @@ namespace scaleform {
             using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
 
             for (std::array objects{ element_t{ std::ref(root_obj_), "_root.rootObj"sv },
-                     element_t{ std::ref(title_), "_root.rootObj.title"sv },
-                     element_t{ std::ref(faction_count_), "_root.rootObj.bottomBar.factionCount"sv },
-                     element_t{ std::ref(thane_count_), "_root.rootObj.bottomBar.thaneCount"sv },
-                     element_t{ std::ref(champion_count_), "_root.rootObj.bottomBar.championCount"sv },
-                     element_t{ std::ref(faction_header_), "_root.rootObj.factionValuesHeader"sv },
-                     element_t{ std::ref(thane_header_), "_root.rootObj.factionThanesHeader"sv },
-                     element_t{ std::ref(champion_header_), "_root.rootObj.factionChampionHeader"sv },
-                     element_t{ std::ref(faction_item_list_), "_root.rootObj.factionItemList"sv },
-                     element_t{ std::ref(thane_item_list_), "_root.rootObj.thaneItemList"sv },
-                     element_t{ std::ref(champion_item_list_), "_root.rootObj.championItemList"sv },
-                     element_t{ std::ref(prev_), "_root.rootObj.factionPrevScreen"sv },
-                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
+                                     element_t{ std::ref(title_), "_root.rootObj.title"sv },
+                                     element_t{ std::ref(faction_count_), "_root.rootObj.bottomBar.factionCount"sv },
+                                     element_t{ std::ref(thane_count_), "_root.rootObj.bottomBar.thaneCount"sv },
+                                     element_t{ std::ref(champion_count_), "_root.rootObj.bottomBar.championCount"sv },
+                                     element_t{ std::ref(faction_header_), "_root.rootObj.factionValuesHeader"sv },
+                                     element_t{ std::ref(thane_header_), "_root.rootObj.factionThanesHeader"sv },
+                                     element_t{ std::ref(champion_header_), "_root.rootObj.factionChampionHeader"sv },
+                                     element_t{ std::ref(faction_item_list_), "_root.rootObj.factionItemList"sv },
+                                     element_t{ std::ref(thane_item_list_), "_root.rootObj.thaneItemList"sv },
+                                     element_t{ std::ref(champion_item_list_), "_root.rootObj.championItemList"sv },
+                                     element_t{ std::ref(prev_), "_root.rootObj.factionPrevScreen"sv },
+                                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
                  const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
                 [[maybe_unused]] const auto success = view_->GetVariable(std::addressof(instance), path.data());
@@ -296,7 +296,7 @@ namespace scaleform {
             update_text(champion_count_, format(FMT_STRING("Count: {}"), champion_item_list_provider_.GetArraySize()));
         }
 
-        static void on_close() { return; }
+        static void on_close() { }
 
         void disable_item_lists() {
             faction_item_list_.Disabled(true);

@@ -20,7 +20,8 @@ public:
     equip_manager& operator=(equip_manager&&) = delete;
 
 protected:
-    auto ProcessEvent(const RE::TESEquipEvent* a_event, [[maybe_unused]] RE::BSTEventSource<RE::TESEquipEvent>* a_event_source) -> event_result override {
+    event_result ProcessEvent(const RE::TESEquipEvent* a_event,
+        [[maybe_unused]] RE::BSTEventSource<RE::TESEquipEvent>* a_event_source) override {
         if (!a_event || !a_event->actor || !a_event->actor->IsPlayerRef()) {
             return event_result::kContinue;
         }

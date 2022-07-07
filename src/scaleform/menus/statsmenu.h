@@ -114,8 +114,8 @@ namespace scaleform {
             }
         }
 
-        void AdvanceMovie(const float a_interval, const uint32_t a_currentTime) override {
-            IMenu::AdvanceMovie(a_interval, a_currentTime);
+        void AdvanceMovie(const float a_interval, const uint32_t a_current_time) override {
+            IMenu::AdvanceMovie(a_interval, a_current_time);
         }
 
         void Accept(CallbackProcessor* a_processor) override {
@@ -145,7 +145,7 @@ namespace scaleform {
         void init_extensions() const {
             const RE::GFxValue boolean(true);
 
-            [[maybe_unused]] bool success = view_->SetVariable("_global.gfxExtensions", boolean);
+            [[maybe_unused]] const bool success = view_->SetVariable("_global.gfxExtensions", boolean);
             assert(success);
         }
 
@@ -153,27 +153,33 @@ namespace scaleform {
             using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
 
             for (std::array objects{ element_t{ std::ref(root_obj_), "_root.rootObj"sv },
-                     element_t{ std::ref(title_), "_root.rootObj.title"sv },
-                     element_t{ std::ref(name_), "_root.rootObj.bottomBar.name"sv },
-                     element_t{ std::ref(level_), "_root.rootObj.bottomBar.level"sv },
-                     element_t{ std::ref(race_), "_root.rootObj.bottomBar.race"sv },
-                     element_t{ std::ref(perks_), "_root.rootObj.bottomBar.perks"sv },
-                     element_t{ std::ref(beast_), "_root.rootObj.bottomBar.beast"sv },
-                     element_t{ std::ref(xp_), "_root.rootObj.bottomBar.xp"sv },
-                     element_t{ std::ref(values_header_), "_root.rootObj.playerValuesHeader"sv },
-                     element_t{ std::ref(attack_header_), "_root.rootObj.playerAttackHeader"sv },
-                     element_t{ std::ref(perks_magic_header_), "_root.rootObj.playerPerksMagicHeader"sv },
-                     element_t{ std::ref(defence_header_), "_root.rootObj.playerDefenceHeader"sv },
-                     element_t{ std::ref(perks_warrior_header_), "_root.rootObj.playerPerksWarriorHeader"sv },
-                     element_t{ std::ref(perks_thief_header_), "_root.rootObj.playerPerksThiefHeader"sv },
-                     element_t{ std::ref(player_item_list_), "_root.rootObj.playerItemList"sv },
-                     element_t{ std::ref(defence_item_list_), "_root.rootObj.defenceItemList"sv },
-                     element_t{ std::ref(attack_item_list_), "_root.rootObj.attackItemList"sv },
-                     element_t{ std::ref(perks_magic_item_list_), "_root.rootObj.perksMagicItemList"sv },
-                     element_t{ std::ref(perks_warrior_item_list_), "_root.rootObj.perksWarriorItemList"sv },
-                     element_t{ std::ref(perks_thief_item_list_), "_root.rootObj.perksThiefItemList"sv },
-                     element_t{ std::ref(next_), "_root.rootObj.playerNextScreen"sv },
-                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
+                                     element_t{ std::ref(title_), "_root.rootObj.title"sv },
+                                     element_t{ std::ref(name_), "_root.rootObj.bottomBar.name"sv },
+                                     element_t{ std::ref(level_), "_root.rootObj.bottomBar.level"sv },
+                                     element_t{ std::ref(race_), "_root.rootObj.bottomBar.race"sv },
+                                     element_t{ std::ref(perks_), "_root.rootObj.bottomBar.perks"sv },
+                                     element_t{ std::ref(beast_), "_root.rootObj.bottomBar.beast"sv },
+                                     element_t{ std::ref(xp_), "_root.rootObj.bottomBar.xp"sv },
+                                     element_t{ std::ref(values_header_), "_root.rootObj.playerValuesHeader"sv },
+                                     element_t{ std::ref(attack_header_), "_root.rootObj.playerAttackHeader"sv },
+                                     element_t{ std::ref(perks_magic_header_),
+                                                "_root.rootObj.playerPerksMagicHeader"sv },
+                                     element_t{ std::ref(defence_header_), "_root.rootObj.playerDefenceHeader"sv },
+                                     element_t{ std::ref(perks_warrior_header_),
+                                                "_root.rootObj.playerPerksWarriorHeader"sv },
+                                     element_t{ std::ref(perks_thief_header_),
+                                                "_root.rootObj.playerPerksThiefHeader"sv },
+                                     element_t{ std::ref(player_item_list_), "_root.rootObj.playerItemList"sv },
+                                     element_t{ std::ref(defence_item_list_), "_root.rootObj.defenceItemList"sv },
+                                     element_t{ std::ref(attack_item_list_), "_root.rootObj.attackItemList"sv },
+                                     element_t{ std::ref(perks_magic_item_list_),
+                                                "_root.rootObj.perksMagicItemList"sv },
+                                     element_t{ std::ref(perks_warrior_item_list_),
+                                                "_root.rootObj.perksWarriorItemList"sv },
+                                     element_t{ std::ref(perks_thief_item_list_),
+                                                "_root.rootObj.perksThiefItemList"sv },
+                                     element_t{ std::ref(next_), "_root.rootObj.playerNextScreen"sv },
+                                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
                  const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
                 [[maybe_unused]] const auto success = view_->GetVariable(std::addressof(instance), path.data());
@@ -230,12 +236,12 @@ namespace scaleform {
         void update_title() const { update_text(title_, get_menu_name(menu)); }
 
         void update_headers() const {
-            update_text(values_header_, static_cast<std::string_view>(*settings::show_stats_title_player));
-            update_text(attack_header_, static_cast<std::string_view>(*settings::show_stats_title_attack));
-            update_text(perks_magic_header_, static_cast<std::string_view>(*settings::show_stats_title_magic));
-            update_text(defence_header_, static_cast<std::string_view>(*settings::show_stats_title_defence));
-            update_text(perks_warrior_header_, static_cast<std::string_view>(*settings::show_stats_title_warrior));
-            update_text(perks_thief_header_, static_cast<std::string_view>(*settings::show_stats_title_thief));
+            update_text(values_header_, *settings::show_stats_title_player);
+            update_text(attack_header_, *settings::show_stats_title_attack);
+            update_text(perks_magic_header_, *settings::show_stats_title_magic);
+            update_text(defence_header_, *settings::show_stats_title_defence);
+            update_text(perks_warrior_header_, *settings::show_stats_title_warrior);
+            update_text(perks_thief_header_, *settings::show_stats_title_thief);
         }
 
         [[nodiscard]] RE::GFxValue build_gfx_value(const std::string& a_val) const {
@@ -292,7 +298,7 @@ namespace scaleform {
         }
 
         void update_menu_values() const {
-            auto values = PlayerData::GetSingleton()->getValuesToDisplay(menu, menu_name);
+            auto values = player_data::get_singleton()->get_values_to_display(menu, menu_name);
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
 
             for (auto& [fst, snd] : values) {
@@ -327,7 +333,7 @@ namespace scaleform {
                     default:
                         if (stat_item->get_stats_menu() != stats_menu_value::m_special) {
                             menu_map_.find(stat_item->get_stats_menu())
-                                ->second.PushBack(build_gfx_value(stat_item->get_gui_text()));
+                                     ->second.PushBack(build_gfx_value(stat_item->get_gui_text()));
                             logger::trace("added to Menu {}, Name {}, GuiText ({})"sv,
                                 stat_item->get_stats_menu(),
                                 stat_value,
@@ -336,12 +342,12 @@ namespace scaleform {
                         break;
                 }
             }
-            for (auto& element : values) { element.second.reset(); }
+            for (auto& [fst, snd] : values) { snd.reset(); }
             values.clear();
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
         }
 
-        static void on_close() { return; }
+        static void on_close() { }
 
         void disable_item_lists() {
             player_item_list_.Disabled(true);

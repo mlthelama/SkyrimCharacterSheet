@@ -9,7 +9,7 @@ public:
     }
 
     ReturnType Visit(RE::BGSPerkEntry* perk_entry) override {
-        const RE::BGSEntryPointPerkEntry* entry_point = static_cast<RE::BGSEntryPointPerkEntry*>(perk_entry); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+        const RE::BGSEntryPointPerkEntry* entry_point = static_cast<RE::BGSEntryPointPerkEntry*>(perk_entry);
         const RE::BGSPerk* perk = entry_point->perk;
 
         logger::trace("formid {}, name {}"sv, string_util::int_to_hex(perk->GetFormID()), perk->GetName());
@@ -17,7 +17,7 @@ public:
         if (entry_point->functionData &&
             entry_point->entryData.function == RE::BGSEntryPointPerkEntry::EntryData::Function::kMultiplyValue) {
             const RE::BGSEntryPointFunctionDataOneValue* value =
-                static_cast<RE::BGSEntryPointFunctionDataOneValue*>(entry_point->functionData); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+                static_cast<RE::BGSEntryPointFunctionDataOneValue*>(entry_point->functionData);
             result_ = value->data;
             logger::trace("Got value for Perk {}"sv, result_);
         }

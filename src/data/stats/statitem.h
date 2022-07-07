@@ -7,10 +7,12 @@ class stat_item {
 
 public:
     stat_item(std::string a_gui_text, const stats_menu_value a_stats_menu)
-        : gui_text_(std::move(a_gui_text)), stats_menu_(a_stats_menu) {}
+        : gui_text_(std::move(a_gui_text))
+        , stats_menu_(a_stats_menu) {}
 
     stat_item(std::string a_gui_text, const stats_inventory_menu_value a_stats_inventory_menu)
-        : gui_text_(std::move(a_gui_text)), stats_inventory_menu_(a_stats_inventory_menu) {}
+        : gui_text_(std::move(a_gui_text))
+        , stats_inventory_menu_(a_stats_inventory_menu) {}
 
     std::string get_gui_text() { return gui_text_; }
 

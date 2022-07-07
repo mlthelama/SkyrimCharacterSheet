@@ -50,7 +50,7 @@ enum class stats_value {
     heavy_armor_power_mod,
     light_armor_power_mod,
     pickpocket_power_mod,
-    lockpickingPowerMod,
+    lockpicking_power_mod,
     sneak_power_mod,
     alchemy_power_mod,
     speech_power_mod,

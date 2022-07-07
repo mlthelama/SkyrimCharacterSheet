@@ -13,9 +13,11 @@ namespace CLIK {
         MovieClip(MovieClip&&) = default;
         using super::super;
 
-        MovieClip(const super& a_rhs) : super(a_rhs) {}
+        MovieClip(const super& a_rhs)
+            : super(a_rhs) {}
 
-        MovieClip(super&& a_rhs) : super(std::move(a_rhs)) {}
+        MovieClip(super&& a_rhs)
+            : super(std::move(a_rhs)) {}
 
         ~MovieClip() = default;
 

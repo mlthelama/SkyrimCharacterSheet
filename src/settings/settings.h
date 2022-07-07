@@ -13,8 +13,8 @@ struct settings {
         } catch (const toml::parse_error& ex) {
             std::ostringstream ss;
             ss << "Error parsing file \'" << *ex.source().path << "\':\n"
-               << '\t' << ex.description() << '\n'
-               << "\t\t(" << ex.source().begin << ')';
+                << '\t' << ex.description() << '\n'
+                << "\t\t(" << ex.source().begin << ')';
             logger::error(ss.str());
             throw std::runtime_error("failed to load settings"s);
         }
@@ -60,8 +60,8 @@ struct settings {
     static inline str_setting armor_string{ "showStatsName"s, "armor"s, const_undefined };
     static inline str_setting damage_string{ "showStatsName"s, "damage"s, const_undefined };
     static inline str_setting skill_trainings_this_level_string{ "showStatsName"s,
-        "skillTrainingsThisLevel"s,
-        const_undefined };
+                                                                 "skillTrainingsThisLevel"s,
+                                                                 const_undefined };
     static inline str_setting health_string{ "showStatsName"s, "health"s, const_undefined };
     static inline str_setting health_rate_string{ "showStatsName"s, "healthRatePer"s, const_undefined };
     static inline str_setting magicka_string{ "showStatsName"s, "magicka"s, const_undefined };
@@ -124,8 +124,8 @@ struct settings {
     static inline str_setting movementNoiseMultString{ "showStatsName"s, "movementNoiseMult"s, const_undefined };
     static inline str_setting dragonSoulsString{ "showStatsName"s, "dragonSouls"s, const_undefined };
     static inline str_setting combatHealthRegenMultiplyString{ "showStatsName"s,
-        "combatHealthRegenMultiply"s,
-        const_undefined };
+                                                               "combatHealthRegenMultiply"s,
+                                                               const_undefined };
     static inline str_setting attackDamageMultString{ "showStatsName"s, "attackDamageMult"s, const_undefined };
     static inline str_setting beastString{ "showStatsName"s, "beast"s, const_undefined };
     static inline str_setting xpString{ "showStatsName"s, "xp"s, const_undefined };
@@ -157,11 +157,11 @@ struct settings {
     static inline str_setting massString{ "showStatsName"s, "mass"s, const_undefined };
     static inline str_setting bowStaggerBonusString{ "showStatsName"s, "bowStaggerBonus"s, const_undefined };
     static inline str_setting bypassVendorKeywordCheckString{ "showStatsName"s,
-        "bypassVendorKeywordCheck"s,
-        const_undefined };
+                                                              "bypassVendorKeywordCheck"s,
+                                                              const_undefined };
     static inline str_setting bypassVendorStolenCheckString{ "showStatsName"s,
-        "bypassVendorStolenCheck"s,
-        const_undefined };
+                                                             "bypassVendorStolenCheck"s,
+                                                             const_undefined };
     static inline str_setting weaponReachString{ "showStatsName"s, "weaponReach"s, const_undefined };
     static inline str_setting weaponReachLeftString{ "showStatsName"s, "weaponReachLeft"s, const_undefined };
     static inline str_setting weaponBaseDamageString{ "showStatsName"s, "weaponBaseDamage"s, const_undefined };
@@ -169,11 +169,11 @@ struct settings {
     static inline str_setting weaponStaggerString{ "showStatsName"s, "weaponStagger"s, const_undefined };
     static inline str_setting weaponStaggerLeftString{ "showStatsName"s, "weaponStaggerLeft"s, const_undefined };
     static inline str_setting weaponCritDamageRatingString{ "showStatsName"s,
-        "weaponCritDamageRating"s,
-        const_undefined };
+                                                            "weaponCritDamageRating"s,
+                                                            const_undefined };
     static inline str_setting weaponCritDamageRatingLeftString{ "showStatsName"s,
-        "weaponCritDamageRatingLeft"s,
-        const_undefined };
+                                                                "weaponCritDamageRatingLeft"s,
+                                                                const_undefined };
     static inline str_setting fallDamageModString{ "showStatsName"s, "fallDamageMod"s, const_undefined };
 
     //stat endings
@@ -198,14 +198,14 @@ struct settings {
     static inline str_setting weaponSpeedMultStringEnding{ "showStatsEnding"s, "weaponSpeedMult"s, const_undefined };
     static inline str_setting bowSpeedBonusStringEnding{ "showStatsEnding"s, "bowSpeedBonus"s, const_undefined };
     static inline str_setting shoutRecoveryMultStringEnding{ "showStatsEnding"s,
-        "shoutRecoveryMult"s,
-        const_undefined };
+                                                             "shoutRecoveryMult"s,
+                                                             const_undefined };
     static inline str_setting movementNoiseMultStringEnding{ "showStatsEnding"s,
-        "movementNoiseMult"s,
-        const_undefined };
+                                                             "movementNoiseMult"s,
+                                                             const_undefined };
     static inline str_setting combatHealthRegenMultiplyStringEnding{ "showStatsEnding"s,
-        "combatHealthRegenMultiply"s,
-        const_undefined };
+                                                                     "combatHealthRegenMultiply"s,
+                                                                     const_undefined };
     static inline str_setting attackDamageMultStringEnding{ "showStatsEnding"s, "attackDamageMult"s, const_undefined };
     static inline str_setting reflectDamageStringEnding{ "showStatsEnding"s, "reflectDamage"s, const_undefined };
     static inline str_setting oneHandedModStringEnding{ "showStatsEnding"s, "oneHandedMod"s, const_undefined };
@@ -227,8 +227,8 @@ struct settings {
     static inline str_setting illusionModStringEnding{ "showStatsEnding"s, "illusionMod"s, const_undefined };
     static inline str_setting restorationModStringEnding{ "showStatsEnding"s, "restorationMod"s, const_undefined };
     static inline str_setting leftWeaponSpeedMultStringEnding{ "showStatsEnding"s,
-        "leftWeaponSpeedMult"s,
-        const_undefined };
+                                                               "leftWeaponSpeedMult"s,
+                                                               const_undefined };
     static inline str_setting armorPerksStringEnding{ "showStatsEnding"s, "armorPerks"s, const_undefined };
     static inline str_setting fallDamageModStringEnding{ "showStatsEnding"s, "fallDamageMod"s, const_undefined };
 
@@ -345,7 +345,8 @@ struct settings {
     static inline int_setting weapon_speed_mult_mult{ "showStatsMultiplier"s, "weaponSpeedMult"s, 1 };
     static inline int_setting shout_recovery_mult_mult{ "showStatsMultiplier"s, "shoutRecoveryMult"s, 1 };
     static inline int_setting movement_noise_mult_mult{ "showStatsMultiplier"s, "movementNoiseMult"s, 1 };
-    static inline int_setting combat_health_regen_multiply_mult{ "showStatsMultiplier"s, "combatHealthRegenMultiply"s, 1 };
+    static inline int_setting combat_health_regen_multiply_mult{ "showStatsMultiplier"s, "combatHealthRegenMultiply"s,
+                                                                 1 };
     static inline int_setting left_weapon_speed_mult_mult{ "showStatsMultiplier"s, "leftWeaponSpeedMult"s, 1 };
     static inline int_setting armor_perks_mult{ "showStatsMultiplier"s, "armorPerks"s, 1 };
     static inline int_setting fall_damage_mod_mult{ "showStatsMultiplier"s, "fallDamageMod"s, 1 };
@@ -363,8 +364,8 @@ struct settings {
     static inline str_setting companionsString{ "showFactionsFactionNames"s, "companions"s, const_undefined };
     static inline str_setting darkbrotherHoodString{ "showFactionsFactionNames"s, "darkbrotherHood"s, const_undefined };
     static inline str_setting collegeOfWinterholdString{ "showFactionsFactionNames"s,
-        "collegeOfWinterhold"s,
-        const_undefined };
+                                                         "collegeOfWinterhold"s,
+                                                         const_undefined };
     static inline str_setting orcFriendString{ "showFactionsFactionNames"s, "orcFriend"s, const_undefined };
     static inline str_setting thiefsGuildString{ "showFactionsFactionNames"s, "thiefsGuild"s, const_undefined };
     static inline str_setting imperialLegionString{ "showFactionsFactionNames"s, "imperialLegion"s, const_undefined };
@@ -372,8 +373,8 @@ struct settings {
     static inline str_setting greybeardString{ "showFactionsFactionNames"s, "greybeard"s, const_undefined };
     static inline str_setting bardString{ "showFactionsFactionNames"s, "bard"s, const_undefined };
     static inline str_setting volkiharVampireClanString{ "showFactionsFactionNames"s,
-        "volkiharVampireClan"s,
-        const_undefined };
+                                                         "volkiharVampireClan"s,
+                                                         const_undefined };
     static inline str_setting dawnguardString{ "showFactionsFactionNames"s, "dawnguard"s, const_undefined };
     static inline str_setting houseTelvanniString{ "showFactionsFactionNames"s, "houseTelvanni"s, const_undefined };
 
@@ -438,8 +439,10 @@ struct settings {
     static inline str_setting show_stats_inventory_title_title{ "showStatsInventoryTitle"s, "title"s, const_undefined };
     static inline str_setting show_stats_inventory_title_equip{ "showStatsInventoryTitle"s, "equip"s, const_undefined };
     static inline str_setting show_stats_inventory_title_armor{ "showStatsInventoryTitle"s, "armor"s, const_undefined };
-    static inline str_setting show_stats_inventory_title_weapon{ "showStatsInventoryTitle"s, "weapon"s, const_undefined };
-    static inline str_setting show_stats_inventory_title_effect{ "showStatsInventoryTitle"s, "effect"s, const_undefined };
+    static inline str_setting show_stats_inventory_title_weapon{ "showStatsInventoryTitle"s, "weapon"s,
+                                                                 const_undefined };
+    static inline str_setting show_stats_inventory_title_effect{ "showStatsInventoryTitle"s, "effect"s,
+                                                                 const_undefined };
 
     static inline bool_setting show_stats_inventorydisplay_zero{ "showStatsInventorySpecial"s, "displayZero"s, true };
 
@@ -483,19 +486,28 @@ struct settings {
     static inline int_setting archery_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "archeryPowerMod"s, 0 };
     static inline int_setting block_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "blockPowerMod"s, 0 };
     static inline int_setting smithing_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "smithingPowerMod"s, 0 };
-    static inline int_setting heavy_armor_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "heavyArmorPowerMod"s, 0 };
-    static inline int_setting light_armor_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "lightArmorPowerMod"s, 0 };
-    static inline int_setting pickpocket_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "pickpocketPowerMod"s, 0 };
-    static inline int_setting lockpicking_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "lockpickingPowerMod"s, 0 };
+    static inline int_setting heavy_armor_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "heavyArmorPowerMod"s,
+                                                                    0 };
+    static inline int_setting light_armor_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "lightArmorPowerMod"s,
+                                                                    0 };
+    static inline int_setting pickpocket_power_mod_menu_inventory
+        { "showStatsInventoryMenu"s, "pickpocketPowerMod"s, 0 };
+    static inline int_setting lockpicking_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "lockpickingPowerMod"s,
+                                                                    0 };
     static inline int_setting sneak_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "sneakPowerMod"s, 0 };
     static inline int_setting alchemy_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "alchemyPowerMod"s, 0 };
     static inline int_setting speech_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "speechPowerMod"s, 0 };
-    static inline int_setting enchanting_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "enchantingPowerMod"s, 0 };
-    static inline int_setting alteration_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "alterationPowerMod"s, 0 };
-    static inline int_setting conjuration_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "conjurationPowerMod"s, 0 };
-    static inline int_setting destruction_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "destructionPowerMod"s, 0 };
+    static inline int_setting enchanting_power_mod_menu_inventory
+        { "showStatsInventoryMenu"s, "enchantingPowerMod"s, 0 };
+    static inline int_setting alteration_power_mod_menu_inventory
+        { "showStatsInventoryMenu"s, "alterationPowerMod"s, 0 };
+    static inline int_setting conjuration_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "conjurationPowerMod"s,
+                                                                    0 };
+    static inline int_setting destruction_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "destructionPowerMod"s,
+                                                                    0 };
     static inline int_setting illusion_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "illusionPowerMod"s, 0 };
-    static inline int_setting restoration_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "restorationPowerMod"s, 0 };
+    static inline int_setting restoration_power_mod_menu_inventory{ "showStatsInventoryMenu"s, "restorationPowerMod"s,
+                                                                    0 };
     static inline int_setting speed_mult_menu_inventory{ "showStatsInventoryMenu"s, "speedMult"s, 0 };
     static inline int_setting inventory_weight_menu_inventory{ "showStatsInventoryMenu"s, "inventoryWeight"s, 0 };
     static inline int_setting carry_weight_menu_inventory{ "showStatsInventoryMenu"s, "carryWeight"s, 0 };
@@ -529,7 +541,8 @@ struct settings {
     static inline int_setting restoration_mod_menu_inventory{ "showStatsInventoryMenu"s, "restorationMod"s, 0 };
     static inline int_setting damage_arrow_menu_inventory{ "showStatsInventoryMenu"s, "damageArrow"s, 0 };
     static inline int_setting damage_left_menu_inventory{ "showStatsInventoryMenu"s, "damageLeft"s, 0 };
-    static inline int_setting left_weapon_speed_mult_menu_inventory{ "showStatsInventoryMenu"s, "leftWeaponSpeedMult"s, 0 };
+    static inline int_setting left_weapon_speed_mult_menu_inventory{ "showStatsInventoryMenu"s, "leftWeaponSpeedMult"s,
+                                                                     0 };
     static inline int_setting right_item_charge_menu_inventory{ "showStatsInventoryMenu"s, "rightItemCharge"s, 0 };
     static inline int_setting left_item_charge_menu_inventory{ "showStatsInventoryMenu"s, "leftItemCharge"s, 0 };
     static inline int_setting armor_perks_menu_inventory{ "showStatsInventoryMenu"s, "armorPerks"s, 0 };
@@ -539,15 +552,15 @@ struct settings {
     static inline int_setting weapon_reach_left_menu_inventory{ "showStatsInventoryMenu"s, "weaponReachLeft"s, 0 };
     static inline int_setting weapon_base_damage_menu_inventory{ "showStatsInventoryMenu"s, "weaponBaseDamage"s, 0 };
     static inline int_setting weapon_base_damage_left_menu_inventory{ "showStatsInventoryMenu"s,
-        "weaponBaseDamageLeft"s,
-        0 };
+                                                                      "weaponBaseDamageLeft"s,
+                                                                      0 };
     static inline int_setting weapon_stagger_menu_inventory{ "showStatsInventoryMenu"s, "weaponStagger"s, 0 };
     static inline int_setting weapon_stagger_left_menu_inventory{ "showStatsInventoryMenu"s, "weaponStaggerLeft"s, 0 };
     static inline int_setting weapon_crit_damage_rating_menu_inventory{ "showStatsInventoryMenu"s,
-        "weaponCritDamageRating"s,
-        0 };
+                                                                        "weaponCritDamageRating"s,
+                                                                        0 };
     static inline int_setting weapon_crit_damage_rating_left_menu_inventory{ "showStatsInventoryMenu"s,
-        "weaponCritDamageRatingLeft"s,
-        0 };
+                                                                             "weaponCritDamageRatingLeft"s,
+                                                                             0 };
     static inline int_setting fall_damage_mod_menu_inventory{ "showStatsInventoryMenu"s, "fallDamageMod"s, 0 };
 };
