@@ -38,16 +38,7 @@ struct settings {
 
     static inline bool_setting show_resistance_cap{ "specialHandling"s, "showResistanceCap"s, true };
 
-    //stat titles
-    static inline str_setting show_stats_title_title{ "showStatsTitle"s, "title"s, const_undefined };
-    static inline str_setting show_stats_title_player{ "showStatsTitle"s, "player"s, const_undefined };
-    static inline str_setting show_stats_title_attack{ "showStatsTitle"s, "attack"s, const_undefined };
-    static inline str_setting show_stats_title_defence{ "showStatsTitle"s, "defence"s, const_undefined };
-    static inline str_setting show_stats_title_magic{ "showStatsTitle"s, "magic"s, const_undefined };
-    static inline str_setting show_stats_title_thief{ "showStatsTitle"s, "thief"s, const_undefined };
-    static inline str_setting show_stats_title_warrior{ "showStatsTitle"s, "warrior"s, const_undefined };
-
-    static inline bool_setting show_stat_sdisplay_zero{ "showStatsSpecial"s, "displayZero"s, true };
+    static inline bool_setting show_stats_display_zero{ "showStatsSpecial"s, "displayZero"s, true };
 
     //naming
     static inline str_setting name_string{ "showStatsName"s, "name"s, const_undefined };
@@ -354,11 +345,6 @@ struct settings {
     static inline str_setting vampireString{ "showBeastName"s, "vampire"s, const_undefined };
     static inline str_setting werewolfString{ "showBeastName"s, "werewolf"s, const_undefined };
 
-    //factions title
-    static inline str_setting showFactionsTitleTitle{ "showFactionsTitle"s, "title"s, const_undefined };
-    static inline str_setting showFactionsTitleFaction{ "showFactionsTitle"s, "faction"s, const_undefined };
-    static inline str_setting showFactionsTitleThane{ "showFactionsTitle"s, "thane"s, const_undefined };
-    static inline str_setting showFactionsTitleChampion{ "showFactionsTitle"s, "champion"s, const_undefined };
 
     //faction name
     static inline str_setting companionsString{ "showFactionsFactionNames"s, "companions"s, const_undefined };
@@ -434,15 +420,6 @@ struct settings {
     static inline str_setting sanguineName{ "showFactionsChampionName"s, "sanguine"s, const_undefined };
     static inline str_setting sheogorathName{ "showFactionsChampionName"s, "sheogorath"s, const_undefined };
     static inline str_setting vaerminaName{ "showFactionsChampionName"s, "vaermina"s, const_undefined };
-
-    //stats inventory titles
-    static inline str_setting show_stats_inventory_title_title{ "showStatsInventoryTitle"s, "title"s, const_undefined };
-    static inline str_setting show_stats_inventory_title_equip{ "showStatsInventoryTitle"s, "equip"s, const_undefined };
-    static inline str_setting show_stats_inventory_title_armor{ "showStatsInventoryTitle"s, "armor"s, const_undefined };
-    static inline str_setting show_stats_inventory_title_weapon{ "showStatsInventoryTitle"s, "weapon"s,
-                                                                 const_undefined };
-    static inline str_setting show_stats_inventory_title_effect{ "showStatsInventoryTitle"s, "effect"s,
-                                                                 const_undefined };
 
     static inline bool_setting show_stats_inventorydisplay_zero{ "showStatsInventorySpecial"s, "displayZero"s, true };
 

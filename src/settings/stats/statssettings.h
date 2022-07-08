@@ -90,6 +90,16 @@ public:
         return "";
     }
 
+    std::string get_key_display() { return display_name_; }
+
+    std::string get_value_display(const std::string& a_value) {
+        if (!a_value.empty()) {
+            logger::trace("display {} got value {}, building text ..."sv, display_name_, a_value);
+            return menu_util::build_value_string(a_value, ending_);
+        }
+        return "";
+    }
+    
     void log_stat_config(stats_value a_stats_value) {
         logger::trace(
             "name {}, actor {}, displayName ({}), ending {}, statsMenu {}, statsInventoryMenu {}, valueMultiplier {}, cap {}, showPermAV {}"sv,

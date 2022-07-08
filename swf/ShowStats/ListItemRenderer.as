@@ -5,7 +5,9 @@
 
 	/* STAGE ELEMENTS */
 
-	public var textContainer: MovieClip;
+	//public var textFieldKey: MovieClip;
+	public var textField: TextField;
+	public var textFieldValue: TextField;
 
 
 	/* INITIALIZATION */
@@ -14,7 +16,8 @@
 	public function ListItemRenderer(a_obj: Object)
 	{
 		super();
-		textField = textContainer.textField;
+		//textField = textFieldKey.textField;
+		textFieldValue._visible = false;
 	}
 
 
@@ -33,8 +36,18 @@
 		if (data != null) {
 			/* maybe remove not needed  vars*/
 			var displayName: String = data.displayName != null ? data.displayName : "";
+			
+			var displayValue: String = data.displayValue != null ? data.displayValue : "";
 	
 			label = displayName;
+			
+			if (data.displayValue != null) {
+				textFieldValue.text = displayValue;
+				textFieldValue._visible = true;
+			}
+
+			textFieldValue.autoSize = "right";
+			textField.autoSize = "left";
 		}
 	}
 }

@@ -209,10 +209,10 @@ namespace scaleform {
         }
 
         void update_headers() const {
-            update_text(equip_header_, *settings::show_stats_inventory_title_equip);
-            update_text(armor_header_, *settings::show_stats_inventory_title_armor);
-            update_text(weapon_header_, *settings::show_stats_inventory_title_weapon);
-            update_text(effect_header_, *settings::show_stats_inventory_title_effect);
+            update_text(equip_header_, menu_keys::equip);
+            update_text(armor_header_, menu_keys::armor);
+            update_text(weapon_header_, menu_keys::weapon);
+            update_text(effect_header_, menu_keys::effect);
         }
 
         [[nodiscard]] RE::GFxValue build_gfx_value(const std::string& a_val) const {

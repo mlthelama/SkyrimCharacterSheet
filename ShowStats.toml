@@ -14,15 +14,6 @@ skyrimUnbound = false #changes the check for thaneOfWhiterun
 [specialHandling]
 showResistanceCap = true #display fPlayerMaxResistance or fMaxArmorRating when resistance > cap; display will be "cap (resistance)"
 
-[showStatsTitle]
-title = "Show Stats"
-player = "Player"
-attack = "Attack"
-defence = "Defence"
-magic = "Magic"
-thief = "Thief"
-warrior = "Warrior"
-
 [showStatsSpecial]
 displayZero = false #do or do not display values if they are 0
 
@@ -311,12 +302,6 @@ fallDamageMod = 100
 vampire = "Vampire"
 werewolf = "Werewolf"
 
-[showFactionsTitle]
-title = "Show Factions"
-faction = "Faction"
-thane = "Thane"
-champion = "Champion"
-
 [showFactionsFactionNames]
 companions = "Companions"
 darkbrotherHood = "The Dark Brotherhood"
@@ -387,13 +372,6 @@ peryite = "Peryite"
 sanguine = "Sanguine"
 sheogorath = "Sheogorath"
 vaermina = "Vaermina"
-
-[showStatsInventoryTitle]
-title = "Show Stats Inventory" #atm just used for logging
-equip = "Equipment"
-armor = "Armor"
-weapon = "Weapon"
-effect = "Effect"
 
 [showStatsInventorySpecial]
 displayZero = false #do or do not display values if they are 0

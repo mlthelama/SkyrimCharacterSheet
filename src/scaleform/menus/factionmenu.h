@@ -4,6 +4,7 @@
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
 #include "data/factiondata.h"
+#include "utils/menukeys.h"
 
 
 namespace scaleform {
@@ -214,9 +215,9 @@ namespace scaleform {
         void update_title() const { update_text(title_, get_menu_name(menu)); }
 
         void update_headers() const {
-            update_text(faction_header_, *settings::showFactionsTitleFaction);
-            update_text(thane_header_, *settings::showFactionsTitleThane);
-            update_text(champion_header_, *settings::showFactionsTitleChampion);
+            update_text(faction_header_, menu_keys::faction);
+            update_text(thane_header_, menu_keys::thane);
+            update_text(champion_header_, menu_keys::champion);
         }
 
         [[nodiscard]] RE::GFxValue build_gfx_value(const std::string& a_val) const {

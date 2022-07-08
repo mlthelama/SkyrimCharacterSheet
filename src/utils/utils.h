@@ -1,4 +1,5 @@
 #pragma once
+#include "menukeys.h"
 #include "settings/gamesettings.h"
 
 namespace string_util {
@@ -42,9 +43,9 @@ namespace menu_util {
     enum class show_menu { m_stats, m_faction, m_stats_inventory };
 
     static std::map<show_menu, std::string_view> menu_name = {
-        { show_menu::m_stats, static_cast<std::string_view>(*settings::show_stats_title_title) },
-        { show_menu::m_faction, static_cast<std::string_view>(*settings::showFactionsTitleTitle) },
-        { show_menu::m_stats_inventory, static_cast<std::string_view>(*settings::show_stats_inventory_title_title) }
+        { show_menu::m_stats, menu_keys::show_stats_title },
+        { show_menu::m_faction, menu_keys::show_factions_title },
+        { show_menu::m_stats_inventory, menu_keys::show_stats_inventory_title }
     };
 
     enum class stats_menu_value {
@@ -130,12 +131,12 @@ namespace menu_util {
 
     static show_menu get_prev_menu(show_menu a_menu) { return static_cast<show_menu>(static_cast<int>(a_menu) - 1); }
 
-    static std::string_view get_next_menu_name(show_menu a_menu) {
+    static std::string_view get_next_menu_name(const show_menu a_menu) {
         //if cast to an int value outside the enum it should be _constUndefined
         return get_menu_name(get_next_menu(a_menu));
     }
 
-    static std::string_view get_prev_menu_name(show_menu a_menu) {
+    static std::string_view get_prev_menu_name(const show_menu a_menu) {
         //if cast to an int value outside the enum it should be _constUndefined
         return get_menu_name(get_prev_menu(a_menu));
     }
@@ -169,6 +170,10 @@ namespace menu_util {
             return const_static_multiplier;
         }
         return a_mp;
+    }
+
+    static std::string build_value_string(std::string a_value, std::string a_ending) {
+        return fmt::format(FMT_STRING("{}{}"), a_value, a_ending);
     }
 }
 

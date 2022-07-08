@@ -236,18 +236,19 @@ namespace scaleform {
         void update_title() const { update_text(title_, get_menu_name(menu)); }
 
         void update_headers() const {
-            update_text(values_header_, *settings::show_stats_title_player);
-            update_text(attack_header_, *settings::show_stats_title_attack);
-            update_text(perks_magic_header_, *settings::show_stats_title_magic);
-            update_text(defence_header_, *settings::show_stats_title_defence);
-            update_text(perks_warrior_header_, *settings::show_stats_title_warrior);
-            update_text(perks_thief_header_, *settings::show_stats_title_thief);
+            update_text(values_header_, menu_keys::player);
+            update_text(attack_header_, menu_keys::attack);
+            update_text(perks_magic_header_, menu_keys::magic);
+            update_text(defence_header_, menu_keys::defence);
+            update_text(perks_warrior_header_, menu_keys::warrior);
+            update_text(perks_thief_header_, menu_keys::thief);
         }
 
-        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string& a_val) const {
+        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string& a_key, const std::string& a_val) const {
             RE::GFxValue value;
             view_->CreateObject(std::addressof(value));
-            value.SetMember("displayName", { static_cast<std::string_view>(a_val) });
+            value.SetMember("displayName", { static_cast<std::string_view>(a_key) });
+            value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
             return value;
         }
 
@@ -333,7 +334,7 @@ namespace scaleform {
                     default:
                         if (stat_item->get_stats_menu() != stats_menu_value::m_special) {
                             menu_map_.find(stat_item->get_stats_menu())
-                                     ->second.PushBack(build_gfx_value(stat_item->get_gui_text()));
+                                     ->second.PushBack(build_gfx_value(stat_item->get_key(), stat_item->get_value()));
                             logger::trace("added to Menu {}, Name {}, GuiText ({})"sv,
                                 stat_item->get_stats_menu(),
                                 stat_value,
