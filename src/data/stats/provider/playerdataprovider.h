@@ -5,10 +5,10 @@ class player_data_provider {
 public:
     static std::string get_beast(const float a_vamp, const float a_were) {
         if (a_vamp > 0) {
-            return *settings::vampireString;
+            return static_cast<std::string>(menu_keys::vampire);
         }
         if (a_were > 0) {
-            return *settings::werewolfString;
+            return static_cast<std::string>(menu_keys::werewolf);
         }
         return "";
     }
@@ -137,14 +137,14 @@ public:
                         slot_list.push_back(static_cast<int32_t>(slot));
                     }
                 }
-                auto slot_string = vector_util::getDelimitedString(slot_list);
+                auto slot_string = vector_util::get_delimited_string(slot_list);
                 slot_list.clear();
                 if (!slot_string.empty()) {
                     slot_map_string[slot_string] = armor->GetName();
                 }
             }
         }
-        for (auto [fst, snd] : slot_map_string) { logger::trace("{}: {}"sv, fst, snd); }
+        for (auto [slot, name] : slot_map_string) { logger::trace("{}: {}"sv, slot, name); }
 
         return slot_map_string;
     }

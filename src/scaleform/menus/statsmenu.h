@@ -48,7 +48,6 @@ namespace scaleform {
         stats_menu& operator=(const stats_menu&) = delete;
         stats_menu& operator=(stats_menu&&) = delete;
 
-
     protected:
         stats_menu() {
             using context = RE::UserEvents::INPUT_CONTEXT_ID;
@@ -154,12 +153,18 @@ namespace scaleform {
 
             for (std::array objects{ element_t{ std::ref(root_obj_), "_root.rootObj"sv },
                                      element_t{ std::ref(title_), "_root.rootObj.title"sv },
-                                     element_t{ std::ref(name_), "_root.rootObj.bottomBar.name"sv },
-                                     element_t{ std::ref(level_), "_root.rootObj.bottomBar.level"sv },
-                                     element_t{ std::ref(race_), "_root.rootObj.bottomBar.race"sv },
-                                     element_t{ std::ref(perks_), "_root.rootObj.bottomBar.perks"sv },
-                                     element_t{ std::ref(beast_), "_root.rootObj.bottomBar.beast"sv },
-                                     element_t{ std::ref(xp_), "_root.rootObj.bottomBar.xp"sv },
+                                     element_t{ std::ref(name_key_), "_root.rootObj.name"sv },
+                                     element_t{ std::ref(level_key_), "_root.rootObj.level"sv },
+                                     element_t{ std::ref(race_key_), "_root.rootObj.race"sv },
+                                     element_t{ std::ref(perks_key_), "_root.rootObj.perks"sv },
+                                     element_t{ std::ref(beast_key_), "_root.rootObj.beast"sv },
+                                     element_t{ std::ref(xp_key_), "_root.rootObj.xp"sv },
+                                     element_t{ std::ref(name_value_), "_root.rootObj.nameValue"sv },
+                                     element_t{ std::ref(level_value_), "_root.rootObj.levelValue"sv },
+                                     element_t{ std::ref(race_value_), "_root.rootObj.raceValue"sv },
+                                     element_t{ std::ref(perks_value_), "_root.rootObj.perksValue"sv },
+                                     element_t{ std::ref(beast_value_), "_root.rootObj.beastValue"sv },
+                                     element_t{ std::ref(xp_value_), "_root.rootObj.xpValue"sv },
                                      element_t{ std::ref(values_header_), "_root.rootObj.playerValuesHeader"sv },
                                      element_t{ std::ref(attack_header_), "_root.rootObj.playerAttackHeader"sv },
                                      element_t{ std::ref(perks_magic_header_),
@@ -233,21 +238,29 @@ namespace scaleform {
             a_field.Visible(true);
         }
 
+        static void update_text(CLIK::TextField a_field,
+            const std::string_view a_string,
+            const std::string& a_auto_size) {
+            a_field.AutoSize(CLIK::Object{ a_auto_size });
+            a_field.HTMLText(a_string);
+            a_field.Visible(true);
+        }
+
         void update_title() const { update_text(title_, get_menu_name(menu)); }
 
         void update_headers() const {
-            update_text(values_header_, menu_keys::player);
-            update_text(attack_header_, menu_keys::attack);
-            update_text(perks_magic_header_, menu_keys::magic);
-            update_text(defence_header_, menu_keys::defence);
-            update_text(perks_warrior_header_, menu_keys::warrior);
-            update_text(perks_thief_header_, menu_keys::thief);
+            update_text(values_header_, menu_keys::player_title);
+            update_text(attack_header_, menu_keys::attack_title);
+            update_text(perks_magic_header_, menu_keys::magic_title);
+            update_text(defence_header_, menu_keys::defence_title);
+            update_text(perks_warrior_header_, menu_keys::warrior_title);
+            update_text(perks_thief_header_, menu_keys::thief_title);
         }
 
-        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string& a_key, const std::string& a_val) const {
+        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
             RE::GFxValue value;
             view_->CreateObject(std::addressof(value));
-            value.SetMember("displayName", { static_cast<std::string_view>(a_key) });
+            value.SetMember("displayName", { a_key });
             value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
             return value;
         }
@@ -290,55 +303,47 @@ namespace scaleform {
 
         void update_bottom() const {
             //in case something is not set, we do not want to see default swf text
-            update_text(name_, "");
-            update_text(level_, "");
-            update_text(race_, "");
-            update_text(perks_, "");
-            update_text(beast_, "");
-            update_text(xp_, "");
+            for (const auto& [stat_value, text_field] : bottom_map_key_) {
+                update_text(text_field, "");
+            }
+            for (const auto& [stat_value, text_field_value] : bottom_map_value_) {
+                update_text(text_field_value, "");
+            }
+
         }
 
         void update_menu_values() const {
             auto values = player_data::get_singleton()->get_values_to_display(menu, menu_name);
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
 
-            for (auto& [fst, snd] : values) {
-                auto stat_value = fst;
-                const auto stat_item = snd.get();
+            for (auto& [stat_value, stat_item_ptr] : values) {
+                const auto stat_item = stat_item_ptr.get();
 
                 stat_item->log_stat_item(stat_value, menu);
 
-                if (stat_item->get_gui_text().empty() || stat_item->get_stats_menu() == stats_menu_value::m_none) {
+                if (stat_item->get_value().empty() || stat_item->get_stats_menu() == stats_menu_value::m_none) {
                     continue;
                 }
 
                 switch (stat_value) {
                     case stats_value::name:
-                        update_text(name_, stat_item->get_gui_text());
-                        break;
                     case stats_value::level:
-                        update_text(level_, stat_item->get_gui_text());
-                        break;
                     case stats_value::race:
-                        update_text(race_, stat_item->get_gui_text());
-                        break;
                     case stats_value::perk_count:
-                        update_text(perks_, stat_item->get_gui_text());
-                        break;
                     case stats_value::beast:
-                        update_text(beast_, stat_item->get_gui_text());
-                        break;
                     case stats_value::xp:
-                        update_text(xp_, stat_item->get_gui_text());
+                        update_text(get_text_field_key(stat_value), stat_item->get_key());
+                        update_text(get_text_fields_value(stat_value), stat_item->get_value(), "right");
                         break;
                     default:
                         if (stat_item->get_stats_menu() != stats_menu_value::m_special) {
                             menu_map_.find(stat_item->get_stats_menu())
                                      ->second.PushBack(build_gfx_value(stat_item->get_key(), stat_item->get_value()));
-                            logger::trace("added to Menu {}, Name {}, GuiText ({})"sv,
+                            logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
                                 stat_item->get_stats_menu(),
                                 stat_value,
-                                stat_item->get_gui_text());
+                                stat_item->get_key(),
+                                stat_item->get_value());
                         }
                         break;
                 }
@@ -379,6 +384,14 @@ namespace scaleform {
             logger::debug("{}: {}"sv, menu_name, a_params[0].GetString());
         }
 
+        [[nodiscard]] CLIK::TextField& get_text_field_key(const stats_value a_stats_value) const {
+            return bottom_map_key_.find(a_stats_value)->second;
+        }
+
+        [[nodiscard]] CLIK::TextField& get_text_fields_value(const stats_value a_stats_value) const {
+            return bottom_map_value_.find(a_stats_value)->second;
+        }
+
         static void process_next(show_menu a_menu);
 
         RE::GPtr<RE::GFxMovieView> view_;
@@ -388,19 +401,26 @@ namespace scaleform {
         CLIK::TextField title_;
         CLIK::GFx::Controls::Button next_;
 
-        CLIK::TextField name_;
-        CLIK::TextField level_;
-        CLIK::TextField race_;
-        CLIK::TextField perks_;
-        CLIK::TextField beast_;
-        CLIK::TextField xp_;
-
         CLIK::TextField values_header_;
         CLIK::TextField attack_header_;
         CLIK::TextField perks_magic_header_;
         CLIK::TextField defence_header_;
         CLIK::TextField perks_warrior_header_;
         CLIK::TextField perks_thief_header_;
+
+        CLIK::TextField name_key_;
+        CLIK::TextField level_key_;
+        CLIK::TextField race_key_;
+        CLIK::TextField perks_key_;
+        CLIK::TextField beast_key_;
+        CLIK::TextField xp_key_;
+
+        CLIK::TextField name_value_;
+        CLIK::TextField level_value_;
+        CLIK::TextField race_value_;
+        CLIK::TextField perks_value_;
+        CLIK::TextField beast_value_;
+        CLIK::TextField xp_value_;
 
         CLIK::GFx::Controls::ScrollingList player_item_list_;
         RE::GFxValue player_item_list_provider_;
@@ -430,5 +450,23 @@ namespace scaleform {
             { stats_menu_value::m_warrior, perks_warrior_item_list_provider_ },
             { stats_menu_value::m_thief, perks_thief_item_list_provider_ },
         };
+
+        std::map<stats_value, CLIK::TextField&> bottom_map_key_ = {
+            { stats_value::name, name_key_ },
+            { stats_value::level, level_key_ },
+            { stats_value::race, race_key_ },
+            { stats_value::perk_count, perks_key_ },
+            { stats_value::beast, beast_key_ },
+            { stats_value::xp, xp_key_ },
+        };
+        std::map<stats_value, CLIK::TextField&> bottom_map_value_ = {
+            { stats_value::name, name_value_ },
+            { stats_value::level, level_value_ },
+            { stats_value::race, race_value_ },
+            { stats_value::perk_count, perks_value_ },
+            { stats_value::beast, beast_value_ },
+            { stats_value::xp, xp_value_ },
+        };
+
     };
 }

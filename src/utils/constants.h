@@ -117,7 +117,7 @@ enum class stats_value {
     fall_damage_mod
 };
 
-enum class FactionValue {
+enum class faction_value {
     darkbrotherhood,
     thiefs_guild,
     orc_friend,
@@ -130,15 +130,15 @@ enum class FactionValue {
     volkihar_vampire_clan,
     dawnguard,
     house_telvanni,
-    thane_of_eastmarch,
-    thane_of_falkreath,
-    thane_of_haafingar,
-    thane_of_hjaalmarch,
-    thane_of_the_pale,
-    thane_of_the_reach,
-    thane_of_the_rift,
-    thane_of_whiterun,
-    thane_of_winterhold,
+    windhelm,
+    falkreath,
+    solitude,
+    morthal,
+    dawnstar,
+    markarth,
+    riften,
+    whiterun,
+    winterhold,
     azura,
     boethiah,
     clavicus_vile,
@@ -148,7 +148,7 @@ enum class FactionValue {
     mehrunes_dagon,
     mephala,
     meridia,
-    molagBal,
+    molag_bal,
     namira,
     nocturnal,
     peryite,

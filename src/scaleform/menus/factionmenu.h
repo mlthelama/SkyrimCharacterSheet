@@ -157,9 +157,12 @@ namespace scaleform {
 
             for (std::array objects{ element_t{ std::ref(root_obj_), "_root.rootObj"sv },
                                      element_t{ std::ref(title_), "_root.rootObj.title"sv },
-                                     element_t{ std::ref(faction_count_), "_root.rootObj.bottomBar.factionCount"sv },
-                                     element_t{ std::ref(thane_count_), "_root.rootObj.bottomBar.thaneCount"sv },
-                                     element_t{ std::ref(champion_count_), "_root.rootObj.bottomBar.championCount"sv },
+                                     element_t{ std::ref(faction_count_key_), "_root.rootObj.factionCount"sv },
+                                     element_t{ std::ref(thane_count_key_), "_root.rootObj.thaneCount"sv },
+                                     element_t{ std::ref(champion_count_key_), "_root.rootObj.championCount"sv },
+                                     element_t{ std::ref(faction_count_value_), "_root.rootObj.factionCountValue"sv },
+                                     element_t{ std::ref(thane_count_value_), "_root.rootObj.thaneCountValue"sv },
+                                     element_t{ std::ref(champion_count_value_), "_root.rootObj.championCountValue"sv },
                                      element_t{ std::ref(faction_header_), "_root.rootObj.factionValuesHeader"sv },
                                      element_t{ std::ref(thane_header_), "_root.rootObj.factionThanesHeader"sv },
                                      element_t{ std::ref(champion_header_), "_root.rootObj.factionChampionHeader"sv },
@@ -212,18 +215,27 @@ namespace scaleform {
             a_field.Visible(true);
         }
 
+        static void update_text(CLIK::TextField a_field,
+            const std::string_view a_string,
+            const std::string& a_auto_size) {
+            a_field.AutoSize(CLIK::Object{ a_auto_size });
+            a_field.HTMLText(a_string);
+            a_field.Visible(true);
+        }
+
         void update_title() const { update_text(title_, get_menu_name(menu)); }
 
         void update_headers() const {
-            update_text(faction_header_, menu_keys::faction);
-            update_text(thane_header_, menu_keys::thane);
-            update_text(champion_header_, menu_keys::champion);
+            update_text(faction_header_, menu_keys::faction_title);
+            update_text(thane_header_, menu_keys::thane_title);
+            update_text(champion_header_, menu_keys::champion_title);
         }
 
-        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string& a_val) const {
+        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
             RE::GFxValue value;
             view_->CreateObject(std::addressof(value));
-            value.SetMember("displayName", { static_cast<std::string_view>(a_val) });
+            value.SetMember("displayName", { a_key });
+            value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
             return value;
         }
 
@@ -257,32 +269,37 @@ namespace scaleform {
 
         void update_bottom() const {
             //in case something is not set, we do not want to see default swf text
-            update_text(faction_count_, "");
-            update_text(thane_count_, "");
-            update_text(champion_count_, "");
+            update_text(faction_count_key_, "");
+            update_text(thane_count_key_, "");
+            update_text(champion_count_key_, "");
+            update_text(faction_count_value_, "");
+            update_text(thane_count_value_, "");
+            update_text(champion_count_value_, "");
         }
 
         void update_menu_values() const {
             auto values = faction_data::get_singleton()->get_values_to_display();
 
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
-            for (auto& [fst, snd] : values) {
-                auto faction_value = fst;
-                const auto faction_item = snd.get();
+            for (auto& [faction_value, faction_item_ptr] : values) {
+                const auto faction_item = faction_item_ptr.get();
                 auto faction_menu = faction_item->get_faction_menu();
 
                 faction_item->log_stat_item(faction_value);
 
-                if (faction_item->get_gui_text().empty() || faction_menu == faction_menu_value::m_none) {
+                if (faction_item->get_value().empty() || faction_menu == faction_menu_value::m_none) {
                     continue;
                 }
 
                 if (faction_item->get_faction_menu() != faction_menu_value::m_none) {
-                    menu_map_.find(faction_menu)->second.PushBack(build_gfx_value(faction_item->get_gui_text()));
-                    logger::trace("added to Menu {}, Name {}, GuiText ({})"sv,
+                    auto key_value = faction_item->get_value();
+                    menu_map_.find(faction_menu)->second.PushBack(build_gfx_value(faction_item->get_key(),
+                        key_value == const_static_display_value ? "" : key_value));
+                    logger::trace("added to Menu {}, Name {}, Key {}, value {}"sv,
                         faction_menu,
                         faction_value,
-                        faction_item->get_gui_text());
+                        faction_item->get_key(),
+                        faction_item->get_value());
                 }
             }
 
@@ -292,9 +309,18 @@ namespace scaleform {
         }
 
         void update_bottom_values() const {
-            update_text(faction_count_, format(FMT_STRING("Count: {}"), faction_item_list_provider_.GetArraySize()));
-            update_text(thane_count_, format(FMT_STRING("Count: {}"), thane_item_list_provider_.GetArraySize()));
-            update_text(champion_count_, format(FMT_STRING("Count: {}"), champion_item_list_provider_.GetArraySize()));
+            update_text(faction_count_key_, menu_keys::count);
+            update_text(faction_count_value_,
+                format(FMT_STRING("{}"), faction_item_list_provider_.GetArraySize()),
+                "right");
+            update_text(thane_count_key_, menu_keys::count);
+            update_text(thane_count_value_,
+                format(FMT_STRING("{}"), thane_item_list_provider_.GetArraySize()),
+                "right");
+            update_text(champion_count_key_, menu_keys::count);
+            update_text(champion_count_value_,
+                format(FMT_STRING("{}"), champion_item_list_provider_.GetArraySize()),
+                "right");
         }
 
         static void on_close() { }
@@ -334,10 +360,6 @@ namespace scaleform {
         CLIK::TextField title_;
         CLIK::GFx::Controls::Button prev_;
 
-        CLIK::TextField faction_count_;
-        CLIK::TextField thane_count_;
-        CLIK::TextField champion_count_;
-
         CLIK::TextField faction_header_;
         CLIK::TextField thane_header_;
         CLIK::TextField champion_header_;
@@ -352,6 +374,14 @@ namespace scaleform {
         RE::GFxValue champion_item_list_provider_;
 
         CLIK::GFx::Controls::Button menu_close_;
+
+        CLIK::TextField faction_count_key_;
+        CLIK::TextField thane_count_key_;
+        CLIK::TextField champion_count_key_;
+
+        CLIK::TextField faction_count_value_;
+        CLIK::TextField thane_count_value_;
+        CLIK::TextField champion_count_value_;
 
         std::map<faction_menu_value, RE::GFxValue&> menu_map_ = {
             { faction_menu_value::m_faction, faction_item_list_provider_ },

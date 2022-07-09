@@ -6,7 +6,7 @@
 #include "settings/stats/factionsettings.h"
 
 class faction_data {
-    using faction_item_map = std::map<FactionValue, std::unique_ptr<faction_item>>;
+    using faction_item_map = std::map<faction_value, std::unique_ptr<faction_item>>;
     using faction_menu_value = menu_util::faction_menu_value;
 
 public:
@@ -23,13 +23,13 @@ public:
         const auto thane = thane::get_singleton();
         const auto champion = champion::get_singleton();
 
-        if (menu_util::get_faction_menu(*settings::factionMenu) != faction_menu_value::m_none) {
+        if (menu_util::get_faction_menu(*settings::faction_menu) != faction_menu_value::m_none) {
             faction->get_factions(player);
         }
-        if (menu_util::get_faction_menu(*settings::thaneMenu) != faction_menu_value::m_none) {
+        if (menu_util::get_faction_menu(*settings::thane_menu) != faction_menu_value::m_none) {
             thane->get_region_thanes();
         }
-        if (menu_util::get_faction_menu(*settings::championMenu) != faction_menu_value::m_none) {
+        if (menu_util::get_faction_menu(*settings::champion_menu) != faction_menu_value::m_none) {
             champion->get_champions();
         }
 
@@ -48,47 +48,47 @@ public:
             std::string value_text;
 
             switch (faction_value) {
-                case FactionValue::companions:
-                case FactionValue::darkbrotherhood:
-                case FactionValue::college_of_winterhold:
-                case FactionValue::orc_friend:
-                case FactionValue::thiefs_guild:
-                case FactionValue::imperial_legion:
-                case FactionValue::stormcloaks:
-                case FactionValue::greybeard:
-                case FactionValue::bard:
-                case FactionValue::volkihar_vampire_clan:
-                case FactionValue::dawnguard:
-                case FactionValue::house_telvanni:
+                case faction_value::companions:
+                case faction_value::darkbrotherhood:
+                case faction_value::college_of_winterhold:
+                case faction_value::orc_friend:
+                case faction_value::thiefs_guild:
+                case faction_value::imperial_legion:
+                case faction_value::stormcloaks:
+                case faction_value::greybeard:
+                case faction_value::bard:
+                case faction_value::volkihar_vampire_clan:
+                case faction_value::dawnguard:
+                case faction_value::house_telvanni:
                     value_text = faction->get_rank(faction_value);
                     break;
-                case FactionValue::thane_of_eastmarch:
-                case FactionValue::thane_of_falkreath:
-                case FactionValue::thane_of_haafingar:
-                case FactionValue::thane_of_hjaalmarch:
-                case FactionValue::thane_of_the_pale:
-                case FactionValue::thane_of_the_reach:
-                case FactionValue::thane_of_the_rift:
-                case FactionValue::thane_of_whiterun:
-                case FactionValue::thane_of_winterhold:
+                case faction_value::windhelm:
+                case faction_value::falkreath:
+                case faction_value::solitude:
+                case faction_value::morthal:
+                case faction_value::dawnstar:
+                case faction_value::markarth:
+                case faction_value::riften:
+                case faction_value::whiterun:
+                case faction_value::winterhold:
                     value_text = thane->get_thane(faction_value);
                     break;
-                case FactionValue::azura:
-                case FactionValue::boethiah:
-                case FactionValue::clavicus_vile:
-                case FactionValue::hermaeus_mora:
-                case FactionValue::hircine:
-                case FactionValue::malacath:
-                case FactionValue::mehrunes_dagon:
-                case FactionValue::mephala:
-                case FactionValue::meridia:
-                case FactionValue::molagBal:
-                case FactionValue::namira:
-                case FactionValue::nocturnal:
-                case FactionValue::peryite:
-                case FactionValue::sanguine:
-                case FactionValue::sheogorath:
-                case FactionValue::vaermina:
+                case faction_value::azura:
+                case faction_value::boethiah:
+                case faction_value::clavicus_vile:
+                case faction_value::hermaeus_mora:
+                case faction_value::hircine:
+                case faction_value::malacath:
+                case faction_value::mehrunes_dagon:
+                case faction_value::mephala:
+                case faction_value::meridia:
+                case faction_value::molag_bal:
+                case faction_value::namira:
+                case faction_value::nocturnal:
+                case faction_value::peryite:
+                case faction_value::sanguine:
+                case faction_value::sheogorath:
+                case faction_value::vaermina:
                     value_text = champion->get_champion(faction_value);
                     break;
                 default:
@@ -101,9 +101,12 @@ public:
 
             if (!value_text.empty()) {
                 fimp[faction_value] =
-                    std::make_unique<faction_item>(faction_config->get_display(value_text), faction_config->get_menu());
+                    std::make_unique<faction_item>(faction_config->get_display_name(),
+                        value_text,
+                        faction_config->get_menu());
             }
         }
+
 
         logger::debug("Display Map Size is {}"sv, fimp.size());
         clear_lists(thane, faction, champion);
