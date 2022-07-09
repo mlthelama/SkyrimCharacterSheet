@@ -141,24 +141,6 @@ namespace menu_util {
         return get_menu_name(get_prev_menu(a_menu));
     }
 
-    static std::string build_display_string(std::string a_value,
-        std::string a_display_name,
-        std::string a_ending,
-        const bool a_value_is_display) {
-        std::string gui_text;
-
-        if (a_value_is_display) {
-            if (a_value == const_static_display_value) {
-                gui_text = a_display_name;
-            }
-        } else {
-            auto separator = (a_value.size() > 0) ? ": " : "";
-            gui_text = fmt::format(FMT_STRING("{}{}{}{}"), a_display_name, separator, a_value, a_ending);
-        }
-
-        return gui_text;
-    }
-
     static void log_resolution() {
         const auto* const state = RE::BSGraphics::State::GetSingleton();
         logger::trace("Screen Resolution {}x{}"sv, state->screenWidth, state->screenHeight);
@@ -219,14 +201,14 @@ namespace vector_util {
     }
 
     template <typename T>
-    static std::string getDelimitedString(std::vector<T>& a_vec) {
+    static std::string get_delimited_string(std::vector<T>& a_vec) {
         auto deli_string =
             a_vec.empty() ?
                 "" :
                 std::accumulate(std::begin(a_vec),
                     std::end(a_vec),
                     std::string{},
-                    [](std::string r, int p) {
+                    [](std::string r, const int p) {
                         return std::move(r) + std::to_string(p) + ",";
                     });
 
@@ -277,11 +259,11 @@ namespace quest_util {
 
         logger::debug("For Quest {}, got Stages (Values)/size completed ({})/{}, given ({})/{}, intersect ({})/{}"sv,
             hex,
-            vector_util::getDelimitedString(fin_stages),
+            vector_util::get_delimited_string(fin_stages),
             fin_stages.size(),
-            vector_util::getDelimitedString(a_stages),
+            vector_util::get_delimited_string(a_stages),
             a_stages.size(),
-            vector_util::getDelimitedString(intersect),
+            vector_util::get_delimited_string(intersect),
             intersect.size());
 
         return intersect.size() > 0 ? true : false;

@@ -209,16 +209,17 @@ namespace scaleform {
         }
 
         void update_headers() const {
-            update_text(equip_header_, menu_keys::equip);
-            update_text(armor_header_, menu_keys::armor);
-            update_text(weapon_header_, menu_keys::weapon);
-            update_text(effect_header_, menu_keys::effect);
+            update_text(equip_header_, menu_keys::equip_title);
+            update_text(armor_header_, menu_keys::armor_title);
+            update_text(weapon_header_, menu_keys::weapon_title);
+            update_text(effect_header_, menu_keys::effect_title);
         }
 
-        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string& a_val) const {
+        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
             RE::GFxValue value;
             view_->CreateObject(std::addressof(value));
-            value.SetMember("displayName", { static_cast<std::string_view>(a_val) });
+            value.SetMember("displayName", { a_key });
+            value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
             return value;
         }
 
@@ -262,26 +263,27 @@ namespace scaleform {
 
                 stat_item->log_stat_item(stat_value, menu);
 
-                if (stat_item->get_gui_text().empty() ||
+                if (stat_item->get_value().empty() ||
                     stat_item->get_stats_inventory_menu() == stats_inventory_menu_value::m_none ||
                     stat_item->get_stats_inventory_menu() == stats_inventory_menu_value::m_equip) {
                     continue;
                 }
 
-                menu_map_.find(stat_item->get_stats_inventory_menu())
-                         ->second.PushBack(build_gfx_value(stat_item->get_gui_text()));
-                logger::trace("added to Menu {}, Name {}, GuiText ({})"sv,
-                    stat_item->get_stats_inventory_menu(),
+                menu_map_.find(stat_item->get_stats_inventory_menu())->second.PushBack(
+                    build_gfx_value(stat_item->get_key(), stat_item->get_value()));
+                logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
+                    stat_item->get_stats_menu(),
                     stat_value,
-                    stat_item->get_gui_text());
+                    stat_item->get_key(),
+                    stat_item->get_value());
             }
             for (auto& [fst, snd] : values) { snd.reset(); }
             values.clear();
 
             //it seems the inventory needs a bit after an equipchange, so an item might be shown equiped
-            for (const auto armor = player_data::get_armor_map(); auto [fst, snd] : armor) {
+            for (const auto armor = player_data::get_armor_map(); auto [slot, name] : armor) {
                 menu_map_.find(stats_inventory_menu_value::m_equip)
-                         ->second.PushBack(build_gfx_value(fmt::format(FMT_STRING("{}: {}"), fst, snd)));
+                         ->second.PushBack(build_gfx_value(slot, static_cast<std::string>(name)));
             }
 
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());

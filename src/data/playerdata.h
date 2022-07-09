@@ -165,9 +165,9 @@ public:
             }
 
             //todo fix for some values should be shown if 0, atm hardcode noise here
-            if ((!*settings::show_stats_inventorydisplay_zero && value_text == "0" &&
-                 a_menu == show_menu::m_stats_inventory) ||
-                (!*settings::show_stats_display_zero && value_text == "0" && a_menu == show_menu::m_stats)) {
+            if (!*settings::show_stats_inventorydisplay_zero && value_text == "0" && a_menu ==
+                show_menu::m_stats_inventory || !*settings::show_stats_display_zero && value_text == "0" && a_menu ==
+                show_menu::m_stats) {
                 if (stat_config->get_actor() != RE::ActorValue::kMovementNoiseMult) {
                     continue;
                 }
@@ -179,9 +179,11 @@ public:
                         stat_config->get_value_display(value_text),
                         stat_config->get_stats_menu());
                 } else {
-                    simp[stat_value] = std::make_unique<stat_item>(stat_config->get_display(value_text),
+                    simp[stat_value] = std::make_unique<stat_item>(stat_config->get_key_display(),
+                        stat_config->get_value_display(value_text),
                         stat_config->get_stats_inventory_menu());
                 }
+
             }
         }
 

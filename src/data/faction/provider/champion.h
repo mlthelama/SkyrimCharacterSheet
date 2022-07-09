@@ -1,7 +1,7 @@
 #pragma once
 
 class champion {
-    using value_string_map = std::map<FactionValue, std::string>;
+    using value_string_map = std::map<faction_value, std::string_view>;
 
 public:
     static champion* get_singleton() {
@@ -9,7 +9,7 @@ public:
         return std::addressof(singleton);
     }
 
-    std::string get_champion(const FactionValue a_stat) {
+    [[nodiscard]] std::string_view get_champion(const faction_value a_stat) const {
         if (!champion_list_.contains(a_stat)) {
             return "";
         }
@@ -18,7 +18,7 @@ public:
 
     void get_champions() {
         champion_list_.clear();
-        for (const auto& [fst, snd] : _championQuestStageMap) {
+        for (const auto& [fst, snd] : champion_quest_stage_map_) {
             auto champion_value = fst;
             for (const auto& [a_form_id, a_stages] : snd) {
                 const auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
@@ -28,7 +28,7 @@ public:
                 if ([[maybe_unused]] auto quest_done = quest_util::is_one_quest_stage_complete(qst, a_stages)) {
                     logger::trace("Champion of {}"sv, champion_value);
                     champion_list_.insert(
-                        std::pair<FactionValue, std::string>(champion_value, const_static_display_value));
+                        std::pair(champion_value, const_static_display_value));
                 }
             }
         }
@@ -72,25 +72,25 @@ private:
     vaermina 000242AF 200 -
     */
 
-    inline static std::map<FactionValue, std::map<RE::FormID, std::vector<uint16_t>>> _championQuestStageMap = {
-        { FactionValue::azura, { { 0x00028AD6, std::vector{ quest_util::get_as(100) } } } },
-        { FactionValue::boethiah, { { 0x0004D8D6, std::vector{ quest_util::get_as(50), quest_util::get_as(100) } } } },
-        { FactionValue::clavicus_vile,
+    inline static std::map<faction_value, std::map<RE::FormID, std::vector<uint16_t>>> champion_quest_stage_map_ = {
+        { faction_value::azura, { { 0x00028AD6, std::vector{ quest_util::get_as(100) } } } },
+        { faction_value::boethiah, { { 0x0004D8D6, std::vector{ quest_util::get_as(50), quest_util::get_as(100) } } } },
+        { faction_value::clavicus_vile,
           { { 0x0001BFC4, std::vector{ quest_util::get_as(200), quest_util::get_as(205) } } } },
-        { FactionValue::hermaeus_mora,
+        { faction_value::hermaeus_mora,
           { { 0x0002D512, std::vector{ quest_util::get_as(100), quest_util::get_as(200) } } } },
-        { FactionValue::hircine, { { 0x0002A49A, std::vector{ quest_util::get_as(100), quest_util::get_as(105) } } } },
-        { FactionValue::malacath, { { 0x0003B681, std::vector{ quest_util::get_as(200) } } } },
-        { FactionValue::mehrunes_dagon, { { 0x000240B8, std::vector{ quest_util::get_as(100) } } } },
-        { FactionValue::mephala, { { 0x0004A37B, std::vector{ quest_util::get_as(60), quest_util::get_as(80) } } } },
-        { FactionValue::meridia, { { 0x0004E4E1, std::vector{ quest_util::get_as(500) } } } },
-        { FactionValue::molagBal, { { 0x00022F08, std::vector{ quest_util::get_as(200) } } } },
-        { FactionValue::namira, { { 0x0002C358, std::vector{ quest_util::get_as(100), quest_util::get_as(600) } } } },
-        { FactionValue::nocturnal, { { 0x00021555, std::vector{ quest_util::get_as(200) } } } },
-        { FactionValue::peryite, { { 0x0008998D, std::vector{ quest_util::get_as(100) } } } },
-        { FactionValue::sanguine, { { 0x0001BB9B, std::vector{ quest_util::get_as(200) } } } },
-        { FactionValue::sheogorath, { { 0x0002AC68, std::vector{ quest_util::get_as(200) } } } },
-        { FactionValue::vaermina, { { 0x000242AF, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::hircine, { { 0x0002A49A, std::vector{ quest_util::get_as(100), quest_util::get_as(105) } } } },
+        { faction_value::malacath, { { 0x0003B681, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::mehrunes_dagon, { { 0x000240B8, std::vector{ quest_util::get_as(100) } } } },
+        { faction_value::mephala, { { 0x0004A37B, std::vector{ quest_util::get_as(60), quest_util::get_as(80) } } } },
+        { faction_value::meridia, { { 0x0004E4E1, std::vector{ quest_util::get_as(500) } } } },
+        { faction_value::molag_bal, { { 0x00022F08, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::namira, { { 0x0002C358, std::vector{ quest_util::get_as(100), quest_util::get_as(600) } } } },
+        { faction_value::nocturnal, { { 0x00021555, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::peryite, { { 0x0008998D, std::vector{ quest_util::get_as(100) } } } },
+        { faction_value::sanguine, { { 0x0001BB9B, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::sheogorath, { { 0x0002AC68, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::vaermina, { { 0x000242AF, std::vector{ quest_util::get_as(200) } } } },
     };
 
     void log_map() const {

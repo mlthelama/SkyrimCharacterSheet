@@ -6,25 +6,22 @@ class stat_item {
     using stats_inventory_menu_value = menu_util::stats_inventory_menu_value;
 
 public:
-    stat_item(std::string a_gui_key, std::string a_gui_value, const stats_menu_value a_stats_menu)
-        : gui_key_(std::move(a_gui_key))
+    stat_item(const std::string_view a_gui_key, std::string a_gui_value, const stats_menu_value a_stats_menu)
+        : gui_key_(a_gui_key)
         , gui_value_(std::move(a_gui_value))
         , stats_menu_(a_stats_menu) {}
 
 
-    /*stat_item(std::string a_gui_key, std::string a_gui_value, const stats_inventory_menu_value a_stats_inventory_menu)
-        : gui_key_(std::move(a_gui_key))
+    stat_item(const std::string_view a_gui_key,
+        std::string a_gui_value,
+        const stats_inventory_menu_value a_stats_inventory_menu)
+        : gui_key_(a_gui_key)
         , gui_value_(std::move(a_gui_value))
-        , stats_inventory_menu_(a_stats_inventory_menu) {}*/
-    stat_item(std::string a_gui_value, const stats_inventory_menu_value a_stats_inventory_menu)
-            : gui_value_(std::move(a_gui_value))
-            , stats_inventory_menu_(a_stats_inventory_menu) {}
+        , stats_inventory_menu_(a_stats_inventory_menu) {}
 
-    
-    std::string get_key() { return gui_key_; }
+
+    [[nodiscard]] std::string_view get_key() const { return gui_key_; }
     std::string get_value() { return gui_value_; }
-    std::string get_gui_text() { return gui_value_; }
-
 
     [[nodiscard]] stats_menu_value get_stats_menu() const { return stats_menu_; }
 
@@ -56,7 +53,7 @@ public:
     stat_item& operator=(stat_item&&) = delete;
 
 private:
-    std::string gui_key_;
+    std::string_view gui_key_;
     std::string gui_value_;
     stats_menu_value stats_menu_ = stats_menu_value::m_none;
     stats_inventory_menu_value stats_inventory_menu_ = stats_inventory_menu_value::m_none;

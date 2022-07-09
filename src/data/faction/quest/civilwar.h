@@ -82,12 +82,12 @@ private:
         legate,
     };
 
-    inline static std::map<imperial_rank, std::string_view> imperial_rank_name_map_ = { { imperial_rank::auxiliary,
-            *settings::auxiliaryRank },
-        { imperial_rank::quaestor, *settings::quaestorRank },
-        { imperial_rank::praefect, *settings::praefectRank },
-        { imperial_rank::tribune, *settings::tribuneRank },
-        { imperial_rank::legate, *settings::legateRank } };
+    inline static std::map<imperial_rank, std::string_view> imperial_rank_name_map_ = {
+        { imperial_rank::auxiliary, menu_keys::auxiliary },
+        { imperial_rank::quaestor, menu_keys::quaestor },
+        { imperial_rank::praefect, menu_keys::praefect },
+        { imperial_rank::tribune, menu_keys::tribune },
+        { imperial_rank::legate, menu_keys::legate } };
 
     static std::string_view get_imperial_rank_name(imperial_rank a_rank) {
         if (!imperial_rank_name_map_.contains(a_rank)) {
@@ -120,11 +120,11 @@ private:
     };
 
     inline static std::map<stormcloak_rank, std::string_view> stormcloak_rank_name_map_ = {
-        { stormcloak_rank::unblooded, *settings::unbloodedRank },
-        { stormcloak_rank::ice_veins, *settings::iceVeinsRank },
-        { stormcloak_rank::bone_breaker, *settings::boneBreakerRank },
-        { stormcloak_rank::snow_hammer, *settings::snowHammerRank },
-        { stormcloak_rank::stormblade, *settings::stormbladeRank }
+        { stormcloak_rank::unblooded, menu_keys::unblooded },
+        { stormcloak_rank::ice_veins, menu_keys::ice_veins },
+        { stormcloak_rank::bone_breaker, menu_keys::bone_breaker },
+        { stormcloak_rank::snow_hammer, menu_keys::snow_hammer },
+        { stormcloak_rank::stormblade, menu_keys::stormblade }
     };
 
     static std::string_view get_stormcloak_rank_name(stormcloak_rank a_rank) {

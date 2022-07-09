@@ -2,7 +2,7 @@
 #include "data/faction/quest/civilwar.h"
 
 class faction {
-    using value_string_map = std::map<FactionValue, std::string>;
+    using value_string_map = std::map<faction_value, std::string>;
 
 public:
     static faction* get_singleton() {
@@ -10,13 +10,14 @@ public:
         return std::addressof(singleton);
     }
 
-    std::string get_rank(const FactionValue a_stat) {
+    [[nodiscard]] std::string get_rank(const faction_value a_stat) const {
         if (!faction_rank_list_.contains(a_stat)) {
             return "";
         }
         return faction_rank_list_.find(a_stat)->second;
     }
 
+    //todo append values from skyrim with a $ so we can map it to translations
     void get_factions(RE::Actor* a_actor) {
         clear_list();
         const auto actor_sex = a_actor->GetActorBase()->GetSex();
@@ -56,25 +57,25 @@ public:
 
                     /*if rank is empty here then we need to fill it by ourselfs*/
                     switch (const_faction_map_.find(form_id)->second) {
-                        case FactionValue::darkbrotherhood:
+                        case faction_value::darkbrotherhood:
                             rank = get_dark_brotherhood_rank();
                             break;
-                        case FactionValue::greybeard:
+                        case faction_value::greybeard:
                             rank = get_graybeard_rank();
                             break;
-                        case FactionValue::imperial_legion:
+                        case faction_value::imperial_legion:
                             rank = civil_war::get_singleton()->get_imperial_legion_rank();
                             break;
-                        case FactionValue::stormcloaks:
+                        case faction_value::stormcloaks:
                             rank = civil_war::get_singleton()->get_stormcloak_rank();
                             break;
-                        case FactionValue::volkihar_vampire_clan:
+                        case faction_value::volkihar_vampire_clan:
                             rank = get_volkihar_vampire_clan_rank();
                             break;
-                        case FactionValue::dawnguard:
+                        case faction_value::dawnguard:
                             rank = get_dawnguard_rank();
                             break;
-                        case FactionValue::house_telvanni:
+                        case faction_value::house_telvanni:
                             rank = get_house_telvanni_rank();
                             break;
                         default:
@@ -93,7 +94,7 @@ public:
         //MS05
         if (quest_util::is_quest_stage_complete(0x00053511, quest_util::get_as(300))) {
             //"Bard"
-            faction_rank_list_.insert(std::pair(FactionValue::bard, *settings::bardRank));
+            faction_rank_list_.insert(std::pair(faction_value::bard, menu_keys::bard));
         }
 
         logger::trace("got {} items in faction list."sv, faction_rank_list_.size());
@@ -116,43 +117,33 @@ private:
     value_string_map faction_rank_list_;
 
     //0x00072834 //blades, player might not be in there
-    inline static std::map<RE::FormID, FactionValue> const_faction_map_ = { { 0x00048362, FactionValue::companions },
-                                                                            { 0x0001BDB3,
-                                                                              FactionValue::darkbrotherhood },
-                                                                            { 0x0001F259,
-                                                                              FactionValue::college_of_winterhold },
-                                                                            { 0x00024029, FactionValue::orc_friend },
-                                                                            { 0x00029DA9, FactionValue::thiefs_guild },
-                                                                            { 0x0002BF9A,
-                                                                              FactionValue::imperial_legion },
-                                                                            { 0x0002BF9B, FactionValue::stormcloaks },
-                                                                            { 0x0002C6C8, FactionValue::greybeard },
-                                                                            { 0x02003376,
-                                                                              FactionValue::volkihar_vampire_clan },
-                                                                            //{ 0x02014217, FactionValue::dawnguard },
-                                                                            { 0x02003375, FactionValue::dawnguard },
-                                                                            { 0x04019B8A,
-                                                                              FactionValue::house_telvanni } };
+    inline static std::map<RE::FormID, faction_value> const_faction_map_ = {
+        { 0x00048362, faction_value::companions }, { 0x0001BDB3, faction_value::darkbrotherhood },
+        { 0x0001F259, faction_value::college_of_winterhold }, { 0x00024029, faction_value::orc_friend },
+        { 0x00029DA9, faction_value::thiefs_guild }, { 0x0002BF9A, faction_value::imperial_legion },
+        { 0x0002BF9B, faction_value::stormcloaks }, { 0x0002C6C8, faction_value::greybeard },
+        { 0x02003376, faction_value::volkihar_vampire_clan }, //{ 0x02014217, FactionValue::dawnguard },
+        { 0x02003375, faction_value::dawnguard }, { 0x04019B8A, faction_value::house_telvanni } };
 
     void log_map() const {
         for (const auto& [fst, snd] : faction_rank_list_) { logger::trace("faction {}, rank {}"sv, fst, snd); }
     }
 
-    [[nodiscard]] std::string get_dark_brotherhood_rank() const {
-        auto& rank = *settings::assassinRank;
+    [[nodiscard]] std::string_view get_dark_brotherhood_rank() const {
+        auto rank = menu_keys::assassin;
         //hail sithis
         if (quest_util::is_one_quest_stage_complete(0x0001EA59,
             std::vector{ quest_util::get_as(200), quest_util::get_as(255) })) {
-            rank = *settings::listenerRank;
+            rank = menu_keys::listener;
         }
         return rank;
     }
 
-    static std::string get_graybeard_rank() { return *settings::ysmirRank; }
+    static std::string_view get_graybeard_rank() { return menu_keys::ysmir; }
 
-    static std::string get_volkihar_vampire_clan_rank() { return *settings::vampireLordRank; }
+    static std::string_view get_volkihar_vampire_clan_rank() { return menu_keys::vampire_lord; }
 
-    static std::string get_dawnguard_rank() { return *settings::vampireHunterRank; }
+    static std::string_view get_dawnguard_rank() { return menu_keys::vampire_hunter; }
 
-    static std::string get_house_telvanni_rank() { return *settings::honoraryMemberRank; }
+    static std::string_view get_house_telvanni_rank() { return menu_keys::honoary_member; }
 };

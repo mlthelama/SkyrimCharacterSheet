@@ -40,188 +40,63 @@ struct settings {
 
     static inline bool_setting show_stats_display_zero{ "showStatsSpecial"s, "displayZero"s, true };
 
-    //naming
-    static inline str_setting name_string{ "showStatsName"s, "name"s, const_undefined };
-    static inline str_setting race_string{ "showStatsName"s, "race"s, const_undefined };
-    static inline str_setting level_string{ "showStatsName"s, "level"s, const_undefined };
-    static inline str_setting perk_count_string{ "showStatsName"s, "perkCount"s, const_undefined };
-    static inline str_setting height_string{ "showStatsName"s, "height"s, const_undefined };
-    static inline str_setting equipped_weight_string{ "showStatsName"s, "equipedWeight"s, const_undefined };
-    static inline str_setting weight_string{ "showStatsName"s, "weight"s, const_undefined };
-    static inline str_setting armor_string{ "showStatsName"s, "armor"s, const_undefined };
-    static inline str_setting damage_string{ "showStatsName"s, "damage"s, const_undefined };
-    static inline str_setting skill_trainings_this_level_string{ "showStatsName"s,
-                                                                 "skillTrainingsThisLevel"s,
-                                                                 const_undefined };
-    static inline str_setting health_string{ "showStatsName"s, "health"s, const_undefined };
-    static inline str_setting health_rate_string{ "showStatsName"s, "healthRatePer"s, const_undefined };
-    static inline str_setting magicka_string{ "showStatsName"s, "magicka"s, const_undefined };
-    static inline str_setting magicka_rate_string{ "showStatsName"s, "magickaRatePer"s, const_undefined };
-    static inline str_setting stamina_string{ "showStatsName"s, "stamina"s, const_undefined };
-    static inline str_setting stamina_rate_string{ "showStatsName"s, "staminaRatePer"s, const_undefined };
-    static inline str_setting resist_damage_string{ "showStatsName"s, "resistDamage"s, const_undefined };
-    static inline str_setting resistDiseaseString{ "showStatsName"s, "resistDisease"s, const_undefined };
-    static inline str_setting resistPoisonString{ "showStatsName"s, "resistPoison"s, const_undefined };
-    static inline str_setting resistFireString{ "showStatsName"s, "resistFire"s, const_undefined };
-    static inline str_setting resistShockString{ "showStatsName"s, "resistShock"s, const_undefined };
-    static inline str_setting resistFrostString{ "showStatsName"s, "resistFrost"s, const_undefined };
-    static inline str_setting resistMagicString{ "showStatsName"s, "resistMagic"s, const_undefined };
-    static inline str_setting oneHandedString{ "showStatsName"s, "oneHanded"s, const_undefined };
-    static inline str_setting twoHandedString{ "showStatsName"s, "twoHanded"s, const_undefined };
-    static inline str_setting archeryString{ "showStatsName"s, "archery"s, const_undefined };
-    static inline str_setting blockString{ "showStatsName"s, "block"s, const_undefined };
-    static inline str_setting smithingString{ "showStatsName"s, "smithing"s, const_undefined };
-    static inline str_setting heavyArmorString{ "showStatsName"s, "heavyArmor"s, const_undefined };
-    static inline str_setting lightArmorString{ "showStatsName"s, "lightArmor"s, const_undefined };
-    static inline str_setting pickpocketString{ "showStatsName"s, "pickpocket"s, const_undefined };
-    static inline str_setting lockpickingString{ "showStatsName"s, "lockpicking"s, const_undefined };
-    static inline str_setting sneakString{ "showStatsName"s, "sneak"s, const_undefined };
-    static inline str_setting alchemyString{ "showStatsName"s, "alchemy"s, const_undefined };
-    static inline str_setting speechString{ "showStatsName"s, "speech"s, const_undefined };
-    static inline str_setting enchantingString{ "showStatsName"s, "enchanting"s, const_undefined };
-    static inline str_setting alterationString{ "showStatsName"s, "alteration"s, const_undefined };
-    static inline str_setting conjurationString{ "showStatsName"s, "conjuration"s, const_undefined };
-    static inline str_setting destructionString{ "showStatsName"s, "destruction"s, const_undefined };
-    static inline str_setting illusionString{ "showStatsName"s, "illusion"s, const_undefined };
-    static inline str_setting restorationString{ "showStatsName"s, "restoration"s, const_undefined };
-    static inline str_setting oneHandedPowerModString{ "showStatsName"s, "oneHandedPowerMod"s, const_undefined };
-    static inline str_setting twoHandedPowerModString{ "showStatsName"s, "twoHandedPowerMod"s, const_undefined };
-    static inline str_setting archeryPowerModString{ "showStatsName"s, "archeryPowerMod"s, const_undefined };
-    static inline str_setting blockPowerModString{ "showStatsName"s, "blockPowerMod"s, const_undefined };
-    static inline str_setting smithingPowerModString{ "showStatsName"s, "smithingPowerMod"s, const_undefined };
-    static inline str_setting heavyArmorPowerModString{ "showStatsName"s, "heavyArmorPowerMod"s, const_undefined };
-    static inline str_setting lightArmorPowerModString{ "showStatsName"s, "lightArmorPowerMod"s, const_undefined };
-    static inline str_setting pickpocketPowerModString{ "showStatsName"s, "pickpocketPowerMod"s, const_undefined };
-    static inline str_setting lockpickingPowerModString{ "showStatsName"s, "lockpickingPowerMod"s, const_undefined };
-    static inline str_setting sneakPowerModString{ "showStatsName"s, "sneakPowerMod"s, const_undefined };
-    static inline str_setting alchemyPowerModString{ "showStatsName"s, "alchemyPowerMod"s, const_undefined };
-    static inline str_setting speechPowerModString{ "showStatsName"s, "speechPowerMod"s, const_undefined };
-    static inline str_setting enchantingPowerModString{ "showStatsName"s, "enchantingPowerMod"s, const_undefined };
-    static inline str_setting alterationPowerModString{ "showStatsName"s, "alterationPowerMod"s, const_undefined };
-    static inline str_setting conjurationPowerModString{ "showStatsName"s, "conjurationPowerMod"s, const_undefined };
-    static inline str_setting destructionPowerModString{ "showStatsName"s, "destructionPowerMod"s, const_undefined };
-    static inline str_setting illusionPowerModString{ "showStatsName"s, "illusionPowerMod"s, const_undefined };
-    static inline str_setting restorationPowerModString{ "showStatsName"s, "restorationPowerMod"s, const_undefined };
-    static inline str_setting speedMultString{ "showStatsName"s, "speedMult"s, const_undefined };
-    static inline str_setting inventoryWeightString{ "showStatsName"s, "inventoryWeight"s, const_undefined };
-    static inline str_setting carryWeightString{ "showStatsName"s, "carryWeight"s, const_undefined };
-    static inline str_setting criticalChanceString{ "showStatsName"s, "criticalChance"s, const_undefined };
-    static inline str_setting meleeDamageString{ "showStatsName"s, "meleeDamage"s, const_undefined };
-    static inline str_setting unarmedDamageString{ "showStatsName"s, "unarmedDamage"s, const_undefined };
-    static inline str_setting absorbChanceString{ "showStatsName"s, "absorbChance"s, const_undefined };
-    static inline str_setting weaponSpeedMultString{ "showStatsName"s, "weaponSpeedMult"s, const_undefined };
-    static inline str_setting bowSpeedBonusString{ "showStatsName"s, "bowSpeedBonus"s, const_undefined };
-    static inline str_setting shoutRecoveryMultString{ "showStatsName"s, "shoutRecoveryMult"s, const_undefined };
-    static inline str_setting movementNoiseMultString{ "showStatsName"s, "movementNoiseMult"s, const_undefined };
-    static inline str_setting dragonSoulsString{ "showStatsName"s, "dragonSouls"s, const_undefined };
-    static inline str_setting combatHealthRegenMultiplyString{ "showStatsName"s,
-                                                               "combatHealthRegenMultiply"s,
-                                                               const_undefined };
-    static inline str_setting attackDamageMultString{ "showStatsName"s, "attackDamageMult"s, const_undefined };
-    static inline str_setting beastString{ "showStatsName"s, "beast"s, const_undefined };
-    static inline str_setting xpString{ "showStatsName"s, "xp"s, const_undefined };
-    static inline str_setting reflectDamageString{ "showStatsName"s, "reflectDamage"s, const_undefined };
-    static inline str_setting oneHandedModString{ "showStatsName"s, "oneHandedMod"s, const_undefined };
-    static inline str_setting twoHandedModString{ "showStatsName"s, "twoHandedMod"s, const_undefined };
-    static inline str_setting archeryModString{ "showStatsName"s, "archeryMod"s, const_undefined };
-    static inline str_setting blockModString{ "showStatsName"s, "blockMod"s, const_undefined };
-    static inline str_setting smithingModString{ "showStatsName"s, "smithingMod"s, const_undefined };
-    static inline str_setting heavyArmorModString{ "showStatsName"s, "heavyArmorMod"s, const_undefined };
-    static inline str_setting lightArmorModString{ "showStatsName"s, "lightArmorMod"s, const_undefined };
-    static inline str_setting pickpocketModString{ "showStatsName"s, "pickpocketMod"s, const_undefined };
-    static inline str_setting lockpickingModString{ "showStatsName"s, "lockpickingMod"s, const_undefined };
-    static inline str_setting sneakModString{ "showStatsName"s, "sneakMod"s, const_undefined };
-    static inline str_setting alchemyModString{ "showStatsName"s, "alchemyMod"s, const_undefined };
-    static inline str_setting speechModString{ "showStatsName"s, "speechMod"s, const_undefined };
-    static inline str_setting enchantingModString{ "showStatsName"s, "enchantingMod"s, const_undefined };
-    static inline str_setting alterationModString{ "showStatsName"s, "alterationMod"s, const_undefined };
-    static inline str_setting conjurationModString{ "showStatsName"s, "conjurationMod"s, const_undefined };
-    static inline str_setting destructionModString{ "showStatsName"s, "destructionMod"s, const_undefined };
-    static inline str_setting illusionModString{ "showStatsName"s, "illusionMod"s, const_undefined };
-    static inline str_setting restorationModString{ "showStatsName"s, "restorationMod"s, const_undefined };
-    static inline str_setting damageArrowString{ "showStatsName"s, "damageArrow"s, const_undefined };
-    static inline str_setting damageLeftString{ "showStatsName"s, "damageLeft"s, const_undefined };
-    static inline str_setting leftWeaponSpeedMultString{ "showStatsName"s, "leftWeaponSpeedMult"s, const_undefined };
-    static inline str_setting rightItemChargeString{ "showStatsName"s, "rightItemCharge"s, const_undefined };
-    static inline str_setting leftItemChargStringe{ "showStatsName"s, "leftItemCharge"s, const_undefined };
-    static inline str_setting armorPerksString{ "showStatsName"s, "armorPerks"s, const_undefined };
-    static inline str_setting massString{ "showStatsName"s, "mass"s, const_undefined };
-    static inline str_setting bowStaggerBonusString{ "showStatsName"s, "bowStaggerBonus"s, const_undefined };
-    static inline str_setting bypassVendorKeywordCheckString{ "showStatsName"s,
-                                                              "bypassVendorKeywordCheck"s,
-                                                              const_undefined };
-    static inline str_setting bypassVendorStolenCheckString{ "showStatsName"s,
-                                                             "bypassVendorStolenCheck"s,
-                                                             const_undefined };
-    static inline str_setting weaponReachString{ "showStatsName"s, "weaponReach"s, const_undefined };
-    static inline str_setting weaponReachLeftString{ "showStatsName"s, "weaponReachLeft"s, const_undefined };
-    static inline str_setting weaponBaseDamageString{ "showStatsName"s, "weaponBaseDamage"s, const_undefined };
-    static inline str_setting weaponBaseDamageLeftString{ "showStatsName"s, "weaponBaseDamageLeft"s, const_undefined };
-    static inline str_setting weaponStaggerString{ "showStatsName"s, "weaponStagger"s, const_undefined };
-    static inline str_setting weaponStaggerLeftString{ "showStatsName"s, "weaponStaggerLeft"s, const_undefined };
-    static inline str_setting weaponCritDamageRatingString{ "showStatsName"s,
-                                                            "weaponCritDamageRating"s,
-                                                            const_undefined };
-    static inline str_setting weaponCritDamageRatingLeftString{ "showStatsName"s,
-                                                                "weaponCritDamageRatingLeft"s,
-                                                                const_undefined };
-    static inline str_setting fallDamageModString{ "showStatsName"s, "fallDamageMod"s, const_undefined };
-
     //stat endings
-    static inline str_setting heightStringEnding{ "showStatsEnding"s, "height"s, const_undefined };
-    static inline str_setting equipedWeightStringEnding{ "showStatsEnding"s, "equipedWeight"s, const_undefined };
-    static inline str_setting weightStringEnding{ "showStatsEnding"s, "weight"s, const_undefined };
-    static inline str_setting healthRateStringEnding{ "showStatsEnding"s, "healthRatePer"s, const_undefined };
-    static inline str_setting magickaRateStringEnding{ "showStatsEnding"s, "magickaRatePer"s, const_undefined };
-    static inline str_setting staminaRateStringEnding{ "showStatsEnding"s, "staminaRatePer"s, const_undefined };
-    static inline str_setting resistDamageStringEnding{ "showStatsEnding"s, "resistDamage"s, const_undefined };
-    static inline str_setting resistDiseaseStringEnding{ "showStatsEnding"s, "resistDisease"s, const_undefined };
-    static inline str_setting resistPoisonStringEnding{ "showStatsEnding"s, "resistPoison"s, const_undefined };
-    static inline str_setting resistFireStringEnding{ "showStatsEnding"s, "resistFire"s, const_undefined };
-    static inline str_setting resistShockStringEnding{ "showStatsEnding"s, "resistShock"s, const_undefined };
-    static inline str_setting resistFrostStringEnding{ "showStatsEnding"s, "resistFrost"s, const_undefined };
-    static inline str_setting resistMagicStringEnding{ "showStatsEnding"s, "resistMagic"s, const_undefined };
-    static inline str_setting speedMultStringEnding{ "showStatsEnding"s, "speedMult"s, const_undefined };
-    static inline str_setting inventoryWeightStringEnding{ "showStatsEnding"s, "inventoryWeight"s, const_undefined };
-    static inline str_setting carryWeightStringEnding{ "showStatsEnding"s, "carryWeight"s, const_undefined };
-    static inline str_setting criticalChanceStringEnding{ "showStatsEnding"s, "criticalChance"s, const_undefined };
-    static inline str_setting absorbChanceStringEnding{ "showStatsEnding"s, "absorbChance"s, const_undefined };
-    static inline str_setting weaponSpeedMultStringEnding{ "showStatsEnding"s, "weaponSpeedMult"s, const_undefined };
-    static inline str_setting bowSpeedBonusStringEnding{ "showStatsEnding"s, "bowSpeedBonus"s, const_undefined };
-    static inline str_setting shoutRecoveryMultStringEnding{ "showStatsEnding"s,
-                                                             "shoutRecoveryMult"s,
-                                                             const_undefined };
-    static inline str_setting movementNoiseMultStringEnding{ "showStatsEnding"s,
-                                                             "movementNoiseMult"s,
-                                                             const_undefined };
-    static inline str_setting combatHealthRegenMultiplyStringEnding{ "showStatsEnding"s,
-                                                                     "combatHealthRegenMultiply"s,
-                                                                     const_undefined };
-    static inline str_setting attackDamageMultStringEnding{ "showStatsEnding"s, "attackDamageMult"s, const_undefined };
-    static inline str_setting reflectDamageStringEnding{ "showStatsEnding"s, "reflectDamage"s, const_undefined };
-    static inline str_setting oneHandedModStringEnding{ "showStatsEnding"s, "oneHandedMod"s, const_undefined };
-    static inline str_setting twoHandedModStringEnding{ "showStatsEnding"s, "twoHandedMod"s, const_undefined };
-    static inline str_setting archeryModStringEnding{ "showStatsEnding"s, "archeryMod"s, const_undefined };
-    static inline str_setting blockModStringEnding{ "showStatsEnding"s, "blockMod"s, const_undefined };
-    static inline str_setting smithingModStringEnding{ "showStatsEnding"s, "smithingMod"s, const_undefined };
-    static inline str_setting heavyArmorModStringEnding{ "showStatsEnding"s, "heavyArmorMod"s, const_undefined };
-    static inline str_setting lightArmorModStringEnding{ "showStatsEnding"s, "lightArmorMod"s, const_undefined };
-    static inline str_setting pickpocketModStringEnding{ "showStatsEnding"s, "pickpocketMod"s, const_undefined };
-    static inline str_setting lockpickingModStringEnding{ "showStatsEnding"s, "lockpickingMod"s, const_undefined };
-    static inline str_setting sneakModStringEnding{ "showStatsEnding"s, "sneakMod"s, const_undefined };
-    static inline str_setting alchemyModStringEnding{ "showStatsEnding"s, "alchemyMod"s, const_undefined };
-    static inline str_setting speechModStringEnding{ "showStatsEnding"s, "speechMod"s, const_undefined };
-    static inline str_setting enchantingModStringEnding{ "showStatsEnding"s, "enchantingMod"s, const_undefined };
-    static inline str_setting alterationModStringEnding{ "showStatsEnding"s, "alterationMod"s, const_undefined };
-    static inline str_setting conjurationModStringEnding{ "showStatsEnding"s, "conjurationMod"s, const_undefined };
-    static inline str_setting destructionModStringEnding{ "showStatsEnding"s, "destructionMod"s, const_undefined };
-    static inline str_setting illusionModStringEnding{ "showStatsEnding"s, "illusionMod"s, const_undefined };
-    static inline str_setting restorationModStringEnding{ "showStatsEnding"s, "restorationMod"s, const_undefined };
-    static inline str_setting leftWeaponSpeedMultStringEnding{ "showStatsEnding"s,
-                                                               "leftWeaponSpeedMult"s,
-                                                               const_undefined };
-    static inline str_setting armorPerksStringEnding{ "showStatsEnding"s, "armorPerks"s, const_undefined };
-    static inline str_setting fallDamageModStringEnding{ "showStatsEnding"s, "fallDamageMod"s, const_undefined };
+    static inline str_setting height_string_ending{ "showStatsEnding"s, "height"s, const_undefined };
+    static inline str_setting equipped_weight_string_ending{ "showStatsEnding"s, "equipedWeight"s, const_undefined };
+    static inline str_setting weight_string_ending{ "showStatsEnding"s, "weight"s, const_undefined };
+    static inline str_setting health_rate_string_ending{ "showStatsEnding"s, "healthRatePer"s, const_undefined };
+    static inline str_setting magicka_rate_string_ending{ "showStatsEnding"s, "magickaRatePer"s, const_undefined };
+    static inline str_setting stamina_rate_string_ending{ "showStatsEnding"s, "staminaRatePer"s, const_undefined };
+    static inline str_setting resist_damage_string_ending{ "showStatsEnding"s, "resistDamage"s, const_undefined };
+    static inline str_setting resist_disease_string_ending{ "showStatsEnding"s, "resistDisease"s, const_undefined };
+    static inline str_setting resist_poison_string_ending{ "showStatsEnding"s, "resistPoison"s, const_undefined };
+    static inline str_setting resist_fire_string_ending{ "showStatsEnding"s, "resistFire"s, const_undefined };
+    static inline str_setting resist_shock_string_ending{ "showStatsEnding"s, "resistShock"s, const_undefined };
+    static inline str_setting resist_frost_string_ending{ "showStatsEnding"s, "resistFrost"s, const_undefined };
+    static inline str_setting resist_magic_string_ending{ "showStatsEnding"s, "resistMagic"s, const_undefined };
+    static inline str_setting speed_mult_string_ending{ "showStatsEnding"s, "speedMult"s, const_undefined };
+    static inline str_setting inventory_weight_string_ending{ "showStatsEnding"s, "inventoryWeight"s, const_undefined };
+    static inline str_setting carry_weight_string_ending{ "showStatsEnding"s, "carryWeight"s, const_undefined };
+    static inline str_setting critical_chance_string_ending{ "showStatsEnding"s, "criticalChance"s, const_undefined };
+    static inline str_setting absorb_chance_string_ending{ "showStatsEnding"s, "absorbChance"s, const_undefined };
+    static inline str_setting weapon_speed_mult_string_ending
+        { "showStatsEnding"s, "weaponSpeedMult"s, const_undefined };
+    static inline str_setting bow_speed_bonus_string_ending{ "showStatsEnding"s, "bowSpeedBonus"s, const_undefined };
+    static inline str_setting shout_recovery_mult_string_ending{ "showStatsEnding"s,
+                                                                 "shoutRecoveryMult"s,
+                                                                 const_undefined };
+    static inline str_setting movement_noise_mult_string_ending{ "showStatsEnding"s,
+                                                                 "movementNoiseMult"s,
+                                                                 const_undefined };
+    static inline str_setting combat_health_regen_multiply_string_ending{ "showStatsEnding"s,
+                                                                          "combatHealthRegenMultiply"s,
+                                                                          const_undefined };
+    static inline str_setting attack_damage_mult_string_ending{ "showStatsEnding"s, "attackDamageMult"s,
+                                                                const_undefined };
+    static inline str_setting reflect_damage_string_ending{ "showStatsEnding"s, "reflectDamage"s, const_undefined };
+    static inline str_setting one_handed_mod_string_ending{ "showStatsEnding"s, "oneHandedMod"s, const_undefined };
+    static inline str_setting two_handed_mod_string_ending{ "showStatsEnding"s, "twoHandedMod"s, const_undefined };
+    static inline str_setting archery_mod_string_ending{ "showStatsEnding"s, "archeryMod"s, const_undefined };
+    static inline str_setting block_mod_string_ending{ "showStatsEnding"s, "blockMod"s, const_undefined };
+    static inline str_setting smithing_mod_string_ending{ "showStatsEnding"s, "smithingMod"s, const_undefined };
+    static inline str_setting heavy_armor_mod_string_ending{ "showStatsEnding"s, "heavyArmorMod"s, const_undefined };
+    static inline str_setting light_armor_mod_string_ending{ "showStatsEnding"s, "lightArmorMod"s, const_undefined };
+    static inline str_setting pickpocket_mod_string_ending{ "showStatsEnding"s, "pickpocketMod"s, const_undefined };
+    static inline str_setting lockpicking_mod_string_ending{ "showStatsEnding"s, "lockpickingMod"s, const_undefined };
+    static inline str_setting sneak_mod_string_ending{ "showStatsEnding"s, "sneakMod"s, const_undefined };
+    static inline str_setting alchemy_mod_string_ending{ "showStatsEnding"s, "alchemyMod"s, const_undefined };
+    static inline str_setting speech_mod_string_ending{ "showStatsEnding"s, "speechMod"s, const_undefined };
+    static inline str_setting enchanting_mod_string_ending{ "showStatsEnding"s, "enchantingMod"s, const_undefined };
+    static inline str_setting alteration_mod_string_ending{ "showStatsEnding"s, "alterationMod"s, const_undefined };
+    static inline str_setting conjuration_mod_string_ending{ "showStatsEnding"s, "conjurationMod"s, const_undefined };
+    static inline str_setting destruction_mod_string_ending{ "showStatsEnding"s, "destructionMod"s, const_undefined };
+    static inline str_setting illusion_mod_string_ending{ "showStatsEnding"s, "illusionMod"s, const_undefined };
+    static inline str_setting restoration_mod_string_ending{ "showStatsEnding"s, "restorationMod"s, const_undefined };
+    static inline str_setting left_weapon_speed_mult_string_ending{ "showStatsEnding"s,
+                                                                    "leftWeaponSpeedMult"s,
+                                                                    const_undefined };
+    static inline str_setting armor_perks_string_ending{ "showStatsEnding"s, "armorPerks"s, const_undefined };
+    static inline str_setting fall_damage_mod_string_ending{ "showStatsEnding"s, "fallDamageMod"s, const_undefined };
 
     //stat menu
     static inline int_setting height_menu{ "showStatsMenu"s, "height"s, 0 };
@@ -342,84 +217,14 @@ struct settings {
     static inline int_setting armor_perks_mult{ "showStatsMultiplier"s, "armorPerks"s, 1 };
     static inline int_setting fall_damage_mod_mult{ "showStatsMultiplier"s, "fallDamageMod"s, 1 };
 
-    static inline str_setting vampireString{ "showBeastName"s, "vampire"s, const_undefined };
-    static inline str_setting werewolfString{ "showBeastName"s, "werewolf"s, const_undefined };
-
-
-    //faction name
-    static inline str_setting companionsString{ "showFactionsFactionNames"s, "companions"s, const_undefined };
-    static inline str_setting darkbrotherHoodString{ "showFactionsFactionNames"s, "darkbrotherHood"s, const_undefined };
-    static inline str_setting collegeOfWinterholdString{ "showFactionsFactionNames"s,
-                                                         "collegeOfWinterhold"s,
-                                                         const_undefined };
-    static inline str_setting orcFriendString{ "showFactionsFactionNames"s, "orcFriend"s, const_undefined };
-    static inline str_setting thiefsGuildString{ "showFactionsFactionNames"s, "thiefsGuild"s, const_undefined };
-    static inline str_setting imperialLegionString{ "showFactionsFactionNames"s, "imperialLegion"s, const_undefined };
-    static inline str_setting stormcloaksString{ "showFactionsFactionNames"s, "stormcloaks"s, const_undefined };
-    static inline str_setting greybeardString{ "showFactionsFactionNames"s, "greybeard"s, const_undefined };
-    static inline str_setting bardString{ "showFactionsFactionNames"s, "bard"s, const_undefined };
-    static inline str_setting volkiharVampireClanString{ "showFactionsFactionNames"s,
-                                                         "volkiharVampireClan"s,
-                                                         const_undefined };
-    static inline str_setting dawnguardString{ "showFactionsFactionNames"s, "dawnguard"s, const_undefined };
-    static inline str_setting houseTelvanniString{ "showFactionsFactionNames"s, "houseTelvanni"s, const_undefined };
-
     //faction menu
-    static inline int_setting factionMenu{ "showFactionsFactionMenu"s, "faction"s, 0 };
-
-    //faction ranks
-    static inline str_setting bardRank{ "showFactionsFactionRank"s, "bard"s, const_undefined };
-    static inline str_setting assassinRank{ "showFactionsFactionRank"s, "assassin"s, const_undefined };
-    static inline str_setting listenerRank{ "showFactionsFactionRank"s, "listener"s, const_undefined };
-    static inline str_setting auxiliaryRank{ "showFactionsFactionRank"s, "auxiliary"s, const_undefined };
-    static inline str_setting quaestorRank{ "showFactionsFactionRank"s, "quaestor"s, const_undefined };
-    static inline str_setting praefectRank{ "showFactionsFactionRank"s, "praefect"s, const_undefined };
-    static inline str_setting tribuneRank{ "showFactionsFactionRank"s, "tribune"s, const_undefined };
-    static inline str_setting legateRank{ "showFactionsFactionRank"s, "legate"s, const_undefined };
-    static inline str_setting unbloodedRank{ "showFactionsFactionRank"s, "unblooded"s, const_undefined };
-    static inline str_setting iceVeinsRank{ "showFactionsFactionRank"s, "iceVeins"s, const_undefined };
-    static inline str_setting boneBreakerRank{ "showFactionsFactionRank"s, "boneBreaker"s, const_undefined };
-    static inline str_setting snowHammerRank{ "showFactionsFactionRank"s, "snowHammer"s, const_undefined };
-    static inline str_setting stormbladeRank{ "showFactionsFactionRank"s, "stormblade"s, const_undefined };
-    static inline str_setting vampireLordRank{ "showFactionsFactionRank"s, "vampireLord"s, const_undefined };
-    static inline str_setting vampireHunterRank{ "showFactionsFactionRank"s, "vampireHunter"s, const_undefined };
-    static inline str_setting honoraryMemberRank{ "showFactionsFactionRank"s, "honoraryMember"s, const_undefined };
-    static inline str_setting ysmirRank{ "showFactionsFactionRank"s, "ysmir"s, const_undefined };
+    static inline int_setting faction_menu{ "showFactionsFactionMenu"s, "faction"s, 0 };
 
     //thane menu
-    static inline int_setting thaneMenu{ "showFactionsThaneMenu"s, "thane"s, 0 };
-
-    //thane names
-    static inline str_setting thaneOfEastmarchName{ "showFactionsThaneName"s, "thaneOfEastmarch"s, const_undefined };
-    static inline str_setting thaneOfFalkreathName{ "showFactionsThaneName"s, "thaneOfFalkreath"s, const_undefined };
-    static inline str_setting thaneOfHaafingarName{ "showFactionsThaneName"s, "thaneOfHaafingar"s, const_undefined };
-    static inline str_setting thaneOfHjaalmarchName{ "showFactionsThaneName"s, "thaneOfHjaalmarch"s, const_undefined };
-    static inline str_setting thaneOfThePaleName{ "showFactionsThaneName"s, "thaneOfThePale"s, const_undefined };
-    static inline str_setting thaneOfTheReachName{ "showFactionsThaneName"s, "thaneOfTheReach"s, const_undefined };
-    static inline str_setting thaneOfTheRiftName{ "showFactionsThaneName"s, "thaneOfTheRift"s, const_undefined };
-    static inline str_setting thaneOfWhiterunName{ "showFactionsThaneName"s, "thaneOfWhiterun"s, const_undefined };
-    static inline str_setting thaneOfWinterholdName{ "showFactionsThaneName"s, "thaneOfWinterhold"s, const_undefined };
+    static inline int_setting thane_menu{ "showFactionsThaneMenu"s, "thane"s, 0 };
 
     //champion menu
-    static inline int_setting championMenu{ "showFactionsChampionMenu"s, "champion"s, 0 };
-
-    //champion name
-    static inline str_setting azuraName{ "showFactionsChampionName"s, "azura"s, const_undefined };
-    static inline str_setting boethiahName{ "showFactionsChampionName"s, "boethiah"s, const_undefined };
-    static inline str_setting clavicusVileName{ "showFactionsChampionName"s, "clavicusVile"s, const_undefined };
-    static inline str_setting hermaeusMoraName{ "showFactionsChampionName"s, "hermaeusMora"s, const_undefined };
-    static inline str_setting hircineName{ "showFactionsChampionName"s, "hircine"s, const_undefined };
-    static inline str_setting malacathName{ "showFactionsChampionName"s, "malacath"s, const_undefined };
-    static inline str_setting mehrunesDagonName{ "showFactionsChampionName"s, "mehrunesDagon"s, const_undefined };
-    static inline str_setting mephalaName{ "showFactionsChampionName"s, "mephala"s, const_undefined };
-    static inline str_setting meridiaName{ "showFactionsChampionName"s, "meridia"s, const_undefined };
-    static inline str_setting molagBalName{ "showFactionsChampionName"s, "molagBal"s, const_undefined };
-    static inline str_setting namiraName{ "showFactionsChampionName"s, "namira"s, const_undefined };
-    static inline str_setting nocturnalName{ "showFactionsChampionName"s, "nocturnal"s, const_undefined };
-    static inline str_setting peryiteName{ "showFactionsChampionName"s, "peryite"s, const_undefined };
-    static inline str_setting sanguineName{ "showFactionsChampionName"s, "sanguine"s, const_undefined };
-    static inline str_setting sheogorathName{ "showFactionsChampionName"s, "sheogorath"s, const_undefined };
-    static inline str_setting vaerminaName{ "showFactionsChampionName"s, "vaermina"s, const_undefined };
+    static inline int_setting champion_menu{ "showFactionsChampionMenu"s, "champion"s, 0 };
 
     static inline bool_setting show_stats_inventorydisplay_zero{ "showStatsInventorySpecial"s, "displayZero"s, true };
 
