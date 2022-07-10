@@ -206,6 +206,7 @@ struct settings {
     static inline int_setting weapon_crit_damage_rating_menu{ "showStatsMenu"s, "weaponCritDamageRating"s, 0 };
     static inline int_setting weapon_crit_damage_rating_left_menu{ "showStatsMenu"s, "weaponCritDamageRatingLeft"s, 0 };
     static inline int_setting fall_damage_mod_menu{ "showStatsMenu"s, "fallDamageMod"s, 0 };
+    static inline int_setting warmth_menu{ "showStatsMenu"s, "warmth"s, 0 };
 
     //multiplier
     static inline int_setting weapon_speed_mult_mult{ "showStatsMultiplier"s, "weaponSpeedMult"s, 1 };
@@ -345,4 +346,6 @@ struct settings {
                                                                              "weaponCritDamageRatingLeft"s,
                                                                              0 };
     static inline int_setting fall_damage_mod_menu_inventory{ "showStatsInventoryMenu"s, "fallDamageMod"s, 0 };
+    static inline int_setting warmth_menu_inventory{ "showStatsInventoryMenu"s, "warmth"s, 0 };
+
 };

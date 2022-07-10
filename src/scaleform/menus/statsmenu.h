@@ -257,11 +257,15 @@ namespace scaleform {
             update_text(perks_thief_header_, menu_keys::thief_title);
         }
 
-        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
+        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key,
+            const std::string& a_val,
+            const std::string_view& a_icon) const {
             RE::GFxValue value;
             view_->CreateObject(std::addressof(value));
             value.SetMember("displayName", { a_key });
             value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
+            value.SetMember("iconKey", { a_icon });
+
             return value;
         }
 
@@ -338,7 +342,9 @@ namespace scaleform {
                     default:
                         if (stat_item->get_stats_menu() != stats_menu_value::m_special) {
                             menu_map_.find(stat_item->get_stats_menu())
-                                     ->second.PushBack(build_gfx_value(stat_item->get_key(), stat_item->get_value()));
+                                     ->second.PushBack(build_gfx_value(stat_item->get_key(),
+                                         stat_item->get_value(),
+                                         stat_item->get_icon()));
                             logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
                                 stat_item->get_stats_menu(),
                                 stat_value,

@@ -125,6 +125,7 @@ weaponStaggerLeft = 3 #3
 weaponCritDamageRating = 0 #3
 weaponCritDamageRatingLeft = 0 #3
 fallDamageMod = 0 #1
+warmth = 0 #2 works atm just with CC warmth calculation
 
 [showStatsEnding]
 height = ""
@@ -296,3 +297,4 @@ weaponStaggerLeft = 3
 weaponCritDamageRating = 0 #3
 weaponCritDamageRatingLeft = 0 #3
 fallDamageMod = 0 #4
+warmth = 0 #2 works atm just with CC warmth calculation

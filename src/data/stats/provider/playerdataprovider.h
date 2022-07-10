@@ -1,4 +1,5 @@
 #pragma once
+#include "utils/offset.h"
 #include "utils/perkvisitor.h"
 
 class player_data_provider {
@@ -163,6 +164,12 @@ public:
         }
 
         return fall_damage_mod;
+    }
+
+    static float get_warmth_rating([[maybe_unused]] RE::Actor* a_actor, [[maybe_unused]] float a_value) {
+        using func_t = decltype(&get_warmth_rating);
+        const REL::Relocation<func_t> func{ offset::get_actor_warmth_rating };
+        return func(a_actor, a_value);
     }
 
     player_data_provider(const player_data_provider&) = delete;

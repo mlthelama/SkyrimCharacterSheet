@@ -1,40 +1,16 @@
-#pragma once
+﻿#pragma once
 
-namespace menu_keys {
-    //Show Stats
-    constexpr auto show_stats_title = "$ShowStatsTitle"sv;
-    constexpr auto player_title = "$ShowStatsPlayerTitle"sv;
-    constexpr auto attack_title = "$ShowStatsAttackTitle"sv;
-    constexpr auto defence_title = "$ShowStatsDefenceTitle"sv;
-    constexpr auto magic_title = "$ShowStatsMagicTitle"sv;
-    constexpr auto thief_title = "$ShowStatsThiefTitle"sv;
-    constexpr auto warrior_title = "$ShowStatsWarriorTitle"sv;
-
-    //Show Factions
-    constexpr auto show_factions_title = "$ShowFactionsTitle"sv;
-    constexpr auto faction_title = "$ShowFactionsFactionTitle"sv;
-    constexpr auto thane_title = "$ShowFactionsThaneTitle"sv;
-    constexpr auto champion_title = "$ShowFactionsChampionTitle"sv;
-
-    //Show Stats Inventory
-    constexpr auto show_stats_inventory_title = "$ShowStatsInventoryTitle"sv;
-    constexpr auto equip_title = "$ShowStatsInventoryEquipmentTitle"sv;
-    constexpr auto armor_title = "$ShowStatsInventoryArmorTitle"sv;
-    constexpr auto weapon_title = "$ShowStatsInventoryWeaponTitle"sv;
-    constexpr auto effect_title = "$ShowStatsInventoryEffectTitle"sv;
-
-    constexpr auto name = "$ShowName"sv;
-    constexpr auto race = "$ShowRace"sv;
-    constexpr auto level = "$ShowLevel"sv;
-    constexpr auto perk = "$ShowPerkCount"sv;
-    constexpr auto height = "$ShowHeight"sv;
-    constexpr auto equipped_weight = "$ShowEquippedWeight"sv;
-    constexpr auto weight = "$ShowWeight"sv;
-    constexpr auto armor = "$ShowArmor"sv;
-    constexpr auto damage = "$ShowDamage"sv;
-    constexpr auto trainings_level = "$ShowSkillTrainingsThisLevel"sv;
-    constexpr auto health = "$ShowHealth"sv;
-    constexpr auto health_rate = "$ShowHealthRatePer"sv;
+namespace icon_keys {
+    constexpr auto default_icon = "default_misc"sv;
+    
+    constexpr auto height = default_icon;
+    constexpr auto equipped_weight = default_icon;
+    constexpr auto weight = default_icon;
+    constexpr auto armor = "default_armor"sv;
+    constexpr auto damage = "default_weapon"sv;
+    constexpr auto trainings_level = "default_book"sv;
+    constexpr auto health = "restoration_health"sv; //seems not to work
+    constexpr auto health_rate = "restoration_fortify_health_regen"sv; //seems not to work
     constexpr auto magicka = "$ShowMagicka"sv;
     constexpr auto magicka_rate = "$ShowMagickaRatePer"sv;
     constexpr auto stamina = "$ShowStamina"sv;
@@ -140,75 +116,4 @@ namespace menu_keys {
 
     constexpr auto vampire = "$ShowVampire"sv;
     constexpr auto werewolf = "$ShowWerewolf"sv;
-
-    constexpr auto companions = "$ShowCompanions"sv;
-    constexpr auto darkbrotherhood = "$ShowDarkbrotherHood"sv;
-    constexpr auto college_of_winterhold = "$ShowCollegeOfWinterhold"sv;
-    constexpr auto orc_friend = "$ShowOrcFriend"sv;
-    constexpr auto thiefs_guild = "$ShowThiefsGuild"sv;
-    constexpr auto imperial_legion = "$ShowImperialLegion"sv;
-    constexpr auto stormcloaks = "$ShowStormcloaks"sv;
-    constexpr auto greybeard = "$ShowGreybeard"sv;
-    constexpr auto bard_college = "$ShowBardCollege"sv;
-    constexpr auto volkihar_vampire_clan = "$ShowVolkiharVampireClan"sv;
-    constexpr auto dawnguard = "$ShowDawnguard"sv;
-    constexpr auto house_telvanni = "$ShowHouseTelvanni"sv;
-
-    constexpr auto bard = "$ShowBard"sv;
-    constexpr auto assassin = "$ShowAssassin"sv;
-    constexpr auto listener = "$ShowListener"sv;
-    constexpr auto auxiliary = "$ShowAuxiliary"sv;
-    constexpr auto quaestor = "$ShowQuaestor"sv;
-    constexpr auto praefect = "$ShowPraefect"sv;
-    constexpr auto tribune = "$ShowTribune"sv;
-    constexpr auto legate = "$ShowLegate"sv;
-    constexpr auto unblooded = "$ShowUnblooded"sv;
-    constexpr auto ice_veins = "$ShowIceVeins"sv;
-    constexpr auto bone_breaker = "$ShowBoneBreaker"sv;
-    constexpr auto snow_hammer = "$ShowSnowHammer"sv;
-    constexpr auto stormblade = "$ShowStormblade"sv;
-    constexpr auto vampire_lord = "$ShowVampireLord"sv;
-    constexpr auto vampire_hunter = "$ShowVampireHunter"sv;
-    constexpr auto honoary_member = "$ShowHonoraryMember"sv;
-    constexpr auto ysmir = "$ShowYsmir"sv;
-
-    constexpr auto windhelm = "$ShowWindhelm"sv;
-    constexpr auto falkreath = "$ShowFalkreath"sv;
-    constexpr auto solitude = "$ShowSolitude"sv;
-    constexpr auto morthal = "$ShowMorthal"sv;
-    constexpr auto dawnstar = "$ShowDawnstar"sv;
-    constexpr auto markarth = "$ShowMarkarth"sv;
-    constexpr auto riften = "$ShowRiften"sv;
-    constexpr auto whiterun = "$ShowWhiterun"sv;
-    constexpr auto winterhold = "$ShowWinterhold"sv;
-
-    constexpr auto thane_of_eastmarch = "$ShowThaneOfEastmarch"sv;
-    constexpr auto thane_of_falkreath = "$ShowThaneOfFalkreath"sv;
-    constexpr auto thane_of_haafinger = "$ShowThaneOfHaafingar"sv;
-    constexpr auto thane_of_hjaalmarch = "$ShowThaneOfHjaalmarch"sv;
-    constexpr auto thane_of_the_pale = "$ShowThaneOfThePale"sv;
-    constexpr auto thane_of_the_reach = "$ShowThaneOfTheReach"sv;
-    constexpr auto thane_of_the_rift = "$ShowThaneOfTheRift"sv;
-    constexpr auto thane_of_whiterun = "$ShowThaneOfWhiterun"sv;
-    constexpr auto thane_of_winterhold = "$ShowThaneOfWinterhold"sv;
-
-    constexpr auto azura = "$ShowAzura"sv;
-    constexpr auto boethiah = "$ShowBoethiah"sv;
-    constexpr auto clavicus_vile = "$ShowClavicusVile"sv;
-    constexpr auto hermaeus_mora = "$ShowHermaeusMora"sv;
-    constexpr auto hircine = "$ShowHircine"sv;
-    constexpr auto malacath = "$ShowMalacath"sv;
-    constexpr auto mehrunes_dagon = "$ShowMehrunesDagon"sv;
-    constexpr auto mephala = "$ShowMephala"sv;
-    constexpr auto meridia = "$ShowMeridia"sv;
-    constexpr auto molag_bal = "$ShowMolagBal"sv;
-    constexpr auto namira = "$ShowNamira"sv;
-    constexpr auto nocturnal = "$ShowNocturnal"sv;
-    constexpr auto peryite = "$ShowPeryite"sv;
-    constexpr auto sanguine = "$ShowSanguine"sv;
-    constexpr auto sheogorath = "$ShowSheogorath"sv;
-    constexpr auto vearmina = "$ShowVaermina"sv;
-
-    constexpr auto count = "$ShowCount"sv;
-
-}
+};

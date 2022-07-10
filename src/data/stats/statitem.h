@@ -6,10 +6,14 @@ class stat_item {
     using stats_inventory_menu_value = menu_util::stats_inventory_menu_value;
 
 public:
-    stat_item(const std::string_view a_gui_key, std::string a_gui_value, const stats_menu_value a_stats_menu)
+    stat_item(const std::string_view a_gui_key,
+        std::string a_gui_value,
+        const stats_menu_value a_stats_menu,
+        const std::string_view a_icon_string)
         : gui_key_(a_gui_key)
         , gui_value_(std::move(a_gui_value))
-        , stats_menu_(a_stats_menu) {}
+        , stats_menu_(a_stats_menu)
+        , icon_string_(a_icon_string) {}
 
 
     stat_item(const std::string_view a_gui_key,
@@ -26,6 +30,8 @@ public:
     [[nodiscard]] stats_menu_value get_stats_menu() const { return stats_menu_; }
 
     [[nodiscard]] stats_inventory_menu_value get_stats_inventory_menu() const { return stats_inventory_menu_; }
+
+    [[nodiscard]] std::string_view get_icon() const { return icon_string_; }
 
     void log_stat_item(stats_value a_stats_value, const show_menu a_menu) {
         if (a_menu == show_menu::m_stats) {
@@ -57,4 +63,5 @@ private:
     std::string gui_value_;
     stats_menu_value stats_menu_ = stats_menu_value::m_none;
     stats_inventory_menu_value stats_inventory_menu_ = stats_inventory_menu_value::m_none;
+    std::string_view icon_string_;
 };

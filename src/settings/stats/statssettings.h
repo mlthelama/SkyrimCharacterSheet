@@ -1,5 +1,7 @@
 #pragma once
 #include "settings/gamesettings.h"
+#include "utils/constants.h"
+#include "utils/iconkeys.h"
 #include "utils/utils.h"
 
 class stat_config {
@@ -18,6 +20,17 @@ public:
 
     stat_config(const RE::ActorValue a_actor,
         const std::string_view a_display_name,
+        const stats_menu_value a_stats_menu,
+        const stats_inventory_menu_value a_stats_inventory_menu,
+        const std::string_view a_icon)
+        : actor_(a_actor)
+        , display_name_(a_display_name)
+        , stats_menu_(a_stats_menu)
+        , stats_inventory_menu_(a_stats_inventory_menu)
+        , icon_string_(a_icon) {}
+
+    stat_config(const RE::ActorValue a_actor,
+        const std::string_view a_display_name,
         std::string a_ending,
         const stats_menu_value a_stats_menu,
         const stats_inventory_menu_value a_stats_inventory_menu)
@@ -26,6 +39,19 @@ public:
         , ending_(std::move(a_ending))
         , stats_menu_(a_stats_menu)
         , stats_inventory_menu_(a_stats_inventory_menu) {}
+
+    stat_config(const RE::ActorValue a_actor,
+        const std::string_view a_display_name,
+        std::string a_ending,
+        const stats_menu_value a_stats_menu,
+        const stats_inventory_menu_value a_stats_inventory_menu,
+        const std::string_view a_icon)
+        : actor_(a_actor)
+        , display_name_(a_display_name)
+        , ending_(std::move(a_ending))
+        , stats_menu_(a_stats_menu)
+        , stats_inventory_menu_(a_stats_inventory_menu)
+        , icon_string_(a_icon) {}
 
     stat_config(const RE::ActorValue a_actor,
         const std::string_view a_display_name,
@@ -66,6 +92,19 @@ public:
         , stats_inventory_menu_(a_stats_inventory_menu)
         , show_perm_av_(a_perm_av) {}
 
+    stat_config(const RE::ActorValue a_actor,
+        const std::string_view a_display_name,
+        const stats_menu_value a_stats_menu,
+        const stats_inventory_menu_value a_stats_inventory_menu,
+        const bool a_perm_av,
+        const std::string_view a_icon)
+        : actor_(a_actor)
+        , display_name_(a_display_name)
+        , stats_menu_(a_stats_menu)
+        , stats_inventory_menu_(a_stats_inventory_menu)
+        , show_perm_av_(a_perm_av)
+        , icon_string_(a_icon) {}
+
     [[nodiscard]] RE::ActorValue get_actor() const { return actor_; }
 
     [[nodiscard]] std::string_view get_display_name() const { return display_name_; }
@@ -84,6 +123,8 @@ public:
 
     [[nodiscard]] std::string_view get_key_display() const { return display_name_; }
 
+    [[nodiscard]] std::string_view get_icon_string() const { return icon_string_; }
+
     std::string get_value_display(const std::string& a_value) {
         if (!a_value.empty()) {
             logger::trace("display {} got value {}, building text ..."sv, display_name_, a_value);
@@ -94,7 +135,7 @@ public:
 
     void log_stat_config(stats_value a_stats_value) {
         logger::trace(
-            "name {}, actor {}, displayName {}, ending {}, statsMenu {}, statsInventoryMenu {}, valueMultiplier {}, cap {}, showPermAV {}"sv,
+            "name {}, actor {}, displayName {} ending {}, statsMenu {}, statsInventoryMenu {}, valueMultiplier {}, cap {}, showPermAV {}, icon {}"sv,
             a_stats_value,
             actor_,
             display_name_,
@@ -103,7 +144,8 @@ public:
             stats_inventory_menu_,
             value_multiplier_,
             cap_,
-            show_perm_av_);
+            show_perm_av_,
+            icon_string_);
     }
 
     stat_config() = delete;
@@ -124,6 +166,7 @@ private:
     int64_t value_multiplier_ = const_static_multiplier;
     float cap_ = -1;
     bool show_perm_av_ = false;
+    std::string_view icon_string_;
 };
 
 
@@ -181,11 +224,13 @@ public:
         mp[stats_value::armor] = std::make_unique<stat_config>(actor_value::kDamageResist,
             menu_keys::armor,
             menu_util::get_stats_menu(*settings::armor_menu),
-            menu_util::get_stats_inventory_menu(*settings::armor_menu_inventory));
+            menu_util::get_stats_inventory_menu(*settings::armor_menu_inventory),
+            icon_keys::armor);
         mp[stats_value::damage] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::damage,
             menu_util::get_stats_menu(*settings::damage_menu),
-            menu_util::get_stats_inventory_menu(*settings::damage_menu_inventory));
+            menu_util::get_stats_inventory_menu(*settings::damage_menu_inventory),
+            icon_keys::damage);
         mp[stats_value::skill_trainings_this_level] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::trainings_level,
             menu_util::get_stats_menu(*settings::skill_trainings_this_level_menu),
@@ -194,12 +239,14 @@ public:
             menu_keys::health,
             menu_util::get_stats_menu(*settings::health_menu),
             menu_util::get_stats_inventory_menu(*settings::health_menu_inventory),
-            *settings::display_permanent_av);
+            *settings::display_permanent_av,
+            icon_keys::health);
         mp[stats_value::health_rate_per] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::health_rate,
             *settings::health_rate_string_ending,
             menu_util::get_stats_menu(*settings::health_rate_menu),
-            menu_util::get_stats_inventory_menu(*settings::health_rate_menu_inventory));
+            menu_util::get_stats_inventory_menu(*settings::health_rate_menu_inventory),
+            icon_keys::health_rate);
         mp[stats_value::magicka] = std::make_unique<stat_config>(actor_value::kMagicka,
             menu_keys::magicka,
             menu_util::get_stats_menu(*settings::magicka_menu),
@@ -690,6 +737,10 @@ public:
             menu_util::get_stats_menu(*settings::fall_damage_mod_menu),
             menu_util::get_stats_inventory_menu(*settings::fall_damage_mod_menu_inventory),
             menu_util::get_multiplier(*settings::fall_damage_mod_mult));
+        mp[stats_value::warmth] = std::make_unique<stat_config>(actor_value::kNone,
+            menu_keys::warmth,
+            menu_util::get_stats_menu(*settings::warmth_menu),
+            menu_util::get_stats_inventory_menu(*settings::warmth_menu_inventory));
         return mp;
     }
 
