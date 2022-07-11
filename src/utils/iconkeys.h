@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 namespace icon_keys {
+    //iconkeys, swf file will be not included in this mod
     constexpr auto default_icon = "default_misc"sv;
     
     constexpr auto height = default_icon;
@@ -9,20 +10,20 @@ namespace icon_keys {
     constexpr auto armor = "default_armor"sv;
     constexpr auto damage = "default_weapon"sv;
     constexpr auto trainings_level = "default_book"sv;
-    constexpr auto health = "restoration_health"sv; //seems not to work
-    constexpr auto health_rate = "restoration_fortify_health_regen"sv; //seems not to work
-    constexpr auto magicka = "$ShowMagicka"sv;
-    constexpr auto magicka_rate = "$ShowMagickaRatePer"sv;
-    constexpr auto stamina = "$ShowStamina"sv;
-    constexpr auto stamina_rate = "$ShowStaminaRatePer"sv;
-    constexpr auto resist_damage = "$ShowResistDamage"sv;
-    constexpr auto resist_disease = "$ShowResistDisease"sv;
-    constexpr auto resist_poison = "$ShowResistPoison"sv;
-    constexpr auto resist_fire = "$ShowResistFire"sv;
-    constexpr auto resist_shock = "$ShowResistShock"sv;
-    constexpr auto resist_frost = "$ShowResistFrost"sv;
-    constexpr auto resist_magic = "$ShowResistMagic"sv;
-    constexpr auto one_handed = "$ShowOneHanded"sv;
+    constexpr auto health = "restoration_health"sv; 
+    constexpr auto health_rate = "restoration_health_regen"sv; 
+    constexpr auto magicka = "restoration_magicka"sv;
+    constexpr auto magicka_rate = "restoration_magicka_regen"sv;
+    constexpr auto stamina = "restoration_stamina"sv;
+    constexpr auto stamina_rate = "restoration_stamina_regen"sv;
+    constexpr auto resist_damage = default_icon;
+    constexpr auto resist_disease = default_icon;
+    constexpr auto resist_poison = "restoration_resist_poison"sv;
+    constexpr auto resist_fire = "restoration_resist_fire"sv;
+    constexpr auto resist_shock = "restoration_resist_shock"sv;
+    constexpr auto resist_frost = "restoration_resist_frost"sv;
+    constexpr auto resist_magic = "restoration_resist_light"sv;
+    constexpr auto one_handed = "one_handed"sv;
     constexpr auto two_handed = "$ShowTwoHanded"sv;
     constexpr auto archery = "$ShowArchery"sv;
     constexpr auto block = "$ShowBlock"sv;

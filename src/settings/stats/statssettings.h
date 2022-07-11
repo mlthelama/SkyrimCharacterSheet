@@ -83,6 +83,23 @@ public:
 
     stat_config(const RE::ActorValue a_actor,
         const std::string_view a_display_name,
+        std::string a_ending,
+        const stats_menu_value a_stats_menu,
+        const stats_inventory_menu_value a_stats_inventory_menu,
+        const int64_t a_value_multiplier,
+        const float a_cap,
+        const std::string_view a_icon)
+        : actor_(a_actor)
+        , display_name_(a_display_name)
+        , ending_(std::move(a_ending))
+        , stats_menu_(a_stats_menu)
+        , stats_inventory_menu_(a_stats_inventory_menu)
+        , value_multiplier_(a_value_multiplier)
+        , cap_(a_cap)
+        , icon_string_(a_icon) {}
+
+    stat_config(const RE::ActorValue a_actor,
+        const std::string_view a_display_name,
         const stats_menu_value a_stats_menu,
         const stats_inventory_menu_value a_stats_inventory_menu,
         const bool a_perm_av)
@@ -251,74 +268,86 @@ public:
             menu_keys::magicka,
             menu_util::get_stats_menu(*settings::magicka_menu),
             menu_util::get_stats_inventory_menu(*settings::magicka_menu_inventory),
-            *settings::display_permanent_av);
+            *settings::display_permanent_av,
+            icon_keys::magicka);
         mp[stats_value::magicka_rate_per] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::magicka_rate,
             *settings::magicka_rate_string_ending,
             menu_util::get_stats_menu(*settings::magicka_rate_menu),
-            menu_util::get_stats_inventory_menu(*settings::magicka_rate_menu_inventory));
+            menu_util::get_stats_inventory_menu(*settings::magicka_rate_menu_inventory),
+            icon_keys::magicka_rate);
         mp[stats_value::stamina] = std::make_unique<stat_config>(actor_value::kStamina,
             menu_keys::stamina,
             menu_util::get_stats_menu(*settings::stamina_menu),
             menu_util::get_stats_inventory_menu(*settings::magicka_rate_menu_inventory),
-            *settings::display_permanent_av);
+            *settings::display_permanent_av,
+            icon_keys::stamina);
         mp[stats_value::stamina_rate_per] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::stamina_rate,
             *settings::stamina_rate_string_ending,
             menu_util::get_stats_menu(*settings::stamina_rate_menu),
-            menu_util::get_stats_inventory_menu(*settings::stamina_menu_inventory));
+            menu_util::get_stats_inventory_menu(*settings::stamina_menu_inventory),
+            icon_keys::stamina_rate);
         mp[stats_value::resist_damage] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::resist_damage,
             *settings::resist_damage_string_ending,
             menu_util::get_stats_menu(*settings::resist_damage_menu),
             menu_util::get_stats_inventory_menu(*settings::resist_damage_menu_inventory),
             const_static_multiplier,
-            game_settings->max_armor_resistance);
+            game_settings->max_armor_resistance,
+            icon_keys::resist_damage);
         mp[stats_value::resist_disease] = std::make_unique<stat_config>(actor_value::kResistDisease,
             menu_keys::resist_disease,
             *settings::resist_disease_string_ending,
             menu_util::get_stats_menu(*settings::resist_disease_menu),
-            menu_util::get_stats_inventory_menu(*settings::resist_disease_menu_inventory));
+            menu_util::get_stats_inventory_menu(*settings::resist_disease_menu_inventory),
+            icon_keys::resist_disease);
         mp[stats_value::resist_poison] = std::make_unique<stat_config>(actor_value::kPoisonResist,
             menu_keys::resist_poison,
             *settings::resist_poison_string_ending,
             menu_util::get_stats_menu(*settings::resist_poison_menu),
             menu_util::get_stats_inventory_menu(*settings::resist_poison_menu_inventory),
             const_static_multiplier,
-            game_settings->max_resistance);
+            game_settings->max_resistance,
+            icon_keys::resist_poison);
         mp[stats_value::resist_fire] = std::make_unique<stat_config>(actor_value::kResistFire,
             menu_keys::resist_fire,
             *settings::resist_fire_string_ending,
             menu_util::get_stats_menu(*settings::resist_fire_menu),
             menu_util::get_stats_inventory_menu(*settings::resist_fire_menu_inventory),
             const_static_multiplier,
-            game_settings->max_resistance);
+            game_settings->max_resistance,
+            icon_keys::resist_fire);
         mp[stats_value::resist_shock] = std::make_unique<stat_config>(actor_value::kResistShock,
             menu_keys::resist_shock,
             *settings::resist_shock_string_ending,
             menu_util::get_stats_menu(*settings::resist_shock_menu),
             menu_util::get_stats_inventory_menu(*settings::resist_shock_menu_inventory),
             const_static_multiplier,
-            game_settings->max_resistance);
+            game_settings->max_resistance,
+            icon_keys::resist_shock);
         mp[stats_value::resist_frost] = std::make_unique<stat_config>(actor_value::kResistFrost,
             menu_keys::resist_frost,
             *settings::resist_frost_string_ending,
             menu_util::get_stats_menu(*settings::resist_frost_menu),
             menu_util::get_stats_inventory_menu(*settings::resist_frost_menu_inventory),
             const_static_multiplier,
-            game_settings->max_resistance);
+            game_settings->max_resistance,
+            icon_keys::resist_frost);
         mp[stats_value::resist_magic] = std::make_unique<stat_config>(actor_value::kResistMagic,
             menu_keys::resist_magic,
             *settings::resist_magic_string_ending,
             menu_util::get_stats_menu(*settings::resist_magic_menu),
             menu_util::get_stats_inventory_menu(*settings::resist_magic_menu_inventory),
             const_static_multiplier,
-            game_settings->max_resistance);
+            game_settings->max_resistance,
+            icon_keys::resist_magic);
         mp[stats_value::one_handed] = std::make_unique<stat_config>(actor_value::kOneHanded,
             menu_keys::one_handed,
             menu_util::get_stats_menu(*settings::one_handed_menu),
             menu_util::get_stats_inventory_menu(*settings::one_handed_menu_inventory),
-            *settings::display_permanent_av);
+            *settings::display_permanent_av,
+            icon_keys::one_handed);
         mp[stats_value::two_handed] = std::make_unique<stat_config>(actor_value::kTwoHanded,
             menu_keys::two_handed,
             menu_util::get_stats_menu(*settings::two_handed_menu),
