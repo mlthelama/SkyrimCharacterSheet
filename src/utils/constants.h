@@ -114,7 +114,8 @@ enum class stats_value {
     weapon_stagger_left,
     weapon_crit_damage_rating,
     weapon_crit_damage_rating_left,
-    fall_damage_mod
+    fall_damage_mod,
+    warmth
 };
 
 enum class faction_value {

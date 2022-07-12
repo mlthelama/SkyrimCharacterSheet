@@ -136,6 +136,7 @@ namespace menu_keys {
     constexpr auto weapon_crit_damage_rating = "$ShowWeaponCritDamageRating"sv;
     constexpr auto weapon_crit_damage_rating_left = "$ShowWeaponCritDamageRatingLeft"sv;
     constexpr auto fall_damage_mod = "$ShowFallDamageMod"sv;
+    constexpr auto warmth = "$ShowWarmth"sv;
 
     constexpr auto vampire = "$ShowVampire"sv;
     constexpr auto werewolf = "$ShowWerewolf"sv;

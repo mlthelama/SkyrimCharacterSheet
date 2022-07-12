@@ -135,6 +135,10 @@ public:
                     value_text = string_util::get_string_value_from_float(
                         player_data_provider::get_fall_damage_mod(player) * stat_config->get_value_multiplier());
                     break;
+                case stats_value::warmth:
+                    value_text = string_util::get_string_value_from_float(
+                        player_data_provider::get_warmth_rating(player, 0.0));
+                    break;
                 default:
                     if (stat_config->get_actor() != RE::ActorValue::kNone) {
                         //for whatever reason magicka, stamina and health enchantments count as permanent
@@ -175,9 +179,13 @@ public:
 
             if (!value_text.empty()) {
                 if (a_menu == show_menu::m_stats) {
+                    auto icon = !stat_config->get_icon_string().empty() ?
+                                    stat_config->get_icon_string() :
+                                    icon_keys::default_icon;
                     simp[stat_value] = std::make_unique<stat_item>(stat_config->get_key_display(),
                         stat_config->get_value_display(value_text),
-                        stat_config->get_stats_menu());
+                        stat_config->get_stats_menu(),
+                        icon);
                 } else {
                     simp[stat_value] = std::make_unique<stat_item>(stat_config->get_key_display(),
                         stat_config->get_value_display(value_text),
@@ -190,7 +198,7 @@ public:
         for (auto& [fst, snd] : stat_setting_map) { snd.reset(); }
         stat_setting_map.clear();
 
-        logger::debug("Setting Map is {}, Display Map Size is {} for Menu ({})"sv,
+        logger::debug("Setting Map is {}, Display Map Size is {} for Menu {}"sv,
             stat_setting_map.size(),
             simp.size(),
             a_name);

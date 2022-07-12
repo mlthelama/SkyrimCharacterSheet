@@ -2,13 +2,13 @@
 {
 	/* PRIVATE VARIABLES */
 
-
 	/* STAGE ELEMENTS */
 
 	//public var textFieldKey: MovieClip;
 	public var textField: TextField;
 	public var textFieldValue: TextField;
 
+	public var textIcon: MovieClip;
 
 	/* INITIALIZATION */
 
@@ -18,6 +18,11 @@
 		super();
 		//textField = textFieldKey.textField;
 		textFieldValue._visible = false;
+
+
+		var _loader = new MovieClipLoader();
+		_loader.addListener(this);
+		_loader.loadClip("skyui/icons_item_psychosteve.swf", textIcon);
 	}
 
 
@@ -48,6 +53,14 @@
 
 			textFieldValue.autoSize = "right";
 			textField.autoSize = "left";
+
+
+			textIcon._visible = true;
+
+			var iconKey = data.iconKey != undefined ? data.iconKey : "default_misc";
+			textIcon.gotoAndStop(iconKey);
+			textIcon._width = textIcon._height = 18;
 		}
 	}
+
 }
