@@ -215,11 +215,25 @@ namespace scaleform {
             update_text(effect_header_, menu_keys::effect_title);
         }
 
-        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
+        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key,
+            const std::string& a_val,
+            const std::string_view& a_icon) const {
             RE::GFxValue value;
             view_->CreateObject(std::addressof(value));
             value.SetMember("displayName", { a_key });
             value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
+            value.SetMember("iconKey", { a_icon });
+            value.SetMember("iconScale", { 18 });
+            return value;
+        }
+
+        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key,
+            const std::string& a_val) const {
+            RE::GFxValue value;
+            view_->CreateObject(std::addressof(value));
+            value.SetMember("displayName", { a_key });
+            value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
+            value.SetMember("iconScale", { 18 });
             return value;
         }
 
@@ -247,7 +261,6 @@ namespace scaleform {
         void update_lists() {
             clear_providers();
             invalidate_item_lists();
-
             update_menu_values();
 
             invalidate_data_item_lists();
@@ -270,7 +283,7 @@ namespace scaleform {
                 }
 
                 menu_map_.find(stat_item->get_stats_inventory_menu())->second.PushBack(
-                    build_gfx_value(stat_item->get_key(), stat_item->get_value()));
+                    build_gfx_value(stat_item->get_key(), stat_item->get_value(), stat_item->get_icon()));
                 logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
                     stat_item->get_stats_menu(),
                     stat_value,

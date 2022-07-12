@@ -18,10 +18,12 @@ public:
 
     stat_item(const std::string_view a_gui_key,
         std::string a_gui_value,
-        const stats_inventory_menu_value a_stats_inventory_menu)
+        const stats_inventory_menu_value a_stats_inventory_menu,
+        const std::string_view a_icon_string)
         : gui_key_(a_gui_key)
         , gui_value_(std::move(a_gui_value))
-        , stats_inventory_menu_(a_stats_inventory_menu) {}
+        , stats_inventory_menu_(a_stats_inventory_menu)
+        , icon_string_(a_icon_string) {}
 
 
     [[nodiscard]] std::string_view get_key() const { return gui_key_; }

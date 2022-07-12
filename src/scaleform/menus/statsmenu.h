@@ -265,6 +265,7 @@ namespace scaleform {
             value.SetMember("displayName", { a_key });
             value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
             value.SetMember("iconKey", { a_icon });
+            value.SetMember("iconScale", {22});
 
             return value;
         }

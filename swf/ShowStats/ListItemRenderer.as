@@ -18,11 +18,11 @@
 		super();
 		//textField = textFieldKey.textField;
 		textFieldValue._visible = false;
-
+		textIcon._visible = false;
 
 		var _loader = new MovieClipLoader();
 		_loader.addListener(this);
-		_loader.loadClip("skyui/icons_item_psychosteve.swf", textIcon);
+		_loader.loadClip("skyui/icons_item_psychosteve_merged.swf", textIcon);
 	}
 
 
@@ -44,6 +44,8 @@
 			
 			var displayValue: String = data.displayValue != null ? data.displayValue : "";
 	
+			var iconScale: Number = data.iconScale != null ? data.iconScale : 20;
+	
 			label = displayName;
 			
 			if (data.displayValue != null) {
@@ -54,13 +56,20 @@
 			textFieldValue.autoSize = "right";
 			textField.autoSize = "left";
 
-
-			textIcon._visible = true;
-
-			var iconKey = data.iconKey != undefined ? data.iconKey : "default_misc";
-			textIcon.gotoAndStop(iconKey);
-			textIcon._width = textIcon._height = 18;
+			if (data.iconKey != null) {
+				textField._x = textField._x + 30;
+				textIcon.gotoAndStop(data.iconKey);
+				textIcon._width = iconScale;
+				textIcon._height = iconScale;
+				textIcon._visible = true;
+			}
 		}
+	}
+
+	public function reset(): Void
+	{
+		textFieldValue._visible = false;
+		textIcon._visible = false;
 	}
 
 }

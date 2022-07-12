@@ -178,10 +178,10 @@ public:
             }
 
             if (!value_text.empty()) {
+                auto icon = !stat_config->get_icon_string().empty() ?
+                                stat_config->get_icon_string() :
+                                icon_keys::default_icon;
                 if (a_menu == show_menu::m_stats) {
-                    auto icon = !stat_config->get_icon_string().empty() ?
-                                    stat_config->get_icon_string() :
-                                    icon_keys::default_icon;
                     simp[stat_value] = std::make_unique<stat_item>(stat_config->get_key_display(),
                         stat_config->get_value_display(value_text),
                         stat_config->get_stats_menu(),
@@ -189,7 +189,8 @@ public:
                 } else {
                     simp[stat_value] = std::make_unique<stat_item>(stat_config->get_key_display(),
                         stat_config->get_value_display(value_text),
-                        stat_config->get_stats_inventory_menu());
+                        stat_config->get_stats_inventory_menu(),
+                        icon);
                 }
 
             }
