@@ -144,17 +144,31 @@ public:
                         //for whatever reason magicka, stamina and health enchantments count as permanent
                         auto value =
                             player->GetActorValue(stat_config->get_actor()) * stat_config->get_value_multiplier();
-
                         if (stat_config->get_cap() != -1) {
                             value_text = value_util::get_value_with_cap_if_needed(value,
                                 stat_config->get_cap(),
                                 stat_config->get_ending());
-                        } else if (stat_config->get_show_perm_av()) {
-                            auto perm_av = player->GetPermanentActorValue(stat_config->get_actor()) *
-                                           stat_config->get_value_multiplier();
-                            value_text = value_util::get_value_with_perm_av(value, perm_av);
-                        } else {
-                            value_text = string_util::get_string_value_from_float(value);
+                        }
+
+                        if (value_text.empty()) {
+                            auto base_av = player->GetBaseActorValue(stat_config->get_actor()) * stat_config->
+                                           get_value_multiplier();
+                            auto perm_av = player->GetPermanentActorValue(stat_config->get_actor()) * stat_config->
+                                           get_value_multiplier();
+                            switch (stat_config->get_show_base_permanent_value()) {
+                                case value_util::display_actor_value_type::m_value:
+                                    value_text = string_util::get_string_value_from_float(value);
+                                    break;
+                                case value_util::display_actor_value_type::m_value_base:
+                                    value_text = value_util::get_value_av_add(value, base_av);
+                                    break;
+                                case value_util::display_actor_value_type::m_value_permanent:
+                                    value_text = value_util::get_value_av_add(value, perm_av);
+                                    break;
+                                case value_util::display_actor_value_type::m_value_base_permanent:
+                                    value_text = value_util::get_value_ext_av(value, base_av, perm_av);
+                                    break;
+                            }
                         }
                     } else {
                         logger::warn("unhandeled stat, name {}, displayName {}"sv,
