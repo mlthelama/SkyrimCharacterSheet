@@ -1,7 +1,7 @@
-# ShowStats
+# Skyrim Character Sheet
 
 ## Nexus Mods
-* [ShowStats](https://www.nexusmods.com/skyrimspecialedition/mods/56069/)
+* [Skyrim Character Sheet](https://www.nexusmods.com/skyrimspecialedition/mods/56069/)
 
 ## End User Dependencies
 * [SKSE64](https://skse.silverlock.org/)
