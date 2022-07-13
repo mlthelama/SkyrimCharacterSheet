@@ -1,11 +1,12 @@
 #pragma once
+#include "menukeys.h"
+#include "settings/gamesettings.h"
 
-namespace StringUtil {
-    static std::string cutString(std::string a_value) {
+namespace string_util {
+    static std::string cut_string(std::string a_value) {
         std::string text;
         if (a_value.find(".") != std::string::npos) {
-            auto s = a_value.substr(a_value.find(".") + 1, 2);
-            if (count(s.begin(), s.end(), '0') == 2) {
+            if (auto s = a_value.substr(a_value.find(".") + 1, 2); std::ranges::count(s, '0') == 2) {
                 text = a_value.substr(0, a_value.find("."));
             } else {
                 text = a_value.substr(0, a_value.find(".") + 3);
@@ -16,12 +17,12 @@ namespace StringUtil {
         return text;
     }
 
-    static std::string getStringValueFromFloat(float a_x) { return cutString(fmt::format(FMT_STRING("{:.2f}"), a_x)); }
+    static std::string get_string_value_from_float(float a_x) { return cut_string(format(FMT_STRING("{:.2f}"), a_x)); }
 
-    static float calculateValue(float a_rm, float a_r) { return (a_rm * a_r) / 100; }
+    static float calculate_value(const float a_rm, const float a_r) { return (a_rm * a_r) / 100; }
 
     template <typename T>
-    static std::string intToHex(T a_i) {
+    static std::string int_to_hex(T a_i) {
         std::stringstream stream;
         stream << "0x" << std::setfill('0') << std::setw(sizeof(T) * 2) << std::hex << a_i;
 
@@ -29,270 +30,258 @@ namespace StringUtil {
     }
 
     template <typename T>
-    static std::string delimitTwoValues(float a_v1, float a_v2, T v_d) {
-        return fmt::format(FMT_STRING("{}{}{}"), getStringValueFromFloat(a_v1), v_d, getStringValueFromFloat(a_v2));
+    static std::string delimit_two_values(const float a_v1, const float a_v2, T v_d) {
+        return fmt::format(FMT_STRING("{}{}{}"),
+            get_string_value_from_float(a_v1),
+            v_d,
+            get_string_value_from_float(a_v2));
     }
 
 }
 
-namespace MenuUtil {
-    static enum class ShowMenu { mStats, mFaction, mStatsInventory };
+namespace menu_util {
+    enum class show_menu { m_stats, m_faction, m_stats_inventory };
 
-    static std::map<ShowMenu, std::string_view> menuName = {
-        { ShowMenu::mStats, static_cast<std::string_view>(*Settings::showStatsTitleTitle) },
-        { ShowMenu::mFaction, static_cast<std::string_view>(*Settings::showFactionsTitleTitle) },
-        { ShowMenu::mStatsInventory, static_cast<std::string_view>(*Settings::showStatsInventoryTitleTitle) }
+    static std::map<show_menu, std::string_view> menu_name = {
+        { show_menu::m_stats, menu_keys::show_stats_title },
+        { show_menu::m_faction, menu_keys::show_factions_title },
+        { show_menu::m_stats_inventory, menu_keys::show_stats_inventory_title }
     };
 
-    static enum class StatsMenuValue {
-        mNone = 0,
-        mPlayer = 1,
-        mDefence = 2,
-        mAttack = 3,
-        mMagic = 4,
-        mWarrior = 5,
-        mThief = 6,
-        mSpecial = 7  //header or bottom
+    enum class stats_menu_value {
+        m_none = 0,
+        m_player = 1,
+        m_defence = 2,
+        m_attack = 3,
+        m_magic = 4,
+        m_warrior = 5,
+        m_thief = 6,
+        m_special = 7 //header or bottom
     };
 
     /* config can not work with enums, so lets map it*/
-    inline static std::map<int64_t, StatsMenuValue> _constConfigStatsMenu = {
-        { static_cast<int64_t>(StatsMenuValue::mNone), StatsMenuValue::mNone },
-        { static_cast<int64_t>(StatsMenuValue::mPlayer), StatsMenuValue::mPlayer },
-        { static_cast<int64_t>(StatsMenuValue::mDefence), StatsMenuValue::mDefence },
-        { static_cast<int64_t>(StatsMenuValue::mAttack), StatsMenuValue::mAttack },
-        { static_cast<int64_t>(StatsMenuValue::mMagic), StatsMenuValue::mMagic },
-        { static_cast<int64_t>(StatsMenuValue::mWarrior), StatsMenuValue::mWarrior },
-        { static_cast<int64_t>(StatsMenuValue::mThief), StatsMenuValue::mThief },
-        { static_cast<int64_t>(StatsMenuValue::mSpecial), StatsMenuValue::mSpecial }
+    inline static std::map<int64_t, stats_menu_value> const_config_stats_menu = {
+        { static_cast<int64_t>(stats_menu_value::m_none), stats_menu_value::m_none },
+        { static_cast<int64_t>(stats_menu_value::m_player), stats_menu_value::m_player },
+        { static_cast<int64_t>(stats_menu_value::m_defence), stats_menu_value::m_defence },
+        { static_cast<int64_t>(stats_menu_value::m_attack), stats_menu_value::m_attack },
+        { static_cast<int64_t>(stats_menu_value::m_magic), stats_menu_value::m_magic },
+        { static_cast<int64_t>(stats_menu_value::m_warrior), stats_menu_value::m_warrior },
+        { static_cast<int64_t>(stats_menu_value::m_thief), stats_menu_value::m_thief },
+        { static_cast<int64_t>(stats_menu_value::m_special), stats_menu_value::m_special }
     };
 
-    static enum class FactionMenuValue { mNone = 0, mFaction = 1, mThane = 2, mChampion = 3 };
+    enum class faction_menu_value { m_none = 0, m_faction = 1, m_thane = 2, m_champion = 3 };
 
     /* config can not work with enums, so lets map it*/
-    inline static std::map<int64_t, FactionMenuValue> _constConfigFactionMenu = {
-        { static_cast<int64_t>(FactionMenuValue::mNone), FactionMenuValue::mNone },
-        { static_cast<int64_t>(FactionMenuValue::mFaction), FactionMenuValue::mFaction },
-        { static_cast<int64_t>(FactionMenuValue::mThane), FactionMenuValue::mThane },
-        { static_cast<int64_t>(FactionMenuValue::mChampion), FactionMenuValue::mChampion },
+    inline static std::map<int64_t, faction_menu_value> const_config_faction_menu = {
+        { static_cast<int64_t>(faction_menu_value::m_none), faction_menu_value::m_none },
+        { static_cast<int64_t>(faction_menu_value::m_faction), faction_menu_value::m_faction },
+        { static_cast<int64_t>(faction_menu_value::m_thane), faction_menu_value::m_thane },
+        { static_cast<int64_t>(faction_menu_value::m_champion), faction_menu_value::m_champion },
     };
 
-    static enum class StatsInventoryMenuValue { mNone = 0, mEquip = 1, mArmor = 2, mWeapon = 3, mEffect = 4 };
+    enum class stats_inventory_menu_value { m_none = 0, m_equip = 1, m_armor = 2, m_weapon = 3, m_effect = 4 };
 
     /* config can not work with enums, so lets map it*/
-    inline static std::map<int64_t, StatsInventoryMenuValue> _constConfigStatsInventoryMenu = {
-        { static_cast<int64_t>(StatsInventoryMenuValue::mNone), StatsInventoryMenuValue::mNone },
-        { static_cast<int64_t>(StatsInventoryMenuValue::mEquip), StatsInventoryMenuValue::mEquip },
-        { static_cast<int64_t>(StatsInventoryMenuValue::mArmor), StatsInventoryMenuValue::mArmor },
-        { static_cast<int64_t>(StatsInventoryMenuValue::mWeapon), StatsInventoryMenuValue::mWeapon },
-        { static_cast<int64_t>(StatsInventoryMenuValue::mEffect), StatsInventoryMenuValue::mEffect },
+    inline static std::map<int64_t, stats_inventory_menu_value> const_config_stats_inventory_menu = {
+        { static_cast<int64_t>(stats_inventory_menu_value::m_none), stats_inventory_menu_value::m_none },
+        { static_cast<int64_t>(stats_inventory_menu_value::m_equip), stats_inventory_menu_value::m_equip },
+        { static_cast<int64_t>(stats_inventory_menu_value::m_armor), stats_inventory_menu_value::m_armor },
+        { static_cast<int64_t>(stats_inventory_menu_value::m_weapon), stats_inventory_menu_value::m_weapon },
+        { static_cast<int64_t>(stats_inventory_menu_value::m_effect), stats_inventory_menu_value::m_effect },
     };
 
-    static std::string_view getMenuName(ShowMenu a_menu) {
-        if (menuName.find(a_menu) == menuName.end()) {
+    static std::string_view get_menu_name(show_menu a_menu) {
+        if (!menu_name.contains(a_menu)) {
             logger::warn("can not find Name for Menu {}"sv, a_menu);
             return "";
-        } else {
-            return menuName.find(a_menu)->second;
         }
+        return menu_name.find(a_menu)->second;
     }
 
-    static StatsMenuValue getStatsMenu(int64_t a_menu_id) {
+    static stats_menu_value get_stats_menu(int64_t a_menu_id) {
         //in case the config value does not match
-        if (_constConfigStatsMenu.find(a_menu_id) == _constConfigStatsMenu.end()) {
-            logger::warn("({}) can not find Menu {}"sv, getMenuName(ShowMenu::mStats), a_menu_id);
-            return StatsMenuValue::mNone;
-        } else {
-            return _constConfigStatsMenu.find(a_menu_id)->second;
+        if (!const_config_stats_menu.contains(a_menu_id)) {
+            logger::warn("({}) can not find Menu {}"sv, get_menu_name(show_menu::m_stats), a_menu_id);
+            return stats_menu_value::m_none;
         }
+        return const_config_stats_menu.find(a_menu_id)->second;
     }
 
-    static FactionMenuValue getFactionMenu(int64_t a_menu_id) {
+    static faction_menu_value get_faction_menu(int64_t a_menu_id) {
         //in case the config value does not match
-        if (_constConfigFactionMenu.find(a_menu_id) == _constConfigFactionMenu.end()) {
-            logger::warn("({}) can not find Menu {}"sv, getMenuName(ShowMenu::mFaction), a_menu_id);
-            return FactionMenuValue::mNone;
-        } else {
-            return _constConfigFactionMenu.find(a_menu_id)->second;
+        if (!const_config_faction_menu.contains(a_menu_id)) {
+            logger::warn("({}) can not find Menu {}"sv, get_menu_name(show_menu::m_faction), a_menu_id);
+            return faction_menu_value::m_none;
         }
+        return const_config_faction_menu.find(a_menu_id)->second;
     }
 
-    static StatsInventoryMenuValue getStatsInventoryMenu(int64_t a_menu_id) {
+    static stats_inventory_menu_value get_stats_inventory_menu(int64_t a_menu_id) {
         //in case the config value does not match
-        if (_constConfigStatsInventoryMenu.find(a_menu_id) == _constConfigStatsInventoryMenu.end()) {
-            logger::warn("({}) can not find Menu {}"sv, getMenuName(ShowMenu::mStatsInventory), a_menu_id);
-            return StatsInventoryMenuValue::mNone;
-        } else {
-            return _constConfigStatsInventoryMenu.find(a_menu_id)->second;
+        if (!const_config_stats_inventory_menu.contains(a_menu_id)) {
+            logger::warn("({}) can not find Menu {}"sv, get_menu_name(show_menu::m_stats_inventory), a_menu_id);
+            return stats_inventory_menu_value::m_none;
         }
+        return const_config_stats_inventory_menu.find(a_menu_id)->second;
     }
 
-    static ShowMenu getNextMenu(ShowMenu a_menu) { return static_cast<ShowMenu>(static_cast<int>(a_menu) + 1); }
+    static show_menu get_next_menu(show_menu a_menu) { return static_cast<show_menu>(static_cast<int>(a_menu) + 1); }
 
-    static ShowMenu getPrevMenu(ShowMenu a_menu) { return static_cast<ShowMenu>(static_cast<int>(a_menu) - 1); }
+    static show_menu get_prev_menu(show_menu a_menu) { return static_cast<show_menu>(static_cast<int>(a_menu) - 1); }
 
-    static std::string_view getNextMenuName(ShowMenu a_menu) {
+    static std::string_view get_next_menu_name(const show_menu a_menu) {
         //if cast to an int value outside the enum it should be _constUndefined
-        return getMenuName(getNextMenu(a_menu));
+        return get_menu_name(get_next_menu(a_menu));
     }
 
-    static std::string_view getPrevMenuName(ShowMenu a_menu) {
+    static std::string_view get_prev_menu_name(const show_menu a_menu) {
         //if cast to an int value outside the enum it should be _constUndefined
-        return getMenuName(getPrevMenu(a_menu));
+        return get_menu_name(get_prev_menu(a_menu));
     }
 
-    static std::string buildDisplayString(std::string a_value,
-        std::string a_display_name,
-        std::string a_ending,
-        bool a_value_is_display) {
-        std::string guiText;
-
-        if (a_value_is_display) {
-            if (a_value == _constStaticDisplayValue) {
-                guiText = a_display_name;
-            }
-        } else {
-            auto seperator = (a_value.size() > 0) ? ": " : "";
-            guiText = fmt::format(FMT_STRING("{}{}{}{}"), a_display_name, seperator, a_value, a_ending);
-        }
-
-        return guiText;
-    }
-
-    static void logResolution() {
+    static void log_resolution() {
         const auto* const state = RE::BSGraphics::State::GetSingleton();
         logger::trace("Screen Resolution {}x{}"sv, state->screenWidth, state->screenHeight);
     }
 
-    static int64_t getMultiplier(int64_t a_mp) {
+    static int64_t get_multiplier(int64_t a_mp) {
         if (a_mp < 0) {
             logger::warn("multiplier value {} not supported, using 1"sv, a_mp);
-            return _constStaticMultiplier;
-        } else {
-            return a_mp;
+            return const_static_multiplier;
         }
+        return a_mp;
+    }
+
+    static std::string build_value_string(std::string a_value, std::string a_ending) {
+        return fmt::format(FMT_STRING("{}{}"), a_value, a_ending);
     }
 }
 
-namespace ValueUtil {
-    static float calculateArmorDamageRes(float a_armor_rating, int32_t a_pieces_worn) {
-        return (float(a_armor_rating * 0.12) + float(3 * a_pieces_worn));
+namespace value_util {
+    static float calculate_armor_damage_res(const float a_armor_rating, const int32_t a_pieces_worn) {
+        //return (float(a_armor_rating * 0.12) + float(3 * a_pieces_worn));
+        const auto game_settings = game_settings::get_singleton();
+
+        return a_armor_rating * game_settings->armor_scaling_factor +
+               game_settings->armor_base_factor * 100 * a_pieces_worn;
     }
 
-    static std::string getValueWithCapIfNeeded(float a_res, float a_cap, std::string a_ending) {
-        auto value = StringUtil::getStringValueFromFloat(a_res);
+    static std::string get_value_with_cap_if_needed(const float a_res, const float a_cap, std::string a_ending) {
+        auto value = string_util::get_string_value_from_float(a_res);
 
         if (a_res > a_cap) {
             value = fmt::format(FMT_STRING("{}{} ({})"),
-                StringUtil::getStringValueFromFloat(a_cap),
+                string_util::get_string_value_from_float(a_cap),
                 a_ending,
-                StringUtil::getStringValueFromFloat(a_res));
+                string_util::get_string_value_from_float(a_res));
         }
         return value;
     }
 
-    static std::string getValueWithPermAV(float a_av, float a_perm_av) {
+    static std::string get_value_with_perm_av(const float a_av, const float a_perm_av) {
         if (a_av != a_perm_av) {
-            return StringUtil::delimitTwoValues(a_av, a_perm_av, _constDelimiter);
+            return string_util::delimit_two_values(a_av, a_perm_av, const_delimiter);
         }
-        return StringUtil::getStringValueFromFloat(a_av);
+        return string_util::get_string_value_from_float(a_av);
     }
 }
 
-namespace VectorUtil {
-    static std::vector<uint16_t> getIntersect(std::vector<uint16_t>& a_vec_first, std::vector<uint16_t>& a_vec_second) {
-        std::vector<uint16_t> intersectionVector;
+namespace vector_util {
+    static std::vector<uint16_t> get_intersect(std::vector<uint16_t>& a_vec_first,
+        std::vector<uint16_t>& a_vec_second) {
+        std::vector<uint16_t> intersection_vector;
 
-        std::sort(a_vec_first.begin(), a_vec_first.end());
-        std::sort(a_vec_second.begin(), a_vec_second.end());
+        std::ranges::sort(a_vec_first);
+        std::ranges::sort(a_vec_second);
 
-        std::set_intersection(a_vec_first.begin(),
-            a_vec_first.end(),
-            a_vec_second.begin(),
-            a_vec_second.end(),
-            back_inserter(intersectionVector));
-        return intersectionVector;
+        std::ranges::set_intersection(a_vec_first, a_vec_second, back_inserter(intersection_vector));
+        return intersection_vector;
     }
 
     template <typename T>
-    static std::string getDelimitedString(std::vector<T>& a_vec) {
-        auto deliString =
+    static std::string get_delimited_string(std::vector<T>& a_vec) {
+        auto deli_string =
             a_vec.empty() ?
                 "" :
-                std::accumulate(std::begin(a_vec), std::end(a_vec), std::string{}, [](std::string r, int p) {
-                    return std::move(r) + std::to_string(p) + ",";
-                });
+                std::accumulate(std::begin(a_vec),
+                    std::end(a_vec),
+                    std::string{},
+                    [](std::string r, const int p) {
+                        return std::move(r) + std::to_string(p) + ",";
+                    });
 
-        if (!deliString.empty()) {
-            deliString.pop_back();
+        if (!deli_string.empty()) {
+            deli_string.pop_back();
         }
-        return deliString;
+        return deli_string;
     }
 }
 
-namespace QuestUtil {
-    static std::vector<uint16_t> getStagesIfComplete(RE::TESQuest* a_quest) {
-        std::vector<uint16_t> finStages;
+namespace quest_util {
+    static std::vector<uint16_t> get_stages_if_complete(RE::TESQuest* a_quest) {
+        std::vector<uint16_t> fin_stages;
 
         //all favour quests finish at 25 execpt rift = 20
-        auto hex = StringUtil::intToHex(a_quest->GetFormID());
+        auto hex = string_util::int_to_hex(a_quest->GetFormID());
         logger::debug("Questname ({}), formid {}, prio {}"sv, a_quest->GetName(), hex, a_quest->data.priority);
 
         //todo make util function if for checking stages
         logger::trace("executed Stages for quest {}"sv, hex);
-        auto exec = a_quest->executedStages;
+        const auto exec = a_quest->executedStages;
         for (auto it = exec->begin(); it != exec->end(); ++it) {
-            auto i = *it;
-            auto qstdata = i.data;
+            const auto& [data] = *it;
+            auto [index, flags, pad3, pad4] = data;
             logger::trace("index {}, flag {}"sv, 1);
-            if (qstdata.flags.underlying() == 1) {
-                finStages.push_back(qstdata.index);
+            if (flags.underlying() == 1) {
+                fin_stages.push_back(index);
             }
         }
 
         logger::trace("waiting Stages for quest {}"sv, hex);
-        auto waiting = a_quest->waitingStages;
+        const auto waiting = a_quest->waitingStages;
         for (auto it = waiting->begin(); it != waiting->end(); ++it) {
-            auto i = *it;
-            auto qstdata = i->data;
-            logger::trace("index {}, flag {}"sv, qstdata.index, qstdata.flags.get());
-            if (qstdata.flags.underlying() == 1) {
-                finStages.push_back(qstdata.index);
+            const auto i = *it;
+            auto [index, flags, pad3, pad4] = i->data;
+            logger::trace("index {}, flag {}"sv, index, flags.get());
+            if (flags.underlying() == 1) {
+                fin_stages.push_back(index);
             }
         }
-        return finStages;
+        return fin_stages;
     }
 
-    static bool isOneQuestStageComplete(RE::TESQuest* a_quest, std::vector<uint16_t> a_stages) {
-        auto finStages = getStagesIfComplete(a_quest);
-        auto intersect = VectorUtil::getIntersect(finStages, a_stages);
-        auto hex = StringUtil::intToHex(a_quest->GetFormID());
+    static bool is_one_quest_stage_complete(RE::TESQuest* a_quest, std::vector<uint16_t> a_stages) {
+        auto fin_stages = get_stages_if_complete(a_quest);
+        auto intersect = vector_util::get_intersect(fin_stages, a_stages);
+        auto hex = string_util::int_to_hex(a_quest->GetFormID());
 
         logger::debug("For Quest {}, got Stages (Values)/size completed ({})/{}, given ({})/{}, intersect ({})/{}"sv,
             hex,
-            VectorUtil::getDelimitedString(finStages),
-            finStages.size(),
-            VectorUtil::getDelimitedString(a_stages),
+            vector_util::get_delimited_string(fin_stages),
+            fin_stages.size(),
+            vector_util::get_delimited_string(a_stages),
             a_stages.size(),
-            VectorUtil::getDelimitedString(intersect),
+            vector_util::get_delimited_string(intersect),
             intersect.size());
 
         return intersect.size() > 0 ? true : false;
     }
 
-    static bool isQuestStageComplete(RE::TESQuest* a_quest, uint16_t a_stage) {
-        return isOneQuestStageComplete(a_quest, std::vector{ a_stage });
+    static bool is_quest_stage_complete(RE::TESQuest* a_quest, const uint16_t a_stage) {
+        return is_one_quest_stage_complete(a_quest, std::vector{ a_stage });
     }
 
-    static bool isQuestStageComplete(RE::FormID a_form_id, uint16_t a_stage) {
-        auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
-        return isQuestStageComplete(qst, a_stage);
+    static bool is_quest_stage_complete(const RE::FormID a_form_id, const uint16_t a_stage) {
+        const auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
+        return is_quest_stage_complete(qst, a_stage);
     }
 
-    static bool isOneQuestStageComplete(RE::FormID a_form_id, std::vector<uint16_t> a_stages) {
-        auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
-        return isOneQuestStageComplete(qst, a_stages);
+    static bool is_one_quest_stage_complete(const RE::FormID a_form_id, const std::vector<uint16_t> a_stages) {
+        const auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
+        return is_one_quest_stage_complete(qst, a_stages);
     }
 
-    static uint16_t getAs(int a_i) { return static_cast<uint16_t>(a_i); }
+    static uint16_t get_as(const int a_i) { return static_cast<uint16_t>(a_i); }
 }

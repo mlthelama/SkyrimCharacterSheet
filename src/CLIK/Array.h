@@ -13,15 +13,24 @@ namespace CLIK {
         Array(Array&&) = default;
         using super::super;
 
-        Array(const super& a_rhs) : super(a_rhs) {}
+        Array(const super& a_rhs)
+            : super(a_rhs) {}
 
-        Array(super&& a_rhs) : super(std::move(a_rhs)) {}
+        Array(super&& a_rhs)
+            : super(std::move(a_rhs)) {}
 
-        Array(const RE::GFxValue& a_rhs) : super(a_rhs) { assert(IsArray()); }
+        Array(const RE::GFxValue& a_rhs)
+            : super(a_rhs) {
+            assert(IsArray());
+        }
 
-        Array(RE::GFxValue&& a_rhs) : super(std::move(a_rhs)) { assert(IsArray()); }
+        Array(RE::GFxValue&& a_rhs)
+            : super(std::move(a_rhs)) {
+            assert(IsArray());
+        }
 
-        Array(RE::GPtr<RE::GFxMovieView> a_rhs) : super() { CreateArray(std::move(a_rhs)); }
+        Array(RE::GPtr<RE::GFxMovieView> a_rhs)
+            : super() { CreateArray(std::move(a_rhs)); }
 
         ~Array() = default;
 

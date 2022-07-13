@@ -1,33 +1,33 @@
 #pragma once
 #include "utils/utils.h"
 
-class PerkVisiter : public RE::PerkEntryVisitor {
+class perk_visiter : public RE::PerkEntryVisitor {
 public:
-    PerkVisiter(RE::Actor* a_actor) {
-        _actor = a_actor;
-        _result = 0;
+    explicit perk_visiter(RE::Actor* a_actor) {
+        actor_ = a_actor;
+        result_ = 0;
     }
 
-    virtual RE::PerkEntryVisitor::ReturnType Visit(RE::BGSPerkEntry* perkEntry) override {
-        RE::BGSEntryPointPerkEntry* entryPoint = (RE::BGSEntryPointPerkEntry*)perkEntry;
-        RE::BGSPerk* perk = entryPoint->perk;
+    ReturnType Visit(RE::BGSPerkEntry* perk_entry) override {
+        const RE::BGSEntryPointPerkEntry* entry_point = static_cast<RE::BGSEntryPointPerkEntry*>(perk_entry);
+        const RE::BGSPerk* perk = entry_point->perk;
 
-        logger::trace("formid {}, name {}"sv, StringUtil::intToHex(perk->GetFormID()), perk->GetName());
+        logger::trace("formid {}, name {}"sv, string_util::int_to_hex(perk->GetFormID()), perk->GetName());
 
-        if (entryPoint->functionData &&
-            entryPoint->entryData.function == RE::BGSEntryPointPerkEntry::EntryData::Function::kMultiplyValue) {
-            RE::BGSEntryPointFunctionDataOneValue* _value =
-                (RE::BGSEntryPointFunctionDataOneValue*)entryPoint->functionData;
-            _result = _value->data;
-            logger::trace("Got value for Perk {}"sv, _result);
+        if (entry_point->functionData &&
+            entry_point->entryData.function == RE::BGSEntryPointPerkEntry::EntryData::Function::kMultiplyValue) {
+            const RE::BGSEntryPointFunctionDataOneValue* value =
+                static_cast<RE::BGSEntryPointFunctionDataOneValue*>(entry_point->functionData);
+            result_ = value->data;
+            logger::trace("Got value for Perk {}"sv, result_);
         }
 
-        return RE::PerkEntryVisitor::ReturnType::kContinue;
+        return ReturnType::kContinue;
     }
 
-    float GetResult() const { return _result; }
+    [[nodiscard]] float get_result() const { return result_; }
 
 protected:
-    RE::Actor* _actor;
-    float _result;
+    RE::Actor* actor_;
+    float result_;
 };

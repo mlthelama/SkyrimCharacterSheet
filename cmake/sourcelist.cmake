@@ -36,6 +36,9 @@ set(sources ${sources}
 	src/settings/stats/factionsettings.h
 	src/settings/stats/statssettings.h
 	src/utils/constants.h
+	src/utils/iconkeys.h
+	src/utils/menukeys.h
+	src/utils/offset.h
 	src/utils/perkvisitor.h
 	src/utils/utils.h
 )

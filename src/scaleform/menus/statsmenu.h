@@ -5,52 +5,58 @@
 #include "CLIK/TextField.h"
 #include "data/playerdata.h"
 
-namespace Scaleform {
-    using StatsMenuValue = MenuUtil::StatsMenuValue;
-    using ShowMenu = MenuUtil::ShowMenu;
+namespace scaleform {
+    using stats_menu_value = menu_util::stats_menu_value;
+    using show_menu = menu_util::show_menu;
 
-    class StatsMenu : public RE::IMenu {
+    class stats_menu final : public RE::IMenu {
     public:
-        static constexpr std::string_view MENU_NAME = "ShowStats";
-        static constexpr std::string_view FILE_NAME = MENU_NAME;
-        static constexpr ShowMenu _menu = ShowMenu::mStats;
+        static constexpr std::string_view menu_name = "ShowStats";
+        static constexpr std::string_view file_name = menu_name;
+        static constexpr show_menu menu = show_menu::m_stats;
 
         static void Register() {
-            RE::UI::GetSingleton()->Register(MENU_NAME, Creator);
-            logger::info("Registered {}"sv, MENU_NAME);
+            RE::UI::GetSingleton()->Register(menu_name, creator);
+            logger::info("Registered {}"sv, menu_name);
         }
 
-        static void Open() {
-            if (!StatsMenu::IsMenuOpen()) {
-                logger::debug("Open Menu {}"sv, MENU_NAME);
-                RE::UIMessageQueue::GetSingleton()->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kShow, nullptr);
+        static void open() {
+            if (!is_menu_open()) {
+                logger::debug("Open Menu {}"sv, menu_name);
+                RE::UIMessageQueue::GetSingleton()->AddMessage(menu_name, RE::UI_MESSAGE_TYPE::kShow, nullptr);
             }
         }
 
-        static void Close() {
-            if (StatsMenu::IsMenuOpen()) {
-                logger::debug("Close Menu {}"sv, MENU_NAME);
-                RE::UIMessageQueue::GetSingleton()->AddMessage(MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
+        static void close() {
+            if (is_menu_open()) {
+                logger::debug("Close Menu {}"sv, menu_name);
+                RE::UIMessageQueue::GetSingleton()->AddMessage(menu_name, RE::UI_MESSAGE_TYPE::kHide, nullptr);
             }
         }
 
-        static bool IsMenuOpen() {
-            auto isOpen = RE::UI::GetSingleton()->IsMenuOpen(MENU_NAME);
-            if (isOpen) {
-                logger::trace("Menu {} is open {}"sv, MENU_NAME, isOpen);
+        static bool is_menu_open() {
+            auto is_open = RE::UI::GetSingleton()->IsMenuOpen(menu_name);
+            if (is_open) {
+                logger::trace("Menu {} is open {}"sv, menu_name, is_open);
             }
-            return isOpen;
+            return is_open;
         }
+
+        stats_menu(const stats_menu&) = delete;
+        stats_menu(stats_menu&&) = delete;
+
+        stats_menu& operator=(const stats_menu&) = delete;
+        stats_menu& operator=(stats_menu&&) = delete;
 
     protected:
-        StatsMenu() {
-            using Context = RE::UserEvents::INPUT_CONTEXT_ID;
-            using Flag = RE::UI_MENU_FLAGS;
+        stats_menu() {
+            using context = RE::UserEvents::INPUT_CONTEXT_ID;
+            using flag = RE::UI_MENU_FLAGS;
 
-            auto menu = static_cast<RE::IMenu*>(this);
-            auto scaleformManager = RE::BSScaleformManager::GetSingleton();
-            [[maybe_unused]] const auto success = scaleformManager->LoadMovieEx(menu,
-                FILE_NAME,
+            const auto a_menu = static_cast<IMenu*>(this);
+            const auto scaleform_manager = RE::BSScaleformManager::GetSingleton();
+            [[maybe_unused]] const auto success = scaleform_manager->LoadMovieEx(a_menu,
+                file_name,
                 RE::BSScaleformManager::ScaleModeType::kExactFit,
                 [&](RE::GFxMovieDef* a_def) -> void {
                     fxDelegate.reset(new RE::FxDelegate);
@@ -64,364 +70,410 @@ namespace Scaleform {
                         a_def->GetHeight());
                     a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
                 });
-            MenuUtil::logResolution();
-            logger::debug("Loading Menu {} was successful {}"sv, FILE_NAME, success);
+            menu_util::log_resolution();
+            logger::debug("Loading Menu {} was successful {}"sv, file_name, success);
             assert(success);
-            _view = menu->uiMovie;
-            if (*Settings::pauseGame) {
-                menu->menuFlags.set(Flag::kPausesGame,
-                    Flag::kUsesCursor,
-                    Flag::kDisablePauseMenu,
-                    Flag::kUpdateUsesCursor,
-                    Flag::kTopmostRenderedMenu);
+            view_ = a_menu->uiMovie;
+            if (*settings::pause_game) {
+                a_menu->menuFlags.set(flag::kPausesGame,
+                    flag::kUsesCursor,
+                    flag::kDisablePauseMenu,
+                    flag::kUpdateUsesCursor,
+                    flag::kTopmostRenderedMenu);
             } else {
-                menu->menuFlags.set(Flag::kAllowSaving,
-                    Flag::kUsesCursor,
-                    Flag::kDisablePauseMenu,
-                    Flag::kUpdateUsesCursor,
-                    Flag::kTopmostRenderedMenu);
+                a_menu->menuFlags.set(flag::kAllowSaving,
+                    flag::kUsesCursor,
+                    flag::kDisablePauseMenu,
+                    flag::kUpdateUsesCursor,
+                    flag::kTopmostRenderedMenu);
             }
-            menu->depthPriority = 5;
-            menu->inputContext = Context::kNone;
-            InitExtensions();
+            a_menu->depthPriority = 5;
+            a_menu->inputContext = context::kNone;
+            init_extensions();
 
-            _isActive = true;
-            _view->SetVisible(true);
+            is_active_ = true;
+            view_->SetVisible(true);
         }
 
-        StatsMenu(const StatsMenu&) = delete;
-        StatsMenu(StatsMenu&&) = delete;
 
-        ~StatsMenu() = default;
+        ~stats_menu() override = default;
 
-        StatsMenu& operator=(const StatsMenu&) = delete;
-        StatsMenu& operator=(StatsMenu&&) = delete;
 
-        static stl::owner<RE::IMenu*> Creator() { return new StatsMenu(); }
+        static stl::owner<IMenu*> creator() { return new stats_menu(); }
 
-        void PostCreate() override { StatsMenu::OnOpen(); }
+        void PostCreate() override { on_open(); }
 
         RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override {
             switch (*a_message.type) {
                 case RE::UI_MESSAGE_TYPE::kHide:
-                    OnClose();
+                    on_close();
                     return RE::UI_MESSAGE_RESULTS::kHandled;
                 default:
-                    return RE::IMenu::ProcessMessage(a_message);
+                    return IMenu::ProcessMessage(a_message);
             }
         }
 
-        void AdvanceMovie(float a_interval, uint32_t a_currentTime) override {
-            RE::IMenu::AdvanceMovie(a_interval, a_currentTime);
+        void AdvanceMovie(const float a_interval, const uint32_t a_current_time) override {
+            IMenu::AdvanceMovie(a_interval, a_current_time);
         }
 
         void Accept(CallbackProcessor* a_processor) override {
-            a_processor->Process("Log", Log);
-            a_processor->Process("CloseMenu", CloseMenu);
-            a_processor->Process("NextMenu", NextMenu);
+            a_processor->Process("Log", log);
+            a_processor->Process("CloseMenu", close_menu);
+            a_processor->Process("NextMenu", next_menu);
         }
 
     private:
         class Logger : public RE::GFxLog {
         public:
-            void LogMessageVarg(LogMessageType, const char* a_fmt, std::va_list a_argList) override {
+            void LogMessageVarg(LogMessageType, const char* a_fmt, const std::va_list a_arg_list) override {
                 std::string fmt(a_fmt ? a_fmt : "");
                 while (!fmt.empty() && fmt.back() == '\n') { fmt.pop_back(); }
 
                 std::va_list args;
-                va_copy(args, a_argList);
-                std::vector<char> buf(static_cast<std::size_t>(std::vsnprintf(0, 0, fmt.c_str(), a_argList) + 1));
+                va_copy(args, a_arg_list);
+                std::vector<char> buf(
+                    static_cast<std::size_t>(std::vsnprintf(nullptr, 0, fmt.c_str(), a_arg_list) + 1));
                 std::vsnprintf(buf.data(), buf.size(), fmt.c_str(), args);
                 va_end(args);
 
-                logger::info("{}: {}"sv, StatsMenu::MENU_NAME, buf.data());
+                logger::info("{}: {}"sv, menu_name, buf.data());
             }
         };
 
-        void InitExtensions() {
+        void init_extensions() const {
             const RE::GFxValue boolean(true);
-            bool success;
 
-            success = _view->SetVariable("_global.gfxExtensions", boolean);
+            [[maybe_unused]] const bool success = view_->SetVariable("_global.gfxExtensions", boolean);
             assert(success);
-            /*success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
-            assert(success);*/
         }
 
-        void OnOpen() {
+        void on_open() {
             using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
-            std::array objects{ element_t{ std::ref(_rootObj), "_root.rootObj"sv },
-                element_t{ std::ref(_title), "_root.rootObj.title"sv },
-                element_t{ std::ref(_name), "_root.rootObj.bottomBar.name"sv },
-                element_t{ std::ref(_level), "_root.rootObj.bottomBar.level"sv },
-                element_t{ std::ref(_race), "_root.rootObj.bottomBar.race"sv },
-                element_t{ std::ref(_perks), "_root.rootObj.bottomBar.perks"sv },
-                element_t{ std::ref(_beast), "_root.rootObj.bottomBar.beast"sv },
-                element_t{ std::ref(_xp), "_root.rootObj.bottomBar.xp"sv },
-                element_t{ std::ref(_valuesHeader), "_root.rootObj.playerValuesHeader"sv },
-                element_t{ std::ref(_attackHeader), "_root.rootObj.playerAttackHeader"sv },
-                element_t{ std::ref(_perksMagicHeader), "_root.rootObj.playerPerksMagicHeader"sv },
-                element_t{ std::ref(_defenceHeader), "_root.rootObj.playerDefenceHeader"sv },
-                element_t{ std::ref(_perksWarriorHeader), "_root.rootObj.playerPerksWarriorHeader"sv },
-                element_t{ std::ref(_perksThiefHeader), "_root.rootObj.playerPerksThiefHeader"sv },
-                element_t{ std::ref(_playerItemList), "_root.rootObj.playerItemList"sv },
-                element_t{ std::ref(_defenceItemList), "_root.rootObj.defenceItemList"sv },
-                element_t{ std::ref(_attackItemList), "_root.rootObj.attackItemList"sv },
-                element_t{ std::ref(_perksMagicItemList), "_root.rootObj.perksMagicItemList"sv },
-                element_t{ std::ref(_perksWarriorItemList), "_root.rootObj.perksWarriorItemList"sv },
-                element_t{ std::ref(_perksThiefItemList), "_root.rootObj.perksThiefItemList"sv },
-                element_t{ std::ref(_next), "_root.rootObj.playerNextScreen"sv },
-                element_t{ std::ref(_menuClose), "_root.rootObj.menuClose"sv } };
 
-            for (const auto& [object, path] : objects) {
+            for (std::array objects{ element_t{ std::ref(root_obj_), "_root.rootObj"sv },
+                                     element_t{ std::ref(title_), "_root.rootObj.title"sv },
+                                     element_t{ std::ref(name_key_), "_root.rootObj.name"sv },
+                                     element_t{ std::ref(level_key_), "_root.rootObj.level"sv },
+                                     element_t{ std::ref(race_key_), "_root.rootObj.race"sv },
+                                     element_t{ std::ref(perks_key_), "_root.rootObj.perks"sv },
+                                     element_t{ std::ref(beast_key_), "_root.rootObj.beast"sv },
+                                     element_t{ std::ref(xp_key_), "_root.rootObj.xp"sv },
+                                     element_t{ std::ref(name_value_), "_root.rootObj.nameValue"sv },
+                                     element_t{ std::ref(level_value_), "_root.rootObj.levelValue"sv },
+                                     element_t{ std::ref(race_value_), "_root.rootObj.raceValue"sv },
+                                     element_t{ std::ref(perks_value_), "_root.rootObj.perksValue"sv },
+                                     element_t{ std::ref(beast_value_), "_root.rootObj.beastValue"sv },
+                                     element_t{ std::ref(xp_value_), "_root.rootObj.xpValue"sv },
+                                     element_t{ std::ref(values_header_), "_root.rootObj.playerValuesHeader"sv },
+                                     element_t{ std::ref(attack_header_), "_root.rootObj.playerAttackHeader"sv },
+                                     element_t{ std::ref(perks_magic_header_),
+                                                "_root.rootObj.playerPerksMagicHeader"sv },
+                                     element_t{ std::ref(defence_header_), "_root.rootObj.playerDefenceHeader"sv },
+                                     element_t{ std::ref(perks_warrior_header_),
+                                                "_root.rootObj.playerPerksWarriorHeader"sv },
+                                     element_t{ std::ref(perks_thief_header_),
+                                                "_root.rootObj.playerPerksThiefHeader"sv },
+                                     element_t{ std::ref(player_item_list_), "_root.rootObj.playerItemList"sv },
+                                     element_t{ std::ref(defence_item_list_), "_root.rootObj.defenceItemList"sv },
+                                     element_t{ std::ref(attack_item_list_), "_root.rootObj.attackItemList"sv },
+                                     element_t{ std::ref(perks_magic_item_list_),
+                                                "_root.rootObj.perksMagicItemList"sv },
+                                     element_t{ std::ref(perks_warrior_item_list_),
+                                                "_root.rootObj.perksWarriorItemList"sv },
+                                     element_t{ std::ref(perks_thief_item_list_),
+                                                "_root.rootObj.perksThiefItemList"sv },
+                                     element_t{ std::ref(next_), "_root.rootObj.playerNextScreen"sv },
+                                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
+                 const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
-                [[maybe_unused]] const auto success = _view->GetVariable(std::addressof(instance), path.data());
+                [[maybe_unused]] const auto success = view_->GetVariable(std::addressof(instance), path.data());
                 assert(success && instance.IsObject());
             }
-            logger::debug("Loaded all SWF objects successfully for {}"sv, MENU_NAME);
+            logger::debug("Loaded all SWF objects successfully for {}"sv, menu_name);
 
-            _rootObj.Visible(false);
+            root_obj_.Visible(false);
 
-            _view->CreateArray(std::addressof(_playerItemListProvider));
-            _playerItemList.DataProvider(CLIK::Array{ _playerItemListProvider });
+            view_->CreateArray(std::addressof(player_item_list_provider_));
+            player_item_list_.DataProvider(CLIK::Array{ player_item_list_provider_ });
 
-            _view->CreateArray(std::addressof(_defenceItemListProvider));
-            _defenceItemList.DataProvider(CLIK::Array{ _defenceItemListProvider });
+            view_->CreateArray(std::addressof(defence_item_list_provider_));
+            defence_item_list_.DataProvider(CLIK::Array{ defence_item_list_provider_ });
 
-            _view->CreateArray(std::addressof(_attackItemListProvider));
-            _attackItemList.DataProvider(CLIK::Array{ _attackItemListProvider });
+            view_->CreateArray(std::addressof(attack_item_list_provider_));
+            attack_item_list_.DataProvider(CLIK::Array{ attack_item_list_provider_ });
 
-            _view->CreateArray(std::addressof(_perksMagicItemListProvider));
-            _perksMagicItemList.DataProvider(CLIK::Array{ _perksMagicItemListProvider });
+            view_->CreateArray(std::addressof(perks_magic_item_list_provider_));
+            perks_magic_item_list_.DataProvider(CLIK::Array{ perks_magic_item_list_provider_ });
 
-            _view->CreateArray(std::addressof(_perksWarriorItemListProvider));
-            _perksWarriorItemList.DataProvider(CLIK::Array{ _perksWarriorItemListProvider });
+            view_->CreateArray(std::addressof(perks_warrior_item_list_provider_));
+            perks_warrior_item_list_.DataProvider(CLIK::Array{ perks_warrior_item_list_provider_ });
 
-            _view->CreateArray(std::addressof(_perksThiefItemListProvider));
-            _perksThiefItemList.DataProvider(CLIK::Array{ _perksThiefItemListProvider });
+            view_->CreateArray(std::addressof(perks_thief_item_list_provider_));
+            perks_thief_item_list_.DataProvider(CLIK::Array{ perks_thief_item_list_provider_ });
 
-            _menuClose.Label("Close");
-            _menuClose.Disabled(false);
+            menu_close_.Label("Close");
+            menu_close_.Disabled(false);
 
-            UpdateTitle();
-            UpdateHeaders();
-            UpdateBottom();
+            update_title();
+            update_headers();
+            update_bottom();
 
-            UpdateLists();
+            update_lists();
 
-            _next.Label(MenuUtil::getNextMenuName(_menu));
-            _next.Disabled(false);
+            next_.Label(get_next_menu_name(menu));
+            next_.Disabled(false);
 
-            DisableItemLists();
+            disable_item_lists();
 
-            _view->SetVisible(true);
-            _rootObj.Visible(true);
+            view_->SetVisible(true);
+            root_obj_.Visible(true);
 
-            logger::debug("Shown all Values for Menu {}"sv, MENU_NAME);
+            logger::debug("Shown all Values for Menu {}"sv, menu_name);
         }
 
-        void UpdateText(CLIK::TextField a_field, std::string_view a_string) {
+        static void update_text(CLIK::TextField a_field, const std::string_view a_string) {
             a_field.AutoSize(CLIK::Object{ "left" });
             a_field.HTMLText(a_string);
             a_field.Visible(true);
         }
 
-        void UpdateTitle() { UpdateText(_title, MenuUtil::getMenuName(_menu)); }
-
-        void UpdateHeaders() {
-            UpdateText(_valuesHeader, static_cast<std::string_view>(*Settings::showStatsTitlePlayer));
-            UpdateText(_attackHeader, static_cast<std::string_view>(*Settings::showStatsTitleAttack));
-            UpdateText(_perksMagicHeader, static_cast<std::string_view>(*Settings::showStatsTitleMagic));
-            UpdateText(_defenceHeader, static_cast<std::string_view>(*Settings::showStatsTitleDefence));
-            UpdateText(_perksWarriorHeader, static_cast<std::string_view>(*Settings::showStatsTitleWarrior));
-            UpdateText(_perksThiefHeader, static_cast<std::string_view>(*Settings::showStatsTitleThief));
+        static void update_text(CLIK::TextField a_field,
+            const std::string_view a_string,
+            const std::string& a_auto_size) {
+            a_field.AutoSize(CLIK::Object{ a_auto_size });
+            a_field.HTMLText(a_string);
+            a_field.Visible(true);
         }
 
-        RE::GFxValue buildGFxValue(std::string a_val) {
+        void update_title() const { update_text(title_, get_menu_name(menu)); }
+
+        void update_headers() const {
+            update_text(values_header_, menu_keys::player_title);
+            update_text(attack_header_, menu_keys::attack_title);
+            update_text(perks_magic_header_, menu_keys::magic_title);
+            update_text(defence_header_, menu_keys::defence_title);
+            update_text(perks_warrior_header_, menu_keys::warrior_title);
+            update_text(perks_thief_header_, menu_keys::thief_title);
+        }
+
+        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key,
+            const std::string& a_val,
+            const std::string_view& a_icon) const {
             RE::GFxValue value;
-            _view->CreateObject(std::addressof(value));
-            value.SetMember("displayName", { static_cast<std::string_view>(a_val) });
+            view_->CreateObject(std::addressof(value));
+            value.SetMember("displayName", { a_key });
+            value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
+            value.SetMember("iconKey", { a_icon });
+            value.SetMember("iconScale", {22});
+
             return value;
         }
 
-        void ClearProviders() {
-            _playerItemListProvider.ClearElements();
-            _defenceItemListProvider.ClearElements();
-            _attackItemListProvider.ClearElements();
-            _perksMagicItemListProvider.ClearElements();
-            _perksWarriorItemListProvider.ClearElements();
-            _perksThiefItemListProvider.ClearElements();
+        void clear_providers() {
+            player_item_list_provider_.ClearElements();
+            defence_item_list_provider_.ClearElements();
+            attack_item_list_provider_.ClearElements();
+            perks_magic_item_list_provider_.ClearElements();
+            perks_warrior_item_list_provider_.ClearElements();
+            perks_thief_item_list_provider_.ClearElements();
         }
 
-        void InvalidateItemLists() {
-            _playerItemList.Invalidate();
-            _defenceItemList.Invalidate();
-            _attackItemList.Invalidate();
-            _perksMagicItemList.Invalidate();
-            _perksWarriorItemList.Invalidate();
-            _perksThiefItemList.Invalidate();
+        void invalidate_item_lists() {
+            player_item_list_.Invalidate();
+            defence_item_list_.Invalidate();
+            attack_item_list_.Invalidate();
+            perks_magic_item_list_.Invalidate();
+            perks_warrior_item_list_.Invalidate();
+            perks_thief_item_list_.Invalidate();
         }
 
-        void InvalidateDataItemLists() {
-            _playerItemList.InvalidateData();
-            _defenceItemList.InvalidateData();
-            _attackItemList.InvalidateData();
-            _perksMagicItemList.InvalidateData();
-            _perksWarriorItemList.InvalidateData();
-            _perksThiefItemList.InvalidateData();
+        void invalidate_data_item_lists() {
+            player_item_list_.InvalidateData();
+            defence_item_list_.InvalidateData();
+            attack_item_list_.InvalidateData();
+            perks_magic_item_list_.InvalidateData();
+            perks_warrior_item_list_.InvalidateData();
+            perks_thief_item_list_.InvalidateData();
         }
 
-        void UpdateLists() {
-            ClearProviders();
-            InvalidateItemLists();
+        void update_lists() {
+            clear_providers();
+            invalidate_item_lists();
 
-            UpdateMenuValues();
+            update_menu_values();
 
-            InvalidateDataItemLists();
+            invalidate_data_item_lists();
         }
 
-        void UpdateBottom() {
+        void update_bottom() const {
             //in case something is not set, we do not want to see default swf text
-            UpdateText(_name, "");
-            UpdateText(_level, "");
-            UpdateText(_race, "");
-            UpdateText(_perks, "");
-            UpdateText(_beast, "");
-            UpdateText(_xp, "");
+            for (const auto& [stat_value, text_field] : bottom_map_key_) {
+                update_text(text_field, "");
+            }
+            for (const auto& [stat_value, text_field_value] : bottom_map_value_) {
+                update_text(text_field_value, "");
+            }
+
         }
 
-        void UpdateMenuValues() {
-            auto values = PlayerData::GetSingleton()->getValuesToDisplay(_menu, MENU_NAME);
+        void update_menu_values() const {
+            auto values = player_data::get_singleton()->get_values_to_display(menu, menu_name);
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
 
-            for (auto& element : values) {
-                auto statValue = element.first;
-                auto statItem = element.second.get();
+            for (auto& [stat_value, stat_item_ptr] : values) {
+                const auto stat_item = stat_item_ptr.get();
 
-                statItem->logStatItem(statValue, _menu);
+                stat_item->log_stat_item(stat_value, menu);
 
-                if (statItem->getGuiText().empty() || statItem->getGuiText() == "" ||
-                    statItem->getStatsMenu() == StatsMenuValue::mNone) {
+                if (stat_item->get_value().empty() || stat_item->get_stats_menu() == stats_menu_value::m_none) {
                     continue;
                 }
 
-                switch (statValue) {
-                    case StatsValue::name:
-                        UpdateText(_name, statItem->getGuiText());
-                        break;
-                    case StatsValue::level:
-                        UpdateText(_level, statItem->getGuiText());
-                        break;
-                    case StatsValue::race:
-                        UpdateText(_race, statItem->getGuiText());
-                        break;
-                    case StatsValue::perkCount:
-                        UpdateText(_perks, statItem->getGuiText());
-                        break;
-                    case StatsValue::beast:
-                        UpdateText(_beast, statItem->getGuiText());
-                        break;
-                    case StatsValue::xp:
-                        UpdateText(_xp, statItem->getGuiText());
+                switch (stat_value) {
+                    case stats_value::name:
+                    case stats_value::level:
+                    case stats_value::race:
+                    case stats_value::perk_count:
+                    case stats_value::beast:
+                    case stats_value::xp:
+                        update_text(get_text_field_key(stat_value), stat_item->get_key());
+                        update_text(get_text_fields_value(stat_value), stat_item->get_value(), "right");
                         break;
                     default:
-                        if (statItem->getStatsMenu() != StatsMenuValue::mSpecial) {
-                            _menuMap.find(statItem->getStatsMenu())
-                                ->second.PushBack(buildGFxValue(statItem->getGuiText()));
-                            logger::trace("added to Menu {}, Name {}, GuiText ({})"sv,
-                                statItem->getStatsMenu(),
-                                statValue,
-                                statItem->getGuiText());
+                        if (stat_item->get_stats_menu() != stats_menu_value::m_special) {
+                            menu_map_.find(stat_item->get_stats_menu())
+                                     ->second.PushBack(build_gfx_value(stat_item->get_key(),
+                                         stat_item->get_value(),
+                                         stat_item->get_icon()));
+                            logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
+                                stat_item->get_stats_menu(),
+                                stat_value,
+                                stat_item->get_key(),
+                                stat_item->get_value());
                         }
                         break;
                 }
             }
-            for (auto& element : values) { element.second.reset(); }
+            for (auto& [fst, snd] : values) { snd.reset(); }
             values.clear();
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
         }
 
-        void OnClose() { return; }
+        static void on_close() { }
 
-        void DisableItemLists() {
-            _playerItemList.Disabled(true);
-            _defenceItemList.Disabled(true);
-            _attackItemList.Disabled(true);
-            _perksMagicItemList.Disabled(true);
-            _perksWarriorItemList.Disabled(true);
-            _perksThiefItemList.Disabled(true);
+        void disable_item_lists() {
+            player_item_list_.Disabled(true);
+            defence_item_list_.Disabled(true);
+            attack_item_list_.Disabled(true);
+            perks_magic_item_list_.Disabled(true);
+            perks_warrior_item_list_.Disabled(true);
+            perks_thief_item_list_.Disabled(true);
         }
 
-        static void CloseMenu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
+        static void close_menu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
             assert(a_params.GetArgCount() == 0);
             logger::debug("GUI Close Button Pressed"sv);
-            Close();
+            close();
         }
 
-        static void NextMenu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
+        static void next_menu([[maybe_unused]] const RE::FxDelegateArgs& a_params) {
             assert(a_params.GetArgCount() == 0);
             logger::debug("GUI Next Button Pressed"sv);
-            Close();
-            ProcessNext(_menu);
+            close();
+            process_next(menu);
         }
 
-        static void Log(const RE::FxDelegateArgs& a_params) {
+        static void log(const RE::FxDelegateArgs& a_params) {
             assert(a_params.GetArgCount() == 1);
             assert(a_params[0].IsString());
 
-            logger::debug("{}: {}"sv, StatsMenu::MENU_NAME, a_params[0].GetString());
+            logger::debug("{}: {}"sv, menu_name, a_params[0].GetString());
         }
 
-        static void ProcessNext(ShowMenu a_menu);
+        [[nodiscard]] CLIK::TextField& get_text_field_key(const stats_value a_stats_value) const {
+            return bottom_map_key_.find(a_stats_value)->second;
+        }
 
-        RE::GPtr<RE::GFxMovieView> _view;
-        bool _isActive = false;
+        [[nodiscard]] CLIK::TextField& get_text_fields_value(const stats_value a_stats_value) const {
+            return bottom_map_value_.find(a_stats_value)->second;
+        }
 
-        CLIK::MovieClip _rootObj;
-        CLIK::TextField _title;
-        CLIK::GFx::Controls::Button _next;
+        static void process_next(show_menu a_menu);
 
-        CLIK::TextField _name;
-        CLIK::TextField _level;
-        CLIK::TextField _race;
-        CLIK::TextField _perks;
-        CLIK::TextField _beast;
-        CLIK::TextField _xp;
+        RE::GPtr<RE::GFxMovieView> view_;
+        bool is_active_ = false;
 
-        CLIK::TextField _valuesHeader;
-        CLIK::TextField _attackHeader;
-        CLIK::TextField _perksMagicHeader;
-        CLIK::TextField _defenceHeader;
-        CLIK::TextField _perksWarriorHeader;
-        CLIK::TextField _perksThiefHeader;
+        CLIK::MovieClip root_obj_;
+        CLIK::TextField title_;
+        CLIK::GFx::Controls::Button next_;
 
-        CLIK::GFx::Controls::ScrollingList _playerItemList;
-        RE::GFxValue _playerItemListProvider;
+        CLIK::TextField values_header_;
+        CLIK::TextField attack_header_;
+        CLIK::TextField perks_magic_header_;
+        CLIK::TextField defence_header_;
+        CLIK::TextField perks_warrior_header_;
+        CLIK::TextField perks_thief_header_;
 
-        CLIK::GFx::Controls::ScrollingList _defenceItemList;
-        RE::GFxValue _defenceItemListProvider;
+        CLIK::TextField name_key_;
+        CLIK::TextField level_key_;
+        CLIK::TextField race_key_;
+        CLIK::TextField perks_key_;
+        CLIK::TextField beast_key_;
+        CLIK::TextField xp_key_;
 
-        CLIK::GFx::Controls::ScrollingList _attackItemList;
-        RE::GFxValue _attackItemListProvider;
+        CLIK::TextField name_value_;
+        CLIK::TextField level_value_;
+        CLIK::TextField race_value_;
+        CLIK::TextField perks_value_;
+        CLIK::TextField beast_value_;
+        CLIK::TextField xp_value_;
 
-        CLIK::GFx::Controls::ScrollingList _perksMagicItemList;
-        RE::GFxValue _perksMagicItemListProvider;
+        CLIK::GFx::Controls::ScrollingList player_item_list_;
+        RE::GFxValue player_item_list_provider_;
 
-        CLIK::GFx::Controls::ScrollingList _perksWarriorItemList;
-        RE::GFxValue _perksWarriorItemListProvider;
+        CLIK::GFx::Controls::ScrollingList defence_item_list_;
+        RE::GFxValue defence_item_list_provider_;
 
-        CLIK::GFx::Controls::ScrollingList _perksThiefItemList;
-        RE::GFxValue _perksThiefItemListProvider;
+        CLIK::GFx::Controls::ScrollingList attack_item_list_;
+        RE::GFxValue attack_item_list_provider_;
 
-        CLIK::GFx::Controls::Button _menuClose;
+        CLIK::GFx::Controls::ScrollingList perks_magic_item_list_;
+        RE::GFxValue perks_magic_item_list_provider_;
 
-        std::map<StatsMenuValue, RE::GFxValue&> _menuMap = {
-            { StatsMenuValue::mPlayer, _playerItemListProvider },
-            { StatsMenuValue::mDefence, _defenceItemListProvider },
-            { StatsMenuValue::mAttack, _attackItemListProvider },
-            { StatsMenuValue::mMagic, _perksMagicItemListProvider },
-            { StatsMenuValue::mWarrior, _perksWarriorItemListProvider },
-            { StatsMenuValue::mThief, _perksThiefItemListProvider },
+        CLIK::GFx::Controls::ScrollingList perks_warrior_item_list_;
+        RE::GFxValue perks_warrior_item_list_provider_;
+
+        CLIK::GFx::Controls::ScrollingList perks_thief_item_list_;
+        RE::GFxValue perks_thief_item_list_provider_;
+
+        CLIK::GFx::Controls::Button menu_close_;
+
+        std::map<stats_menu_value, RE::GFxValue&> menu_map_ = {
+            { stats_menu_value::m_player, player_item_list_provider_ },
+            { stats_menu_value::m_defence, defence_item_list_provider_ },
+            { stats_menu_value::m_attack, attack_item_list_provider_ },
+            { stats_menu_value::m_magic, perks_magic_item_list_provider_ },
+            { stats_menu_value::m_warrior, perks_warrior_item_list_provider_ },
+            { stats_menu_value::m_thief, perks_thief_item_list_provider_ },
         };
+
+        std::map<stats_value, CLIK::TextField&> bottom_map_key_ = {
+            { stats_value::name, name_key_ },
+            { stats_value::level, level_key_ },
+            { stats_value::race, race_key_ },
+            { stats_value::perk_count, perks_key_ },
+            { stats_value::beast, beast_key_ },
+            { stats_value::xp, xp_key_ },
+        };
+        std::map<stats_value, CLIK::TextField&> bottom_map_value_ = {
+            { stats_value::name, name_value_ },
+            { stats_value::level, level_value_ },
+            { stats_value::race, race_value_ },
+            { stats_value::perk_count, perks_value_ },
+            { stats_value::beast, beast_value_ },
+            { stats_value::xp, xp_value_ },
+        };
+
     };
 }

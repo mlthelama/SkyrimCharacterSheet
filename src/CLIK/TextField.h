@@ -13,9 +13,11 @@ namespace CLIK {
         TextField(TextField&&) = default;
         using super::super;
 
-        TextField(const super& a_rhs) : super(a_rhs) {}
+        TextField(const super& a_rhs)
+            : super(a_rhs) {}
 
-        TextField(super&& a_rhs) : super(std::move(a_rhs)) {}
+        TextField(super&& a_rhs)
+            : super(std::move(a_rhs)) {}
 
         ~TextField() = default;
 
@@ -295,11 +297,13 @@ namespace CLIK {
         void TopmostLevel(bool a_topmostLevel) { SetBoolean("topmostLevel", a_topmostLevel); }
 
         double InactiveSelectionBkgColor() const { return GetNumber("inactiveSelectionBkgColor"); }
+
         void InactiveSelectionBkgColor(double a_inactiveSelectionBkgColor) {
             SetNumber("inactiveSelectionBkgColor", a_inactiveSelectionBkgColor);
         }
 
         bool AlwaysShowSelection() const { return GetBoolean("alwaysShowSelection"); }
+
         void AlwaysShowSelection(bool a_alwaysShowSelection) {
             SetBoolean("alwaysShowSelection", a_alwaysShowSelection);
         }
@@ -308,6 +312,7 @@ namespace CLIK {
         void NoAutoSelection(bool a_noAutoSelection) { SetBoolean("noAutoSelection", a_noAutoSelection); }
 
         double SelectionBeginIndex() const { return GetNumber("selectionBeginIndex"); }
+
         void SelectionBeginIndex(double a_selectionBeginIndex) {
             SetNumber("selectionBeginIndex", a_selectionBeginIndex);
         }
@@ -322,11 +327,13 @@ namespace CLIK {
         void SelectionTextColor(double a_selectionTextColor) { SetNumber("selectionTextColor", a_selectionTextColor); }
 
         bool UseRichTextClipboard() const { return GetBoolean("useRichTextClipboard"); }
+
         void UseRichTextClipboard(bool a_useRichTextClipboard) {
             SetBoolean("useRichTextClipboard", a_useRichTextClipboard);
         }
 
         double InactiveSelectionTextColor() const { return GetNumber("inactiveSelectionTextColor"); }
+
         void InactiveSelectionTextColor(double a_inactiveSelectionTextColor) {
             SetNumber("inactiveSelectionTextColor", a_inactiveSelectionTextColor);
         }
@@ -341,6 +348,7 @@ namespace CLIK {
         void VerticalAlign(std::string_view a_verticalAlign) { SetString("verticalAlign", a_verticalAlign); }
 
         std::string VerticalAutoSize() const { return GetString("verticalAutoSize"); }
+
         void VerticalAutoSize(std::string_view a_verticalAutoSize) {
             SetString("verticalAutoSize", a_verticalAutoSize);
         }

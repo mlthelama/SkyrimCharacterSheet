@@ -1,57 +1,57 @@
 #pragma once
 
-class Champion {
-    using valueStringMap = std::map<FactionValue, std::string>;
+class champion {
+    using value_string_map = std::map<faction_value, std::string_view>;
 
 public:
-    static Champion* GetSingleton() {
-        static Champion singleton;
+    static champion* get_singleton() {
+        static champion singleton;
         return std::addressof(singleton);
     }
 
-    std::string getChampion(FactionValue a_stat) {
-        if (_championList.find(a_stat) == _championList.end()) {
+    [[nodiscard]] std::string_view get_champion(const faction_value a_stat) const {
+        if (!champion_list_.contains(a_stat)) {
             return "";
-        } else {
-            return _championList.find(a_stat)->second;
         }
+        return champion_list_.find(a_stat)->second;
     }
 
-    void getChampions() {
-        _championList.clear();
-        for (const auto& champion : _championQuestStageMap) {
-            auto championValue = champion.first;
-            for (const auto& formid : champion.second) {
-                auto qst = RE::TESForm::LookupByID(formid.first)->As<RE::TESQuest>();
+    void get_champions() {
+        champion_list_.clear();
+        for (const auto& [fst, snd] : champion_quest_stage_map_) {
+            auto champion_value = fst;
+            for (const auto& [a_form_id, a_stages] : snd) {
+                const auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
                 logger::trace("Champion {} working with formid {}"sv,
-                    championValue,
-                    StringUtil::intToHex(qst->GetFormID()));
-                auto questDone = QuestUtil::isOneQuestStageComplete(qst, formid.second);
-                if (questDone) {
-                    logger::trace("Champion of {}"sv, championValue);
-                    _championList.insert(std::pair<FactionValue, std::string>(championValue, _constStaticDisplayValue));
+                    champion_value,
+                    string_util::int_to_hex(qst->GetFormID()));
+                if ([[maybe_unused]] auto quest_done = quest_util::is_one_quest_stage_complete(qst, a_stages)) {
+                    logger::trace("Champion of {}"sv, champion_value);
+                    champion_list_.insert(
+                        std::pair(champion_value, const_static_display_value));
                 }
             }
         }
 
 
-        logger::trace("got {} items in champion list."sv, _championList.size());
-        logMap();
+        logger::trace("got {} items in champion list."sv, champion_list_.size());
+        log_map();
     }
 
-    void clearList() { _championList.clear(); }
+    void clear_list() { champion_list_.clear(); }
+
+    champion(const champion&) = delete;
+    champion(champion&&) = delete;
+
+    champion& operator=(const champion&) = delete;
+    champion& operator=(champion&&) = delete;
 
 private:
-    Champion() = default;
-    Champion(const Champion&) = delete;
-    Champion(Champion&&) = delete;
+    champion() = default;
 
-    ~Champion() = default;
+    ~champion() = default;
 
-    Champion& operator=(const Champion&) = delete;
-    Champion& operator=(Champion&&) = delete;
-
-    valueStringMap _championList;
+    value_string_map champion_list_;
 
     /*
     azura, 00028AD6 100 -
@@ -72,26 +72,28 @@ private:
     vaermina 000242AF 200 -
     */
 
-    inline static std::map<FactionValue, std::map<RE::FormID, std::vector<uint16_t>>> _championQuestStageMap = {
-        { FactionValue::azura, { { 0x00028AD6, std::vector{ QuestUtil::getAs(100) } } } },
-        { FactionValue::boethiah, { { 0x0004D8D6, std::vector{ QuestUtil::getAs(50), QuestUtil::getAs(100) } } } },
-        { FactionValue::clavicusVile, { { 0x0001BFC4, std::vector{ QuestUtil::getAs(200), QuestUtil::getAs(205) } } } },
-        { FactionValue::hermaeusMora, { { 0x0002D512, std::vector{ QuestUtil::getAs(100), QuestUtil::getAs(200) } } } },
-        { FactionValue::hircine, { { 0x0002A49A, std::vector{ QuestUtil::getAs(100), QuestUtil::getAs(105) } } } },
-        { FactionValue::malacath, { { 0x0003B681, std::vector{ QuestUtil::getAs(200) } } } },
-        { FactionValue::mehrunesDagon, { { 0x000240B8, std::vector{ QuestUtil::getAs(100) } } } },
-        { FactionValue::mephala, { { 0x0004A37B, std::vector{ QuestUtil::getAs(60), QuestUtil::getAs(80) } } } },
-        { FactionValue::meridia, { { 0x0004E4E1, std::vector{ QuestUtil::getAs(500) } } } },
-        { FactionValue::molagBal, { { 0x00022F08, std::vector{ QuestUtil::getAs(200) } } } },
-        { FactionValue::namira, { { 0x0002C358, std::vector{ QuestUtil::getAs(100), QuestUtil::getAs(600) } } } },
-        { FactionValue::nocturnal, { { 0x00021555, std::vector{ QuestUtil::getAs(200) } } } },
-        { FactionValue::peryite, { { 0x0008998D, std::vector{ QuestUtil::getAs(100) } } } },
-        { FactionValue::sanguine, { { 0x0001BB9B, std::vector{ QuestUtil::getAs(200) } } } },
-        { FactionValue::sheogorath, { { 0x0002AC68, std::vector{ QuestUtil::getAs(200) } } } },
-        { FactionValue::vaermina, { { 0x000242AF, std::vector{ QuestUtil::getAs(200) } } } },
+    inline static std::map<faction_value, std::map<RE::FormID, std::vector<uint16_t>>> champion_quest_stage_map_ = {
+        { faction_value::azura, { { 0x00028AD6, std::vector{ quest_util::get_as(100) } } } },
+        { faction_value::boethiah, { { 0x0004D8D6, std::vector{ quest_util::get_as(50), quest_util::get_as(100) } } } },
+        { faction_value::clavicus_vile,
+          { { 0x0001BFC4, std::vector{ quest_util::get_as(200), quest_util::get_as(205) } } } },
+        { faction_value::hermaeus_mora,
+          { { 0x0002D512, std::vector{ quest_util::get_as(100), quest_util::get_as(200) } } } },
+        { faction_value::hircine, { { 0x0002A49A, std::vector{ quest_util::get_as(100), quest_util::get_as(105) } } } },
+        { faction_value::malacath, { { 0x0003B681, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::mehrunes_dagon, { { 0x000240B8, std::vector{ quest_util::get_as(100) } } } },
+        { faction_value::mephala, { { 0x0004A37B, std::vector{ quest_util::get_as(60), quest_util::get_as(80) } } } },
+        { faction_value::meridia, { { 0x0004E4E1, std::vector{ quest_util::get_as(500) } } } },
+        { faction_value::molag_bal, { { 0x00022F08, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::namira, { { 0x0002C358, std::vector{ quest_util::get_as(100), quest_util::get_as(600) } } } },
+        { faction_value::nocturnal, { { 0x00021555, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::peryite, { { 0x0008998D, std::vector{ quest_util::get_as(100) } } } },
+        { faction_value::sanguine, { { 0x0001BB9B, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::sheogorath, { { 0x0002AC68, std::vector{ quest_util::get_as(200) } } } },
+        { faction_value::vaermina, { { 0x000242AF, std::vector{ quest_util::get_as(200) } } } },
     };
 
-    void logMap() {
-        for (const auto& item : _championList) { logger::trace("champion {}, {}"sv, item.first, item.second); }
+    void log_map() const {
+        for (const auto& [fst, snd] : champion_list_) { logger::trace("champion {}, {}"sv, fst, snd); }
     }
 };

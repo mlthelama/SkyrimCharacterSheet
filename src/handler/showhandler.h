@@ -3,121 +3,126 @@
 #include "scaleform/menus/statsinventorymenu.h"
 #include "scaleform/menus/statsmenu.h"
 
-class ShowHandler {
-    using ShowMenu = MenuUtil::ShowMenu;
+class show_handler {
+    using show_menu = menu_util::show_menu;
 
 public:
-    static ShowHandler* GetSingleton() {
-        static ShowHandler singleton;
+    static show_handler* get_singleton() {
+        static show_handler singleton;
         return std::addressof(singleton);
     }
 
-    void CloseWindow(ShowMenu a_menu) {
+    static void close_window(const show_menu a_menu) {
         switch (a_menu) {
-            case ShowMenu::mStats:
-                Scaleform::StatsMenu::Close();
+            case show_menu::m_stats:
+                scaleform::stats_menu::close();
                 break;
-            case ShowMenu::mFaction:
-                Scaleform::FactionMenu::Close();
+            case show_menu::m_faction:
+                scaleform::faction_menu::close();
                 break;
-            case ShowMenu::mStatsInventory:
-                Scaleform::StatsInventoryMenu::Close();
+            case show_menu::m_stats_inventory:
+                scaleform::stats_inventory_menu::close();
         }
     }
 
-    void SwapWindow(ShowMenu a_menu_open, ShowMenu a_menu_close) {
-        CloseWindow(a_menu_close);
-        ShowWindow(a_menu_open);
+    static void swap_window(const show_menu a_menu_open, const show_menu a_menu_close) {
+        close_window(a_menu_close);
+        show_window(a_menu_open);
     }
 
-    void CloseAllWindows() {
-        CloseWindow(ShowMenu::mStats);
-        CloseWindow(ShowMenu::mFaction);
-        CloseWindow(ShowMenu::mStatsInventory);
+    static void close_all_windows() {
+        close_window(show_menu::m_stats);
+        close_window(show_menu::m_faction);
+        close_window(show_menu::m_stats_inventory);
     }
 
-    void HandleMainButtonPress() {
-        if (Scaleform::StatsMenu::IsMenuOpen()) {
-            CloseWindow(ShowMenu::mStats);
-        } else if (Scaleform::FactionMenu::IsMenuOpen()) {
-            CloseWindow(ShowMenu::mFaction);
+    static void handle_main_button_press() {
+        if (scaleform::stats_menu::is_menu_open()) {
+            close_window(show_menu::m_stats);
+        } else if (scaleform::faction_menu::is_menu_open()) {
+            close_window(show_menu::m_faction);
         } else {
-            ShowWindow(ShowMenu::mStats);
+            show_window(show_menu::m_stats);
         }
     }
 
-    void HandleNextMenuButtonPress() {
-        if (Scaleform::StatsMenu::IsMenuOpen()) {
-            logger::debug("{} is open, open {}"sv, Scaleform::StatsMenu::MENU_NAME, Scaleform::FactionMenu::MENU_NAME);
-            SwapWindow(ShowMenu::mFaction, ShowMenu::mStats);
-        } else if (Scaleform::FactionMenu::IsMenuOpen()) {
-            logger::debug("{} is open, open {}"sv, Scaleform::FactionMenu::MENU_NAME, Scaleform::StatsMenu::MENU_NAME);
-            SwapWindow(ShowMenu::mStats, ShowMenu::mFaction);
+    static void handle_next_menu_button_press() {
+        if (scaleform::stats_menu::is_menu_open()) {
+            logger::debug("{} is open, open {}"sv,
+                scaleform::stats_menu::menu_name,
+                scaleform::faction_menu::menu_name);
+            swap_window(show_menu::m_faction, show_menu::m_stats);
+        } else if (scaleform::faction_menu::is_menu_open()) {
+            logger::debug("{} is open, open {}"sv,
+                scaleform::faction_menu::menu_name,
+                scaleform::stats_menu::menu_name);
+            swap_window(show_menu::m_stats, show_menu::m_faction);
         }
     }
 
-    bool IsMenuOpen() { return (Scaleform::StatsMenu::IsMenuOpen() || Scaleform::FactionMenu::IsMenuOpen()); }
-
-    bool IsMenuOpen(ShowMenu a_menu_open) {
-        return RE::UI::GetSingleton()->IsMenuOpen(getMenuScaleformName(a_menu_open));
+    static bool is_menu_open() {
+        return (scaleform::stats_menu::is_menu_open() || scaleform::faction_menu::is_menu_open());
     }
 
-    void HandleInventoryStatsOpen() {
-        if (!Scaleform::StatsInventoryMenu::IsMenuOpen()) {
-            ShowWindow(ShowMenu::mStatsInventory);
+    static bool is_menu_open(const show_menu a_menu_open) {
+        return RE::UI::GetSingleton()->IsMenuOpen(get_menu_scaleform_name(a_menu_open));
+    }
+
+    static void handle_inventory_stats_open() {
+        if (!scaleform::stats_inventory_menu::is_menu_open()) {
+            show_window(show_menu::m_stats_inventory);
         }
     }
 
-    void HandleInventoryStatsUpdate() {
-        if (Scaleform::StatsInventoryMenu::IsMenuOpen()) {
+    static void handle_inventory_stats_update() {
+        if (scaleform::stats_inventory_menu::is_menu_open()) {
             /*have to add it via task, so inventory is ready, might be useful for other menus as well*/
-            auto task = SKSE::GetTaskInterface();
+            const auto task = SKSE::GetTaskInterface();
             task->AddUITask([]() {
-                auto menu = RE::UI::GetSingleton()->GetMenu<Scaleform::StatsInventoryMenu>(
-                    Scaleform::StatsInventoryMenu::MENU_NAME);
-                if (menu) {
-                    menu->RefreshLists();
+                if (const auto menu = RE::UI::GetSingleton()->GetMenu<scaleform::stats_inventory_menu>(
+                    scaleform::stats_inventory_menu::menu_name)) {
+                    menu->refresh_lists();
                 }
             });
         }
     }
 
-    void HandleMenuSwap(ShowMenu a_menu) { ShowWindow(a_menu); }
+    static void handle_menu_swap(const show_menu a_menu) { show_window(a_menu); }
 
-    ShowHandler() = default;
-    ShowHandler(const ShowHandler&) = delete;
-    ShowHandler(ShowHandler&&) = delete;
-    ~ShowHandler() = default;
+    show_handler() = default;
+    show_handler(const show_handler&) = delete;
+    show_handler(show_handler&&) = delete;
+    ~show_handler() = default;
 
-    ShowHandler& operator=(const ShowHandler&) = delete;
-    ShowHandler& operator=(ShowHandler&&) = delete;
+    show_handler& operator=(const show_handler&) = delete;
+    show_handler& operator=(show_handler&&) = delete;
 
 private:
-    inline static std::map<ShowMenu, std::string_view> _menuScaleFormName = { { ShowMenu::mStats,
-                                                                                  Scaleform::StatsMenu::MENU_NAME },
-        { ShowMenu::mFaction, Scaleform::FactionMenu::MENU_NAME },
-        { ShowMenu::mStatsInventory, Scaleform::StatsInventoryMenu::MENU_NAME } };
+    inline static std::map<show_menu, std::string_view> menu_scale_form_name_ = {
+        { show_menu::m_stats, scaleform::stats_menu::menu_name },
+        { show_menu::m_faction, scaleform::faction_menu::menu_name },
+        { show_menu::m_stats_inventory, scaleform::stats_inventory_menu::menu_name }
+    };
 
-    static std::string_view getMenuScaleformName(ShowMenu a_menu) {
-        if (_menuScaleFormName.find(a_menu) == _menuScaleFormName.end()) {
+    static std::string_view get_menu_scaleform_name(show_menu a_menu) {
+        if (!menu_scale_form_name_.contains(a_menu)) {
             logger::warn("can not find Scaleform Name for Menu {}"sv, a_menu);
             return "";
-        } else {
-            return _menuScaleFormName.find(a_menu)->second;
         }
+        return menu_scale_form_name_.find(a_menu)->second;
     }
 
-    void ShowWindow(ShowMenu a_menu) {
-        logger::trace("Show Window {}"sv, getMenuScaleformName(a_menu));
+    static void show_window(const show_menu a_menu) {
+        logger::trace("Show Window {}"sv, get_menu_scaleform_name(a_menu));
         switch (a_menu) {
-            case ShowMenu::mStats:
-                Scaleform::StatsMenu::Open();
+            case show_menu::m_stats:
+                scaleform::stats_menu::open();
                 break;
-            case ShowMenu::mFaction:
-                Scaleform::FactionMenu::Open();
+            case show_menu::m_faction:
+                scaleform::faction_menu::open();
                 break;
-            case ShowMenu::mStatsInventory:
-                Scaleform::StatsInventoryMenu::Open();
+            case show_menu::m_stats_inventory:
+                scaleform::stats_inventory_menu::open();
                 break;
         }
     }

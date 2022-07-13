@@ -14,15 +14,6 @@ skyrimUnbound = false #changes the check for thaneOfWhiterun
 [specialHandling]
 showResistanceCap = true #display fPlayerMaxResistance or fMaxArmorRating when resistance > cap; display will be "cap (resistance)"
 
-[showStatsTitle]
-title = "Show Stats"
-player = "Player"
-attack = "Attack"
-defence = "Defence"
-magic = "Magic"
-thief = "Thief"
-warrior = "Warrior"
-
 [showStatsSpecial]
 displayZero = false #do or do not display values if they are 0
 
@@ -134,121 +125,7 @@ weaponStaggerLeft = 3 #3
 weaponCritDamageRating = 0 #3
 weaponCritDamageRatingLeft = 0 #3
 fallDamageMod = 0 #1
-
-[showStatsName]
-name = "Name"
-race = "Race"
-level = "Level"
-perkCount = "Open Perks"
-height = "Height"
-equipedWeight = "Equiped Weight"
-weight = "Weight"
-armor = "Armor"
-damage = "Damage Weapon"
-skillTrainingsThisLevel = "Trainings This Level"
-health = "Health"
-healthRatePer = "Health Rate"
-magicka = "Magicka"
-magickaRatePer = "Magicka Rate"
-stamina = "Stamina"
-staminaRatePer = "Stamina Rate"
-resistDamage = "Resist Damage"
-resistDisease = "Resist Disease"
-resistPoison = "Resist Poison"
-resistFire = "Resist Fire"
-resistShock = "Resist Shock"
-resistFrost = "Resist Frost"
-resistMagic = "Resist Magic"
-oneHanded = "One Handed"
-twoHanded = "Two Handed"
-archery = "Archery"
-block = "Block"
-smithing = "Smithing"
-heavyArmor = "Heavy Armor"
-lightArmor = "Light Armor"
-pickpocket = "Pickpocket"
-lockpicking = "Lockpicking"
-sneak = "Sneak"
-alchemy = "Alchemy"
-speech = "Speech"
-enchanting = "Enchanting"
-alteration = "Alteration"
-conjuration = "Conjuration"
-destruction = "Destruction"
-illusion = "Illusion"
-restoration = "Restoration"
-oneHandedPowerMod = "One Handed Power Mod"
-twoHandedPowerMod = "Two Handed Power Mod"
-archeryPowerMod = "Archery Power Mod"
-blockPowerMod = "Block Power Mod"
-smithingPowerMod = "Smithing Power Mod"
-heavyArmorPowerMod = "Heavy Armor Power Mod"
-lightArmorPowerMod = "Light Armor Power Mod"
-pickpocketPowerMod = "Pickpocket Power Mod"
-lockpickingPowerMod = "Lockpicking Power Mod"
-sneakPowerMod = "Sneak Power Mod"
-alchemyPowerMod = "Alchemy Power Mod"
-speechPowerMod = "Speech Power Mod"
-enchantingPowerMod = "Enchanting Power Mod"
-alterationPowerMod = "Alteration Power Mod"
-conjurationPowerMod = "Conjuration Power Mod"
-destructionPowerMod = "Destruction Power Mod"
-illusionPowerMod = "Illusion Power Mod"
-restorationPowerMod = "Restoration Power Mod"
-speedMult = "Speed"
-inventoryWeight = "Inventory Weight"
-carryWeight = "Carry Weight"
-criticalChance = "Crit. Chance"
-meleeDamage = "Melee Damage"
-unarmedDamage = "Unarmed Damage"
-absorbChance = "Magic Absorb Chance"
-weaponSpeedMult = "Weapon Speed"
-bowSpeedBonus = "Bow Speed Bonus"
-shoutRecoveryMult = "Shout Recovery Multi"
-movementNoiseMult = "Noise"
-dragonSouls = "Dragon Souls"
-combatHealthRegenMultiply = "Combat Health Regen Multi"
-attackDamageMult = "Attack Multiplier"
-beast = "Beast"
-xp = "XP"
-reflectDamage = "Reflect Damage"
-oneHandedMod = "One Handed Mod"
-twoHandedMod = "Two Handed Mod"
-archeryMod = "Archery Mod"
-blockMod = "Block Mod"
-smithingMod = "Smithing Mod"
-heavyArmorMod = "Heavy Armor Mod"
-lightArmorMod = "Light Armor Mod"
-pickpocketMod = "Pickpocket Mod"
-lockpickingMod = "Lockpicking Mod"
-sneakMod = "Sneak Mod"
-alchemyMod = "Alchemy Mod"
-speechMod = "Speech Mod"
-enchantingMod = "Enchanting Mod"
-alterationMod = "Alteration Mod"
-conjurationMod = "Conjuration Mod"
-destructionMod = "Destruction Mod"
-illusionMod = "Illusion Mod"
-restorationMod = "Restoration Mod"
-damageArrow = "Damage Arrow"
-damageLeft = "Damage Weapon Left"
-leftWeaponSpeedMult = "Weapon Speed Left"
-rightItemCharge = "Item Charge Right"
-leftItemCharge = "Item Charge Left"
-armorPerks = "Armor rating multiplier"
-mass = "Mass"
-bowStaggerBonus = "Bow Stagger Bonus"
-bypassVendorKeywordCheck = "Vendor any Item"
-bypassVendorStolenCheck = "Vendor stolen Item"
-weaponReach = "Reach"
-weaponReachLeft = "Reach Left"
-weaponBaseDamage = "Base Damage"
-weaponBaseDamageLeft = "Base Damage Left"
-weaponStagger = "Stagger"
-weaponStaggerLeft = "Stagger Left"
-weaponCritDamageRating = "Critical Damage Rating"
-weaponCritDamageRatingLeft = "Critical Damage Rating Left"
-fallDamageMod = "Fall Damage Mod"
+warmth = 0 #2 works atm just with CC warmth calculation
 
 [showStatsEnding]
 height = ""
@@ -307,93 +184,14 @@ leftWeaponSpeedMult = 1
 armorPerks = 100
 fallDamageMod = 100
 
-[showBeastName]
-vampire = "Vampire"
-werewolf = "Werewolf"
-
-[showFactionsTitle]
-title = "Show Factions"
-faction = "Faction"
-thane = "Thane"
-champion = "Champion"
-
-[showFactionsFactionNames]
-companions = "Companions"
-darkbrotherHood = "The Dark Brotherhood"
-collegeOfWinterhold = "College of Winterhold"
-orcFriend = "Blood-Kin of the Orcs"
-thiefsGuild = "Thieves' Guild"
-imperialLegion = "Imperial Legion"
-stormcloaks = "Stormcloaks" #sons of skyrim
-greybeard = "The Greybeards"
-bard = "Bards College"
-volkiharVampireClan = "Volkihar Vampire Clan"
-dawnguard = "Dawnguard"
-houseTelvanni = "House Telvanni"
-
 [showFactionsFactionMenu]
 faction = 1 #disabled(0),faction(1),thane(2),champion(3)
-
-[showFactionsFactionRank]
-bard = "Bard"
-assassin = "Assassin"
-listener = "Listener"
-auxiliary = "Auxiliary"
-quaestor = "Quaestor"
-praefect = "Praefect"
-tribune = "Tribune"
-legate = "Legate"
-unblooded = "Unblooded"
-iceVeins = "Ice-Veins"
-boneBreaker = "Bone-Breaker"
-snowHammer = "Snow-Hammer"
-stormblade = "Stormblade"
-vampireLord = "Vampire Lord"
-vampireHunter = "Vampire Hunter"
-honoraryMember = "Honorary Member"
-ysmir = "Ysmir"
 
 [showFactionsThaneMenu]
 thane = 2 #disabled(0),faction(1),thane(2),champion(3)
 
-[showFactionsThaneName]
-thaneOfEastmarch = "Thane Of Eastmarch"
-thaneOfFalkreath = "Thane Of Falkreath"
-thaneOfHaafingar = "Thane Of Haafingar"
-thaneOfHjaalmarch = "Thane Of Hjaalmarch"
-thaneOfThePale = "Thane Of The Pale"
-thaneOfTheReach = "Thane Of The Reach"
-thaneOfTheRift = "Thane Of The Rift"
-thaneOfWhiterun = "Thane Of Whiterun"
-thaneOfWinterhold = "Thane Of Winterhold"
-
 [showFactionsChampionMenu]
 champion = 3 #disabled(0),faction(1),thane(2),champion(3)
-
-[showFactionsChampionName]
-azura = "Azura"
-boethiah = "Boethiah"
-clavicusVile = "Clavicus Vile"
-hermaeusMora = "Hermaeus Mora"
-hircine = "Hircine"
-malacath = "Malacath"
-mehrunesDagon = "Mehrunes Dagon"
-mephala = "Mephala"
-meridia = "Meridia"
-molagBal = "Molag Bal"
-namira = "Namira"
-nocturnal = "Nocturnal"
-peryite = "Peryite"
-sanguine = "Sanguine"
-sheogorath = "Sheogorath"
-vaermina = "Vaermina"
-
-[showStatsInventoryTitle]
-title = "Show Stats Inventory" #atm just used for logging
-equip = "Equipment"
-armor = "Armor"
-weapon = "Weapon"
-effect = "Effect"
 
 [showStatsInventorySpecial]
 displayZero = false #do or do not display values if they are 0
@@ -499,3 +297,4 @@ weaponStaggerLeft = 3
 weaponCritDamageRating = 0 #3
 weaponCritDamageRatingLeft = 0 #3
 fallDamageMod = 0 #4
+warmth = 0 #2 works atm just with CC warmth calculation

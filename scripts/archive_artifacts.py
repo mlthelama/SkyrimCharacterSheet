@@ -19,7 +19,9 @@ def make_rel_archive(a_args):
 	archive.write(
 		os.path.join(a_args.src_dir, "swf", "standard", "ShowStatsInventory.swf"),
 		"Interface/ShowStatsInventory.swf")
-
+	archive.write(
+		os.path.join(a_args.src_dir, "swf", "Translations", "ShowStats_english.txt"),
+		"Interface/Translations/ShowStats_english.txt")
 
 def make_dbg_archive(a_args):
 	archive = zipfile.ZipFile(a_args.name + "_pdb" + ".zip", "w", zipfile.ZIP_DEFLATED)
