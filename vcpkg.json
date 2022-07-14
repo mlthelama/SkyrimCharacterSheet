@@ -1,8 +1,8 @@
 {
   "name": "showstats",
-  "version-string": "1.0.0.0",
+  "version-string": "1.0.1.0",
   "description": "An info page",
-  "homepage": "https://github.com/mlthelama/ShowStats",
+  "homepage": "https://github.com/mlthelama/SkyrimCharacterSheet",
   "license": "MIT",
   "dependencies": [
     "autotoml",
