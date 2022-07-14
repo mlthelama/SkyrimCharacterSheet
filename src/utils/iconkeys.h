@@ -3,15 +3,15 @@
 namespace icon_keys {
     //iconkeys, swf file will be not included in this mod
     constexpr auto default_icon = "default_misc"sv;
-    
+
     constexpr auto height = default_icon;
     constexpr auto equipped_weight = default_icon;
     constexpr auto weight = default_icon;
     constexpr auto armor = "av_armor"sv;
     constexpr auto damage = "av_damage"sv;
     constexpr auto trainings_level = "av_training"sv;
-    constexpr auto health = "av_health"sv; 
-    constexpr auto health_rate = "av_health_regen"sv; 
+    constexpr auto health = "av_health"sv;
+    constexpr auto health_rate = "av_health_regen"sv;
     constexpr auto magicka = "av_magicka"sv;
     constexpr auto magicka_rate = "av_magicka_regen"sv;
     constexpr auto stamina = "av_stamina"sv;
@@ -102,7 +102,7 @@ namespace icon_keys {
     constexpr auto damage_left = "av_damage_left"sv;
     constexpr auto left_weapon_speed_mult = default_icon;
     constexpr auto right_item_charge = default_icon;
-    constexpr auto left_item_charge =default_icon;
+    constexpr auto left_item_charge = default_icon;
     constexpr auto armor_perks = default_icon;
     constexpr auto mass = default_icon;
     constexpr auto bow_stagger_bonus = "av_bow_stagger"sv;
