@@ -402,18 +402,33 @@ public:
             menu_util::get_stats_inventory_menu(*settings::light_armor_menu_inventory),
             get_display_type,
             icon_keys::light_armor);
-        mp[stats_value::pickpocket] = std::make_unique<stat_config>(actor_value::kPickpocket,
-            menu_keys::pickpocket,
-            menu_util::get_stats_menu(*settings::pickpocket_menu),
-            menu_util::get_stats_inventory_menu(*settings::pickpocket_menu_inventory),
-            get_display_type,
-            icon_keys::pickpocket);
-        mp[stats_value::lockpicking] = std::make_unique<stat_config>(actor_value::kLockpicking,
-            menu_keys::lockpicking,
-            menu_util::get_stats_menu(*settings::lockpicking_menu),
-            menu_util::get_stats_inventory_menu(*settings::lockpicking_menu_inventory),
-            get_display_type,
-            icon_keys::lockpicking);
+        if (*settings::hand_to_hand) {
+            mp[stats_value::pickpocket] = std::make_unique<stat_config>(actor_value::kPickpocket,
+                menu_keys::security,
+                menu_util::get_stats_menu(*settings::pickpocket_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_menu_inventory),
+                get_display_type,
+                icon_keys::security);
+            mp[stats_value::lockpicking] = std::make_unique<stat_config>(actor_value::kLockpicking,
+                menu_keys::hand_to_hand,
+                menu_util::get_stats_menu(*settings::lockpicking_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_menu_inventory),
+                get_display_type,
+                icon_keys::hand_to_hand);
+        } else {
+            mp[stats_value::pickpocket] = std::make_unique<stat_config>(actor_value::kPickpocket,
+                menu_keys::pickpocket,
+                menu_util::get_stats_menu(*settings::pickpocket_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_menu_inventory),
+                get_display_type,
+                icon_keys::pickpocket);
+            mp[stats_value::lockpicking] = std::make_unique<stat_config>(actor_value::kLockpicking,
+                menu_keys::lockpicking,
+                menu_util::get_stats_menu(*settings::lockpicking_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_menu_inventory),
+                get_display_type,
+                icon_keys::lockpicking);
+        }
         mp[stats_value::sneak] = std::make_unique<stat_config>(actor_value::kSneak,
             menu_keys::sneak,
             menu_util::get_stats_menu(*settings::sneak_menu),
@@ -502,16 +517,31 @@ public:
             menu_util::get_stats_menu(*settings::light_armor_power_mod_menu),
             menu_util::get_stats_inventory_menu(*settings::light_armor_power_mod_menu_inventory),
             icon_keys::light_armor_power_mod);
-        mp[stats_value::pickpocket_power_mod] = std::make_unique<stat_config>(actor_value::kPickpocketPowerModifier,
-            menu_keys::pickpocket_power_mod,
-            menu_util::get_stats_menu(*settings::pickpocket_power_mod_menu),
-            menu_util::get_stats_inventory_menu(*settings::pickpocket_power_mod_menu_inventory),
-            icon_keys::pickpocket_power_mod);
-        mp[stats_value::lockpicking_power_mod] = std::make_unique<stat_config>(actor_value::kLockpickingPowerModifier,
-            menu_keys::lockpicking_power_mod,
-            menu_util::get_stats_menu(*settings::lockpicking_power_mod_menu),
-            menu_util::get_stats_inventory_menu(*settings::lockpicking_power_mod_menu_inventory),
-            icon_keys::lockpicking_power_mod);
+        if (*settings::hand_to_hand) {
+            mp[stats_value::pickpocket_power_mod] = std::make_unique<stat_config>(actor_value::kPickpocketPowerModifier,
+                menu_keys::security_power_mod,
+                menu_util::get_stats_menu(*settings::pickpocket_power_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_power_mod_menu_inventory),
+                icon_keys::security_power_mod);
+            mp[stats_value::lockpicking_power_mod] = std::make_unique<stat_config>(
+                actor_value::kLockpickingPowerModifier,
+                menu_keys::hand_to_hand_power_mod,
+                menu_util::get_stats_menu(*settings::lockpicking_power_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_power_mod_menu_inventory),
+                icon_keys::hand_to_hand_power_mod);
+        } else {
+            mp[stats_value::pickpocket_power_mod] = std::make_unique<stat_config>(actor_value::kPickpocketPowerModifier,
+                menu_keys::pickpocket_power_mod,
+                menu_util::get_stats_menu(*settings::pickpocket_power_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_power_mod_menu_inventory),
+                icon_keys::pickpocket_power_mod);
+            mp[stats_value::lockpicking_power_mod] = std::make_unique<stat_config>(
+                actor_value::kLockpickingPowerModifier,
+                menu_keys::lockpicking_power_mod,
+                menu_util::get_stats_menu(*settings::lockpicking_power_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_power_mod_menu_inventory),
+                icon_keys::lockpicking_power_mod);
+        }
         mp[stats_value::sneak_power_mod] = std::make_unique<stat_config>(actor_value::kSneakingPowerModifier,
             menu_keys::sneak_power_mod,
             menu_util::get_stats_menu(*settings::sneak_power_mod_menu),
@@ -747,18 +777,33 @@ public:
             menu_util::get_stats_menu(*settings::light_armor_mod_menu),
             menu_util::get_stats_inventory_menu(*settings::light_armor_mod_menu_inventory),
             icon_keys::light_armor_mod);
-        mp[stats_value::pickpocket_mod] = std::make_unique<stat_config>(actor_value::kPickpocketModifier,
-            menu_keys::pickpocket_mod,
-            *settings::pickpocket_mod_string_ending,
-            menu_util::get_stats_menu(*settings::pickpocket_mod_menu),
-            menu_util::get_stats_inventory_menu(*settings::pickpocket_mod_menu_inventory),
-            icon_keys::pickpocket_mod);
-        mp[stats_value::lockpicking_mod] = std::make_unique<stat_config>(actor_value::kLockpickingModifier,
-            menu_keys::lockpicking_mod,
-            *settings::lockpicking_mod_string_ending,
-            menu_util::get_stats_menu(*settings::lockpicking_mod_menu),
-            menu_util::get_stats_inventory_menu(*settings::lockpicking_mod_menu_inventory),
-            icon_keys::lockpicking_mod);
+        if (*settings::hand_to_hand) {
+            mp[stats_value::pickpocket_mod] = std::make_unique<stat_config>(actor_value::kPickpocketModifier,
+                menu_keys::security_mod,
+                *settings::pickpocket_mod_string_ending,
+                menu_util::get_stats_menu(*settings::pickpocket_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_mod_menu_inventory),
+                icon_keys::security_mod);
+            mp[stats_value::lockpicking_mod] = std::make_unique<stat_config>(actor_value::kLockpickingModifier,
+                menu_keys::hand_to_hand_mod,
+                *settings::lockpicking_mod_string_ending,
+                menu_util::get_stats_menu(*settings::lockpicking_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_mod_menu_inventory),
+                icon_keys::hand_to_hand_mod);
+        } else {
+            mp[stats_value::pickpocket_mod] = std::make_unique<stat_config>(actor_value::kPickpocketModifier,
+                menu_keys::pickpocket_mod,
+                *settings::pickpocket_mod_string_ending,
+                menu_util::get_stats_menu(*settings::pickpocket_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_mod_menu_inventory),
+                icon_keys::pickpocket_mod);
+            mp[stats_value::lockpicking_mod] = std::make_unique<stat_config>(actor_value::kLockpickingModifier,
+                menu_keys::lockpicking_mod,
+                *settings::lockpicking_mod_string_ending,
+                menu_util::get_stats_menu(*settings::lockpicking_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_mod_menu_inventory),
+                icon_keys::lockpicking_mod);
+        }
         mp[stats_value::sneaking_mod] = std::make_unique<stat_config>(actor_value::kSneakingModifier,
             menu_keys::sneak_mod,
             *settings::sneak_mod_string_ending,

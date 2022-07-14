@@ -35,6 +35,8 @@ struct settings {
     static inline int_setting display_av_type{ "General"s, "displayBasePermanentActorValue"s, 0 };
 
     static inline bool_setting skyrim_unbound{ "Mods"s, "skyrimUnbound"s, true };
+    static inline bool_setting hand_to_hand{ "Mods"s, "handToHand"s, true };
+    
 
     static inline bool_setting show_resistance_cap{ "specialHandling"s, "showResistanceCap"s, true };
 

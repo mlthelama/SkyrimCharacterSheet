@@ -10,6 +10,7 @@ displayBasePermanentActorValue = 0 #  0 = just value, 1 = base value "value (bas
 
 [Mods]
 skyrimUnbound = false #changes the check for thaneOfWhiterun
+handToHand = false #Hand to Hand - An Adamant Addon, lockpicking -> Hand to Hand, pickpocket -> Security, also for the config values
 
 [specialHandling]
 showResistanceCap = true #display fPlayerMaxResistance or fMaxArmorRating when resistance > cap; display will be "cap (resistance)"

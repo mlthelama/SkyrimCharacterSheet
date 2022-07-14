@@ -121,4 +121,11 @@ namespace icon_keys {
 
     constexpr auto vampire = "av_vampire"sv;
     constexpr auto werewolf = "av_werewolf"sv;
+
+    constexpr auto hand_to_hand = unarmed_damage;
+    constexpr auto security = pickpocket;
+    constexpr auto hand_to_hand_power_mod = hand_to_hand;
+    constexpr auto security_power_mod = security;
+    constexpr auto hand_to_hand_mod = hand_to_hand;
+    constexpr auto security_mod = security;
 };
