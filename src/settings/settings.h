@@ -32,9 +32,11 @@ struct settings {
     static inline bool_setting show_inventory_stats{ "General"s, "showInventoryStats"s, true };
     static inline bool_setting show_inventory_stats_auto_open{ "General"s, "showInventoryStatsAutoOpen"s, true };
     static inline int_setting show_inventory_button{ "General"s, "showInventoryButton"s, 0 };
-    static inline bool_setting display_permanent_av{ "General"s, "displayPermanentAV"s, true };
+    static inline int_setting display_av_type{ "General"s, "displayBasePermanentActorValue"s, 0 };
 
     static inline bool_setting skyrim_unbound{ "Mods"s, "skyrimUnbound"s, true };
+    static inline bool_setting hand_to_hand{ "Mods"s, "handToHand"s, true };
+    
 
     static inline bool_setting show_resistance_cap{ "specialHandling"s, "showResistanceCap"s, true };
 

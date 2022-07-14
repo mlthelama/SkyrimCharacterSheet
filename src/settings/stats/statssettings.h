@@ -7,6 +7,7 @@
 class stat_config {
     using stats_inventory_menu_value = menu_util::stats_inventory_menu_value;
     using stats_menu_value = menu_util::stats_menu_value;
+    using display_actor_value_type = value_util::display_actor_value_type;
 
 public:
     stat_config(const RE::ActorValue a_actor,
@@ -117,24 +118,24 @@ public:
         const std::string_view a_display_name,
         const stats_menu_value a_stats_menu,
         const stats_inventory_menu_value a_stats_inventory_menu,
-        const bool a_perm_av)
+        const display_actor_value_type a_display_type)
         : actor_(a_actor)
         , display_name_(a_display_name)
         , stats_menu_(a_stats_menu)
         , stats_inventory_menu_(a_stats_inventory_menu)
-        , show_perm_av_(a_perm_av) {}
+        , display_type_(a_display_type) {}
 
     stat_config(const RE::ActorValue a_actor,
         const std::string_view a_display_name,
         const stats_menu_value a_stats_menu,
         const stats_inventory_menu_value a_stats_inventory_menu,
-        const bool a_perm_av,
+        const display_actor_value_type a_display_type,
         const std::string_view a_icon)
         : actor_(a_actor)
         , display_name_(a_display_name)
         , stats_menu_(a_stats_menu)
         , stats_inventory_menu_(a_stats_inventory_menu)
-        , show_perm_av_(a_perm_av)
+        , display_type_(a_display_type)
         , icon_string_(a_icon) {}
 
     [[nodiscard]] RE::ActorValue get_actor() const { return actor_; }
@@ -151,7 +152,7 @@ public:
 
     [[nodiscard]] float get_cap() const { return cap_; }
 
-    [[nodiscard]] bool get_show_perm_av() const { return show_perm_av_; }
+    [[nodiscard]] display_actor_value_type get_show_base_permanent_value() const { return display_type_; }
 
     [[nodiscard]] std::string_view get_key_display() const { return display_name_; }
 
@@ -176,7 +177,7 @@ public:
             stats_inventory_menu_,
             value_multiplier_,
             cap_,
-            show_perm_av_,
+            display_type_,
             icon_string_);
     }
 
@@ -197,7 +198,7 @@ private:
     stats_inventory_menu_value stats_inventory_menu_;
     int64_t value_multiplier_ = const_static_multiplier;
     float cap_ = -1;
-    bool show_perm_av_ = false;
+    value_util::display_actor_value_type display_type_ = display_actor_value_type::m_value;
     std::string_view icon_string_;
 };
 
@@ -221,6 +222,8 @@ public:
         if (*settings::show_resistance_cap) {
             game_settings->get_and_set_settings();
         }
+
+        auto get_display_type = value_util::get_display_actor_value_type(*settings::display_av_type);
 
         mp[stats_value::name] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::name,
@@ -271,7 +274,7 @@ public:
             menu_keys::health,
             menu_util::get_stats_menu(*settings::health_menu),
             menu_util::get_stats_inventory_menu(*settings::health_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::health);
         mp[stats_value::health_rate_per] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::health_rate,
@@ -283,7 +286,7 @@ public:
             menu_keys::magicka,
             menu_util::get_stats_menu(*settings::magicka_menu),
             menu_util::get_stats_inventory_menu(*settings::magicka_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::magicka);
         mp[stats_value::magicka_rate_per] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::magicka_rate,
@@ -295,7 +298,7 @@ public:
             menu_keys::stamina,
             menu_util::get_stats_menu(*settings::stamina_menu),
             menu_util::get_stats_inventory_menu(*settings::magicka_rate_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::stamina);
         mp[stats_value::stamina_rate_per] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::stamina_rate,
@@ -361,108 +364,123 @@ public:
             menu_keys::one_handed,
             menu_util::get_stats_menu(*settings::one_handed_menu),
             menu_util::get_stats_inventory_menu(*settings::one_handed_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::one_handed);
         mp[stats_value::two_handed] = std::make_unique<stat_config>(actor_value::kTwoHanded,
             menu_keys::two_handed,
             menu_util::get_stats_menu(*settings::two_handed_menu),
             menu_util::get_stats_inventory_menu(*settings::two_handed_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::two_handed);
         mp[stats_value::archery] = std::make_unique<stat_config>(actor_value::kArchery,
             menu_keys::archery,
             menu_util::get_stats_menu(*settings::archery_menu),
             menu_util::get_stats_inventory_menu(*settings::archery_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::archery);
         mp[stats_value::block] = std::make_unique<stat_config>(actor_value::kBlock,
             menu_keys::block,
             menu_util::get_stats_menu(*settings::block_menu),
             menu_util::get_stats_inventory_menu(*settings::block_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::block);
         mp[stats_value::smithing] = std::make_unique<stat_config>(actor_value::kSmithing,
             menu_keys::smithing,
             menu_util::get_stats_menu(*settings::smithing_menu),
             menu_util::get_stats_inventory_menu(*settings::smithing_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::smithing);
         mp[stats_value::heavy_armor] = std::make_unique<stat_config>(actor_value::kHeavyArmor,
             menu_keys::heavy_armor,
             menu_util::get_stats_menu(*settings::heavy_armor_menu),
             menu_util::get_stats_inventory_menu(*settings::heavy_armor_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::heavy_armor);
         mp[stats_value::light_armor] = std::make_unique<stat_config>(actor_value::kLightArmor,
             menu_keys::light_armor,
             menu_util::get_stats_menu(*settings::light_armor_menu),
             menu_util::get_stats_inventory_menu(*settings::light_armor_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::light_armor);
-        mp[stats_value::pickpocket] = std::make_unique<stat_config>(actor_value::kPickpocket,
-            menu_keys::pickpocket,
-            menu_util::get_stats_menu(*settings::pickpocket_menu),
-            menu_util::get_stats_inventory_menu(*settings::pickpocket_menu_inventory),
-            *settings::display_permanent_av,
-            icon_keys::pickpocket);
-        mp[stats_value::lockpicking] = std::make_unique<stat_config>(actor_value::kLockpicking,
-            menu_keys::lockpicking,
-            menu_util::get_stats_menu(*settings::lockpicking_menu),
-            menu_util::get_stats_inventory_menu(*settings::lockpicking_menu_inventory),
-            *settings::display_permanent_av,
-            icon_keys::lockpicking);
+        if (*settings::hand_to_hand) {
+            mp[stats_value::pickpocket] = std::make_unique<stat_config>(actor_value::kPickpocket,
+                menu_keys::security,
+                menu_util::get_stats_menu(*settings::pickpocket_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_menu_inventory),
+                get_display_type,
+                icon_keys::security);
+            mp[stats_value::lockpicking] = std::make_unique<stat_config>(actor_value::kLockpicking,
+                menu_keys::hand_to_hand,
+                menu_util::get_stats_menu(*settings::lockpicking_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_menu_inventory),
+                get_display_type,
+                icon_keys::hand_to_hand);
+        } else {
+            mp[stats_value::pickpocket] = std::make_unique<stat_config>(actor_value::kPickpocket,
+                menu_keys::pickpocket,
+                menu_util::get_stats_menu(*settings::pickpocket_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_menu_inventory),
+                get_display_type,
+                icon_keys::pickpocket);
+            mp[stats_value::lockpicking] = std::make_unique<stat_config>(actor_value::kLockpicking,
+                menu_keys::lockpicking,
+                menu_util::get_stats_menu(*settings::lockpicking_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_menu_inventory),
+                get_display_type,
+                icon_keys::lockpicking);
+        }
         mp[stats_value::sneak] = std::make_unique<stat_config>(actor_value::kSneak,
             menu_keys::sneak,
             menu_util::get_stats_menu(*settings::sneak_menu),
             menu_util::get_stats_inventory_menu(*settings::sneak_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::sneak);
         mp[stats_value::alchemy] = std::make_unique<stat_config>(actor_value::kAlchemy,
             menu_keys::alchemy,
             menu_util::get_stats_menu(*settings::alchemy_menu),
             menu_util::get_stats_inventory_menu(*settings::alchemy_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::alchemy);
         mp[stats_value::speech] = std::make_unique<stat_config>(actor_value::kSpeech,
             menu_keys::speech,
             menu_util::get_stats_menu(*settings::speech_menu),
             menu_util::get_stats_inventory_menu(*settings::speech_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::speech);
         mp[stats_value::enchanting] = std::make_unique<stat_config>(actor_value::kEnchanting,
             menu_keys::enchanting,
             menu_util::get_stats_menu(*settings::enchanting_menu),
             menu_util::get_stats_inventory_menu(*settings::enchanting_menu_inventory),
-            *settings::display_permanent_av);
+            get_display_type);
         mp[stats_value::alteration] = std::make_unique<stat_config>(actor_value::kAlteration,
             menu_keys::alteration,
             menu_util::get_stats_menu(*settings::alteration_menu),
             menu_util::get_stats_inventory_menu(*settings::alteration_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::alteration);
         mp[stats_value::conjuration] = std::make_unique<stat_config>(actor_value::kConjuration,
             menu_keys::conjuration,
             menu_util::get_stats_menu(*settings::conjuration_menu),
             menu_util::get_stats_inventory_menu(*settings::conjuration_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::conjuration);
         mp[stats_value::destruction] = std::make_unique<stat_config>(actor_value::kDestruction,
             menu_keys::destruction,
             menu_util::get_stats_menu(*settings::destruction_menu),
             menu_util::get_stats_inventory_menu(*settings::destruction_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::destruction);
         mp[stats_value::illusion] = std::make_unique<stat_config>(actor_value::kIllusion,
             menu_keys::illusion,
             menu_util::get_stats_menu(*settings::illusion_menu),
             menu_util::get_stats_inventory_menu(*settings::illusion_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::illusion);
         mp[stats_value::restoration] = std::make_unique<stat_config>(actor_value::kRestoration,
             menu_keys::restoration,
             menu_util::get_stats_menu(*settings::restoration_menu),
             menu_util::get_stats_inventory_menu(*settings::restoration_menu_inventory),
-            *settings::display_permanent_av,
+            get_display_type,
             icon_keys::restoration);
         mp[stats_value::one_handed_power_mod] = std::make_unique<stat_config>(actor_value::kOneHandedPowerModifier,
             menu_keys::one_handed_power_mod,
@@ -499,16 +517,31 @@ public:
             menu_util::get_stats_menu(*settings::light_armor_power_mod_menu),
             menu_util::get_stats_inventory_menu(*settings::light_armor_power_mod_menu_inventory),
             icon_keys::light_armor_power_mod);
-        mp[stats_value::pickpocket_power_mod] = std::make_unique<stat_config>(actor_value::kPickpocketPowerModifier,
-            menu_keys::pickpocket_power_mod,
-            menu_util::get_stats_menu(*settings::pickpocket_power_mod_menu),
-            menu_util::get_stats_inventory_menu(*settings::pickpocket_power_mod_menu_inventory),
-            icon_keys::pickpocket_power_mod);
-        mp[stats_value::lockpicking_power_mod] = std::make_unique<stat_config>(actor_value::kLockpickingPowerModifier,
-            menu_keys::lockpicking_power_mod,
-            menu_util::get_stats_menu(*settings::lockpicking_power_mod_menu),
-            menu_util::get_stats_inventory_menu(*settings::lockpicking_power_mod_menu_inventory),
-            icon_keys::lockpicking_power_mod);
+        if (*settings::hand_to_hand) {
+            mp[stats_value::pickpocket_power_mod] = std::make_unique<stat_config>(actor_value::kPickpocketPowerModifier,
+                menu_keys::security_power_mod,
+                menu_util::get_stats_menu(*settings::pickpocket_power_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_power_mod_menu_inventory),
+                icon_keys::security_power_mod);
+            mp[stats_value::lockpicking_power_mod] = std::make_unique<stat_config>(
+                actor_value::kLockpickingPowerModifier,
+                menu_keys::hand_to_hand_power_mod,
+                menu_util::get_stats_menu(*settings::lockpicking_power_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_power_mod_menu_inventory),
+                icon_keys::hand_to_hand_power_mod);
+        } else {
+            mp[stats_value::pickpocket_power_mod] = std::make_unique<stat_config>(actor_value::kPickpocketPowerModifier,
+                menu_keys::pickpocket_power_mod,
+                menu_util::get_stats_menu(*settings::pickpocket_power_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_power_mod_menu_inventory),
+                icon_keys::pickpocket_power_mod);
+            mp[stats_value::lockpicking_power_mod] = std::make_unique<stat_config>(
+                actor_value::kLockpickingPowerModifier,
+                menu_keys::lockpicking_power_mod,
+                menu_util::get_stats_menu(*settings::lockpicking_power_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_power_mod_menu_inventory),
+                icon_keys::lockpicking_power_mod);
+        }
         mp[stats_value::sneak_power_mod] = std::make_unique<stat_config>(actor_value::kSneakingPowerModifier,
             menu_keys::sneak_power_mod,
             menu_util::get_stats_menu(*settings::sneak_power_mod_menu),
@@ -744,18 +777,33 @@ public:
             menu_util::get_stats_menu(*settings::light_armor_mod_menu),
             menu_util::get_stats_inventory_menu(*settings::light_armor_mod_menu_inventory),
             icon_keys::light_armor_mod);
-        mp[stats_value::pickpocket_mod] = std::make_unique<stat_config>(actor_value::kPickpocketModifier,
-            menu_keys::pickpocket_mod,
-            *settings::pickpocket_mod_string_ending,
-            menu_util::get_stats_menu(*settings::pickpocket_mod_menu),
-            menu_util::get_stats_inventory_menu(*settings::pickpocket_mod_menu_inventory),
-            icon_keys::pickpocket_mod);
-        mp[stats_value::lockpicking_mod] = std::make_unique<stat_config>(actor_value::kLockpickingModifier,
-            menu_keys::lockpicking_mod,
-            *settings::lockpicking_mod_string_ending,
-            menu_util::get_stats_menu(*settings::lockpicking_mod_menu),
-            menu_util::get_stats_inventory_menu(*settings::lockpicking_mod_menu_inventory),
-            icon_keys::lockpicking_mod);
+        if (*settings::hand_to_hand) {
+            mp[stats_value::pickpocket_mod] = std::make_unique<stat_config>(actor_value::kPickpocketModifier,
+                menu_keys::security_mod,
+                *settings::pickpocket_mod_string_ending,
+                menu_util::get_stats_menu(*settings::pickpocket_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_mod_menu_inventory),
+                icon_keys::security_mod);
+            mp[stats_value::lockpicking_mod] = std::make_unique<stat_config>(actor_value::kLockpickingModifier,
+                menu_keys::hand_to_hand_mod,
+                *settings::lockpicking_mod_string_ending,
+                menu_util::get_stats_menu(*settings::lockpicking_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_mod_menu_inventory),
+                icon_keys::hand_to_hand_mod);
+        } else {
+            mp[stats_value::pickpocket_mod] = std::make_unique<stat_config>(actor_value::kPickpocketModifier,
+                menu_keys::pickpocket_mod,
+                *settings::pickpocket_mod_string_ending,
+                menu_util::get_stats_menu(*settings::pickpocket_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::pickpocket_mod_menu_inventory),
+                icon_keys::pickpocket_mod);
+            mp[stats_value::lockpicking_mod] = std::make_unique<stat_config>(actor_value::kLockpickingModifier,
+                menu_keys::lockpicking_mod,
+                *settings::lockpicking_mod_string_ending,
+                menu_util::get_stats_menu(*settings::lockpicking_mod_menu),
+                menu_util::get_stats_inventory_menu(*settings::lockpicking_mod_menu_inventory),
+                icon_keys::lockpicking_mod);
+        }
         mp[stats_value::sneaking_mod] = std::make_unique<stat_config>(actor_value::kSneakingModifier,
             menu_keys::sneak_mod,
             *settings::sneak_mod_string_ending,

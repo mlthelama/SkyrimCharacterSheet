@@ -180,11 +180,49 @@ namespace value_util {
         return value;
     }
 
-    static std::string get_value_with_perm_av(const float a_av, const float a_perm_av) {
-        if (a_av != a_perm_av) {
-            return string_util::delimit_two_values(a_av, a_perm_av, const_delimiter);
+    static std::string get_value_av_add(const float a_av, const float a_add_av) {
+        if (a_av != a_add_av) {
+            return format(FMT_STRING("{} ({})"),
+                string_util::get_string_value_from_float(a_av),
+                string_util::get_string_value_from_float(a_add_av));
         }
         return string_util::get_string_value_from_float(a_av);
+    }
+
+    static std::string get_value_ext_av(const float a_av, const float a_base_av, const float a_perm_av) {
+        if (a_av != a_base_av != a_perm_av) {
+            return format(FMT_STRING("{} ({}) ({})"),
+                string_util::get_string_value_from_float(a_av),
+                string_util::get_string_value_from_float(a_base_av),
+                string_util::get_string_value_from_float(a_perm_av)
+                );
+        }
+        return string_util::get_string_value_from_float(a_av);
+    }
+
+
+    enum class display_actor_value_type {
+        m_value = 0,
+        m_value_base = 1,
+        m_value_permanent = 2,
+        m_value_base_permanent = 3
+    };
+
+    inline static std::map<int64_t, display_actor_value_type> const_config_display_actor_value_type = {
+        { static_cast<int64_t>(display_actor_value_type::m_value), display_actor_value_type::m_value },
+        { static_cast<int64_t>(display_actor_value_type::m_value_base), display_actor_value_type::m_value_base },
+        { static_cast<int64_t>(display_actor_value_type::m_value_permanent),
+          display_actor_value_type::m_value_permanent },
+        { static_cast<int64_t>(display_actor_value_type::m_value_base_permanent),
+          display_actor_value_type::m_value_base_permanent },
+    };
+
+    static display_actor_value_type get_display_actor_value_type(int64_t a_type_id) {
+        if (!const_config_display_actor_value_type.contains(a_type_id)) {
+            logger::warn("Can not find display value type {}"sv, a_type_id);
+            return display_actor_value_type::m_value;
+        }
+        return const_config_display_actor_value_type.find(a_type_id)->second;
     }
 }
 
