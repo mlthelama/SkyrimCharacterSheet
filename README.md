@@ -1,5 +1,5 @@
 
-# ShowStats   [![Badge License]][License]
+# Skyrim Character Sheet   [![Badge License]][License]
 
 *Display players statistics in custom windows.*
 
@@ -47,3 +47,4 @@
 
 [Button Nexus]: https://img.shields.io/badge/ＮＥＸＵＳMODS-8197ec?style=for-the-badge&logoColor=white&logo=DocuSign
 [Button Build]: https://img.shields.io/badge/Build-EF2D5E?style=for-the-badge&logoColor=white&logo=Dragonframe
+

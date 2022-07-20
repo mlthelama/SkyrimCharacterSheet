@@ -211,4 +211,11 @@ namespace menu_keys {
 
     constexpr auto count = "$ShowCount"sv;
 
+    //for hand to hand
+    constexpr auto hand_to_hand = "$ShowHandToHand"sv;
+    constexpr auto security = "$ShowSecurity"sv;
+    constexpr auto hand_to_hand_power_mod = "$ShowHandToHandPowerMod"sv;
+    constexpr auto security_power_mod = "$ShowSecurityPowerMod"sv;
+    constexpr auto hand_to_hand_mod = "$ShowHandToHandMod"sv;
+    constexpr auto security_mod = "$ShowSecurityMod"sv;
 }
