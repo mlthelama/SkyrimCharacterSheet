@@ -94,6 +94,8 @@ private:
     };
 
     void log_map() const {
-        for (const auto& [fst, snd] : champion_list_) { logger::trace("champion {}, {}"sv, string_util::get_int_from_enum(fst), snd); }
+        for (const auto& [fst, snd] : champion_list_) {
+            logger::trace("champion {}, {}"sv, string_util::get_int_from_enum(fst), snd);
+        }
     }
 };

@@ -38,11 +38,11 @@ namespace string_util {
     }
 
 
-    template<typename T, std::enable_if_t<std::is_enum_v<T>, int> = 0>
+    template <typename T, std::enable_if_t<std::is_enum_v<T>, int>  = 0>
     static int get_int_from_enum(const T& value) {
         return static_cast<int>(value);
     }
-    
+
 }
 
 namespace menu_util {
@@ -277,7 +277,7 @@ namespace quest_util {
         for (auto it = exec->begin(); it != exec->end(); ++it) {
             const auto& [data] = *it;
             auto [index, flags, pad3, pad4] = data;
-//            logger::trace("index {}, flag {}"sv,index, flags);
+            logger::trace("index {}, flag {}"sv, index, flags.underlying());
             if (flags.underlying() == 1) {
                 fin_stages.push_back(index);
             }
@@ -288,7 +288,7 @@ namespace quest_util {
         for (auto it = waiting->begin(); it != waiting->end(); ++it) {
             const auto i = *it;
             auto [index, flags, pad3, pad4] = i->data;
-            logger::trace("index {}, flag {}"sv, index, string_util::get_int_from_enum(flags.get()));
+            logger::trace("index {}, flag {}"sv, index, flags.underlying());
             if (flags.underlying() == 1) {
                 fin_stages.push_back(index);
             }

@@ -22,7 +22,9 @@ public:
             auto thane_value = fst;
             for (const auto& [a_form_id, a_stage] : snd) {
                 const auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
-                logger::trace("Thane {} working with formid {}"sv, string_util::get_int_from_enum(thane_value), string_util::int_to_hex(qst));
+                logger::trace("Thane {} working with formid {}"sv,
+                    string_util::get_int_from_enum(thane_value),
+                    string_util::int_to_hex(qst));
                 auto is_thane = false;
 
                 const auto qst_done = quest_util::is_quest_stage_complete(qst, a_stage);
@@ -96,7 +98,9 @@ private:
     };
 
     void log_map() const {
-        for (const auto& [fst, snd] : thane_list_) { logger::trace("thane {}, {}"sv, string_util::get_int_from_enum(fst), snd); }
+        for (const auto& [fst, snd] : thane_list_) {
+            logger::trace("thane {}, {}"sv, string_util::get_int_from_enum(fst), snd);
+        }
     }
 
     inline static std::map<faction_value, std::string_view> capital_to_title_ = {

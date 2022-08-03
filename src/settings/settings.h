@@ -612,6 +612,8 @@ public:
             0);
         fall_damage_mod_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iFallDamageMod", 0);
         warmth_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iWarmth", 0);
+
+        (void)ini.SaveFile(ini_path_);
     }
 
     /*static void set_show_window(const bool a_show_value) {
