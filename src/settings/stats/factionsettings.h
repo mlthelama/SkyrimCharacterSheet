@@ -14,7 +14,7 @@ public:
 
     [[nodiscard]] faction_menu_value get_menu() const { return menu_; }
 
-    
+
     void log_stat_config(const faction_value a_stats_value) {
         logger::trace("name {}, displayname {}, menu {}"sv,
             string_util::get_int_from_enum(a_stats_value),

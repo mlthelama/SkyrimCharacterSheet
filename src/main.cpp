@@ -31,13 +31,13 @@ void init_logger() {
 
         set_default_logger(move(log));
         spdlog::set_pattern("[%H:%M:%S.%f] %s(%#) [%^%l%$] %v"s);
-        
+
         logger::info("{} v{}"sv, Version::PROJECT, Version::NAME);
 
         try {
             setting::load_settings();
         } catch (const std::exception& e) { logger::warn("failed to load setting {}"sv, e.what()); }
-        
+
         switch (setting::get_log_level()) {
             case const_log_trace:
                 spdlog::set_level(spdlog::level::trace);
@@ -59,11 +59,12 @@ void init_logger() {
     } catch (const std::exception& e) { logger::critical("failed, cause {}"sv, e.what()); }
 }
 
-EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
-{
+EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse) {
 #ifndef NDEBUG
     while (!IsDebuggerPresent()) {};
 #endif
+    REL::Module::reset();
+
 
     init_logger();
 
@@ -81,7 +82,7 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
                 break;
         }
     });
-    
+
     logger::info("{} loaded"sv, Version::PROJECT);
     return true;
 }
@@ -90,18 +91,18 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) constinit auto SKSEPlugin_Versio
     SKSE::PluginVersionData v;
     v.PluginName(Version::PROJECT.data());
     v.AuthorName(Version::AUTHOR);
-    v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH, Version::BETA});
+    v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH, Version::BETA });
     v.UsesAddressLibrary(true);
     v.CompatibleVersions({ SKSE::RUNTIME_SSE_LATEST_SE });
     return v;
 }();
 
-EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* pluginInfo)
-{
+EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse,
+    SKSE::PluginInfo* pluginInfo) {
     pluginInfo->name = SKSEPlugin_Version.pluginName;
     pluginInfo->infoVersion = SKSE::PluginInfo::kVersion;
     pluginInfo->version = SKSEPlugin_Version.pluginVersion;
-    
+
 
     if (a_skse->IsEditor()) {
         logger::critical("Loaded in editor, marking as incompatible"sv);
@@ -116,4 +117,3 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Query(co
 
     return true;
 }
-

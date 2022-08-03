@@ -37,7 +37,7 @@ public:
 
     void log_stat_item(const stats_value a_stats_value, const show_menu a_menu) {
         if (a_menu == show_menu::m_stats) {
-           logger::trace("name {}, key {}, value {}, StatsMenu {}"sv,
+            logger::trace("name {}, key {}, value {}, StatsMenu {}"sv,
                 string_util::get_int_from_enum(a_stats_value),
                 gui_key_,
                 gui_value_,
