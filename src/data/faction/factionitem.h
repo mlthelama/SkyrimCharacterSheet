@@ -17,8 +17,8 @@ public:
 
     [[nodiscard]] faction_menu_value get_faction_menu() const { return faction_menu_; }
 
-    void log_stat_item(faction_value a_stats_value) {
-        logger::trace("name {}, key {}, value {}, StatsMenu {}"sv, a_stats_value, gui_key_, gui_value_, faction_menu_);
+    void log_stat_item(const faction_value a_stats_value) {
+        logger::trace("name {}, key {}, value {}, StatsMenu {}"sv, string_util::get_int_from_enum(a_stats_value), gui_key_, gui_value_, string_util::get_int_from_enum(faction_menu_));
     }
 
 

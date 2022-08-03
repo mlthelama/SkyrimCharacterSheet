@@ -8,7 +8,7 @@ namespace events {
         key_manager::sink();
         logger::info("Added Input Event"sv);
 
-        if (*settings::show_inventory_stats) {
+        if (setting::get_show_inventory_stats()) {
             menu_manager::sink();
             logger::info("Added Menu Event"sv);
 

@@ -37,6 +37,12 @@ namespace string_util {
             get_string_value_from_float(a_v2));
     }
 
+
+    template<typename T, std::enable_if_t<std::is_enum_v<T>, int> = 0>
+    static int get_int_from_enum(const T& value) {
+        return static_cast<int>(value);
+    }
+    
 }
 
 namespace menu_util {
@@ -92,9 +98,9 @@ namespace menu_util {
         { static_cast<int64_t>(stats_inventory_menu_value::m_effect), stats_inventory_menu_value::m_effect },
     };
 
-    static std::string_view get_menu_name(show_menu a_menu) {
+    static std::string_view get_menu_name(const show_menu a_menu) {
         if (!menu_name.contains(a_menu)) {
-            logger::warn("can not find Name for Menu {}"sv, a_menu);
+            logger::warn("can not find Name for Menu {}"sv, string_util::get_int_from_enum(a_menu));
             return "";
         }
         return menu_name.find(a_menu)->second;
@@ -146,7 +152,7 @@ namespace menu_util {
         logger::trace("Screen Resolution {}x{}"sv, state->screenWidth, state->screenHeight);
     }
 
-    static int64_t get_multiplier(int64_t a_mp) {
+    static int get_multiplier(int a_mp) {
         if (a_mp < 0) {
             logger::warn("multiplier value {} not supported, using 1"sv, a_mp);
             return const_static_multiplier;
@@ -271,7 +277,7 @@ namespace quest_util {
         for (auto it = exec->begin(); it != exec->end(); ++it) {
             const auto& [data] = *it;
             auto [index, flags, pad3, pad4] = data;
-            logger::trace("index {}, flag {}"sv, 1);
+//            logger::trace("index {}, flag {}"sv,index, flags);
             if (flags.underlying() == 1) {
                 fin_stages.push_back(index);
             }
@@ -282,7 +288,7 @@ namespace quest_util {
         for (auto it = waiting->begin(); it != waiting->end(); ++it) {
             const auto i = *it;
             auto [index, flags, pad3, pad4] = i->data;
-            logger::trace("index {}, flag {}"sv, index, flags.get());
+            logger::trace("index {}, flag {}"sv, index, string_util::get_int_from_enum(flags.get()));
             if (flags.underlying() == 1) {
                 fin_stages.push_back(index);
             }

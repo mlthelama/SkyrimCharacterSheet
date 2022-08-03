@@ -23,10 +23,10 @@ public:
             for (const auto& [a_form_id, a_stages] : snd) {
                 const auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
                 logger::trace("Champion {} working with formid {}"sv,
-                    champion_value,
+                    string_util::get_int_from_enum(champion_value),
                     string_util::int_to_hex(qst->GetFormID()));
                 if ([[maybe_unused]] auto quest_done = quest_util::is_one_quest_stage_complete(qst, a_stages)) {
-                    logger::trace("Champion of {}"sv, champion_value);
+                    logger::trace("Champion of {}"sv, string_util::get_int_from_enum(champion_value));
                     champion_list_.insert(
                         std::pair(champion_value, const_static_display_value));
                 }
@@ -94,6 +94,6 @@ private:
     };
 
     void log_map() const {
-        for (const auto& [fst, snd] : champion_list_) { logger::trace("champion {}, {}"sv, fst, snd); }
+        for (const auto& [fst, snd] : champion_list_) { logger::trace("champion {}, {}"sv, string_util::get_int_from_enum(fst), snd); }
     }
 };

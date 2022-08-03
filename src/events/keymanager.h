@@ -26,7 +26,7 @@ protected:
         using event_type = RE::INPUT_EVENT_TYPE;
         using device_type = RE::INPUT_DEVICE;
 
-        key_ = static_cast<uint32_t>(*settings::open_menu_button);
+        key_ = static_cast<uint32_t>(setting::get_open_menu_button());
 
         if (key_ == k_invalid) {
             return event_result::kContinue;
@@ -73,7 +73,7 @@ protected:
 
 
             if (ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME)) {
-                if (key == static_cast<uint32_t>(*settings::show_inventory_button)) {
+                if (key == static_cast<uint32_t>(setting::get_show_inventory_button())) {
                     logger::debug("configured Key ({}) for Inventory pressed"sv, key);
                     if (!show_handler::is_menu_open(show_menu::m_stats_inventory)) {
                         show_handler::handle_inventory_stats_open();
@@ -107,7 +107,7 @@ protected:
                 show_handler::close_all_windows();
                 break;
             }
-            if (key == static_cast<uint32_t>(*settings::open_faction_menu_button)) {
+            if (key == static_cast<uint32_t>(setting::get_open_faction_menu_button())) {
                 show_handler::handle_next_menu_button_press();
                 break;
             }

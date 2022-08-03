@@ -12,8 +12,6 @@
 #endif
 #pragma warning(pop)
 
-#include "AutoTOML.hpp"
-
 using namespace std::literals;
 
 namespace stl {

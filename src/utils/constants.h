@@ -118,7 +118,7 @@ enum class stats_value {
     warmth
 };
 
-enum class faction_value {
+enum class faction_value : int {
     darkbrotherhood,
     thiefs_guild,
     orc_friend,

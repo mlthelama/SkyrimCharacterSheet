@@ -104,9 +104,9 @@ private:
         { show_menu::m_stats_inventory, scaleform::stats_inventory_menu::menu_name }
     };
 
-    static std::string_view get_menu_scaleform_name(show_menu a_menu) {
+    static std::string_view get_menu_scaleform_name(const show_menu a_menu) {
         if (!menu_scale_form_name_.contains(a_menu)) {
-            logger::warn("can not find Scaleform Name for Menu {}"sv, a_menu);
+            logger::warn("can not find Scaleform Name for Menu {}"sv, string_util::get_int_from_enum(a_menu));
             return "";
         }
         return menu_scale_form_name_.find(a_menu)->second;

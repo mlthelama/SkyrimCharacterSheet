@@ -1,5 +1,6 @@
 #pragma once
 #include "utils/menukeys.h"
+#include "utils/utils.h"
 
 class faction_config {
     using faction_menu_value = menu_util::faction_menu_value;
@@ -13,11 +14,12 @@ public:
 
     [[nodiscard]] faction_menu_value get_menu() const { return menu_; }
 
-    void log_stat_config(faction_value a_stats_value) {
+    
+    void log_stat_config(const faction_value a_stats_value) {
         logger::trace("name {}, displayname {}, menu {}"sv,
-            a_stats_value,
+            string_util::get_int_from_enum(a_stats_value),
             display_name_,
-            menu_);
+            string_util::get_int_from_enum(menu_));
     }
 
     faction_config() = delete;
@@ -44,9 +46,9 @@ public:
     }
 
     [[nodiscard]] faction_map load() const {
-        auto faction_menu = menu_util::get_faction_menu(*settings::faction_menu);
-        auto thane_menu = menu_util::get_faction_menu(*settings::thane_menu);
-        auto champion_menu = menu_util::get_faction_menu(*settings::champion_menu);
+        auto faction_menu = menu_util::get_faction_menu(setting::get_faction_menu());
+        auto thane_menu = menu_util::get_faction_menu(setting::get_thane_menu());
+        auto champion_menu = menu_util::get_faction_menu(setting::get_champion_menu());
 
         faction_map mp;
         mp[faction_value::darkbrotherhood] = std::make_unique<faction_config>(menu_keys::darkbrotherhood, faction_menu);

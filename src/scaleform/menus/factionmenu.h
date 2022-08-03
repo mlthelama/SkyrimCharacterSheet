@@ -76,7 +76,7 @@ namespace scaleform {
             logger::debug("Loading Menu {} was successful {}"sv, file_name, success);
             assert(success);
             view_ = a_menu->uiMovie;
-            if (*settings::pause_game) {
+            if (setting::get_pause_game()) {
                 a_menu->menuFlags.set(flag::kPausesGame,
                     flag::kUsesCursor,
                     flag::kDisablePauseMenu,
@@ -296,8 +296,8 @@ namespace scaleform {
                     menu_map_.find(faction_menu)->second.PushBack(build_gfx_value(faction_item->get_key(),
                         key_value == const_static_display_value ? "" : key_value));
                     logger::trace("added to Menu {}, Name {}, Key {}, value {}"sv,
-                        faction_menu,
-                        faction_value,
+                        string_util::get_int_from_enum(faction_menu),
+                        string_util::get_int_from_enum(faction_value),
                         faction_item->get_key(),
                         faction_item->get_value());
                 }
