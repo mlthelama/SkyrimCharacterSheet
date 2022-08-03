@@ -3,7 +3,7 @@
 #include <SimpleIni.h>
 
 class setting {
-    inline static const char* ini_path_ = R"(.\Data\SKSE\Plugins\ShowStats.ini)";
+    inline static const char* ini_path_ = R"(.\Data\SKSE\Plugins\SkyrimCharacterSheet.ini)";
     inline static const char* const_undefined_ = "<undef>";
 
     inline static int log_level_;
