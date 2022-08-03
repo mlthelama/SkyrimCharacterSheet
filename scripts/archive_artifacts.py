@@ -8,8 +8,8 @@ def make_rel_archive(a_args):
 		a_args.dll,
 		"SKSE/Plugins/{}".format(os.path.basename(a_args.dll)))
 	archive.write(
-		os.path.join(a_args.src_dir, "ShowStats.toml"),
-		"SKSE/Plugins/ShowStats.toml")
+		os.path.join(a_args.src_dir, "SkyrimCharacterSheet.ini"),
+		"SKSE/Plugins/SkyrimCharacterSheet.ini")
 	archive.write(
 		os.path.join(a_args.src_dir, "swf", "standard", "ShowStats.swf"),
 		"Interface/ShowStats.swf")
@@ -20,8 +20,8 @@ def make_rel_archive(a_args):
 		os.path.join(a_args.src_dir, "swf", "standard", "ShowStatsInventory.swf"),
 		"Interface/ShowStatsInventory.swf")
 	archive.write(
-		os.path.join(a_args.src_dir, "swf", "Translations", "ShowStats_english.txt"),
-		"Interface/Translations/ShowStats_english.txt")
+		os.path.join(a_args.src_dir, "swf", "Translations", "SkyrimCharacterSheet_english.txt"),
+		"Interface/Translations/SkyrimCharacterSheet_english.txt")
 
 def make_dbg_archive(a_args):
 	archive = zipfile.ZipFile(a_args.name + "_pdb" + ".zip", "w", zipfile.ZIP_DEFLATED)

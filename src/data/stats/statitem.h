@@ -35,19 +35,19 @@ public:
 
     [[nodiscard]] std::string_view get_icon() const { return icon_string_; }
 
-    void log_stat_item(stats_value a_stats_value, const show_menu a_menu) {
+    void log_stat_item(const stats_value a_stats_value, const show_menu a_menu) {
         if (a_menu == show_menu::m_stats) {
-            logger::trace("name {}, key {}, value {}, StatsMenu {}"sv,
-                a_stats_value,
+           logger::trace("name {}, key {}, value {}, StatsMenu {}"sv,
+                string_util::get_int_from_enum(a_stats_value),
                 gui_key_,
                 gui_value_,
-                stats_menu_);
+                string_util::get_int_from_enum(stats_menu_));
         } else {
             logger::trace("name {}, key {}, value {}, StatsInventoryMenu {}"sv,
-                a_stats_value,
+                string_util::get_int_from_enum(a_stats_value),
                 gui_key_,
                 gui_value_,
-                stats_inventory_menu_);
+                string_util::get_int_from_enum(stats_inventory_menu_));
         }
     }
 

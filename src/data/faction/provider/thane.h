@@ -22,7 +22,7 @@ public:
             auto thane_value = fst;
             for (const auto& [a_form_id, a_stage] : snd) {
                 const auto qst = RE::TESForm::LookupByID(a_form_id)->As<RE::TESQuest>();
-                logger::trace("Thane {} working with formid {}"sv, thane_value, string_util::int_to_hex(qst));
+                logger::trace("Thane {} working with formid {}"sv, string_util::get_int_from_enum(thane_value), string_util::int_to_hex(qst));
                 auto is_thane = false;
 
                 const auto qst_done = quest_util::is_quest_stage_complete(qst, a_stage);
@@ -39,7 +39,7 @@ public:
                         pre_quests && qst_done) {
                         is_thane = true;
                     }
-                } else if (thane_value == faction_value::whiterun && !*settings::skyrim_unbound) {
+                } else if (thane_value == faction_value::whiterun && !setting::get_skyrim_unbound()) {
                     const auto dragons_rising_qst = RE::TESForm::LookupByID(0x0002610C)->As<RE::TESQuest>();
                     const auto cw_object_qst = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>();
                     const auto pre_quests = quest_util::is_one_quest_stage_complete(cw_object_qst,
@@ -55,7 +55,7 @@ public:
                 }
 
                 if (is_thane) {
-                    logger::trace("Thane of {}"sv, thane_value);
+                    logger::trace("Thane of {}"sv, string_util::get_int_from_enum(thane_value));
                     thane_list_.insert(
                         std::pair(thane_value, get_thane_title_value(thane_value)));
                 }
@@ -96,7 +96,7 @@ private:
     };
 
     void log_map() const {
-        for (const auto& [fst, snd] : thane_list_) { logger::trace("thane {}, {}"sv, fst, snd); }
+        for (const auto& [fst, snd] : thane_list_) { logger::trace("thane {}, {}"sv, string_util::get_int_from_enum(fst), snd); }
     }
 
     inline static std::map<faction_value, std::string_view> capital_to_title_ = {

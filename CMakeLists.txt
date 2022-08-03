@@ -14,7 +14,6 @@ set_from_environment(VCPKG_ROOT)
 
 if (DEFINED VCPKG_ROOT)
 	set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-    set(VCPKG_OVERLAY_PORTS "${CMAKE_CURRENT_SOURCE_DIR}/ports" CACHE STRING "")
 	set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "")
 else ()
 	message(
@@ -26,11 +25,16 @@ endif ()
 set(Boost_USE_STATIC_RUNTIME OFF CACHE BOOL "")
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "")
 
+option(ENABLE_SKYRIM_SE "Enable support for Skyrim SE in the dynamic runtime feature." ON)
+option(ENABLE_SKYRIM_AE "Enable support for Skyrim AE in the dynamic runtime feature." ON)
+option(ENABLE_SKYRIM_VR "Enable support for Skyrim VR in the dynamic runtime feature." OFF)
+set(BUILD_TESTS OFF)
+
 # ---- Project ----
 
 project(
-	ShowStats
-	VERSION 1.0.1.0
+	SkyrimCharacterSheet
+	VERSION 1.0.2.0
 	LANGUAGES CXX
 )
 
@@ -77,10 +81,9 @@ set(Boost_USE_STATIC_LIBS ON)
 
 # ---- Dependencies ----
 
-add_subdirectory("extern/CommonLibSSE" CommonLibSSE)
+find_package(CommonLibSSE CONFIG REQUIRED)
 
 find_package(spdlog REQUIRED CONFIG)
-find_package(AutoTOML REQUIRED CONFIG)
 
 # ---- Add source files ----
 
@@ -111,7 +114,7 @@ add_library(
 	${CMAKE_CURRENT_BINARY_DIR}/version.rc
 	.clang-format
     .editorconfig
-	ShowStats.toml
+	SkyrimCharacterSheet.ini
 )
 
 target_compile_features(
@@ -130,7 +133,6 @@ target_include_directories(
 target_link_libraries(
 	${PROJECT_NAME}
 	PRIVATE
-		AutoTOML::AutoTOML
 		CommonLibSSE::CommonLibSSE
 		spdlog::spdlog
 )

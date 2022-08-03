@@ -15,8 +15,8 @@
 
 ## Building
 ```
-git clone https://github.com/mlthelama/ShowStats.git
-cd ShowStats
+git clone https://github.com/mlthelama/SkyrimCharacterSheet.git
+cd SkyrimCharacterSheet
 
 git submodule update --init --recursive
 cmake -B build -S .

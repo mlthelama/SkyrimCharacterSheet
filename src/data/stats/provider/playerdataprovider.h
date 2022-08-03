@@ -129,12 +129,12 @@ public:
             if (const auto& [count, entry] = invData; count > 0 && entry->IsWorn()) {
                 const auto armor = item->As<RE::TESObjectARMO>();
 
-                logger::trace("Armor name {}, Slot {}"sv, armor->GetName(), armor->GetSlotMask());
+                logger::trace("Armor name {}, Slot {}"sv, armor->GetName(), string_util::get_int_from_enum(armor->GetSlotMask()));
                 std::vector<int32_t> slot_list;
                 for (auto slot_type : slot_types_) {
                     if (static_cast<int32_t>(armor->GetSlotMask()) & static_cast<int32_t>(slot_type)) {
                         auto slot = get_slotid_from_bit_mask(slot_type);
-                        logger::trace("Item has slotType {}, {}"sv, slot_type, slot);
+                        logger::trace("Item has slotType {}, {}"sv, string_util::get_int_from_enum(slot_type), slot);
                         slot_list.push_back(static_cast<int32_t>(slot));
                     }
                 }

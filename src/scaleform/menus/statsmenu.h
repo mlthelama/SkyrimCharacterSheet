@@ -74,7 +74,7 @@ namespace scaleform {
             logger::debug("Loading Menu {} was successful {}"sv, file_name, success);
             assert(success);
             view_ = a_menu->uiMovie;
-            if (*settings::pause_game) {
+            if (setting::get_pause_game()) {
                 a_menu->menuFlags.set(flag::kPausesGame,
                     flag::kUsesCursor,
                     flag::kDisablePauseMenu,
@@ -347,8 +347,8 @@ namespace scaleform {
                                          stat_item->get_value(),
                                          stat_item->get_icon()));
                             logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
-                                stat_item->get_stats_menu(),
-                                stat_value,
+                                string_util::get_int_from_enum(stat_item->get_stats_menu()),
+                                string_util::get_int_from_enum(stat_value),
                                 stat_item->get_key(),
                                 stat_item->get_value());
                         }

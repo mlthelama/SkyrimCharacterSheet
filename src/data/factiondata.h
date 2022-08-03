@@ -23,13 +23,13 @@ public:
         const auto thane = thane::get_singleton();
         const auto champion = champion::get_singleton();
 
-        if (menu_util::get_faction_menu(*settings::faction_menu) != faction_menu_value::m_none) {
+        if (menu_util::get_faction_menu(setting::get_faction_menu()) != faction_menu_value::m_none) {
             faction->get_factions(player);
         }
-        if (menu_util::get_faction_menu(*settings::thane_menu) != faction_menu_value::m_none) {
+        if (menu_util::get_faction_menu(setting::get_thane_menu()) != faction_menu_value::m_none) {
             thane->get_region_thanes();
         }
-        if (menu_util::get_faction_menu(*settings::champion_menu) != faction_menu_value::m_none) {
+        if (menu_util::get_faction_menu(setting::get_champion_menu()) != faction_menu_value::m_none) {
             champion->get_champions();
         }
 
@@ -93,7 +93,7 @@ public:
                     break;
                 default:
                     logger::warn("unhandeled stat, name {}, displayName {}"sv,
-                        faction_value,
+                        string_util::get_int_from_enum(faction_value),
                         faction_config->get_display_name());
                     break;
             }

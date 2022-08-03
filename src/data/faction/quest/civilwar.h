@@ -10,7 +10,7 @@ public:
     //handle jagged crown switch
     [[nodiscard]] std::string get_imperial_legion_rank() const {
         auto rank_name = const_string_empty_;
-        for (const auto& [fst, snd] : _imperialQuestStageMap) {
+        for (const auto& [fst, snd] : imperial_quest_stage_map_) {
             const auto rank_value = fst;
             logger::trace("Checking Imperal Rank {}"sv, get_imperial_rank_name(rank_value));
             auto rank_done = false;
@@ -91,13 +91,13 @@ private:
 
     static std::string_view get_imperial_rank_name(imperial_rank a_rank) {
         if (!imperial_rank_name_map_.contains(a_rank)) {
-            logger::warn("can not find Name for Rank {}"sv, a_rank);
+            logger::warn("can not find Name for Rank {}"sv, string_util::get_int_from_enum(a_rank));
             return "";
         }
         return imperial_rank_name_map_.find(a_rank)->second;
     }
 
-    inline static std::map<imperial_rank, std::map<RE::FormID, std::vector<uint16_t>>> _imperialQuestStageMap = {
+    inline static std::map<imperial_rank, std::map<RE::FormID, std::vector<uint16_t>>> imperial_quest_stage_map_ = {
         { imperial_rank::auxiliary, { { 0x000D517A, std::vector{ quest_util::get_as(200) } } } },
         { imperial_rank::quaestor,
           { { 0x00096E71, std::vector{ quest_util::get_as(9000), quest_util::get_as(9999) } } } },
@@ -127,9 +127,9 @@ private:
         { stormcloak_rank::stormblade, menu_keys::stormblade }
     };
 
-    static std::string_view get_stormcloak_rank_name(stormcloak_rank a_rank) {
+    static std::string_view get_stormcloak_rank_name(const stormcloak_rank a_rank) {
         if (!stormcloak_rank_name_map_.contains(a_rank)) {
-            logger::warn("can not find Name for Rank {}"sv, a_rank);
+            logger::warn("can not find Name for Rank {}"sv, string_util::get_int_from_enum(a_rank));
             return "";
         }
         return stormcloak_rank_name_map_.find(a_rank)->second;

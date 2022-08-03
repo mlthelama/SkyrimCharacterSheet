@@ -285,8 +285,8 @@ namespace scaleform {
                 menu_map_.find(stat_item->get_stats_inventory_menu())->second.PushBack(
                     build_gfx_value(stat_item->get_key(), stat_item->get_value(), stat_item->get_icon()));
                 logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
-                    stat_item->get_stats_menu(),
-                    stat_value,
+                    string_util::get_int_from_enum(stat_item->get_stats_menu()),
+                    string_util::get_int_from_enum(stat_value),
                     stat_item->get_key(),
                     stat_item->get_value());
             }

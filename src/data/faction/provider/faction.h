@@ -126,7 +126,7 @@ private:
         { 0x02003375, faction_value::dawnguard }, { 0x04019B8A, faction_value::house_telvanni } };
 
     void log_map() const {
-        for (const auto& [fst, snd] : faction_rank_list_) { logger::trace("faction {}, rank {}"sv, fst, snd); }
+        for (const auto& [fst, snd] : faction_rank_list_) { logger::trace("faction {}, rank {}"sv, string_util::get_int_from_enum(fst), snd); }
     }
 
     [[nodiscard]] std::string_view get_dark_brotherhood_rank() const {

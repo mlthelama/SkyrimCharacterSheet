@@ -1,14 +1,15 @@
 {
-  "name": "showstats",
+  "name": "skyrimcharactersheet",
   "version-string": "1.0.1.0",
   "description": "An info page",
   "homepage": "https://github.com/mlthelama/SkyrimCharacterSheet",
   "license": "MIT",
   "dependencies": [
-	"autotoml",
+	"simpleini",
     "boost-atomic",
     "boost-stl-interfaces",
     "span-lite",
-    "spdlog"
+    "spdlog",
+    "commonlibsse-ng-flatrim"
   ]
 }

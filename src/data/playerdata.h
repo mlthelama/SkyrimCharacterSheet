@@ -172,7 +172,7 @@ public:
                         }
                     } else {
                         logger::warn("unhandeled stat, name {}, displayName {}"sv,
-                            stat_value,
+                            string_util::get_int_from_enum(stat_value),
                             stat_config->get_display_name());
                     }
                     break;
@@ -183,8 +183,8 @@ public:
             }
 
             //todo fix for some values should be shown if 0, atm hardcode noise here
-            if (!*settings::show_stats_inventorydisplay_zero && value_text == "0" && a_menu ==
-                show_menu::m_stats_inventory || !*settings::show_stats_display_zero && value_text == "0" && a_menu ==
+            if (!setting::get_show_stats_inventorydisplay_zero() && value_text == "0" && a_menu ==
+                show_menu::m_stats_inventory || !setting::get_show_stats_display_zero() && value_text == "0" && a_menu ==
                 show_menu::m_stats) {
                 if (stat_config->get_actor() != RE::ActorValue::kMovementNoiseMult) {
                     continue;

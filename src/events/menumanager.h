@@ -33,7 +33,7 @@ protected:
                 show_handler::close_window(show_menu::m_stats);
             }
 
-            if (*settings::show_inventory_stats_auto_open) {
+            if (setting::get_show_inventory_stats_auto_open()) {
                 show_handler::handle_inventory_stats_open();
             }
         }
