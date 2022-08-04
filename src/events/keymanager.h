@@ -108,6 +108,7 @@ protected:
                 break;
             }
             if (key == static_cast<uint32_t>(setting::get_open_faction_menu_button())) {
+                logger::debug("next menu Key ({}) pressed"sv, key);
                 show_handler::handle_next_menu_button_press();
                 break;
             }

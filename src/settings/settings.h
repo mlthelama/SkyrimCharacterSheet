@@ -631,7 +631,7 @@ public:
 
     static int get_log_level() { return log_level_; }
     static int get_open_menu_button() { return open_menu_button_; }
-    static bool get_open_faction_menu_button() { return open_faction_menu_button_; }
+    static int get_open_faction_menu_button() { return open_faction_menu_button_; }
     static bool get_pause_game() { return pause_game_; }
     static bool get_show_inventory_stats() { return show_inventory_stats_; }
     static bool get_show_inventory_stats_auto_open() { return show_inventory_stats_auto_open_; }
