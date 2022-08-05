@@ -398,7 +398,7 @@ public:
         one_handed_menu_ = ini.GetLongValue("showStatsMenu", "iOneHanded", 0);
         two_handed_menu_ = ini.GetLongValue("showStatsMenu", "iTwoHanded", 0);
         archery_menu_ = ini.GetLongValue("showStatsMenu", "iArchery", 0);
-        block_menu_ = ini.GetLongValue("showStatsMenu", "iNlock", 0);
+        block_menu_ = ini.GetLongValue("showStatsMenu", "iBlock", 0);
         smithing_menu_ = ini.GetLongValue("showStatsMenu", "iSmithing", 0);
         heavy_armor_menu_ = ini.GetLongValue("showStatsMenu", "iHeavyArmor", 0);
         light_armor_menu_ = ini.GetLongValue("showStatsMenu", "iLightArmor", 0);
