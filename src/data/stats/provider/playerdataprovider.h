@@ -81,8 +81,9 @@ public:
     }
 
     static std::string get_xp(RE::PlayerCharacter*& a_player) {
-        return string_util::delimit_two_values(a_player->skills->data->xp,
-            a_player->skills->data->levelThreshold,
+        const auto data =a_player->GetInfoRuntimeData().skills->data;
+        return string_util::delimit_two_values(data->xp,
+            data->levelThreshold,
             const_delimiter);
     }
 
@@ -109,7 +110,7 @@ public:
         }
 
         auto damage_resistance =
-            value_util::calculate_armor_damage_res(a_player->GetActorValue(RE::ActorValue::kDamageResist), armor_count);
+            value_util::calculate_armor_damage_res(a_player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kDamageResist), armor_count);
         //auto dragonhide = getValueIfDragonhideIsAcitve(a_player);
         auto damage_resistance_string = string_util::get_string_value_from_float(damage_resistance);
         logger::debug("Damage Resistance from Armor {}"sv, damage_resistance);
@@ -264,7 +265,7 @@ private:
     *  with the 80% cap it should be a total of 96% res
     */
     static float get_value_if_dragonhide_is_active(RE::PlayerCharacter*& a_player) {
-        auto effects = a_player->GetActiveEffectList();
+        auto effects = a_player->AsMagicTarget()->GetActiveEffectList();
         if (!effects) {
             return 0;
         }
@@ -288,9 +289,9 @@ private:
     static RE::InventoryEntryData* get_equipped_weapon(RE::PlayerCharacter*& a_player, bool a_left) {
         RE::InventoryEntryData* weapon;
         if (a_left) {
-            weapon = a_player->currentProcess->middleHigh->leftHand;
+            weapon = a_player->GetActorRuntimeData().currentProcess->middleHigh->leftHand;
         } else {
-            weapon = a_player->currentProcess->middleHigh->rightHand;
+            weapon = a_player->GetActorRuntimeData().currentProcess->middleHigh->rightHand;
         }
 
         if (weapon) {
