@@ -81,7 +81,7 @@ public:
     }
 
     static std::string get_xp(RE::PlayerCharacter*& a_player) {
-        const auto data =a_player->GetInfoRuntimeData().skills->data;
+        const auto data = a_player->GetInfoRuntimeData().skills->data;
         return string_util::delimit_two_values(data->xp,
             data->levelThreshold,
             const_delimiter);
@@ -110,7 +110,9 @@ public:
         }
 
         auto damage_resistance =
-            value_util::calculate_armor_damage_res(a_player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kDamageResist), armor_count);
+            value_util::calculate_armor_damage_res(
+                a_player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kDamageResist),
+                armor_count);
         //auto dragonhide = getValueIfDragonhideIsAcitve(a_player);
         auto damage_resistance_string = string_util::get_string_value_from_float(damage_resistance);
         logger::debug("Damage Resistance from Armor {}"sv, damage_resistance);

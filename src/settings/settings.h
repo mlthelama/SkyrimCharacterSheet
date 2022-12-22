@@ -302,6 +302,12 @@ class setting {
     inline static int weapon_crit_damage_rating_left_menu_inventory_;
     inline static int fall_damage_mod_menu_inventory_;
     inline static int warmth_menu_inventory_;
+
+    //for Armor Rating Rescaled SKSE Remake support
+    inline static bool armor_rating_rescaled_skse_remake_active_;
+    inline static float armor_scaling_factor_;
+    inline static bool disable_hidden_;
+    inline static int override_armor_cap_;
 public:
     static void load_settings() {
         CSimpleIniA ini;
@@ -312,17 +318,17 @@ public:
         open_menu_button_ = ini.GetLongValue("General", "iOpenMenuButton", 22);
         open_faction_menu_button_ = ini.GetLongValue("General", "iOpenNextMenuButton", 49);
         pause_game_ = ini.GetBoolValue("General", "bPauseGame", true); //G
-        show_inventory_stats_ = ini.GetBoolValue("General", "bShowInventoryStats", true);
-        show_inventory_stats_auto_open_ = ini.GetBoolValue("General", "bShowInventoryStatsAutoOpen", true);
+        show_inventory_stats_ = ini.GetBoolValue("General", "bShowInventoryStats", false);
+        show_inventory_stats_auto_open_ = ini.GetBoolValue("General", "bShowInventoryStatsAutoOpen", false);
         show_inventory_button_ = ini.GetLongValue("General", "iShowInventoryButton", 11);
         display_av_type_ = ini.GetLongValue("General", "iDisplayBasePermanentActorValue", 0);
 
-        skyrim_unbound_ = ini.GetBoolValue("Mods", "bSkyrimUnbound", true);
-        hand_to_hand_ = ini.GetBoolValue("Mods", "bHandToHand", true);
+        skyrim_unbound_ = ini.GetBoolValue("Mods", "bSkyrimUnbound", false);
+        hand_to_hand_ = ini.GetBoolValue("Mods", "bHandToHand", false);
 
         show_resistance_cap_ = ini.GetBoolValue("specialHandling", "bShowResistanceCap", true);
 
-        show_stats_display_zero_ = ini.GetBoolValue("showStatsSpecial", "bDisplayZero", true);
+        show_stats_display_zero_ = ini.GetBoolValue("showStatsSpecial", "bDisplayZero", false);
 
 
         height_string_ending_ = ini.GetValue("showStatsEnding", "sHeight", const_undefined_);
@@ -385,7 +391,7 @@ public:
         health_menu_ = ini.GetLongValue("showStatsMenu", "iHealth", 0);
         health_rate_menu_ = ini.GetLongValue("showStatsMenu", "iHealthRatePer", 0);
         magicka_menu_ = ini.GetLongValue("showStatsMenu", "iMagicka", 0);
-        magicka_rate_menu_ = ini.GetLongValue("showStatsMenu", "iNagickaRatePer", 0);
+        magicka_rate_menu_ = ini.GetLongValue("showStatsMenu", "iMagickaRatePer", 0);
         stamina_menu_ = ini.GetLongValue("showStatsMenu", "iStamina", 0);
         stamina_rate_menu_ = ini.GetLongValue("showStatsMenu", "iStaminaRatePer", 0);
         resist_damage_menu_ = ini.GetLongValue("showStatsMenu", "iResistDamage", 0);
@@ -612,6 +618,13 @@ public:
             0);
         fall_damage_mod_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iFallDamageMod", 0);
         warmth_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iWarmth", 0);
+
+        armor_rating_rescaled_skse_remake_active_ = ini.GetBoolValue("Mods",
+            "bArmorRatingRescaledSkseRemakeActive",
+            false);
+        armor_scaling_factor_ = ini.GetDoubleValue("Mods", "fArmorScalingFactor", 1.0);
+        disable_hidden_ = ini.GetBoolValue("Mods", "bDisableHidden", false);
+        override_armor_cap_ = ini.GetLongValue("Mods", "iOverrideArmorCap", 0);
 
         (void)ini.SaveFile(ini_path_);
     }
@@ -917,4 +930,8 @@ public:
 
     static int get_fall_damage_mod_menu_inventory() { return fall_damage_mod_menu_inventory_; }
     static int get_warmth_menu_inventory() { return warmth_menu_inventory_; }
+    static bool get_ARRSR_active() { return armor_rating_rescaled_skse_remake_active_; }
+    static float get_ARRSR_armor_scaling_factor() { return armor_scaling_factor_; }
+    static bool get_ARRSR_disable_hidden() { return disable_hidden_; }
+    static int get_ARRSR_override_armor_cap() { return override_armor_cap_; }
 };

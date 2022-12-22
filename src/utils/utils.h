@@ -166,9 +166,44 @@ namespace menu_util {
 }
 
 namespace value_util {
-    static float calculate_armor_damage_res(const float a_armor_rating, const int32_t a_pieces_worn) {
-        //return (float(a_armor_rating * 0.12) + float(3 * a_pieces_worn));
+
+    static float calculate_armor_damage_res_ARRSR(const float a_armor_rating, const int32_t a_pieces_worn) {
         const auto game_settings = game_settings::get_singleton();
+
+        auto overwrite = setting::get_ARRSR_override_armor_cap();
+
+        auto hidden_resist = game_settings->armor_base_factor * a_pieces_worn;
+        auto vanilla_resist = a_armor_rating / 100 * game_settings->armor_scaling_factor;
+        if (!setting::get_ARRSR_disable_hidden()) {
+            vanilla_resist = vanilla_resist + hidden_resist;
+        }
+        auto function_one = vanilla_resist * 5.0 * setting::get_ARRSR_armor_scaling_factor();
+        auto function_two = function_one / (1 + function_one);
+        auto function_three = function_two + (1 - function_two) * hidden_resist;
+        auto res = min(function_three, game_settings->max_armor_resistance);
+        if (overwrite > 0 && res > overwrite) {
+            res = overwrite;
+        }
+
+        //multiply by 100
+        logger::trace("New Calculated Damage Resistance {}, hidden {}, vanilla {},  one {}, two {}, three {}, res {}",
+            string_util::get_string_value_from_float(res),
+            hidden_resist,
+            vanilla_resist,
+            function_one,
+            function_two,
+            function_three,
+            res);
+
+        return res * 100;
+    }
+
+    static float calculate_armor_damage_res(const float a_armor_rating, const int32_t a_pieces_worn) {
+        const auto game_settings = game_settings::get_singleton();
+
+        if (setting::get_ARRSR_active()) {
+            return calculate_armor_damage_res_ARRSR(a_armor_rating, a_pieces_worn);
+        }
 
         return a_armor_rating * game_settings->armor_scaling_factor +
                game_settings->armor_base_factor * 100 * a_pieces_worn;

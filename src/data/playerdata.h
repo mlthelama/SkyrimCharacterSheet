@@ -72,22 +72,26 @@ public:
                     value_text = player_data_provider::get_damage(player, true);
                     break;
                 case stats_value::beast:
-                    value_text = player_data_provider::get_beast(player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kVampirePerks),
+                    value_text = player_data_provider::get_beast(
+                        player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kVampirePerks),
                         player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kWerewolfPerks));
                     break;
                 case stats_value::health_rate_per:
                     value_text = string_util::get_string_value_from_float(
-                        string_util::calculate_value(player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kHealRateMult),
+                        string_util::calculate_value(
+                            player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kHealRateMult),
                             player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kHealRate)));
                     break;
                 case stats_value::magicka_rate_per:
                     value_text = string_util::get_string_value_from_float(
-                        string_util::calculate_value(player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kMagickaRateMult),
+                        string_util::calculate_value(
+                            player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kMagickaRateMult),
                             player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kMagickaRate)));
                     break;
                 case stats_value::stamina_rate_per:
                     value_text = string_util::get_string_value_from_float(
-                        string_util::calculate_value(player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kStaminaRateMult),
+                        string_util::calculate_value(
+                            player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kStaminaRateMult),
                             player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kStaminaRate)));
                     break;
                 case stats_value::xp:
@@ -143,7 +147,8 @@ public:
                     if (stat_config->get_actor() != RE::ActorValue::kNone) {
                         //for whatever reason magicka, stamina and health enchantments count as permanent
                         auto value =
-                            player->AsActorValueOwner()->GetActorValue(stat_config->get_actor()) * stat_config->get_value_multiplier();
+                            player->AsActorValueOwner()->GetActorValue(stat_config->get_actor()) * stat_config->
+                            get_value_multiplier();
                         if (stat_config->get_cap() != -1) {
                             value_text = value_util::get_value_with_cap_if_needed(value,
                                 stat_config->get_cap(),
@@ -151,9 +156,11 @@ public:
                         }
 
                         if (value_text.empty()) {
-                            auto base_av = player->AsActorValueOwner()->GetBaseActorValue(stat_config->get_actor()) * stat_config->
+                            auto base_av = player->AsActorValueOwner()->GetBaseActorValue(stat_config->get_actor()) *
+                                           stat_config->
                                            get_value_multiplier();
-                            auto perm_av = player->AsActorValueOwner()->GetPermanentActorValue(stat_config->get_actor()) * stat_config->
+                            auto perm_av = player->AsActorValueOwner()->GetPermanentActorValue(stat_config->get_actor())
+                                           * stat_config->
                                            get_value_multiplier();
                             switch (stat_config->get_show_base_permanent_value()) {
                                 case value_util::display_actor_value_type::m_value:
