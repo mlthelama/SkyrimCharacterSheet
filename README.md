@@ -13,7 +13,10 @@
 * [CommonLibSSE NG](https://github.com/CharmedBaryon/CommonLibSSE-NG)
 * [spdlog](https://github.com/gabime/spdlog)
 * [simpleini](https://github.com/brofield/simpleini)
-
+* [vcpkg](https://github.com/microsoft/vcpkg) 
+  - Add the environment variable `VCPKG_ROOT` with the value as the path to the folder containing vcpkg
+* [cmake](https://cmake.org) 
+  - installed dir needs to be added to the `PATH` environment variable
 
 ## Building
 ```
