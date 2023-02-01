@@ -17,7 +17,7 @@ namespace string_util {
         return text;
     }
 
-    static std::string get_string_value_from_float(float a_x) { return cut_string(format(FMT_STRING("{:.2f}"), a_x)); }
+    static std::string get_string_value_from_float(float a_x) { return cut_string(fmt::format(FMT_STRING("{:.2f}"), a_x)); }
 
     static float calculate_value(const float a_rm, const float a_r) { return (a_rm * a_r) / 100; }
 
@@ -170,7 +170,7 @@ namespace value_util {
     static float calculate_armor_damage_res_ARRSR(const float a_armor_rating, const int32_t a_pieces_worn) {
         const auto game_settings = game_settings::get_singleton();
 
-        auto overwrite = setting::get_ARRSR_override_armor_cap();
+        const auto overwrite = setting::get_ARRSR_override_armor_cap();
 
         auto hidden_resist = game_settings->armor_base_factor * a_pieces_worn;
         auto vanilla_resist = a_armor_rating / 100 * game_settings->armor_scaling_factor;
@@ -223,7 +223,7 @@ namespace value_util {
 
     static std::string get_value_av_add(const float a_av, const float a_add_av) {
         if (a_av != a_add_av) {
-            return format(FMT_STRING("{} ({})"),
+            return fmt::format(FMT_STRING("{} ({})"),
                 string_util::get_string_value_from_float(a_av),
                 string_util::get_string_value_from_float(a_add_av));
         }
@@ -232,7 +232,7 @@ namespace value_util {
 
     static std::string get_value_ext_av(const float a_av, const float a_base_av, const float a_perm_av) {
         if (a_av != a_base_av != a_perm_av) {
-            return format(FMT_STRING("{} ({}) ({})"),
+            return fmt::format(FMT_STRING("{} ({}) ({})"),
                 string_util::get_string_value_from_float(a_av),
                 string_util::get_string_value_from_float(a_base_av),
                 string_util::get_string_value_from_float(a_perm_av)

@@ -127,7 +127,7 @@ public:
         std::map<std::string, std::string_view> slot_map_string;
 
         for (const auto inv =
-                 a_player->GetInventory([](const RE::TESBoundObject& a_object) { return (a_object.IsArmor()); });
+                 a_player->GetInventory([](const RE::TESBoundObject& a_object) { return a_object.IsArmor(); });
              const auto& [item, invData] : inv) {
             if (const auto& [count, entry] = invData; count > 0 && entry->IsWorn()) {
                 const auto armor = item->As<RE::TESObjectARMO>();

@@ -311,15 +311,15 @@ namespace scaleform {
         void update_bottom_values() const {
             update_text(faction_count_key_, menu_keys::count);
             update_text(faction_count_value_,
-                format(FMT_STRING("{}"), faction_item_list_provider_.GetArraySize()),
+                fmt::format(FMT_STRING("{}"), faction_item_list_provider_.GetArraySize()),
                 "right");
             update_text(thane_count_key_, menu_keys::count);
             update_text(thane_count_value_,
-                format(FMT_STRING("{}"), thane_item_list_provider_.GetArraySize()),
+                fmt::format(FMT_STRING("{}"), thane_item_list_provider_.GetArraySize()),
                 "right");
             update_text(champion_count_key_, menu_keys::count);
             update_text(champion_count_value_,
-                format(FMT_STRING("{}"), champion_item_list_provider_.GetArraySize()),
+                fmt::format(FMT_STRING("{}"), champion_item_list_provider_.GetArraySize()),
                 "right");
         }
 
