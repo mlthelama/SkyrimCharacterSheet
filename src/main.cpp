@@ -36,7 +36,9 @@ void init_logger() {
 
         try {
             setting::load_settings();
-        } catch (const std::exception& e) { logger::warn("failed to load setting {}"sv, e.what()); }
+        } catch (const std::exception& e) {
+            logger::warn("failed to load setting {}"sv, e.what());
+        }
 
         switch (setting::get_log_level()) {
             case const_log_trace:
@@ -56,7 +58,9 @@ void init_logger() {
                 spdlog::flush_on(spdlog::level::trace);
                 break;
         }
-    } catch (const std::exception& e) { logger::critical("failed, cause {}"sv, e.what()); }
+    } catch (const std::exception& e) {
+        logger::critical("failed, cause {}"sv, e.what());
+    }
 }
 
 EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse) {
@@ -93,13 +97,13 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) constinit auto SKSEPlugin_Versio
     v.AuthorName(Version::AUTHOR);
     v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH, Version::BETA });
     v.UsesAddressLibrary(true);
-    v.CompatibleVersions({ SKSE::RUNTIME_SSE_1_6_353  });
+    v.CompatibleVersions({ SKSE::RUNTIME_SSE_1_6_353 });
     v.HasNoStructUse(true);
     return v;
 }();
 
-EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse,
-    SKSE::PluginInfo* pluginInfo) {
+EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI
+    SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* pluginInfo) {
     pluginInfo->name = SKSEPlugin_Version.pluginName;
     pluginInfo->infoVersion = SKSE::PluginInfo::kVersion;
     pluginInfo->version = SKSEPlugin_Version.pluginVersion;

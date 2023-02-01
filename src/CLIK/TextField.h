@@ -13,11 +13,9 @@ namespace CLIK {
         TextField(TextField&&) = default;
         using super::super;
 
-        TextField(const super& a_rhs)
-            : super(a_rhs) {}
+        TextField(const super& a_rhs) : super(a_rhs) {}
 
-        TextField(super&& a_rhs)
-            : super(std::move(a_rhs)) {}
+        TextField(super&& a_rhs) : super(std::move(a_rhs)) {}
 
         ~TextField() = default;
 

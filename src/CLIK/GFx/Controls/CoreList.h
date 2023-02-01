@@ -16,11 +16,9 @@ namespace CLIK {
             CoreList(CoreList&&) = default;
             using super::super;
 
-            CoreList(const super& a_rhs)
-                : super(a_rhs) {}
+            CoreList(const super& a_rhs) : super(a_rhs) {}
 
-            CoreList(super&& a_rhs)
-                : super(std::move(a_rhs)) {}
+            CoreList(super&& a_rhs) : super(std::move(a_rhs)) {}
 
             ~CoreList() = default;
 

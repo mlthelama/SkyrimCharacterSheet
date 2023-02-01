@@ -4,12 +4,8 @@ class faction_item {
     using faction_menu_value = menu_util::faction_menu_value;
 
 public:
-    faction_item(const std::string_view a_gui_key,
-        std::string a_gui_value,
-        const faction_menu_value a_faction_menu)
-        : gui_key_(a_gui_key)
-        , gui_value_(std::move(a_gui_value))
-        , faction_menu_(a_faction_menu) {}
+    faction_item(const std::string_view a_gui_key, std::string a_gui_value, const faction_menu_value a_faction_menu)
+        : gui_key_(a_gui_key), gui_value_(std::move(a_gui_value)), faction_menu_(a_faction_menu) {}
 
 
     [[nodiscard]] std::string_view get_key() const { return gui_key_; }

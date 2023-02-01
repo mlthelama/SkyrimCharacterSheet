@@ -17,7 +17,9 @@ namespace string_util {
         return text;
     }
 
-    static std::string get_string_value_from_float(float a_x) { return cut_string(fmt::format(FMT_STRING("{:.2f}"), a_x)); }
+    static std::string get_string_value_from_float(float a_x) {
+        return cut_string(fmt::format(FMT_STRING("{:.2f}"), a_x));
+    }
 
     static float calculate_value(const float a_rm, const float a_r) { return (a_rm * a_r) / 100; }
 
@@ -38,7 +40,7 @@ namespace string_util {
     }
 
 
-    template <typename T, std::enable_if_t<std::is_enum_v<T>, int>  = 0>
+    template <typename T, std::enable_if_t<std::is_enum_v<T>, int> = 0>
     static int get_int_from_enum(const T& value) {
         return static_cast<int>(value);
     }
@@ -48,11 +50,9 @@ namespace string_util {
 namespace menu_util {
     enum class show_menu { m_stats, m_faction, m_stats_inventory };
 
-    static std::map<show_menu, std::string_view> menu_name = {
-        { show_menu::m_stats, menu_keys::show_stats_title },
+    static std::map<show_menu, std::string_view> menu_name = { { show_menu::m_stats, menu_keys::show_stats_title },
         { show_menu::m_faction, menu_keys::show_factions_title },
-        { show_menu::m_stats_inventory, menu_keys::show_stats_inventory_title }
-    };
+        { show_menu::m_stats_inventory, menu_keys::show_stats_inventory_title } };
 
     enum class stats_menu_value {
         m_none = 0,
@@ -62,7 +62,7 @@ namespace menu_util {
         m_magic = 4,
         m_warrior = 5,
         m_thief = 6,
-        m_special = 7 //header or bottom
+        m_special = 7  //header or bottom
     };
 
     /* config can not work with enums, so lets map it*/
@@ -235,8 +235,7 @@ namespace value_util {
             return fmt::format(FMT_STRING("{} ({}) ({})"),
                 string_util::get_string_value_from_float(a_av),
                 string_util::get_string_value_from_float(a_base_av),
-                string_util::get_string_value_from_float(a_perm_av)
-                );
+                string_util::get_string_value_from_float(a_perm_av));
         }
         return string_util::get_string_value_from_float(a_av);
     }
@@ -253,9 +252,9 @@ namespace value_util {
         { static_cast<int64_t>(display_actor_value_type::m_value), display_actor_value_type::m_value },
         { static_cast<int64_t>(display_actor_value_type::m_value_base), display_actor_value_type::m_value_base },
         { static_cast<int64_t>(display_actor_value_type::m_value_permanent),
-          display_actor_value_type::m_value_permanent },
+            display_actor_value_type::m_value_permanent },
         { static_cast<int64_t>(display_actor_value_type::m_value_base_permanent),
-          display_actor_value_type::m_value_base_permanent },
+            display_actor_value_type::m_value_base_permanent },
     };
 
     static display_actor_value_type get_display_actor_value_type(int64_t a_type_id) {
@@ -284,12 +283,9 @@ namespace vector_util {
         auto deli_string =
             a_vec.empty() ?
                 "" :
-                std::accumulate(std::begin(a_vec),
-                    std::end(a_vec),
-                    std::string{},
-                    [](std::string r, const int p) {
-                        return std::move(r) + std::to_string(p) + ",";
-                    });
+                std::accumulate(std::begin(a_vec), std::end(a_vec), std::string{}, [](std::string r, const int p) {
+                    return std::move(r) + std::to_string(p) + ",";
+                });
 
         if (!deli_string.empty()) {
             deli_string.pop_back();

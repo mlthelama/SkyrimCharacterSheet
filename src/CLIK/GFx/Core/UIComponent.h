@@ -13,11 +13,9 @@ namespace CLIK::GFx::Core {
         UIComponent(UIComponent&&) = default;
         using super::super;
 
-        UIComponent(const super& a_rhs)
-            : super(a_rhs) {}
+        UIComponent(const super& a_rhs) : super(a_rhs) {}
 
-        UIComponent(super&& a_rhs)
-            : super(std::move(a_rhs)) {}
+        UIComponent(super&& a_rhs) : super(std::move(a_rhs)) {}
 
         ~UIComponent() = default;
 
@@ -95,8 +93,7 @@ namespace CLIK::GFx::Core {
             args[kEvent] = a_event.GetInstance();
             assert(args[kEvent].IsObject());
 
-            [[maybe_unused]] const auto success =
-                Invoke("dispatchEventToGame", nullptr, args.data(), args.size());
+            [[maybe_unused]] const auto success = Invoke("dispatchEventToGame", nullptr, args.data(), args.size());
             assert(success);
         }
     };

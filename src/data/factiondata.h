@@ -100,17 +100,18 @@ public:
 
 
             if (!value_text.empty()) {
-                fimp[faction_value] =
-                    std::make_unique<faction_item>(faction_config->get_display_name(),
-                        value_text,
-                        faction_config->get_menu());
+                fimp[faction_value] = std::make_unique<faction_item>(faction_config->get_display_name(),
+                    value_text,
+                    faction_config->get_menu());
             }
         }
 
 
         logger::debug("Display Map Size is {}"sv, fimp.size());
         clear_lists(thane, faction, champion);
-        for (auto& [fst, snd] : faction_setting_map) { snd.reset(); }
+        for (auto& [fst, snd] : faction_setting_map) {
+            snd.reset();
+        }
         faction_setting_map.clear();
         return fimp;
     }

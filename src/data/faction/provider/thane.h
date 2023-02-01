@@ -58,8 +58,7 @@ public:
 
                 if (is_thane) {
                     logger::trace("Thane of {}"sv, string_util::get_int_from_enum(thane_value));
-                    thane_list_.insert(
-                        std::pair(thane_value, get_thane_title_value(thane_value)));
+                    thane_list_.insert(std::pair(thane_value, get_thane_title_value(thane_value)));
                 }
             }
         }
@@ -91,7 +90,7 @@ private:
         { faction_value::morthal, { { 0x000A34CE, quest_util::get_as(25) } } },
         { faction_value::dawnstar, { { 0x000A34D4, quest_util::get_as(25) } } },
         { faction_value::markarth, { { 0x000A2C86, quest_util::get_as(25) } } },
-        { faction_value::riften, { { 0x00065BDF, quest_util::get_as(20) } } }, //rift quest is special
+        { faction_value::riften, { { 0x00065BDF, quest_util::get_as(20) } } },  //rift quest is special
         { faction_value::whiterun, { { 0x000A2C9E, quest_util::get_as(25) } } },
         //just if stormcloaks won the war, otherwise MQ104/0002610C/160
         { faction_value::winterhold, { { 0x000A34D7, quest_util::get_as(25) } } }
@@ -103,8 +102,8 @@ private:
         }
     }
 
-    inline static std::map<faction_value, std::string_view> capital_to_title_ = {
-        { faction_value::windhelm, menu_keys::thane_of_eastmarch },
+    inline static std::map<faction_value, std::string_view> capital_to_title_ = { { faction_value::windhelm,
+                                                                                      menu_keys::thane_of_eastmarch },
         { faction_value::falkreath, menu_keys::thane_of_falkreath },
         { faction_value::solitude, menu_keys::thane_of_haafinger },
         { faction_value::morthal, menu_keys::thane_of_hjaalmarch },
@@ -112,8 +111,7 @@ private:
         { faction_value::markarth, menu_keys::thane_of_the_reach },
         { faction_value::riften, menu_keys::thane_of_the_rift },
         { faction_value::whiterun, menu_keys::thane_of_whiterun },
-        { faction_value::winterhold, menu_keys::thane_of_winterhold }
-    };
+        { faction_value::winterhold, menu_keys::thane_of_winterhold } };
 
     static std::string_view get_thane_title_value(const faction_value a_faction_value) {
         return capital_to_title_.find(a_faction_value)->second;

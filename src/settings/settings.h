@@ -308,6 +308,7 @@ class setting {
     inline static float armor_scaling_factor_;
     inline static bool disable_hidden_;
     inline static int override_armor_cap_;
+
 public:
     static void load_settings() {
         CSimpleIniA ini;
@@ -317,7 +318,7 @@ public:
         log_level_ = ini.GetLongValue("General", "iLogLevel", 2);
         open_menu_button_ = ini.GetLongValue("General", "iOpenMenuButton", 22);
         open_faction_menu_button_ = ini.GetLongValue("General", "iOpenNextMenuButton", 49);
-        pause_game_ = ini.GetBoolValue("General", "bPauseGame", true); //G
+        pause_game_ = ini.GetBoolValue("General", "bPauseGame", true);  //G
         show_inventory_stats_ = ini.GetBoolValue("General", "bShowInventoryStats", false);
         show_inventory_stats_auto_open_ = ini.GetBoolValue("General", "bShowInventoryStatsAutoOpen", false);
         show_inventory_button_ = ini.GetLongValue("General", "iShowInventoryButton", 11);
@@ -353,9 +354,8 @@ public:
         bow_speed_bonus_string_ending_ = ini.GetValue("showStatsEnding", "sBowSpeedBonus", const_undefined_);
         shout_recovery_mult_string_ending_ = ini.GetValue("showStatsEnding", "sShoutRecoveryMult", const_undefined_);
         movement_noise_mult_string_ending_ = ini.GetValue("showStatsEnding", "sMovementNoiseMult", const_undefined_);
-        combat_health_regen_multiply_string_ending_ = ini.GetValue("showStatsEnding",
-            "sCombatHealthRegenMultiply",
-            const_undefined_);
+        combat_health_regen_multiply_string_ending_ =
+            ini.GetValue("showStatsEnding", "sCombatHealthRegenMultiply", const_undefined_);
         attack_damage_mult_string_ending_ = ini.GetValue("showStatsEnding", "sAttackDamageMult", const_undefined_);
         reflect_damage_string_ending_ = ini.GetValue("showStatsEnding", "sReflectDamage", const_undefined_);
         one_handed_mod_string_ending_ = ini.GetValue("showStatsEnding", "sOneHandedMod", const_undefined_);
@@ -376,8 +376,8 @@ public:
         destruction_mod_string_ending_ = ini.GetValue("showStatsEnding", "sDestructionMod", const_undefined_);
         illusion_mod_string_ending_ = ini.GetValue("showStatsEnding", "sIllusionMod", const_undefined_);
         restoration_mod_string_ending_ = ini.GetValue("showStatsEnding", "sRestorationMod", const_undefined_);
-        left_weapon_speed_mult_string_ending_ = ini.
-            GetValue("showStatsEnding", "sLeftWeaponSpeedMult", const_undefined_);
+        left_weapon_speed_mult_string_ending_ =
+            ini.GetValue("showStatsEnding", "sLeftWeaponSpeedMult", const_undefined_);
         armor_perks_string_ending_ = ini.GetValue("showStatsEnding", "sArmorPerks", const_undefined_);
         fall_damage_mod_string_ending_ = ini.GetValue("showStatsEnding", "sFallDamageMod", const_undefined_);
 
@@ -606,22 +606,19 @@ public:
         weapon_reach_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iWeaponReach", 0);
         weapon_reach_left_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iWeaponReachLeft", 0);
         weapon_base_damage_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iWeaponBaseDamage", 0);
-        weapon_base_damage_left_menu_inventory_ = ini.
-            GetLongValue("showStatsInventoryMenu", "iWeaponBaseDamageLeft", 0);
+        weapon_base_damage_left_menu_inventory_ =
+            ini.GetLongValue("showStatsInventoryMenu", "iWeaponBaseDamageLeft", 0);
         weapon_stagger_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iWeaponStagger", 0);
         weapon_stagger_left_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iWeaponStaggerLeft", 0);
-        weapon_crit_damage_rating_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu",
-            "iWeaponCritDamageRating",
-            0);
-        weapon_crit_damage_rating_left_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu",
-            "iWeaponCritDamageRatingLeft",
-            0);
+        weapon_crit_damage_rating_menu_inventory_ =
+            ini.GetLongValue("showStatsInventoryMenu", "iWeaponCritDamageRating", 0);
+        weapon_crit_damage_rating_left_menu_inventory_ =
+            ini.GetLongValue("showStatsInventoryMenu", "iWeaponCritDamageRatingLeft", 0);
         fall_damage_mod_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iFallDamageMod", 0);
         warmth_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iWarmth", 0);
 
-        armor_rating_rescaled_skse_remake_active_ = ini.GetBoolValue("Mods",
-            "bArmorRatingRescaledSkseRemakeActive",
-            false);
+        armor_rating_rescaled_skse_remake_active_ =
+            ini.GetBoolValue("Mods", "bArmorRatingRescaledSkseRemakeActive", false);
         armor_scaling_factor_ = ini.GetDoubleValue("Mods", "fArmorScalingFactor", 1.0);
         disable_hidden_ = ini.GetBoolValue("Mods", "bDisableHidden", false);
         override_armor_cap_ = ini.GetLongValue("Mods", "iOverrideArmorCap", 0);

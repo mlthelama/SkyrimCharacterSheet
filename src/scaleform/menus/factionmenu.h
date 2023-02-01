@@ -130,7 +130,9 @@ namespace scaleform {
         public:
             void LogMessageVarg(LogMessageType, const char* a_fmt, const std::va_list a_arg_list) override {
                 std::string fmt(a_fmt ? a_fmt : "");
-                while (!fmt.empty() && fmt.back() == '\n') { fmt.pop_back(); }
+                while (!fmt.empty() && fmt.back() == '\n') {
+                    fmt.pop_back();
+                }
 
                 std::va_list args;
                 va_copy(args, a_arg_list);
@@ -156,21 +158,21 @@ namespace scaleform {
             using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
 
             for (std::array objects{ element_t{ std::ref(root_obj_), "_root.rootObj"sv },
-                                     element_t{ std::ref(title_), "_root.rootObj.title"sv },
-                                     element_t{ std::ref(faction_count_key_), "_root.rootObj.factionCount"sv },
-                                     element_t{ std::ref(thane_count_key_), "_root.rootObj.thaneCount"sv },
-                                     element_t{ std::ref(champion_count_key_), "_root.rootObj.championCount"sv },
-                                     element_t{ std::ref(faction_count_value_), "_root.rootObj.factionCountValue"sv },
-                                     element_t{ std::ref(thane_count_value_), "_root.rootObj.thaneCountValue"sv },
-                                     element_t{ std::ref(champion_count_value_), "_root.rootObj.championCountValue"sv },
-                                     element_t{ std::ref(faction_header_), "_root.rootObj.factionValuesHeader"sv },
-                                     element_t{ std::ref(thane_header_), "_root.rootObj.factionThanesHeader"sv },
-                                     element_t{ std::ref(champion_header_), "_root.rootObj.factionChampionHeader"sv },
-                                     element_t{ std::ref(faction_item_list_), "_root.rootObj.factionItemList"sv },
-                                     element_t{ std::ref(thane_item_list_), "_root.rootObj.thaneItemList"sv },
-                                     element_t{ std::ref(champion_item_list_), "_root.rootObj.championItemList"sv },
-                                     element_t{ std::ref(prev_), "_root.rootObj.factionPrevScreen"sv },
-                                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
+                     element_t{ std::ref(title_), "_root.rootObj.title"sv },
+                     element_t{ std::ref(faction_count_key_), "_root.rootObj.factionCount"sv },
+                     element_t{ std::ref(thane_count_key_), "_root.rootObj.thaneCount"sv },
+                     element_t{ std::ref(champion_count_key_), "_root.rootObj.championCount"sv },
+                     element_t{ std::ref(faction_count_value_), "_root.rootObj.factionCountValue"sv },
+                     element_t{ std::ref(thane_count_value_), "_root.rootObj.thaneCountValue"sv },
+                     element_t{ std::ref(champion_count_value_), "_root.rootObj.championCountValue"sv },
+                     element_t{ std::ref(faction_header_), "_root.rootObj.factionValuesHeader"sv },
+                     element_t{ std::ref(thane_header_), "_root.rootObj.factionThanesHeader"sv },
+                     element_t{ std::ref(champion_header_), "_root.rootObj.factionChampionHeader"sv },
+                     element_t{ std::ref(faction_item_list_), "_root.rootObj.factionItemList"sv },
+                     element_t{ std::ref(thane_item_list_), "_root.rootObj.thaneItemList"sv },
+                     element_t{ std::ref(champion_item_list_), "_root.rootObj.championItemList"sv },
+                     element_t{ std::ref(prev_), "_root.rootObj.factionPrevScreen"sv },
+                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
                  const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
                 [[maybe_unused]] const auto success = view_->GetVariable(std::addressof(instance), path.data());
@@ -215,9 +217,8 @@ namespace scaleform {
             a_field.Visible(true);
         }
 
-        static void update_text(CLIK::TextField a_field,
-            const std::string_view a_string,
-            const std::string& a_auto_size) {
+        static void
+            update_text(CLIK::TextField a_field, const std::string_view a_string, const std::string& a_auto_size) {
             a_field.AutoSize(CLIK::Object{ a_auto_size });
             a_field.HTMLText(a_string);
             a_field.Visible(true);
@@ -293,8 +294,9 @@ namespace scaleform {
 
                 if (faction_item->get_faction_menu() != faction_menu_value::m_none) {
                     auto key_value = faction_item->get_value();
-                    menu_map_.find(faction_menu)->second.PushBack(build_gfx_value(faction_item->get_key(),
-                        key_value == const_static_display_value ? "" : key_value));
+                    menu_map_.find(faction_menu)
+                        ->second.PushBack(build_gfx_value(faction_item->get_key(),
+                            key_value == const_static_display_value ? "" : key_value));
                     logger::trace("added to Menu {}, Name {}, Key {}, value {}"sv,
                         string_util::get_int_from_enum(faction_menu),
                         string_util::get_int_from_enum(faction_value),
@@ -303,7 +305,9 @@ namespace scaleform {
                 }
             }
 
-            for (auto& [fst, snd] : values) { snd.reset(); }
+            for (auto& [fst, snd] : values) {
+                snd.reset();
+            }
             values.clear();
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
         }
@@ -323,7 +327,7 @@ namespace scaleform {
                 "right");
         }
 
-        static void on_close() { }
+        static void on_close() {}
 
         void disable_item_lists() {
             faction_item_list_.Disabled(true);

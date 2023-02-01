@@ -13,11 +13,9 @@ namespace CLIK::GFx::Controls {
         ScrollingList(ScrollingList&&) = default;
         using super::super;
 
-        ScrollingList(const super& a_rhs)
-            : super(a_rhs) {}
+        ScrollingList(const super& a_rhs) : super(a_rhs) {}
 
-        ScrollingList(super&& a_rhs)
-            : super(std::move(a_rhs)) {}
+        ScrollingList(super&& a_rhs) : super(std::move(a_rhs)) {}
 
         ~ScrollingList() = default;
 

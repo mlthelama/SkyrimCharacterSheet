@@ -7,8 +7,7 @@ class faction_config {
 
 public:
     faction_config(const std::string_view a_display_name, const faction_menu_value a_menu)
-        : display_name_(a_display_name)
-        , menu_(a_menu) {}
+        : display_name_(a_display_name), menu_(a_menu) {}
 
     [[nodiscard]] std::string_view get_display_name() const { return display_name_; }
 
@@ -54,15 +53,15 @@ public:
         mp[faction_value::darkbrotherhood] = std::make_unique<faction_config>(menu_keys::darkbrotherhood, faction_menu);
         mp[faction_value::thiefs_guild] = std::make_unique<faction_config>(menu_keys::thiefs_guild, faction_menu);
         mp[faction_value::orc_friend] = std::make_unique<faction_config>(menu_keys::orc_friend, faction_menu);
-        mp[faction_value::college_of_winterhold] = std::make_unique<faction_config>(menu_keys::college_of_winterhold,
-            faction_menu);
+        mp[faction_value::college_of_winterhold] =
+            std::make_unique<faction_config>(menu_keys::college_of_winterhold, faction_menu);
         mp[faction_value::companions] = std::make_unique<faction_config>(menu_keys::companions, faction_menu);
         mp[faction_value::imperial_legion] = std::make_unique<faction_config>(menu_keys::imperial_legion, faction_menu);
         mp[faction_value::stormcloaks] = std::make_unique<faction_config>(menu_keys::stormcloaks, faction_menu);
         mp[faction_value::greybeard] = std::make_unique<faction_config>(menu_keys::greybeard, faction_menu);
         mp[faction_value::bard] = std::make_unique<faction_config>(menu_keys::bard_college, faction_menu);
-        mp[faction_value::volkihar_vampire_clan] = std::make_unique<faction_config>(menu_keys::volkihar_vampire_clan,
-            faction_menu);
+        mp[faction_value::volkihar_vampire_clan] =
+            std::make_unique<faction_config>(menu_keys::volkihar_vampire_clan, faction_menu);
         mp[faction_value::dawnguard] = std::make_unique<faction_config>(menu_keys::dawnguard, faction_menu);
         mp[faction_value::house_telvanni] = std::make_unique<faction_config>(menu_keys::house_telvanni, faction_menu);
 

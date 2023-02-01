@@ -130,7 +130,9 @@ namespace scaleform {
         public:
             void LogMessageVarg(LogMessageType, const char* a_fmt, const std::va_list a_arg_list) override {
                 std::string fmt(a_fmt ? a_fmt : "");
-                while (!fmt.empty() && fmt.back() == '\n') { fmt.pop_back(); }
+                while (!fmt.empty() && fmt.back() == '\n') {
+                    fmt.pop_back();
+                }
 
                 std::va_list args;
                 va_copy(args, a_arg_list);
@@ -156,15 +158,15 @@ namespace scaleform {
             using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
 
             for (std::array objects{ element_t{ std::ref(root_obj_), "_root.rootObj"sv },
-                                     element_t{ std::ref(equip_header_), "_root.rootObj.inventoryEquipHeader"sv },
-                                     element_t{ std::ref(armor_header_), "_root.rootObj.inventoryArmorHeader"sv },
-                                     element_t{ std::ref(weapon_header_), "_root.rootObj.inventoryWeaponHeader"sv },
-                                     element_t{ std::ref(effect_header_), "_root.rootObj.inventoryEffectHeader"sv },
-                                     element_t{ std::ref(equip_item_list_), "_root.rootObj.equipItemList"sv },
-                                     element_t{ std::ref(armor_item_list_), "_root.rootObj.armorItemList"sv },
-                                     element_t{ std::ref(weapon_item_list_), "_root.rootObj.weaponItemList"sv },
-                                     element_t{ std::ref(effect_item_list_), "_root.rootObj.effectItemList"sv },
-                                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
+                     element_t{ std::ref(equip_header_), "_root.rootObj.inventoryEquipHeader"sv },
+                     element_t{ std::ref(armor_header_), "_root.rootObj.inventoryArmorHeader"sv },
+                     element_t{ std::ref(weapon_header_), "_root.rootObj.inventoryWeaponHeader"sv },
+                     element_t{ std::ref(effect_header_), "_root.rootObj.inventoryEffectHeader"sv },
+                     element_t{ std::ref(equip_item_list_), "_root.rootObj.equipItemList"sv },
+                     element_t{ std::ref(armor_item_list_), "_root.rootObj.armorItemList"sv },
+                     element_t{ std::ref(weapon_item_list_), "_root.rootObj.weaponItemList"sv },
+                     element_t{ std::ref(effect_item_list_), "_root.rootObj.effectItemList"sv },
+                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
                  const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
                 [[maybe_unused]] const auto success = view_->GetVariable(std::addressof(instance), path.data());
@@ -188,7 +190,7 @@ namespace scaleform {
 
             menu_close_.Label("Close");
             menu_close_.Disabled(false);
-            menu_close_.Visible(false); //for now
+            menu_close_.Visible(false);  //for now
 
             update_headers();
 
@@ -227,8 +229,7 @@ namespace scaleform {
             return value;
         }
 
-        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key,
-            const std::string& a_val) const {
+        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
             RE::GFxValue value;
             view_->CreateObject(std::addressof(value));
             value.SetMember("displayName", { a_key });
@@ -282,27 +283,30 @@ namespace scaleform {
                     continue;
                 }
 
-                menu_map_.find(stat_item->get_stats_inventory_menu())->second.PushBack(
-                    build_gfx_value(stat_item->get_key(), stat_item->get_value(), stat_item->get_icon()));
+                menu_map_.find(stat_item->get_stats_inventory_menu())
+                    ->second.PushBack(
+                        build_gfx_value(stat_item->get_key(), stat_item->get_value(), stat_item->get_icon()));
                 logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
                     string_util::get_int_from_enum(stat_item->get_stats_menu()),
                     string_util::get_int_from_enum(stat_value),
                     stat_item->get_key(),
                     stat_item->get_value());
             }
-            for (auto& [fst, snd] : values) { snd.reset(); }
+            for (auto& [fst, snd] : values) {
+                snd.reset();
+            }
             values.clear();
 
             //it seems the inventory needs a bit after an equipchange, so an item might be shown equiped
             for (const auto armor = player_data::get_armor_map(); auto [slot, name] : armor) {
                 menu_map_.find(stats_inventory_menu_value::m_equip)
-                         ->second.PushBack(build_gfx_value(slot, static_cast<std::string>(name)));
+                    ->second.PushBack(build_gfx_value(slot, static_cast<std::string>(name)));
             }
 
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
         }
 
-        static void on_close() { }
+        static void on_close() {}
 
         void disable_item_lists() {
             equip_item_list_.Disabled(true);

@@ -33,7 +33,7 @@ public:
 
             if ((a_menu == show_menu::m_stats && stat_config->get_stats_menu() == stats_menu_value::m_none) ||
                 (a_menu == show_menu::m_stats_inventory &&
-                 stat_config->get_stats_inventory_menu() == stats_inventory_menu_value::m_none)) {
+                    stat_config->get_stats_inventory_menu() == stats_inventory_menu_value::m_none)) {
                 continue;
             }
 
@@ -77,22 +77,19 @@ public:
                         player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kWerewolfPerks));
                     break;
                 case stats_value::health_rate_per:
-                    value_text = string_util::get_string_value_from_float(
-                        string_util::calculate_value(
-                            player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kHealRateMult),
-                            player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kHealRate)));
+                    value_text = string_util::get_string_value_from_float(string_util::calculate_value(
+                        player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kHealRateMult),
+                        player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kHealRate)));
                     break;
                 case stats_value::magicka_rate_per:
-                    value_text = string_util::get_string_value_from_float(
-                        string_util::calculate_value(
-                            player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kMagickaRateMult),
-                            player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kMagickaRate)));
+                    value_text = string_util::get_string_value_from_float(string_util::calculate_value(
+                        player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kMagickaRateMult),
+                        player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kMagickaRate)));
                     break;
                 case stats_value::stamina_rate_per:
-                    value_text = string_util::get_string_value_from_float(
-                        string_util::calculate_value(
-                            player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kStaminaRateMult),
-                            player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kStaminaRate)));
+                    value_text = string_util::get_string_value_from_float(string_util::calculate_value(
+                        player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kStaminaRateMult),
+                        player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kStaminaRate)));
                     break;
                 case stats_value::xp:
                     value_text = player_data_provider::get_xp(player);
@@ -140,15 +137,14 @@ public:
                         player_data_provider::get_fall_damage_mod(player) * stat_config->get_value_multiplier());
                     break;
                 case stats_value::warmth:
-                    value_text = string_util::get_string_value_from_float(
-                        player_data_provider::get_warmth_rating(player, 0.0));
+                    value_text =
+                        string_util::get_string_value_from_float(player_data_provider::get_warmth_rating(player, 0.0));
                     break;
                 default:
                     if (stat_config->get_actor() != RE::ActorValue::kNone) {
                         //for whatever reason magicka, stamina and health enchantments count as permanent
-                        auto value =
-                            player->AsActorValueOwner()->GetActorValue(stat_config->get_actor()) * stat_config->
-                            get_value_multiplier();
+                        auto value = player->AsActorValueOwner()->GetActorValue(stat_config->get_actor()) *
+                                     stat_config->get_value_multiplier();
                         if (stat_config->get_cap() != -1) {
                             value_text = value_util::get_value_with_cap_if_needed(value,
                                 stat_config->get_cap(),
@@ -157,11 +153,10 @@ public:
 
                         if (value_text.empty()) {
                             auto base_av = player->AsActorValueOwner()->GetBaseActorValue(stat_config->get_actor()) *
-                                           stat_config->
-                                           get_value_multiplier();
-                            auto perm_av = player->AsActorValueOwner()->GetPermanentActorValue(stat_config->get_actor())
-                                           * stat_config->
-                                           get_value_multiplier();
+                                           stat_config->get_value_multiplier();
+                            auto perm_av =
+                                player->AsActorValueOwner()->GetPermanentActorValue(stat_config->get_actor()) *
+                                stat_config->get_value_multiplier();
                             switch (stat_config->get_show_base_permanent_value()) {
                                 case value_util::display_actor_value_type::m_value:
                                     value_text = string_util::get_string_value_from_float(value);
@@ -190,19 +185,17 @@ public:
             }
 
             //todo fix for some values should be shown if 0, atm hardcode noise here
-            if (!setting::get_show_stats_inventorydisplay_zero() && value_text == "0" && a_menu ==
-                show_menu::m_stats_inventory || !setting::get_show_stats_display_zero() && value_text == "0" && a_menu
-                ==
-                show_menu::m_stats) {
+            if (!setting::get_show_stats_inventorydisplay_zero() && value_text == "0" &&
+                    a_menu == show_menu::m_stats_inventory ||
+                !setting::get_show_stats_display_zero() && value_text == "0" && a_menu == show_menu::m_stats) {
                 if (stat_config->get_actor() != RE::ActorValue::kMovementNoiseMult) {
                     continue;
                 }
             }
 
             if (!value_text.empty()) {
-                auto icon = !stat_config->get_icon_string().empty() ?
-                                stat_config->get_icon_string() :
-                                icon_keys::default_icon;
+                auto icon =
+                    !stat_config->get_icon_string().empty() ? stat_config->get_icon_string() : icon_keys::default_icon;
                 if (a_menu == show_menu::m_stats) {
                     simp[stat_value] = std::make_unique<stat_item>(stat_config->get_key_display(),
                         stat_config->get_value_display(value_text),
@@ -214,11 +207,12 @@ public:
                         stat_config->get_stats_inventory_menu(),
                         icon);
                 }
-
             }
         }
 
-        for (auto& [fst, snd] : stat_setting_map) { snd.reset(); }
+        for (auto& [fst, snd] : stat_setting_map) {
+            snd.reset();
+        }
         stat_setting_map.clear();
 
         logger::debug("Setting Map is {}, Display Map Size is {} for Menu {}"sv,
@@ -239,6 +233,7 @@ public:
 
     player_data& operator=(const player_data&) = delete;
     player_data& operator=(player_data&&) = delete;
+
 private:
     player_data() = default;
 

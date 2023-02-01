@@ -117,13 +117,17 @@ private:
     value_string_map faction_rank_list_;
 
     //0x00072834 //blades, player might not be in there
-    inline static std::map<RE::FormID, faction_value> const_faction_map_ = {
-        { 0x00048362, faction_value::companions }, { 0x0001BDB3, faction_value::darkbrotherhood },
-        { 0x0001F259, faction_value::college_of_winterhold }, { 0x00024029, faction_value::orc_friend },
-        { 0x00029DA9, faction_value::thiefs_guild }, { 0x0002BF9A, faction_value::imperial_legion },
-        { 0x0002BF9B, faction_value::stormcloaks }, { 0x0002C6C8, faction_value::greybeard },
-        { 0x02003376, faction_value::volkihar_vampire_clan }, //{ 0x02014217, FactionValue::dawnguard },
-        { 0x02003375, faction_value::dawnguard }, { 0x04019B8A, faction_value::house_telvanni } };
+    inline static std::map<RE::FormID, faction_value> const_faction_map_ = { { 0x00048362, faction_value::companions },
+        { 0x0001BDB3, faction_value::darkbrotherhood },
+        { 0x0001F259, faction_value::college_of_winterhold },
+        { 0x00024029, faction_value::orc_friend },
+        { 0x00029DA9, faction_value::thiefs_guild },
+        { 0x0002BF9A, faction_value::imperial_legion },
+        { 0x0002BF9B, faction_value::stormcloaks },
+        { 0x0002C6C8, faction_value::greybeard },
+        { 0x02003376, faction_value::volkihar_vampire_clan },  //{ 0x02014217, FactionValue::dawnguard },
+        { 0x02003375, faction_value::dawnguard },
+        { 0x04019B8A, faction_value::house_telvanni } };
 
     void log_map() const {
         for (const auto& [fst, snd] : faction_rank_list_) {
@@ -135,7 +139,7 @@ private:
         auto rank = menu_keys::assassin;
         //hail sithis
         if (quest_util::is_one_quest_stage_complete(0x0001EA59,
-            std::vector{ quest_util::get_as(200), quest_util::get_as(255) })) {
+                std::vector{ quest_util::get_as(200), quest_util::get_as(255) })) {
             rank = menu_keys::listener;
         }
         return rank;

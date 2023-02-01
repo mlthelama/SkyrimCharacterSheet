@@ -128,7 +128,9 @@ namespace scaleform {
         public:
             void LogMessageVarg(LogMessageType, const char* a_fmt, const std::va_list a_arg_list) override {
                 std::string fmt(a_fmt ? a_fmt : "");
-                while (!fmt.empty() && fmt.back() == '\n') { fmt.pop_back(); }
+                while (!fmt.empty() && fmt.back() == '\n') {
+                    fmt.pop_back();
+                }
 
                 std::va_list args;
                 va_copy(args, a_arg_list);
@@ -152,39 +154,33 @@ namespace scaleform {
             using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
 
             for (std::array objects{ element_t{ std::ref(root_obj_), "_root.rootObj"sv },
-                                     element_t{ std::ref(title_), "_root.rootObj.title"sv },
-                                     element_t{ std::ref(name_key_), "_root.rootObj.name"sv },
-                                     element_t{ std::ref(level_key_), "_root.rootObj.level"sv },
-                                     element_t{ std::ref(race_key_), "_root.rootObj.race"sv },
-                                     element_t{ std::ref(perks_key_), "_root.rootObj.perks"sv },
-                                     element_t{ std::ref(beast_key_), "_root.rootObj.beast"sv },
-                                     element_t{ std::ref(xp_key_), "_root.rootObj.xp"sv },
-                                     element_t{ std::ref(name_value_), "_root.rootObj.nameValue"sv },
-                                     element_t{ std::ref(level_value_), "_root.rootObj.levelValue"sv },
-                                     element_t{ std::ref(race_value_), "_root.rootObj.raceValue"sv },
-                                     element_t{ std::ref(perks_value_), "_root.rootObj.perksValue"sv },
-                                     element_t{ std::ref(beast_value_), "_root.rootObj.beastValue"sv },
-                                     element_t{ std::ref(xp_value_), "_root.rootObj.xpValue"sv },
-                                     element_t{ std::ref(values_header_), "_root.rootObj.playerValuesHeader"sv },
-                                     element_t{ std::ref(attack_header_), "_root.rootObj.playerAttackHeader"sv },
-                                     element_t{ std::ref(perks_magic_header_),
-                                                "_root.rootObj.playerPerksMagicHeader"sv },
-                                     element_t{ std::ref(defence_header_), "_root.rootObj.playerDefenceHeader"sv },
-                                     element_t{ std::ref(perks_warrior_header_),
-                                                "_root.rootObj.playerPerksWarriorHeader"sv },
-                                     element_t{ std::ref(perks_thief_header_),
-                                                "_root.rootObj.playerPerksThiefHeader"sv },
-                                     element_t{ std::ref(player_item_list_), "_root.rootObj.playerItemList"sv },
-                                     element_t{ std::ref(defence_item_list_), "_root.rootObj.defenceItemList"sv },
-                                     element_t{ std::ref(attack_item_list_), "_root.rootObj.attackItemList"sv },
-                                     element_t{ std::ref(perks_magic_item_list_),
-                                                "_root.rootObj.perksMagicItemList"sv },
-                                     element_t{ std::ref(perks_warrior_item_list_),
-                                                "_root.rootObj.perksWarriorItemList"sv },
-                                     element_t{ std::ref(perks_thief_item_list_),
-                                                "_root.rootObj.perksThiefItemList"sv },
-                                     element_t{ std::ref(next_), "_root.rootObj.playerNextScreen"sv },
-                                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
+                     element_t{ std::ref(title_), "_root.rootObj.title"sv },
+                     element_t{ std::ref(name_key_), "_root.rootObj.name"sv },
+                     element_t{ std::ref(level_key_), "_root.rootObj.level"sv },
+                     element_t{ std::ref(race_key_), "_root.rootObj.race"sv },
+                     element_t{ std::ref(perks_key_), "_root.rootObj.perks"sv },
+                     element_t{ std::ref(beast_key_), "_root.rootObj.beast"sv },
+                     element_t{ std::ref(xp_key_), "_root.rootObj.xp"sv },
+                     element_t{ std::ref(name_value_), "_root.rootObj.nameValue"sv },
+                     element_t{ std::ref(level_value_), "_root.rootObj.levelValue"sv },
+                     element_t{ std::ref(race_value_), "_root.rootObj.raceValue"sv },
+                     element_t{ std::ref(perks_value_), "_root.rootObj.perksValue"sv },
+                     element_t{ std::ref(beast_value_), "_root.rootObj.beastValue"sv },
+                     element_t{ std::ref(xp_value_), "_root.rootObj.xpValue"sv },
+                     element_t{ std::ref(values_header_), "_root.rootObj.playerValuesHeader"sv },
+                     element_t{ std::ref(attack_header_), "_root.rootObj.playerAttackHeader"sv },
+                     element_t{ std::ref(perks_magic_header_), "_root.rootObj.playerPerksMagicHeader"sv },
+                     element_t{ std::ref(defence_header_), "_root.rootObj.playerDefenceHeader"sv },
+                     element_t{ std::ref(perks_warrior_header_), "_root.rootObj.playerPerksWarriorHeader"sv },
+                     element_t{ std::ref(perks_thief_header_), "_root.rootObj.playerPerksThiefHeader"sv },
+                     element_t{ std::ref(player_item_list_), "_root.rootObj.playerItemList"sv },
+                     element_t{ std::ref(defence_item_list_), "_root.rootObj.defenceItemList"sv },
+                     element_t{ std::ref(attack_item_list_), "_root.rootObj.attackItemList"sv },
+                     element_t{ std::ref(perks_magic_item_list_), "_root.rootObj.perksMagicItemList"sv },
+                     element_t{ std::ref(perks_warrior_item_list_), "_root.rootObj.perksWarriorItemList"sv },
+                     element_t{ std::ref(perks_thief_item_list_), "_root.rootObj.perksThiefItemList"sv },
+                     element_t{ std::ref(next_), "_root.rootObj.playerNextScreen"sv },
+                     element_t{ std::ref(menu_close_), "_root.rootObj.menuClose"sv } };
                  const auto& [object, path] : objects) {
                 auto& instance = object.get().GetInstance();
                 [[maybe_unused]] const auto success = view_->GetVariable(std::addressof(instance), path.data());
@@ -238,9 +234,8 @@ namespace scaleform {
             a_field.Visible(true);
         }
 
-        static void update_text(CLIK::TextField a_field,
-            const std::string_view a_string,
-            const std::string& a_auto_size) {
+        static void
+            update_text(CLIK::TextField a_field, const std::string_view a_string, const std::string& a_auto_size) {
             a_field.AutoSize(CLIK::Object{ a_auto_size });
             a_field.HTMLText(a_string);
             a_field.Visible(true);
@@ -314,7 +309,6 @@ namespace scaleform {
             for (const auto& [stat_value, text_field_value] : bottom_map_value_) {
                 update_text(text_field_value, "");
             }
-
         }
 
         void update_menu_values() const {
@@ -343,9 +337,9 @@ namespace scaleform {
                     default:
                         if (stat_item->get_stats_menu() != stats_menu_value::m_special) {
                             menu_map_.find(stat_item->get_stats_menu())
-                                     ->second.PushBack(build_gfx_value(stat_item->get_key(),
-                                         stat_item->get_value(),
-                                         stat_item->get_icon()));
+                                ->second.PushBack(build_gfx_value(stat_item->get_key(),
+                                    stat_item->get_value(),
+                                    stat_item->get_icon()));
                             logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
                                 string_util::get_int_from_enum(stat_item->get_stats_menu()),
                                 string_util::get_int_from_enum(stat_value),
@@ -355,12 +349,14 @@ namespace scaleform {
                         break;
                 }
             }
-            for (auto& [fst, snd] : values) { snd.reset(); }
+            for (auto& [fst, snd] : values) {
+                snd.reset();
+            }
             values.clear();
             logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
         }
 
-        static void on_close() { }
+        static void on_close() {}
 
         void disable_item_lists() {
             player_item_list_.Disabled(true);
@@ -474,6 +470,5 @@ namespace scaleform {
             { stats_value::beast, beast_value_ },
             { stats_value::xp, xp_value_ },
         };
-
     };
 }

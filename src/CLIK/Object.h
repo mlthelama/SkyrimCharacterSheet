@@ -3,44 +3,32 @@
 namespace CLIK {
     class Object {
     public:
-        Object()
-            : _instance() {}
+        Object() : _instance() {}
 
-        Object(const Object& a_rhs)
-            : _instance() { SetInstance(a_rhs); }
+        Object(const Object& a_rhs) : _instance() { SetInstance(a_rhs); }
 
-        Object(Object&& a_rhs)
-            : _instance() { SetInstance(std::move(a_rhs)); }
+        Object(Object&& a_rhs) : _instance() { SetInstance(std::move(a_rhs)); }
 
-        explicit Object(std::nullptr_t)
-            : _instance() { SetInstance(nullptr); }
+        explicit Object(std::nullptr_t) : _instance() { SetInstance(nullptr); }
 
-        explicit Object(double a_rhs)
-            : _instance() { SetInstance(a_rhs); }
+        explicit Object(double a_rhs) : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(bool a_rhs)
-            : _instance() { SetInstance(a_rhs); }
+        explicit Object(bool a_rhs) : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(const char* a_rhs)
-            : _instance() { SetInstance(a_rhs); }
+        explicit Object(const char* a_rhs) : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(std::string_view a_rhs)
-            : _instance() { SetInstance(a_rhs); }
+        explicit Object(std::string_view a_rhs) : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(const wchar_t* a_rhs)
-            : _instance() { SetInstance(a_rhs); }
+        explicit Object(const wchar_t* a_rhs) : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(std::wstring_view a_rhs)
-            : _instance() { SetInstance(a_rhs); }
+        explicit Object(std::wstring_view a_rhs) : _instance() { SetInstance(a_rhs); }
 
-        explicit Object(const RE::GFxValue& a_rhs)
-            : _instance() {
+        explicit Object(const RE::GFxValue& a_rhs) : _instance() {
             SetInstance(a_rhs);
             assert(IsObject());
         }
 
-        explicit Object(RE::GFxValue&& a_rhs)
-            : _instance() {
+        explicit Object(RE::GFxValue&& a_rhs) : _instance() {
             SetInstance(std::move(a_rhs));
             assert(IsObject());
         }

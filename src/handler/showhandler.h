@@ -80,7 +80,7 @@ public:
             const auto task = SKSE::GetTaskInterface();
             task->AddUITask([]() {
                 if (const auto menu = RE::UI::GetSingleton()->GetMenu<scaleform::stats_inventory_menu>(
-                    scaleform::stats_inventory_menu::menu_name)) {
+                        scaleform::stats_inventory_menu::menu_name)) {
                     menu->refresh_lists();
                 }
             });

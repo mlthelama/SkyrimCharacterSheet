@@ -27,8 +27,7 @@ public:
                     string_util::int_to_hex(qst->GetFormID()));
                 if ([[maybe_unused]] auto quest_done = quest_util::is_one_quest_stage_complete(qst, a_stages)) {
                     logger::trace("Champion of {}"sv, string_util::get_int_from_enum(champion_value));
-                    champion_list_.insert(
-                        std::pair(champion_value, const_static_display_value));
+                    champion_list_.insert(std::pair(champion_value, const_static_display_value));
                 }
             }
         }
@@ -76,9 +75,9 @@ private:
         { faction_value::azura, { { 0x00028AD6, std::vector{ quest_util::get_as(100) } } } },
         { faction_value::boethiah, { { 0x0004D8D6, std::vector{ quest_util::get_as(50), quest_util::get_as(100) } } } },
         { faction_value::clavicus_vile,
-          { { 0x0001BFC4, std::vector{ quest_util::get_as(200), quest_util::get_as(205) } } } },
+            { { 0x0001BFC4, std::vector{ quest_util::get_as(200), quest_util::get_as(205) } } } },
         { faction_value::hermaeus_mora,
-          { { 0x0002D512, std::vector{ quest_util::get_as(100), quest_util::get_as(200) } } } },
+            { { 0x0002D512, std::vector{ quest_util::get_as(100), quest_util::get_as(200) } } } },
         { faction_value::hircine, { { 0x0002A49A, std::vector{ quest_util::get_as(100), quest_util::get_as(105) } } } },
         { faction_value::malacath, { { 0x0003B681, std::vector{ quest_util::get_as(200) } } } },
         { faction_value::mehrunes_dagon, { { 0x000240B8, std::vector{ quest_util::get_as(100) } } } },

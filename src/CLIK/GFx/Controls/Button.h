@@ -13,11 +13,9 @@ namespace CLIK::GFx::Controls {
         Button(Button&&) = default;
         using super::super;
 
-        Button(const super& a_rhs)
-            : super(a_rhs) {}
+        Button(const super& a_rhs) : super(a_rhs) {}
 
-        Button(super&& a_rhs)
-            : super(std::move(a_rhs)) {}
+        Button(super&& a_rhs) : super(std::move(a_rhs)) {}
 
         ~Button() = default;
 
@@ -58,9 +56,7 @@ namespace CLIK::GFx::Controls {
 
         bool DisableConstraints() const { return GetBoolean("disableConstraints"); }
 
-        void DisableConstraints(bool a_disableConstraints) {
-            SetBoolean("disableConstraints", a_disableConstraints);
-        }
+        void DisableConstraints(bool a_disableConstraints) { SetBoolean("disableConstraints", a_disableConstraints); }
 
         std::string AutoSize() const { return GetString("autoSize"); }
         void AutoSize(std::string_view a_autoSize) { SetString("autoSize", a_autoSize); }

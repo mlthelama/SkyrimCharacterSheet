@@ -82,9 +82,7 @@ public:
 
     static std::string get_xp(RE::PlayerCharacter*& a_player) {
         const auto data = a_player->GetInfoRuntimeData().skills->data;
-        return string_util::delimit_two_values(data->xp,
-            data->levelThreshold,
-            const_delimiter);
+        return string_util::delimit_two_values(data->xp, data->levelThreshold, const_delimiter);
     }
 
     /* might need additional checks for mods that add more items 
@@ -109,10 +107,9 @@ public:
             }
         }
 
-        auto damage_resistance =
-            value_util::calculate_armor_damage_res(
-                a_player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kDamageResist),
-                armor_count);
+        auto damage_resistance = value_util::calculate_armor_damage_res(
+            a_player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kDamageResist),
+            armor_count);
         //auto dragonhide = getValueIfDragonhideIsAcitve(a_player);
         auto damage_resistance_string = string_util::get_string_value_from_float(damage_resistance);
         logger::debug("Damage Resistance from Armor {}"sv, damage_resistance);
@@ -150,7 +147,9 @@ public:
                 }
             }
         }
-        for (auto [slot, name] : slot_map_string) { logger::trace("{}: {}"sv, slot, name); }
+        for (auto [slot, name] : slot_map_string) {
+            logger::trace("{}: {}"sv, slot, name);
+        }
 
         return slot_map_string;
     }
@@ -226,38 +225,38 @@ private:
     };
 
     inline static std::vector<armor_slot> slot_types_ = { armor_slot::k_none,
-                                                          armor_slot::k_head,
-                                                          armor_slot::k_hair,
-                                                          armor_slot::k_body,
-                                                          armor_slot::k_hands,
-                                                          armor_slot::k_forearms,
-                                                          armor_slot::k_amulet,
-                                                          armor_slot::k_ring,
-                                                          armor_slot::k_feet,
-                                                          armor_slot::k_calves,
-                                                          armor_slot::k_shield,
-                                                          armor_slot::k_tail,
-                                                          armor_slot::k_long_hair,
-                                                          armor_slot::k_circlet,
-                                                          armor_slot::k_ears,
-                                                          armor_slot::k_face_mouth,
-                                                          armor_slot::k_neck,
-                                                          armor_slot::k_chest_primary,
-                                                          armor_slot::k_back,
-                                                          armor_slot::k_misc,
-                                                          armor_slot::k_pelvis_primary,
-                                                          armor_slot::k_decapitate_head,
-                                                          armor_slot::k_decapitate,
-                                                          armor_slot::k_pelvis_secondary,
-                                                          armor_slot::k_leg_primary,
-                                                          armor_slot::k_leg_secondary,
-                                                          armor_slot::k_face_alternate,
-                                                          armor_slot::k_chest_secondary,
-                                                          armor_slot::k_shoulder,
-                                                          armor_slot::k_arm_secondary,
-                                                          armor_slot::k_arm_primary,
-                                                          armor_slot::k_misc_fx,
-                                                          armor_slot::k_fx01 };
+        armor_slot::k_head,
+        armor_slot::k_hair,
+        armor_slot::k_body,
+        armor_slot::k_hands,
+        armor_slot::k_forearms,
+        armor_slot::k_amulet,
+        armor_slot::k_ring,
+        armor_slot::k_feet,
+        armor_slot::k_calves,
+        armor_slot::k_shield,
+        armor_slot::k_tail,
+        armor_slot::k_long_hair,
+        armor_slot::k_circlet,
+        armor_slot::k_ears,
+        armor_slot::k_face_mouth,
+        armor_slot::k_neck,
+        armor_slot::k_chest_primary,
+        armor_slot::k_back,
+        armor_slot::k_misc,
+        armor_slot::k_pelvis_primary,
+        armor_slot::k_decapitate_head,
+        armor_slot::k_decapitate,
+        armor_slot::k_pelvis_secondary,
+        armor_slot::k_leg_primary,
+        armor_slot::k_leg_secondary,
+        armor_slot::k_face_alternate,
+        armor_slot::k_chest_secondary,
+        armor_slot::k_shoulder,
+        armor_slot::k_arm_secondary,
+        armor_slot::k_arm_primary,
+        armor_slot::k_misc_fx,
+        armor_slot::k_fx01 };
 
     static double get_slotid_from_bit_mask(armor_slot a_armor_slot) {
         return std::log(static_cast<int32_t>(a_armor_slot)) / std::log1p(1) + 30;
