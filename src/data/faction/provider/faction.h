@@ -33,7 +33,7 @@ public:
                 auto rank_data(a_faction->rankData);
 
                 if (!const_faction_map_.contains(form_id)) {
-                    logger::trace("name {}, formId {}, rank {} not handeled"sv,
+                    logger::trace("name {}, formId {}, rank {} not handled"sv,
                         name,
                         string_util::int_to_hex(form_id),
                         a_rank);
@@ -55,7 +55,7 @@ public:
                         }
                     }
 
-                    /*if rank is empty here then we need to fill it by ourselfs*/
+                    /*if rank is empty here then we need to fill it by ourselves*/
                     switch (const_faction_map_.find(form_id)->second) {
                         case faction_value::darkbrotherhood:
                             rank = get_dark_brotherhood_rank();

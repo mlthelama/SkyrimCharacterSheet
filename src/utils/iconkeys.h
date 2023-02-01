@@ -128,4 +128,4 @@ namespace icon_keys {
     constexpr auto security_power_mod = security;
     constexpr auto hand_to_hand_mod = hand_to_hand;
     constexpr auto security_mod = security;
-};
+}
