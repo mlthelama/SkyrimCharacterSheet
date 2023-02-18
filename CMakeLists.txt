@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 
+set(NAME "SkyrimCharacterSheet")
+set(VERSION 1.0.3.0)
+
 # ---- Options ----
 
 # ---- Cache build vars ----
@@ -33,8 +36,8 @@ set(BUILD_TESTS OFF)
 # ---- Project ----
 
 project(
-	SkyrimCharacterSheet
-	VERSION 1.0.3.0
+	${NAME} 
+	VERSION ${VERSION}
 	LANGUAGES CXX
 )
 

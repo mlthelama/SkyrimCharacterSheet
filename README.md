@@ -23,5 +23,6 @@
 git clone https://github.com/mlthelama/SkyrimCharacterSheet.git
 cd SkyrimCharacterSheet
 
-cmake -B build -S .
+cmake --preset vs2022-windows
+cmake --build --preset vs2022-windows --config Release
 ```

@@ -6,10 +6,6 @@
   "license": "MIT",
   "dependencies": [
 	"simpleini",
-    "boost-atomic",
-    "boost-stl-interfaces",
-    "span-lite",
-    "spdlog",
-    "commonlibsse-ng-flatrim"
+    "commonlibsse-ng"
   ]
 }
