@@ -14,6 +14,7 @@ class setting {
     inline static bool show_inventory_stats_auto_open_;
     inline static int show_inventory_button_;
     inline static int display_av_type_;
+    inline static int show_inventory_stats_auto_open_magic_menu_;
 
     inline static bool skyrim_unbound_;
     inline static bool hand_to_hand_;
@@ -323,6 +324,7 @@ public:
         show_inventory_stats_auto_open_ = ini.GetBoolValue("General", "bShowInventoryStatsAutoOpen", false);
         show_inventory_button_ = ini.GetLongValue("General", "iShowInventoryButton", 11);
         display_av_type_ = ini.GetLongValue("General", "iDisplayBasePermanentActorValue", 0);
+        show_inventory_stats_auto_open_magic_menu_ = ini.GetBoolValue("General", "bShowInventoryStatsAutoOpenMagicMenu", false);
 
         skyrim_unbound_ = ini.GetBoolValue("Mods", "bSkyrimUnbound", false);
         hand_to_hand_ = ini.GetBoolValue("Mods", "bHandToHand", false);
@@ -647,6 +649,8 @@ public:
     static bool get_show_inventory_stats_auto_open() { return show_inventory_stats_auto_open_; }
     static int get_show_inventory_button() { return show_inventory_button_; }
     static int get_display_av_type() { return display_av_type_; }
+    static bool get_show_inventory_stats_auto_open_magic_menu() { return show_inventory_stats_auto_open_magic_menu_; }
+    
     static bool get_skyrim_unbound() { return skyrim_unbound_; }
     static bool get_hand_to_hand() { return hand_to_hand_; }
     static bool get_show_resistance_cap() { return show_resistance_cap_; }

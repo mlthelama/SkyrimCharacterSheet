@@ -28,17 +28,21 @@ protected:
 
         //sometimes it can happen, if you press menu button and inventory it opens both
         //that should not happen
-        if (a_event->opening && a_event->menuName == RE::InventoryMenu::MENU_NAME) {
+        if (a_event->opening &&
+            (a_event->menuName == RE::InventoryMenu::MENU_NAME || a_event->menuName == RE::MagicMenu::MENU_NAME)) {
             if (show_handler::is_menu_open()) {
                 show_handler::close_window(show_menu::m_stats);
             }
 
-            if (setting::get_show_inventory_stats_auto_open()) {
+            if ((setting::get_show_inventory_stats_auto_open() && a_event->menuName == RE::InventoryMenu::MENU_NAME) ||
+                (setting::get_show_inventory_stats_auto_open_magic_menu() &&
+                    a_event->menuName == RE::MagicMenu::MENU_NAME)) {
                 show_handler::handle_inventory_stats_open();
             }
         }
 
-        if (!a_event->opening && a_event->menuName == RE::InventoryMenu::MENU_NAME) {
+        if (!a_event->opening &&
+            (a_event->menuName == RE::InventoryMenu::MENU_NAME || a_event->menuName == RE::MagicMenu::MENU_NAME)) {
             show_handler::close_window(show_menu::m_stats_inventory);
         }
 

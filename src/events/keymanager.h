@@ -72,7 +72,7 @@ protected:
             }
 
 
-            if (ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME)) {
+            if (ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) || ui->IsMenuOpen(RE::MagicMenu::MENU_NAME)) {
                 if (key == static_cast<uint32_t>(setting::get_show_inventory_button())) {
                     logger::debug("configured Key ({}) for Inventory pressed"sv, key);
                     if (!show_handler::is_menu_open(show_menu::m_stats_inventory)) {
