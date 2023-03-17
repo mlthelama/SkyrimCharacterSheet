@@ -215,7 +215,7 @@ public:
         return std::addressof(singleton);
     }
 
-    [[nodiscard]] stats_map load() const {
+    [[nodiscard]] static stats_map load() {
         stats_map mp;
 
         const auto game_settings = game_settings::get_singleton();
@@ -250,12 +250,14 @@ public:
             menu_keys::equipped_weight,
             setting::get_equipped_weight_string_ending(),
             menu_util::get_stats_menu(setting::get_equiped_weight_menu()),
-            menu_util::get_stats_inventory_menu(setting::get_equiped_weight_menu_inventory()));
+            menu_util::get_stats_inventory_menu(setting::get_equipped_weight_menu_inventory()),
+            icon_keys::equipped_weight);
         mp[stats_value::weight] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::weight,
             setting::get_weight_string_ending(),
             menu_util::get_stats_menu(setting::get_weight_menu()),
-            stats_inventory_menu_value::m_none);
+            stats_inventory_menu_value::m_none,
+            icon_keys::weight);
         mp[stats_value::armor] = std::make_unique<stat_config>(actor_value::kDamageResist,
             menu_keys::armor,
             menu_util::get_stats_menu(setting::get_armor_menu()),
@@ -269,7 +271,8 @@ public:
         mp[stats_value::skill_trainings_this_level] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::trainings_level,
             menu_util::get_stats_menu(setting::get_skill_trainings_this_level_menu()),
-            stats_inventory_menu_value::m_none);
+            stats_inventory_menu_value::m_none,
+            icon_keys::trainings_level);
         mp[stats_value::health] = std::make_unique<stat_config>(actor_value::kHealth,
             menu_keys::health,
             menu_util::get_stats_menu(setting::get_health_menu()),
@@ -297,14 +300,14 @@ public:
         mp[stats_value::stamina] = std::make_unique<stat_config>(actor_value::kStamina,
             menu_keys::stamina,
             menu_util::get_stats_menu(setting::get_stamina_menu()),
-            menu_util::get_stats_inventory_menu(setting::get_magicka_rate_menu_inventory()),
+            menu_util::get_stats_inventory_menu(setting::get_stamina_menu_inventory()),
             get_display_type,
             icon_keys::stamina);
         mp[stats_value::stamina_rate_per] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::stamina_rate,
             setting::get_stamina_rate_string_ending(),
             menu_util::get_stats_menu(setting::get_stamina_rate_menu()),
-            menu_util::get_stats_inventory_menu(setting::get_stamina_menu_inventory()),
+            menu_util::get_stats_inventory_menu(setting::get_stamina_rate_menu_inventory()),
             icon_keys::stamina_rate);
         mp[stats_value::resist_damage] = std::make_unique<stat_config>(actor_value::kNone,
             menu_keys::resist_damage,

@@ -279,7 +279,7 @@ namespace scaleform {
         }
 
         void update_menu_values() const {
-            auto values = faction_data::get_singleton()->get_values_to_display();
+            auto values = faction_data::get_values_to_display();
 
             logger::debug("Update menu Values, values to proces {}"sv, values.size());
             for (auto& [faction_value, faction_item_ptr] : values) {
@@ -309,7 +309,7 @@ namespace scaleform {
                 snd.reset();
             }
             values.clear();
-            logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
+            logger::debug("Done Updating Values, Map Size is {}"sv, values.size());
         }
 
         void update_bottom_values() const {

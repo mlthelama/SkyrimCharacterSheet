@@ -6,7 +6,7 @@ class setting {
     inline static const char* ini_path_ = R"(.\Data\SKSE\Plugins\SkyrimCharacterSheet.ini)";
     inline static const char* const_undefined_ = "<undef>";
 
-    inline static int log_level_;
+    inline static bool is_debug_;
     inline static int open_menu_button_;
     inline static int open_faction_menu_button_;
     inline static bool pause_game_;
@@ -74,7 +74,7 @@ class setting {
 
 
     inline static int height_menu_;
-    inline static int equiped_weight_menu_;
+    inline static int equipped_weight_menu_;
     inline static int weight_menu_;
     inline static int armor_menu_;
     inline static int damage_menu_;
@@ -316,7 +316,7 @@ public:
         ini.SetUnicode();
         ini.LoadFile(ini_path_);
 
-        log_level_ = ini.GetLongValue("General", "iLogLevel", 2);
+        is_debug_ = ini.GetBoolValue("General", "bIsDebug", false);
         open_menu_button_ = ini.GetLongValue("General", "iOpenMenuButton", 22);
         open_faction_menu_button_ = ini.GetLongValue("General", "iOpenNextMenuButton", 49);
         pause_game_ = ini.GetBoolValue("General", "bPauseGame", true);  //G
@@ -324,7 +324,8 @@ public:
         show_inventory_stats_auto_open_ = ini.GetBoolValue("General", "bShowInventoryStatsAutoOpen", false);
         show_inventory_button_ = ini.GetLongValue("General", "iShowInventoryButton", 11);
         display_av_type_ = ini.GetLongValue("General", "iDisplayBasePermanentActorValue", 0);
-        show_inventory_stats_auto_open_magic_menu_ = ini.GetBoolValue("General", "bShowInventoryStatsAutoOpenMagicMenu", false);
+        show_inventory_stats_auto_open_magic_menu_ =
+            ini.GetBoolValue("General", "bShowInventoryStatsAutoOpenMagicMenu", false);
 
         skyrim_unbound_ = ini.GetBoolValue("Mods", "bSkyrimUnbound", false);
         hand_to_hand_ = ini.GetBoolValue("Mods", "bHandToHand", false);
@@ -335,7 +336,7 @@ public:
 
 
         height_string_ending_ = ini.GetValue("showStatsEnding", "sHeight", const_undefined_);
-        equipped_weight_string_ending_ = ini.GetValue("showStatsEnding", "sEquipedWeight", const_undefined_);
+        equipped_weight_string_ending_ = ini.GetValue("showStatsEnding", "sEquippedWeight", const_undefined_);
         weight_string_ending_ = ini.GetValue("showStatsEnding", "sWeight", const_undefined_);
         health_rate_string_ending_ = ini.GetValue("showStatsEnding", "sHealthRatePer", const_undefined_);
         magicka_rate_string_ending_ = ini.GetValue("showStatsEnding", "sMagickaRatePer", const_undefined_);
@@ -385,7 +386,7 @@ public:
 
 
         height_menu_ = ini.GetLongValue("showStatsMenu", "iHeight", 0);
-        equiped_weight_menu_ = ini.GetLongValue("showStatsMenu", "iEquipedWeight", 0);
+        equipped_weight_menu_ = ini.GetLongValue("showStatsMenu", "iEquippedWeight", 0);
         weight_menu_ = ini.GetLongValue("showStatsMenu", "iWeight", 0);
         armor_menu_ = ini.GetLongValue("showStatsMenu", "iArmor", 0);
         damage_menu_ = ini.GetLongValue("showStatsMenu", "iDamage", 0);
@@ -514,7 +515,7 @@ public:
         show_stats_inventorydisplay_zero_ = ini.GetBoolValue("showStatsInventorySpecial", "bDisplayZero", true);
 
         //stats inventory menu
-        equiped_weight_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iEquipedWeight", 0);
+        equiped_weight_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iEquippedWeight", 0);
         armor_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iArmor", 0);
         damage_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iDamage", 0);
         health_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iHealth", 0);
@@ -641,7 +642,7 @@ public:
         (void)ini.SaveFile(ini_path_);
     }*/
 
-    static int get_log_level() { return log_level_; }
+    static bool get_is_debug() { return is_debug_; }
     static int get_open_menu_button() { return open_menu_button_; }
     static int get_open_faction_menu_button() { return open_faction_menu_button_; }
     static bool get_pause_game() { return pause_game_; }
@@ -650,7 +651,7 @@ public:
     static int get_show_inventory_button() { return show_inventory_button_; }
     static int get_display_av_type() { return display_av_type_; }
     static bool get_show_inventory_stats_auto_open_magic_menu() { return show_inventory_stats_auto_open_magic_menu_; }
-    
+
     static bool get_skyrim_unbound() { return skyrim_unbound_; }
     static bool get_hand_to_hand() { return hand_to_hand_; }
     static bool get_show_resistance_cap() { return show_resistance_cap_; }
@@ -707,7 +708,7 @@ public:
     static std::string get_fall_damage_mod_string_ending() { return fall_damage_mod_string_ending_; }
 
     static int get_height_menu() { return height_menu_; }
-    static int get_equiped_weight_menu() { return equiped_weight_menu_; }
+    static int get_equiped_weight_menu() { return equipped_weight_menu_; }
     static int get_weight_menu() { return weight_menu_; }
     static int get_armor_menu() { return armor_menu_; }
     static int get_damage_menu() { return damage_menu_; }
@@ -826,7 +827,7 @@ public:
     static int get_thane_menu() { return thane_menu_; }
     static int get_champion_menu() { return champion_menu_; }
     static int get_show_stats_inventorydisplay_zero() { return show_stats_inventorydisplay_zero_; }
-    static int get_equiped_weight_menu_inventory() { return equiped_weight_menu_inventory_; }
+    static int get_equipped_weight_menu_inventory() { return equiped_weight_menu_inventory_; }
     static int get_armor_menu_inventory() { return armor_menu_inventory_; }
     static int get_damage_menu_inventory() { return damage_menu_inventory_; }
     static int get_health_menu_inventory() { return health_menu_inventory_; }

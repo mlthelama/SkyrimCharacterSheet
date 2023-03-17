@@ -15,10 +15,10 @@ public:
         return std::addressof(singleton);
     }
 
-    [[nodiscard]] faction_item_map get_values_to_display() const {
+    [[nodiscard]] static faction_item_map get_values_to_display() {
         faction_item_map fimp;
 
-        const auto player = RE::PlayerCharacter::GetSingleton();
+        auto* player = RE::PlayerCharacter::GetSingleton();
         const auto faction = faction::get_singleton();
         const auto thane = thane::get_singleton();
         const auto champion = champion::get_singleton();
@@ -92,7 +92,7 @@ public:
                     value_text = champion->get_champion(faction_value);
                     break;
                 default:
-                    logger::warn("unhandeled stat, name {}, displayName {}"sv,
+                    logger::warn("unhandled stat, name {}, displayName {}"sv,
                         string_util::get_int_from_enum(faction_value),
                         faction_config->get_display_name());
                     break;

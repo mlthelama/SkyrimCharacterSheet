@@ -298,7 +298,7 @@ namespace quest_util {
     static std::vector<uint16_t> get_stages_if_complete(RE::TESQuest* a_quest) {
         std::vector<uint16_t> fin_stages;
 
-        //all favour quests finish at 25 execpt rift = 20
+        //all favour quests finish at 25 except rift = 20
         auto hex = string_util::int_to_hex(a_quest->GetFormID());
         logger::debug("Questname ({}), formid {}, prio {}"sv, a_quest->GetName(), hex, a_quest->data.priority);
 
@@ -341,7 +341,7 @@ namespace quest_util {
             vector_util::get_delimited_string(intersect),
             intersect.size());
 
-        return intersect.size() > 0 ? true : false;
+        return intersect.size() > 0;
     }
 
     static bool is_quest_stage_complete(RE::TESQuest* a_quest, const uint16_t a_stage) {

@@ -56,7 +56,6 @@ namespace scaleform {
 
     protected:
         stats_inventory_menu() {
-            using context = RE::UserEvents::INPUT_CONTEXT_ID;
             using flag = RE::UI_MENU_FLAGS;
 
             const auto a_menu = static_cast<IMenu*>(this);
@@ -268,8 +267,8 @@ namespace scaleform {
         }
 
         void update_menu_values() const {
-            auto values = player_data::get_singleton()->get_values_to_display(menu, menu_name);
-            logger::debug("Update menu Values, values to proces {}"sv, values.size());
+            auto values = player_data::get_values_to_display(menu, menu_name);
+            logger::debug("Update menu Values, values to process {}"sv, values.size());
 
             for (auto& [fst, snd] : values) {
                 auto stat_value = fst;
@@ -297,13 +296,13 @@ namespace scaleform {
             }
             values.clear();
 
-            //it seems the inventory needs a bit after an equipchange, so an item might be shown equiped
+            //it seems the inventory needs a bit after an equip change, so an item might be shown equipped
             for (const auto armor = player_data::get_armor_map(); auto [slot, name] : armor) {
                 menu_map_.find(stats_inventory_menu_value::m_equip)
                     ->second.PushBack(build_gfx_value(slot, static_cast<std::string>(name)));
             }
 
-            logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
+            logger::debug("Done Updating Values, Map Size is {}"sv, values.size());
         }
 
         static void on_close() {}

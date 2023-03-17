@@ -15,7 +15,7 @@ public:
 
 
     void log_stat_config(const faction_value a_stats_value) {
-        logger::trace("name {}, displayname {}, menu {}"sv,
+        logger::trace("name {}, display name {}, menu {}"sv,
             string_util::get_int_from_enum(a_stats_value),
             display_name_,
             string_util::get_int_from_enum(menu_));
@@ -44,7 +44,7 @@ public:
         return std::addressof(singleton);
     }
 
-    [[nodiscard]] faction_map load() const {
+    [[nodiscard]] static faction_map load() {
         auto faction_menu = menu_util::get_faction_menu(setting::get_faction_menu());
         auto thane_menu = menu_util::get_faction_menu(setting::get_thane_menu());
         auto champion_menu = menu_util::get_faction_menu(setting::get_champion_menu());
@@ -76,6 +76,7 @@ public:
         mp[faction_value::winterhold] = std::make_unique<faction_config>(menu_keys::winterhold, thane_menu);
 
         mp[faction_value::azura] = std::make_unique<faction_config>(menu_keys::azura, champion_menu);
+        mp[faction_value::boethiah] = std::make_unique<faction_config>(menu_keys::boethiah, champion_menu);
         mp[faction_value::clavicus_vile] = std::make_unique<faction_config>(menu_keys::clavicus_vile, champion_menu);
         mp[faction_value::hermaeus_mora] = std::make_unique<faction_config>(menu_keys::hermaeus_mora, champion_menu);
         mp[faction_value::hircine] = std::make_unique<faction_config>(menu_keys::hircine, champion_menu);

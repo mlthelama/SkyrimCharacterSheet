@@ -4,8 +4,8 @@
   "description": "An info page",
   "homepage": "https://github.com/mlthelama/SkyrimCharacterSheet",
   "license": "MIT",
-  "dependencies": [
-	"simpleini",
+  "dependencies": [ 
+    "simpleini",
     "commonlibsse-ng"
   ]
 }

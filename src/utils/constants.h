@@ -96,7 +96,6 @@ enum class stats_value {
     restoration_mod,
     enchanting_mod,
     damage_arrow,
-    damage_right,
     damage_left,
     left_weapon_speed_mult,
     right_item_charge,
@@ -157,10 +156,6 @@ enum class faction_value : int {
     sheogorath,
     vaermina
 };
-
-constexpr int32_t const_log_trace = 0;
-constexpr int32_t const_log_debug = 1;
-constexpr int32_t const_log_info = 2;
 
 constexpr auto const_static_display_value = "yes"sv;
 constexpr auto const_static_multiplier = 1;

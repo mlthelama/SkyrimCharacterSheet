@@ -9,8 +9,8 @@ public:
     }
 
     ReturnType Visit(RE::BGSPerkEntry* perk_entry) override {
-        const RE::BGSEntryPointPerkEntry* entry_point = static_cast<RE::BGSEntryPointPerkEntry*>(perk_entry);
-        const RE::BGSPerk* perk = entry_point->perk;
+        const auto* entry_point = static_cast<RE::BGSEntryPointPerkEntry*>(perk_entry);
+        const auto* perk = entry_point->perk;
 
         logger::trace("formid {}, name {}"sv, string_util::int_to_hex(perk->GetFormID()), perk->GetName());
 

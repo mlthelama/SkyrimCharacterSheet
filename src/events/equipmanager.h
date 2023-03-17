@@ -34,8 +34,7 @@ protected:
         if (formid->IsArmor() || formid->IsWeapon() || formid->IsAmmo()) {
             logger::trace("Player {} {}"sv, (a_event->equipped ? "equipped" : "unequipped"), formid->GetName());
             //if menu is open trigger reload of data
-            if ([[maybe_unused]] const auto show_handler = show_handler::get_singleton();
-                show_handler::is_menu_open(show_menu::m_stats_inventory)) {
+            if (show_handler::is_menu_open(show_menu::m_stats_inventory)) {
                 show_handler::handle_inventory_stats_update();
             }
         }

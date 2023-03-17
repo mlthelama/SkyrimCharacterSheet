@@ -312,8 +312,8 @@ namespace scaleform {
         }
 
         void update_menu_values() const {
-            auto values = player_data::get_singleton()->get_values_to_display(menu, menu_name);
-            logger::debug("Update menu Values, values to proces {}"sv, values.size());
+            auto values = player_data::get_values_to_display(menu, menu_name);
+            logger::debug("Update menu Values, values to process {}"sv, values.size());
 
             for (auto& [stat_value, stat_item_ptr] : values) {
                 const auto stat_item = stat_item_ptr.get();

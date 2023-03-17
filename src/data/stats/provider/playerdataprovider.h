@@ -96,7 +96,7 @@ public:
         auto armor_count = 0;
         for (const auto& [item, invData] : inv) {
             if (const auto& [count, entry] = invData; count > 0 && entry->IsWorn()) {
-                /* clothing does not count torwards reduction
+                /* clothing does not count towards reduction
                 *  as stated here http://en.uesp.net/wiki/Skyrim:Armor#Armor_Rating
                 */
                 if (const auto armor = item->As<RE::TESObjectARMO>();
@@ -110,7 +110,7 @@ public:
         auto damage_resistance = value_util::calculate_armor_damage_res(
             a_player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kDamageResist),
             armor_count);
-        //auto dragonhide = getValueIfDragonhideIsAcitve(a_player);
+        //auto dragonhide = getValueIfDragonhideIsActive(a_player);
         auto damage_resistance_string = string_util::get_string_value_from_float(damage_resistance);
         logger::debug("Damage Resistance from Armor {}"sv, damage_resistance);
         if (a_cap != -1) {
@@ -170,7 +170,7 @@ public:
         return fall_damage_mod;
     }
 
-    static float get_warmth_rating([[maybe_unused]] RE::Actor* a_actor, [[maybe_unused]] float a_value) {
+    static float get_warmth_rating(RE::Actor* a_actor, float a_value) {
         using func_t = decltype(&get_warmth_rating);
         const REL::Relocation<func_t> func{ offset::get_actor_warmth_rating };
         return func(a_actor, a_value);

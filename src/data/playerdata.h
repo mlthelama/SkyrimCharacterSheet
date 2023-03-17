@@ -11,18 +11,13 @@ class player_data {
     using slot_armor_map = std::map<std::string, std::string_view>;
 
 public:
-    static player_data* get_singleton() {
-        static player_data singleton;
-        return std::addressof(singleton);
-    }
-
-    [[nodiscard]] stats_item_map get_values_to_display(show_menu a_menu, std::string_view a_name) const {
+    [[nodiscard]] static stats_item_map get_values_to_display(show_menu a_menu, std::string_view a_name) {
         logger::debug("Get Values to Display for Menu ({}) ..."sv, a_name);
         stats_item_map simp;
 
-        auto player = RE::PlayerCharacter::GetSingleton();
+        auto* player = RE::PlayerCharacter::GetSingleton();
 
-        auto stat_setting_map = stat_setting::get_singleton()->load();
+        auto stat_setting_map = stat_setting::load();
         logger::debug("Config Map Size is {}"sv, stat_setting_map.size());
 
         for (auto& [fst, snd] : stat_setting_map) {
@@ -137,8 +132,10 @@ public:
                         player_data_provider::get_fall_damage_mod(player) * stat_config->get_value_multiplier());
                     break;
                 case stats_value::warmth:
-                    value_text =
-                        string_util::get_string_value_from_float(player_data_provider::get_warmth_rating(player, 0.0));
+                    //vr does not have the value
+                    value_text = REL::Module::IsVR() ? "" :
+                                                       string_util::get_string_value_from_float(
+                                                           player_data_provider::get_warmth_rating(player, 0.0));
                     break;
                 default:
                     if (stat_config->get_actor() != RE::ActorValue::kNone) {
@@ -173,7 +170,7 @@ public:
                             }
                         }
                     } else {
-                        logger::warn("unhandeled stat, name {}, displayName {}"sv,
+                        logger::warn("unhandled stat, name {}, displayName {}"sv,
                             string_util::get_int_from_enum(stat_value),
                             stat_config->get_display_name());
                     }
@@ -224,7 +221,7 @@ public:
     }
 
     static slot_armor_map get_armor_map() {
-        auto player = RE::PlayerCharacter::GetSingleton();
+        auto* player = RE::PlayerCharacter::GetSingleton();
         return player_data_provider::get_equipment(player);
     }
 

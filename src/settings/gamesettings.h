@@ -26,15 +26,14 @@ public:
     float armor_base_factor = -1;
     float armor_scaling_factor = -1;
 
-protected:
-    game_settings() = default;
     game_settings(const game_settings&) = delete;
     game_settings(game_settings&&) = delete;
-
-    ~game_settings() = default;
-
     game_settings& operator=(const game_settings&) = delete;
     game_settings& operator=(game_settings&&) = delete;
+
+protected:
+    game_settings() = default;
+    ~game_settings() = default;
 
 private:
     static float get_float_setting(const char* a_name, RE::GameSettingCollection*& a_game_setting) {

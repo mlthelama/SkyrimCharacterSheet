@@ -9,28 +9,20 @@ void init_logger() {
     }
 
     try {
-#ifndef NDEBUG
-        auto sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
-#else
         auto path = logger::log_directory();
         if (!path) {
             stl::report_and_fail("failed to get standard log path"sv);
         }
 
         *path /= fmt::format("{}.log"sv, Version::PROJECT);
-        auto sink = make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
-#endif
-        auto log = make_shared<spdlog::logger>("global log"s, move(sink));
+        auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
+        auto log = std::make_shared<spdlog::logger>("global log"s, std::move(sink));
 
-#ifndef NDEBUG
-        log->set_level(spdlog::level::trace);
-#else
-        log->set_level(spdlog::level::trace);
-        log->flush_on(spdlog::level::trace);
-#endif
+        log->set_level(spdlog::level::info);
+        log->flush_on(spdlog::level::info);
 
-        set_default_logger(move(log));
-        spdlog::set_pattern("[%H:%M:%S.%f] %s(%#) [%^%l%$] %v"s);
+        spdlog::set_default_logger(std::move(log));
+        spdlog::set_pattern("[%H:%M:%S.%f][%s(%#)][%!][%l] %v"s);
 
         logger::info("{} v{}"sv, Version::PROJECT, Version::NAME);
 
@@ -40,23 +32,9 @@ void init_logger() {
             logger::warn("failed to load setting {}"sv, e.what());
         }
 
-        switch (setting::get_log_level()) {
-            case const_log_trace:
-                spdlog::set_level(spdlog::level::trace);
-                spdlog::flush_on(spdlog::level::trace);
-                break;
-            case const_log_debug:
-                spdlog::set_level(spdlog::level::debug);
-                spdlog::flush_on(spdlog::level::debug);
-                break;
-            case const_log_info:
-                spdlog::set_level(spdlog::level::info);
-                spdlog::flush_on(spdlog::level::info);
-                break;
-            default:
-                spdlog::set_level(spdlog::level::trace);
-                spdlog::flush_on(spdlog::level::trace);
-                break;
+        if (setting::get_is_debug()) {
+            spdlog::set_level(spdlog::level::trace);
+            spdlog::flush_on(spdlog::level::trace);
         }
     } catch (const std::exception& e) {
         logger::critical("failed, cause {}"sv, e.what());
@@ -64,15 +42,10 @@ void init_logger() {
 }
 
 EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse) {
-#ifndef NDEBUG
-    while (!IsDebuggerPresent()) {};
-#endif
-    //REL::Module::reset();
-
-
     init_logger();
 
     logger::info("{} loading"sv, Version::PROJECT);
+    logger::info("Game version {}", a_skse->RuntimeVersion().string());
 
     Init(a_skse);
 
@@ -97,7 +70,7 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) constinit auto SKSEPlugin_Versio
     v.AuthorName(Version::AUTHOR);
     v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH, Version::BETA });
     v.UsesAddressLibrary(true);
-    v.CompatibleVersions({ SKSE::RUNTIME_SSE_1_6_353 });
+    v.CompatibleVersions({ SKSE::RUNTIME_SSE_LATEST });
     v.HasNoStructUse(true);
     return v;
 }();

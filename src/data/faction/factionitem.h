@@ -34,5 +34,5 @@ public:
 private:
     std::string_view gui_key_;
     std::string gui_value_;
-    faction_menu_value faction_menu_;
+    faction_menu_value faction_menu_{};
 };

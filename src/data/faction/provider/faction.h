@@ -135,7 +135,7 @@ private:
         }
     }
 
-    [[nodiscard]] std::string_view get_dark_brotherhood_rank() const {
+    [[nodiscard]] static std::string_view get_dark_brotherhood_rank() {
         auto rank = menu_keys::assassin;
         //hail sithis
         if (quest_util::is_one_quest_stage_complete(0x0001EA59,
