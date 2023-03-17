@@ -39,11 +39,6 @@ class faction_setting {
     using faction_map = std::map<faction_value, std::unique_ptr<faction_config>>;
 
 public:
-    static faction_setting* get_singleton() {
-        static faction_setting singleton;
-        return std::addressof(singleton);
-    }
-
     [[nodiscard]] static faction_map load() {
         auto faction_menu = menu_util::get_faction_menu(setting::get_faction_menu());
         auto thane_menu = menu_util::get_faction_menu(setting::get_thane_menu());

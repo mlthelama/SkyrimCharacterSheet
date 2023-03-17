@@ -33,7 +33,7 @@ public:
             champion->get_champions();
         }
 
-        auto faction_setting_map = faction_setting::get_singleton()->load();
+        auto faction_setting_map = faction_setting::load();
         logger::debug("Config Map Size is {}"sv, faction_setting_map.size());
 
         for (auto& [fst, snd] : faction_setting_map) {
