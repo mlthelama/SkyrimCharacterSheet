@@ -1,4 +1,5 @@
 #include "events.h"
+#include "mod/mod_manager.h"
 #include "scaleform/scaleform.h"
 
 void init_logger() {
@@ -52,10 +53,20 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
     SKSE::GetMessagingInterface()->RegisterListener([](SKSE::MessagingInterface::Message* a_msg) {
         switch (a_msg->type) {
             case SKSE::MessagingInterface::kDataLoaded:
-                logger::info("Data loaded"sv);
+                logger::info("Begin Data loaded"sv);
                 events::sink_event_handlers();
                 scaleform::Register();
-                logger::info("Done with adding"sv);
+
+                //check for mods here
+                auto* mod_manager = mod::mod_manager::get_singleton();
+                mod_manager->set_armor_rating_rescaled_remake(
+                    LoadLibraryW(L"Data/SKSE/Plugins/ArmorRatingRescaledRemake.dll"));
+                mod_manager->set_hand_to_hand(LoadLibraryW(L"Data/SKSE/Plugins/HandToHand.dll"));
+
+                auto* data_handler = RE::TESDataHandler::GetSingleton();
+                mod_manager->set_skyrim_unbound((data_handler && data_handler->LookupModByName("Skyrim Unbound.esp")));
+                
+                logger::info("Done with Data loaded"sv);
                 break;
         }
     });

@@ -1,4 +1,6 @@
 #pragma once
+#include "mod/armor_rating_rescaled_remake.h"
+#include "mod/mod_manager.h"
 #include "settings/gamesettings.h"
 #include "utils/constants.h"
 #include "utils/iconkeys.h"
@@ -223,6 +225,8 @@ public:
             game_settings->get_and_set_settings();
         }
 
+        auto* mod_manager = mod::mod_manager::get_singleton();
+
         auto get_display_type = value_util::get_display_actor_value_type(setting::get_display_av_type());
 
         mp[stats_value::name] = std::make_unique<stat_config>(actor_value::kNone,
@@ -405,7 +409,7 @@ public:
             menu_util::get_stats_inventory_menu(setting::get_light_armor_menu_inventory()),
             get_display_type,
             icon_keys::light_armor);
-        if (setting::get_hand_to_hand()) {
+        if (mod_manager->get_hand_to_hand()) {
             mp[stats_value::pickpocket] = std::make_unique<stat_config>(actor_value::kPickpocket,
                 menu_keys::security,
                 menu_util::get_stats_menu(setting::get_pickpocket_menu()),
@@ -520,7 +524,7 @@ public:
             menu_util::get_stats_menu(setting::get_light_armor_power_mod_menu()),
             menu_util::get_stats_inventory_menu(setting::get_light_armor_power_mod_menu_inventory()),
             icon_keys::light_armor_power_mod);
-        if (setting::get_hand_to_hand()) {
+        if (mod_manager->get_hand_to_hand()) {
             mp[stats_value::pickpocket_power_mod] = std::make_unique<stat_config>(actor_value::kPickpocketPowerModifier,
                 menu_keys::security_power_mod,
                 menu_util::get_stats_menu(setting::get_pickpocket_power_mod_menu()),
@@ -780,7 +784,7 @@ public:
             menu_util::get_stats_menu(setting::get_light_armor_mod_menu()),
             menu_util::get_stats_inventory_menu(setting::get_light_armor_mod_menu_inventory()),
             icon_keys::light_armor_mod);
-        if (setting::get_hand_to_hand()) {
+        if (mod_manager->get_hand_to_hand()) {
             mp[stats_value::pickpocket_mod] = std::make_unique<stat_config>(actor_value::kPickpocketModifier,
                 menu_keys::security_mod,
                 setting::get_pickpocket_mod_string_ending(),

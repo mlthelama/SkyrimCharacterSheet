@@ -1,4 +1,5 @@
 #pragma once
+#include "mod/mod_manager.h"
 
 class thane {
     using value_string_map = std::map<faction_value, std::string>;
@@ -41,7 +42,8 @@ public:
                         pre_quests && qst_done) {
                         is_thane = true;
                     }
-                } else if (thane_value == faction_value::whiterun && !setting::get_skyrim_unbound()) {
+                } else if (thane_value == faction_value::whiterun &&
+                           !mod::mod_manager::get_singleton()->get_skyrim_unbound()) {
                     const auto dragons_rising_qst = RE::TESForm::LookupByID(0x0002610C)->As<RE::TESQuest>();
                     const auto cw_object_qst = RE::TESForm::LookupByID(0x00096E71)->As<RE::TESQuest>();
                     const auto pre_quests = quest_util::is_one_quest_stage_complete(cw_object_qst,

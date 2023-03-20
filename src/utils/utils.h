@@ -1,5 +1,7 @@
 #pragma once
 #include "menukeys.h"
+#include "mod/armor_rating_rescaled_remake.h"
+#include "mod/mod_manager.h"
 #include "settings/gamesettings.h"
 
 namespace string_util {
@@ -170,14 +172,15 @@ namespace value_util {
     static float calculate_armor_damage_res_ARRSR(const float a_armor_rating, const int32_t a_pieces_worn) {
         const auto game_settings = game_settings::get_singleton();
 
-        const auto overwrite = setting::get_ARRSR_override_armor_cap();
+        const auto overwrite = mod::armor_rating_rescaled_remake::get_overwrite_armor_cap();
 
         auto hidden_resist = game_settings->armor_base_factor * a_pieces_worn;
         auto vanilla_resist = a_armor_rating / 100 * game_settings->armor_scaling_factor;
-        if (!setting::get_ARRSR_disable_hidden()) {
+        if (!mod::armor_rating_rescaled_remake::get_disable_hidden()) {
             vanilla_resist = vanilla_resist + hidden_resist;
         }
-        auto function_one = vanilla_resist * 5.0 * setting::get_ARRSR_armor_scaling_factor();
+
+        auto function_one = vanilla_resist * 5.0 * mod::armor_rating_rescaled_remake::get_scaling_factor();
         auto function_two = function_one / (1 + function_one);
         auto function_three = function_two + (1 - function_two) * hidden_resist;
         auto res = min(function_three, game_settings->max_armor_resistance);
@@ -201,7 +204,7 @@ namespace value_util {
     static float calculate_armor_damage_res(const float a_armor_rating, const int32_t a_pieces_worn) {
         const auto game_settings = game_settings::get_singleton();
 
-        if (setting::get_ARRSR_active()) {
+        if (mod::mod_manager::get_singleton()->get_armor_rating_rescaled_remake()) {
             return calculate_armor_damage_res_ARRSR(a_armor_rating, a_pieces_worn);
         }
 

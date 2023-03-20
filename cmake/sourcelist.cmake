@@ -24,6 +24,10 @@ set(sources ${sources}
 	src/events/menumanager.h
 	src/handler/showhandler.h
 	src/main.cpp
+	src/mod/armor_rating_rescaled_remake.cpp
+	src/mod/armor_rating_rescaled_remake.h
+	src/mod/mod_manager.cpp
+	src/mod/mod_manager.h
 	src/scaleform/menus/factionmenu.cpp
 	src/scaleform/menus/factionmenu.h
 	src/scaleform/menus/statsinventorymenu.h

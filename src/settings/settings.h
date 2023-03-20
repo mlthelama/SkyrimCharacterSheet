@@ -16,9 +16,6 @@ class setting {
     inline static int display_av_type_;
     inline static int show_inventory_stats_auto_open_magic_menu_;
 
-    inline static bool skyrim_unbound_;
-    inline static bool hand_to_hand_;
-
     inline static bool show_resistance_cap_;
 
     inline static bool show_stats_display_zero_;
@@ -304,12 +301,6 @@ class setting {
     inline static int fall_damage_mod_menu_inventory_;
     inline static int warmth_menu_inventory_;
 
-    //for Armor Rating Rescaled SKSE Remake support
-    inline static bool armor_rating_rescaled_skse_remake_active_;
-    inline static float armor_scaling_factor_;
-    inline static bool disable_hidden_;
-    inline static int override_armor_cap_;
-
 public:
     static void load_settings() {
         CSimpleIniA ini;
@@ -326,9 +317,6 @@ public:
         display_av_type_ = ini.GetLongValue("General", "iDisplayBasePermanentActorValue", 0);
         show_inventory_stats_auto_open_magic_menu_ =
             ini.GetBoolValue("General", "bShowInventoryStatsAutoOpenMagicMenu", false);
-
-        skyrim_unbound_ = ini.GetBoolValue("Mods", "bSkyrimUnbound", false);
-        hand_to_hand_ = ini.GetBoolValue("Mods", "bHandToHand", false);
 
         show_resistance_cap_ = ini.GetBoolValue("specialHandling", "bShowResistanceCap", true);
 
@@ -620,12 +608,6 @@ public:
         fall_damage_mod_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iFallDamageMod", 0);
         warmth_menu_inventory_ = ini.GetLongValue("showStatsInventoryMenu", "iWarmth", 0);
 
-        armor_rating_rescaled_skse_remake_active_ =
-            ini.GetBoolValue("Mods", "bArmorRatingRescaledSkseRemakeActive", false);
-        armor_scaling_factor_ = ini.GetDoubleValue("Mods", "fArmorScalingFactor", 1.0);
-        disable_hidden_ = ini.GetBoolValue("Mods", "bDisableHidden", false);
-        override_armor_cap_ = ini.GetLongValue("Mods", "iOverrideArmorCap", 0);
-
         (void)ini.SaveFile(ini_path_);
     }
 
@@ -652,8 +634,7 @@ public:
     static int get_display_av_type() { return display_av_type_; }
     static bool get_show_inventory_stats_auto_open_magic_menu() { return show_inventory_stats_auto_open_magic_menu_; }
 
-    static bool get_skyrim_unbound() { return skyrim_unbound_; }
-    static bool get_hand_to_hand() { return hand_to_hand_; }
+    //static bool get_skyrim_unbound() { return skyrim_unbound_; }
     static bool get_show_resistance_cap() { return show_resistance_cap_; }
     static bool get_show_stats_display_zero() { return show_stats_display_zero_; }
     static std::string get_height_string_ending() { return height_string_ending_; }
@@ -932,8 +913,4 @@ public:
 
     static int get_fall_damage_mod_menu_inventory() { return fall_damage_mod_menu_inventory_; }
     static int get_warmth_menu_inventory() { return warmth_menu_inventory_; }
-    static bool get_ARRSR_active() { return armor_rating_rescaled_skse_remake_active_; }
-    static float get_ARRSR_armor_scaling_factor() { return armor_scaling_factor_; }
-    static bool get_ARRSR_disable_hidden() { return disable_hidden_; }
-    static int get_ARRSR_override_armor_cap() { return override_armor_cap_; }
 };
