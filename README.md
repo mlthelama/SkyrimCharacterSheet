@@ -1,4 +1,11 @@
 # Skyrim Character Sheet
+![Platform](https://img.shields.io/static/v1?label=platform&message=windows&color=dimgray&style=plastic&logo=windows)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/mlthelama/SkyrimCharacterSheet?style=plastic)
+![GitHub](https://img.shields.io/github/license/mlthelama/SkyrimCharacterSheet?style=plastic)
+![GitHub top language](https://img.shields.io/github/languages/top/mlthelama/SkyrimCharacterSheet?style=plastic)
+![GitHub language count](https://img.shields.io/github/languages/count/mlthelama/SkyrimCharacterSheet?style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/mlthelama/SkyrimCharacterSheet?style=plastic)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mlthelama/SkyrimCharacterSheet/main.yml?style=plastic)
 
 ## Nexus Mods
 * [Skyrim Character Sheet](https://www.nexusmods.com/skyrimspecialedition/mods/56069/)
