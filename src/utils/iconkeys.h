@@ -100,7 +100,7 @@ namespace icon_keys {
 
     constexpr auto damage_arrow = "av_damage_arrow"sv;
     constexpr auto damage_left = "av_damage_left"sv;
-    constexpr auto left_weapon_speed_mult = default_icon;
+    constexpr auto left_weapon_speed_mult = weapon_speed_mult;
     constexpr auto right_item_charge = default_icon;
     constexpr auto left_item_charge = default_icon;
     constexpr auto armor_perks = default_icon;

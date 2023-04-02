@@ -65,7 +65,7 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
 
                 auto* data_handler = RE::TESDataHandler::GetSingleton();
                 mod_manager->set_skyrim_unbound((data_handler && data_handler->LookupModByName("Skyrim Unbound.esp")));
-                
+
                 logger::info("Done with Data loaded"sv);
                 break;
         }

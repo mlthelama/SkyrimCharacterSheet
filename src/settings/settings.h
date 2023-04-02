@@ -634,7 +634,6 @@ public:
     static int get_display_av_type() { return display_av_type_; }
     static bool get_show_inventory_stats_auto_open_magic_menu() { return show_inventory_stats_auto_open_magic_menu_; }
 
-    //static bool get_skyrim_unbound() { return skyrim_unbound_; }
     static bool get_show_resistance_cap() { return show_resistance_cap_; }
     static bool get_show_stats_display_zero() { return show_stats_display_zero_; }
     static std::string get_height_string_ending() { return height_string_ending_; }
