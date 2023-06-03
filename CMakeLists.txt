@@ -86,8 +86,9 @@ set(Boost_USE_STATIC_LIBS ON)
 # ---- Dependencies ----
 
 find_package(CommonLibSSE CONFIG REQUIRED)
-
 find_package(spdlog REQUIRED CONFIG)
+find_package(nlohmann_json CONFIG REQUIRED)
+find_package(magic_enum CONFIG REQUIRED)
 
 # ---- Add source files ----
 
@@ -118,7 +119,8 @@ add_library(
 	${CMAKE_CURRENT_BINARY_DIR}/version.rc
 	.clang-format
     .editorconfig
-	SkyrimCharacterSheet.ini
+	config/SkyrimCharacterSheet.ini
+	config/SkyrimCharacterSheet_Faction.json
 )
 
 target_compile_features(
@@ -139,6 +141,8 @@ target_link_libraries(
 	PRIVATE
 		spdlog::spdlog
 		CommonLibSSE::CommonLibSSE
+		nlohmann_json::nlohmann_json
+		magic_enum::magic_enum
 )
 
 if (MSVC)

@@ -1,6 +1,8 @@
-#include "events.h"
+#include "event/event.h"
 #include "mod/mod_manager.h"
 #include "scaleform/scaleform.h"
+#include "setting/config_setting.h"
+#include "setting/game_setting.h"
 
 void init_logger() {
     if (static bool initialized = false; !initialized) {
@@ -28,17 +30,43 @@ void init_logger() {
         logger::info("{} v{}"sv, Version::PROJECT, Version::NAME);
 
         try {
-            setting::load_settings();
+            ini_setting::load_settings();
         } catch (const std::exception& e) {
-            logger::warn("failed to load setting {}"sv, e.what());
+            logger::warn("failed to load ini_setting {}"sv, e.what());
         }
 
-        if (setting::get_is_debug()) {
+        if (ini_setting::get_is_debug()) {
             spdlog::set_level(spdlog::level::trace);
             spdlog::flush_on(spdlog::level::trace);
         }
+
     } catch (const std::exception& e) {
         logger::critical("failed, cause {}"sv, e.what());
+    }
+}
+
+void init_mod_support() {
+    auto* mod_manager = mod::mod_manager::get_singleton();
+    auto* data_handler = RE::TESDataHandler::GetSingleton();
+
+    //check for mods here
+    mod_manager->set_armor_rating_rescaled_remake(LoadLibraryW(L"Data/SKSE/Plugins/ArmorRatingRescaledRemake.dll"));
+    mod_manager->set_hand_to_hand(LoadLibraryW(L"Data/SKSE/Plugins/HandToHand.dll"));
+
+    mod_manager->set_skyrim_unbound((data_handler && data_handler->LookupModByName("Skyrim Unbound.esp")));
+    mod_manager->set_skyrim_souls(LoadLibraryW(L"Data/SKSE/Plugins/SkyrimSoulsRE.dll"));
+}
+
+void init_config_setting() {
+    auto* config_setting = setting::config_setting::get_singleton();
+    try {
+        config_setting->load_menu_setting_file();
+        config_setting->load_all_faction_setting_files();
+        config_setting->load_all_champion_setting_files();
+        config_setting->load_all_thane_setting_files();
+        config_setting->load_all_player_setting_files();
+    } catch (const std::exception& e) {
+        logger::warn("failed to load json setting {}"sv, e.what());
     }
 }
 
@@ -54,17 +82,13 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
         switch (a_msg->type) {
             case SKSE::MessagingInterface::kDataLoaded:
                 logger::info("Begin Data loaded"sv);
-                events::sink_event_handlers();
+                event::sink_event_handlers();
+
+                init_mod_support();
+                init_config_setting();
+
                 scaleform::Register();
-
-                //check for mods here
-                auto* mod_manager = mod::mod_manager::get_singleton();
-                mod_manager->set_armor_rating_rescaled_remake(
-                    LoadLibraryW(L"Data/SKSE/Plugins/ArmorRatingRescaledRemake.dll"));
-                mod_manager->set_hand_to_hand(LoadLibraryW(L"Data/SKSE/Plugins/HandToHand.dll"));
-
-                auto* data_handler = RE::TESDataHandler::GetSingleton();
-                mod_manager->set_skyrim_unbound((data_handler && data_handler->LookupModByName("Skyrim Unbound.esp")));
+                setting::game_setting::get_singleton()->set_settings();
 
                 logger::info("Done with Data loaded"sv);
                 break;

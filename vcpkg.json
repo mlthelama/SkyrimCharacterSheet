@@ -7,6 +7,8 @@
   "dependencies": [ 
     "simpleini",
     "tomlplusplus",
-    "commonlibsse-ng"
+    "commonlibsse-ng",
+    "nlohmann-json",
+    "magic-enum"
   ]
 }

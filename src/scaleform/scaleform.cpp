@@ -1,7 +1,7 @@
 #include "scaleform/scaleform.h"
-#include "scaleform/menus/factionmenu.h"
-#include "scaleform/menus/statsinventorymenu.h"
-#include "scaleform/menus/statsmenu.h"
+#include "scaleform/menus/faction_menu.h"
+#include "scaleform/menus/stats_inventory_menu.h"
+#include "scaleform/menus/stats_menu.h"
 
 namespace scaleform {
     void Register() {

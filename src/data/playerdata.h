@@ -1,7 +1,11 @@
 #pragma once
+#include "actor/champion.h"
+#include "actor/faction.h"
+#include "actor/player.h"
+#include "actor/thane.h"
 #include "data/stats/provider/playerdataprovider.h"
 #include "data/stats/statitem.h"
-#include "settings/stats/statssettings.h"
+#include "setting/stats/statssettings.h"
 
 class player_data {
     using stats_item_map = std::map<stats_value, std::unique_ptr<stat_item>>;
@@ -17,6 +21,12 @@ public:
 
         auto* player = RE::PlayerCharacter::GetSingleton();
 
+        //TODO testing
+        [[maybe_unused]] auto test = actor::faction::get_actor_factions(player);
+        [[maybe_unused]] auto test2 = actor::champion::get_actor_champions(player);
+        [[maybe_unused]] auto test3 = actor::thane::get_actor_thanes(player);
+        [[maybe_unused]] auto test4 = actor::player::get_player_data(player, setting_data::menu_data::menu_type::stats);
+
         auto stat_setting_map = stat_setting::load();
         logger::debug("Config Map Size is {}"sv, stat_setting_map.size());
 
@@ -31,7 +41,6 @@ public:
                     stat_config->get_stats_inventory_menu() == stats_inventory_menu_value::m_none)) {
                 continue;
             }
-
 
             std::string value_text;
 
@@ -182,9 +191,9 @@ public:
             }
 
             //todo fix for some values should be shown if 0, atm hardcode noise here
-            if (!setting::get_show_stats_inventorydisplay_zero() && value_text == "0" &&
+            if (!ini_setting::get_show_stats_inventorydisplay_zero() && value_text == "0" &&
                     a_menu == show_menu::m_stats_inventory ||
-                !setting::get_show_stats_display_zero() && value_text == "0" && a_menu == show_menu::m_stats) {
+                !ini_setting::get_show_stats_display_zero() && value_text == "0" && a_menu == show_menu::m_stats) {
                 if (stat_config->get_actor() != RE::ActorValue::kMovementNoiseMult) {
                     continue;
                 }
