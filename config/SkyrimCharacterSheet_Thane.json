@@ -1,0 +1,124 @@
+{
+    "thane": [{
+            "key": "windhelm",
+            "name": "$ShowWindhelm",
+            "thane_name": "$ShowThaneOfEastmarch",
+            "quest_mod": "Skyrim.esm",
+            "quest_form": "0x000A2CA6",
+            "quest_stage": [25],
+            "crime_faction_mod": "Skyrim.esm",
+            "crime_faction_form": "0x00028170",
+            "pre_quest": [{
+                    "mod": "Skyrim.esm",
+                    "form_quest": "0x00035A23",
+                    "stages": [200, 255]
+                },
+                {
+                    "mod": "Skyrim.esm",
+                    "form_quest": "0x00096E71",
+                    "stages": [9000, 9999]
+                }
+            ]
+        },
+        {
+            "key": "falkreath",
+            "name": "$ShowFalkreath",
+            "thane_name": "$ShowThaneOfFalkreath",
+            "quest_mod": "Skyrim.esm",
+            "quest_form": "0x000A34DE",
+            "quest_stage": [25],
+            "crime_faction_mod": "Skyrim.esm",
+            "crime_faction_form": "0x000267E3"
+        },
+        {
+            "key": "solitude",
+            "name": "$ShowSolitude",
+            "thane_name": "$ShowThaneOfHaafingar",
+            "quest_mod": "Skyrim.esm",
+            "quest_form": "0x000A2C9B",
+            "quest_stage": [25],
+            "crime_faction_mod": "Skyrim.esm",
+            "crime_faction_form": "0x00029DB0"
+        },
+        {
+            "key": "morthal",
+            "name": "$ShowMorthal",
+            "thane_name": "$ShowThaneOfHjaalmarch",
+            "quest_mod": "Skyrim.esm",
+            "quest_form": "0x000A34CE",
+            "quest_stage": [25],
+            "crime_faction_mod": "Skyrim.esm",
+            "crime_faction_form": "0x0002816D"
+        },
+        {
+            "key": "dawnstar",
+            "name": "$ShowDawnstar",
+            "thane_name": "$ShowThaneOfThePale",
+            "quest_mod": "Skyrim.esm",
+            "quest_form": "0x000A34D4",
+            "quest_stage": [25],
+            "crime_faction_mod": "Skyrim.esm",
+            "crime_faction_form": "0x0002816E"
+        },
+        {
+            "key": "markarth",
+            "name": "$ShowMarkarth",
+            "thane_name": "$ShowThaneOfTheReach",
+            "quest_mod": "Skyrim.esm",
+            "quest_form": "0x000A2C86",
+            "quest_stage": [25],
+            "crime_faction_mod": "Skyrim.esm",
+            "crime_faction_form": "0x0002816C"
+        },
+        {
+            "key": "riften",
+            "name": "$ShowRiften",
+            "thane_name": "$ShowThaneOfTheRift",
+            "quest_mod": "Skyrim.esm",
+            "quest_form": "0x00065BDF",
+            "quest_stage": [20],
+            "crime_faction_mod": "Skyrim.esm",
+            "crime_faction_form": "0x0002816B"
+        },
+        {
+            "key": "whiterun",
+            "name": "$ShowWhiterun",
+            "thane_name": "$ShowThaneOfWhiterun",
+            "quest_mod": "Skyrim.esm",
+            "quest_form": "0x000A2C9E",
+            "quest_stage": [25],
+            "crime_faction_mod": "Skyrim.esm",
+            "crime_faction_form": "0x000267EA",
+            "pre_quest": [{
+                "mod": "Skyrim.esm",
+                "form_quest": "0x00096E71",
+                "stages": [9000, 9999]
+            }],
+            "bypass_quest": {
+                "bypass_quest_mod": "Skyrim.esm",
+                "bypass_quest_form": "0x0002610C",
+                "bypass_quest_stages": [160]
+            }
+        },
+        {
+            "key": "winterhold",
+            "name": "$ShowWinterhold",
+            "thane_name": "$ShowThaneOfWinterhold",
+            "quest_mod": "Skyrim.esm",
+            "quest_form": "0x000A34D7",
+            "quest_stage": [25],
+            "crime_faction_mod": "Skyrim.esm",
+            "crime_faction_form": "0x0002816F"
+        },
+        {
+            "key": "solstheim",
+            "name": "$ShowSolstheim",
+            "thane_name": "",
+            "quest_mod": "",
+            "quest_form": "",
+            "quest_stage": [],
+            "crime_faction_mod": "Dragonborn.esm",
+            "crime_faction_form": "0x00018279"
+        }
+    ]
+}

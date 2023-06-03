@@ -1,6 +1,6 @@
 #pragma once
-#include "utils/offset.h"
-#include "utils/perkvisitor.h"
+#include "util/offset.h"
+#include "util/player/perkvisitor.h"
 
 class player_data_provider {
 public:
@@ -161,7 +161,7 @@ public:
     static float get_fall_damage_mod(RE::PlayerCharacter*& a_player) {
         float fall_damage_mod = 0;
         if (a_player->HasPerkEntries(RE::BGSEntryPoint::ENTRY_POINTS::kModFallingDamage)) {
-            auto perk_visit = perk_visiter(a_player);
+            auto perk_visit = util::perk_visitor();
             a_player->ForEachPerkEntry(RE::BGSEntryPoint::ENTRY_POINTS::kModFallingDamage, perk_visit);
             fall_damage_mod = perk_visit.get_result();
             logger::trace("perk visit got {} for FallingDamage"sv, fall_damage_mod);

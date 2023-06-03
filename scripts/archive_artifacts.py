@@ -1,7 +1,7 @@
 import argparse
 import os
 import zipfile
-
+from pathlib import Path
 
 def make_rel_archive(a_args):
     archive = zipfile.ZipFile(a_args.name + ".zip", "w", zipfile.ZIP_DEFLATED)
@@ -9,9 +9,15 @@ def make_rel_archive(a_args):
     # english is already existing, those are just needed to copy the english one
     languages = ["czech", "french", "german", "italian", "japanese", "polish", "russian", "spanish"]
 
+    resource_extensions: list[str] = ["*.json"]
+    v_path: str = os.path.join(a_args.src_dir, "config")
+    for extension in resource_extensions:
+        for path in Path(v_path).rglob(extension):
+            archive.write(path, os.path.join("SKSE/Plugins/SkyrimCharacterSheet/", path.relative_to(v_path)))
+
     archive.write(a_args.dll, "SKSE/Plugins/{}".format(os.path.basename(a_args.dll)))
     archive.write(a_args.pdb, "SKSE/Plugins/{}".format(os.path.basename(a_args.pdb)))
-    archive.write(os.path.join(a_args.src_dir, "SkyrimCharacterSheet.ini"), "SKSE/Plugins/SkyrimCharacterSheet.ini")
+    archive.write(os.path.join(a_args.src_dir, "config", "SkyrimCharacterSheet.ini"), "SKSE/Plugins/SkyrimCharacterSheet.ini")
     archive.write(os.path.join(a_args.src_dir, "swf", "standard", "ShowStats.swf"), "Interface/ShowStats.swf")
     archive.write(os.path.join(a_args.src_dir, "swf", "standard", "ShowFactions.swf"), "Interface/ShowFactions.swf")
     archive.write(os.path.join(a_args.src_dir, "swf", "standard", "ShowStatsInventory.swf"),

@@ -3,7 +3,7 @@
 #include "data/faction/provider/champion.h"
 #include "data/faction/provider/faction.h"
 #include "data/faction/provider/thane.h"
-#include "settings/stats/factionsettings.h"
+#include "setting/stats/factionsettings.h"
 
 class faction_data {
     using faction_item_map = std::map<faction_value, std::unique_ptr<faction_item>>;
@@ -23,13 +23,13 @@ public:
         const auto thane = thane::get_singleton();
         const auto champion = champion::get_singleton();
 
-        if (menu_util::get_faction_menu(setting::get_faction_menu()) != faction_menu_value::m_none) {
+        if (menu_util::get_faction_menu(ini_setting::get_faction_menu()) != faction_menu_value::m_none) {
             faction->get_factions(player);
         }
-        if (menu_util::get_faction_menu(setting::get_thane_menu()) != faction_menu_value::m_none) {
+        if (menu_util::get_faction_menu(ini_setting::get_thane_menu()) != faction_menu_value::m_none) {
             thane->get_region_thanes();
         }
-        if (menu_util::get_faction_menu(setting::get_champion_menu()) != faction_menu_value::m_none) {
+        if (menu_util::get_faction_menu(ini_setting::get_champion_menu()) != faction_menu_value::m_none) {
             champion->get_champions();
         }
 

@@ -1,0 +1,130 @@
+{
+    "champion": [{
+            "key": "azura",
+            "name": "$ShowAzura",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x00028AD6",
+            "quest_stage_favor": [100],
+            "quest_stage_alternate": [110]
+        },
+        {
+            "key": "boethiah",
+            "name": "$ShowBoethiah",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0004D8D6",
+            "quest_stage_favor": [50, 100]
+        },
+        {
+            "key": "clavicus_vile",
+            "name": "$ShowClavicusVile",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0001BFC4",
+            "quest_stage_favor": [200],
+            "quest_stage_alternate": [205]
+        },
+        {
+            "key": "hermaeus_mora",
+            "name": "$ShowHermaeusMora",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0002D512",
+            "quest_stage_favor": [100, 200],
+            "quest_stage_alternate": [105]
+        },
+        {
+            "key": "hircine",
+            "name": "$ShowHircine",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0002A49A",
+            "quest_stage_favor": [100],
+            "quest_stage_alternate": [105]
+        },
+        {
+            "key": "malacath",
+            "name": "$ShowMalacath",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0003B681",
+            "quest_stage_favor": [200]
+        },
+        {
+            "key": "mehrunes_dagon",
+            "name": "$ShowMehrunesDagon",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x000240B8",
+            "quest_stage_favor": [100],
+            "quest_stage_alternate": [150]
+        },
+        {
+            "key": "mephala",
+            "name": "$ShowMephala",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0004A37B",
+            "quest_stage_favor": [60, 80]
+        },
+        {
+            "key": "meridia",
+            "name": "$ShowMeridia",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0004E4E1",
+            "quest_stage_favor": [500]
+        },
+        {
+            "key": "molag_bal",
+            "name": "$ShowMolagBal",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x00022F08",
+            "quest_stage_favor": [200],
+            "quest_stage_alternate": [500, 550]
+        },
+        {
+            "key": "molag_bal",
+            "name": "$ShowMolagBal",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x00022F08",
+            "quest_stage_favor": [200],
+            "quest_stage_alternate": [500, 550]
+        },
+        {
+            "key": "namira",
+            "name": "$ShowNamira",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0002C358",
+            "quest_stage_favor": [100, 600],
+            "quest_stage_alternate": [250, 500]
+        },
+        {
+            "key": "nocturnal",
+            "name": "$ShowNocturnal",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x00021555",
+            "quest_stage_favor": [200]
+        },
+        {
+            "key": "peryite",
+            "name": "$ShowPeryite",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0008998D",
+            "quest_stage_favor": [100]
+        },
+        {
+            "key": "sanguine",
+            "name": "$ShowSanguine",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0001BB9B",
+            "quest_stage_favor": [200]
+        },
+        {
+            "key": "sheogorath",
+            "name": "$ShowSheogorath",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x0002AC68",
+            "quest_stage_favor": [200]
+        },
+        {
+            "key": "vaermina",
+            "name": "$ShowVaermina",
+            "mod": "Skyrim.esm",
+            "quest_form": "0x000242AF",
+            "quest_stage_favor": [200]
+        }
+    ]
+}

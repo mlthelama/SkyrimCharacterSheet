@@ -1,0 +1,15 @@
+{
+    "menu": [{
+            "key": "stats",
+            "name": "$ShowStatsTitle"
+        },
+        {
+            "key": "faction",
+            "name": "$ShowFactionsTitle"
+        },
+        {
+            "key": "stats_inventory",
+            "name": "$ShowStatsInventoryTitle"
+        }
+    ]
+}
