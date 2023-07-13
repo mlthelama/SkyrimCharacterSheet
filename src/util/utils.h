@@ -226,7 +226,6 @@ namespace value_util {
         }
 
         if (mod::mod_manager::get_singleton()->get_blade_and_blunt()) {
-            logger::info("b&b");
             return calculate_armor_damage_res_blade_and_blunt(a_armor_rating);
         }
 
