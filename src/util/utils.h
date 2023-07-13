@@ -170,6 +170,21 @@ namespace menu_util {
 }
 
 namespace value_util {
+    
+    static float calculate_armor_damage_res_blade_and_blunt(const float a_armor_rating) {
+        const auto game_settings = setting::game_setting::get_singleton();
+        auto vanilla_resist = a_armor_rating / 100 * game_settings->get_armor_scaling_factor();
+
+        auto return_resist = vanilla_resist;
+        if (a_armor_rating <= 500) {
+            return vanilla_resist * 100;
+        } else if (a_armor_rating < 1000) {
+            auto remainder_rating = a_armor_rating - 500;
+            return (0.75f + (remainder_rating / 100 * 0.03f)) * 100;
+        } else {
+            return 0.90f * 100;
+        }
+    }
 
     static float calculate_armor_damage_res_ARRSR(const float a_armor_rating, const int32_t a_pieces_worn) {
         const auto game_settings = setting::game_setting::get_singleton();
@@ -208,6 +223,11 @@ namespace value_util {
 
         if (mod::mod_manager::get_singleton()->get_armor_rating_rescaled_remake()) {
             return calculate_armor_damage_res_ARRSR(a_armor_rating, a_pieces_worn);
+        }
+
+        if (mod::mod_manager::get_singleton()->get_blade_and_blunt()) {
+            logger::info("b&b");
+            return calculate_armor_damage_res_blade_and_blunt(a_armor_rating);
         }
 
         return a_armor_rating * game_settings->get_armor_scaling_factor() +

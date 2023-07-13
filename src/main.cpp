@@ -52,6 +52,7 @@ void init_mod_support() {
     //check for mods here
     mod_manager->set_armor_rating_rescaled_remake(LoadLibraryW(L"Data/SKSE/Plugins/ArmorRatingRescaledRemake.dll"));
     mod_manager->set_hand_to_hand(LoadLibraryW(L"Data/SKSE/Plugins/HandToHand.dll"));
+    mod_manager->set_blade_and_blunt(LoadLibraryW(L"Data/SKSE/Plugins/BladeAndBlunt.dll"));
 
     mod_manager->set_skyrim_unbound((data_handler && data_handler->LookupModByName("Skyrim Unbound.esp")));
     mod_manager->set_skyrim_souls(LoadLibraryW(L"Data/SKSE/Plugins/SkyrimSoulsRE.dll"));

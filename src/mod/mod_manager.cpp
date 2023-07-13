@@ -1,4 +1,4 @@
-﻿#include "mod_manager.h"
+#include "mod_manager.h"
 #include "armor_rating_rescaled_remake.h"
 
 namespace mod {
@@ -33,4 +33,10 @@ namespace mod {
         logger::trace("set skyrim souls to {}"sv, skyrim_souls);
     }
     bool mod_manager::get_skyrim_souls() const { return skyrim_souls; }
+
+    void mod_manager::set_blade_and_blunt(bool a_value) {
+        blade_and_blunt = a_value;
+        logger::trace("set blade and blunt to {}"sv, blade_and_blunt);
+    }
+    bool mod_manager::get_blade_and_blunt() const { return blade_and_blunt; }
 }
