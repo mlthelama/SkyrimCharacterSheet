@@ -27,7 +27,7 @@ namespace mod {
         logger::trace("set skyrim unbound to {}"sv, skyrim_unbound);
     }
     bool mod_manager::get_skyrim_unbound() const { return skyrim_unbound; }
-    
+
     void mod_manager::set_skyrim_souls(bool a_value) {
         skyrim_souls = a_value;
         logger::trace("set skyrim souls to {}"sv, skyrim_souls);

@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 namespace util {
     class file {
     public:

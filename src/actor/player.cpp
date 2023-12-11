@@ -35,8 +35,16 @@ namespace actor {
 
         std::vector<actor_player_data*> actor_player_data_list;
         for (auto* player_data_element : config_player) {
-            //todo skip if for the menu no column is set, that means it is disabled
             player_data_element->log();
+            //skip element if menu type for the requested menu is disabled
+            if ((a_menu == setting_data::menu_data::menu_type::stats &&
+                    player_data_element->stats_column == setting_data::menu_data::stats_column_type::none) ||
+                (a_menu == setting_data::menu_data::menu_type::stats_inventory &&
+                    player_data_element->stats_inventory_column ==
+                        setting_data::menu_data::stats_inventory_column_type::none)) {
+                continue;
+            }
+
             auto* player_data = new actor_player_data();
             player_data->key = player_data_element->display_name;
             player_data->icon = player_data_element->icon_string;
@@ -83,7 +91,6 @@ namespace actor {
                         process_damage_resist(a_player, player_data_element, player_data);
                         break;
                     default:
-
                         if (player_data_element->actor_value.actor_value != RE::ActorValue::kNone) {
                             auto value = a_player->AsActorValueOwner()->GetActorValue(
                                 player_data_element->actor_value.actor_value);
