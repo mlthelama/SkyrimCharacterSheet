@@ -165,7 +165,8 @@ namespace setting_data {
         setting_data::menu_data::stats_inventory_column_type stats_inventory_column;
 
         inline void log() {
-            std::string log_string = fmt::format("key '{}', display_name '{}'"sv, magic_enum::enum_name(key), display_name);
+            std::string log_string =
+                fmt::format("key '{}', display_name '{}'"sv, magic_enum::enum_name(key), display_name);
             if (actor_value_handling == value_handling::single) {
                 if (actor_value.actor_value != RE::ActorValue::kNone) {
                     log_string += fmt::format(", actor_value '{}'"sv, magic_enum::enum_name(actor_value.actor_value));

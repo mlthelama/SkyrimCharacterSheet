@@ -720,7 +720,7 @@ namespace setting {
                     player_data->max = magic_enum::enum_cast<player_data::max_handling>(std::string{ max_handling })
                                            .value_or(player_data::max_handling::none);
                 }
-                
+
                 auto& icon_string = player_element["icon_string"];
                 if (icon_string.is_string()) {
                     player_data->icon_string = icon_string;
@@ -747,16 +747,18 @@ namespace setting {
                     }
                     player_data->mod_data = overwrite_data;
                 }
-                
+
                 auto& stats_column = player_element.at("stats_column");
                 if (stats_column.is_string()) {
-                    player_data->stats_column = magic_enum::enum_cast<menu_data::stats_column_type>(std::string{ stats_column })
-                           .value_or(menu_data::stats_column_type::none);
+                    player_data->stats_column =
+                        magic_enum::enum_cast<menu_data::stats_column_type>(std::string{ stats_column })
+                            .value_or(menu_data::stats_column_type::none);
                 }
                 auto& stats_inventory_column = player_element.at("stats_inventory_column");
                 if (stats_inventory_column.is_string()) {
-                    player_data->stats_inventory_column = magic_enum::enum_cast<menu_data::stats_inventory_column_type>(std::string{ stats_inventory_column })
-                                                    .value_or(menu_data::stats_inventory_column_type::none);
+                    player_data->stats_inventory_column = magic_enum::enum_cast<menu_data::stats_inventory_column_type>(
+                        std::string{ stats_inventory_column })
+                                                              .value_or(menu_data::stats_inventory_column_type::none);
                 }
 
                 player_data->log();

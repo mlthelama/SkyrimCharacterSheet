@@ -170,7 +170,7 @@ namespace menu_util {
 }
 
 namespace value_util {
-    
+
     static float calculate_armor_damage_res_blade_and_blunt(const float a_armor_rating) {
         const auto game_settings = setting::game_setting::get_singleton();
         auto vanilla_resist = a_armor_rating / 100 * game_settings->get_armor_scaling_factor();

@@ -13,7 +13,7 @@ namespace mod {
 
         void set_skyrim_unbound(bool a_value);
         [[nodiscard]] bool get_skyrim_unbound() const;
-        
+
         void set_skyrim_souls(bool a_value);
         [[nodiscard]] bool get_skyrim_souls() const;
 
