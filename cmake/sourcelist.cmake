@@ -38,6 +38,8 @@ set(sources ${sources}
 	src/main.cpp
 	src/mod/armor_rating_rescaled_remake.cpp
 	src/mod/armor_rating_rescaled_remake.h
+	src/mod/blade_and_blunt.cpp
+	src/mod/blade_and_blunt.h
 	src/mod/mod_manager.cpp
 	src/mod/mod_manager.h
 	src/scaleform/menus/faction_menu.cpp
