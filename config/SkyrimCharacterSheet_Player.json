@@ -74,7 +74,7 @@
             "actor_values": 24,
             "actor_value_handling": "single",
             "icon_string": "av_health",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -86,7 +86,7 @@
             "result_handling": "divide",
             "result_handling_value": 100,
             "icon_string": "av_health_regen",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -95,7 +95,7 @@
             "actor_value": 25,
             "actor_value_handling": "single",
             "icon_string": "av_magicka",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -107,7 +107,7 @@
             "result_handling": "divide",
             "result_handling_value": 100,
             "icon_string": "av_magicka_regen",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -116,7 +116,7 @@
             "actor_value": 26,
             "actor_value_handling": "single",
             "icon_string": "av_stamina",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -128,7 +128,7 @@
             "result_handling": "divide",
             "result_handling_value": 100,
             "icon_string": "av_stamina_regen",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -137,7 +137,7 @@
             "ending": "%",
             "max_handling": "armor",
             "icon_string": "av_resist_damage",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -147,7 +147,7 @@
             "actor_value_handling": "single",
             "ending": "%",
             "icon_string": "default_misc",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -158,7 +158,7 @@
             "ending": "%",
             "max_handling": "resistance",
             "icon_string": "av_resist_poison",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -169,7 +169,7 @@
             "ending": "%",
             "max_handling": "resistance",
             "icon_string": "av_resist_fire",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -180,7 +180,7 @@
             "ending": "%",
             "max_handling": "resistance",
             "icon_string": "av_resist_shock",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -191,7 +191,7 @@
             "ending": "%",
             "max_handling": "resistance",
             "icon_string": "av_resist_frost",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -202,7 +202,7 @@
             "ending": "%",
             "max_handling": "resistance",
             "icon_string": "av_resist_magic",
-            "stats_column": "none",
+            "stats_column": "defence",
             "stats_inventory_column": "none"
         },
         {
@@ -211,7 +211,7 @@
             "actor_value": 6,
             "actor_value_handling": "single",
             "icon_string": "av_onehanded",
-            "stats_column": "none",
+            "stats_column": "warrior",
             "stats_inventory_column": "none"
         },
         {
@@ -220,7 +220,7 @@
             "actor_value": 7,
             "actor_value_handling": "single",
             "icon_string": "av_twohanded",
-            "stats_column": "none",
+            "stats_column": "warrior",
             "stats_inventory_column": "none"
         },
         {
@@ -229,7 +229,7 @@
             "actor_value": 8,
             "actor_value_handling": "single",
             "icon_string": "av_archery",
-            "stats_column": "none",
+            "stats_column": "thief",
             "stats_inventory_column": "none"
         },
         {
@@ -238,7 +238,7 @@
             "actor_value": 9,
             "actor_value_handling": "single",
             "icon_string": "av_block",
-            "stats_column": "none",
+            "stats_column": "warrior",
             "stats_inventory_column": "none"
         },
         {
@@ -247,7 +247,7 @@
             "actor_value": 10,
             "actor_value_handling": "single",
             "icon_string": "av_smithing",
-            "stats_column": "none",
+            "stats_column": "warrior",
             "stats_inventory_column": "none"
         },
         {
@@ -256,7 +256,7 @@
             "actor_value": 11,
             "actor_value_handling": "single",
             "icon_string": "av_heavy_armor",
-            "stats_column": "none",
+            "stats_column": "warrior",
             "stats_inventory_column": "none"
         },
         {
@@ -265,7 +265,7 @@
             "actor_value": 12,
             "actor_value_handling": "single",
             "icon_string": "av_light_armor",
-            "stats_column": "none",
+            "stats_column": "warrior",
             "stats_inventory_column": "none"
         },
         {
@@ -278,7 +278,7 @@
             "overwrite": {
                 "display_name": "$ShowSecurity"
             },
-            "stats_column": "none",
+            "stats_column": "thief",
             "stats_inventory_column": "none"
         },
         {
@@ -292,7 +292,7 @@
                 "display_name": "$ShowHandToHand",
                 "icon_string": "av_unarmed"
             },
-            "stats_column": "none",
+            "stats_column": "thief",
             "stats_inventory_column": "none"
         },
         {
@@ -301,7 +301,7 @@
             "actor_value": 15,
             "actor_value_handling": "single",
             "icon_string": "av_sneak",
-            "stats_column": "none",
+            "stats_column": "thief",
             "stats_inventory_column": "none"
         },
         {
@@ -310,7 +310,7 @@
             "actor_value": 16,
             "actor_value_handling": "single",
             "icon_string": "av_alchemy",
-            "stats_column": "none",
+            "stats_column": "thief",
             "stats_inventory_column": "none"
         },
         {
@@ -319,7 +319,7 @@
             "actor_value": 17,
             "actor_value_handling": "single",
             "icon_string": "default_misc",
-            "stats_column": "none",
+            "stats_column": "thief",
             "stats_inventory_column": "none"
         },
         {
@@ -328,7 +328,7 @@
             "actor_value": 23,
             "actor_value_handling": "single",
             "icon_string": "av_enchanting",
-            "stats_column": "none",
+            "stats_column": "magic",
             "stats_inventory_column": "none"
         },
         {
@@ -337,7 +337,7 @@
             "actor_value": 18,
             "actor_value_handling": "single",
             "icon_string": "av_alteration",
-            "stats_column": "none",
+            "stats_column": "magic",
             "stats_inventory_column": "none"
         },
         {
@@ -346,7 +346,7 @@
             "actor_value": 19,
             "actor_value_handling": "single",
             "icon_string": "av_conjuration",
-            "stats_column": "none",
+            "stats_column": "magic",
             "stats_inventory_column": "none"
         },
         {
@@ -355,7 +355,7 @@
             "actor_value": 20,
             "actor_value_handling": "single",
             "icon_string": "av_destruction",
-            "stats_column": "none",
+            "stats_column": "magic",
             "stats_inventory_column": "none"
         },
         {
@@ -364,7 +364,7 @@
             "actor_value": 21,
             "actor_value_handling": "single",
             "icon_string": "av_illusion",
-            "stats_column": "none",
+            "stats_column": "magic",
             "stats_inventory_column": "none"
         },
         {
@@ -373,9 +373,246 @@
             "actor_value": 22,
             "actor_value_handling": "single",
             "icon_string": "av_restoration",
+            "stats_column": "magic",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "one_handed_power_mod",
+            "display_name": "$ShowOneHandedPowerMod",
+            "actor_value": 135,
+            "actor_value_handling": "single",
+            "icon_string": "av_onehanded",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "two_handed_power_mod",
+            "display_name": "$ShowTwoHandedPowerMod",
+            "actor_value": 136,
+            "actor_value_handling": "single",
+            "icon_string": "av_twohanded",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "archery_power_mod",
+            "display_name": "$ShowArcheryPowerMod",
+            "actor_value": 137,
+            "actor_value_handling": "single",
+            "icon_string": "av_archery",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "block_power_mod",
+            "display_name": "$ShowBlockPowerMod",
+            "actor_value": 138,
+            "actor_value_handling": "single",
+            "icon_string": "av_block",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "smithing_power_mod",
+            "display_name": "$ShowSmithingPowerMod",
+            "actor_value": 139,
+            "actor_value_handling": "single",
+            "icon_string": "av_smithing",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "heavy_armor_power_mod",
+            "display_name": "$ShowHeavyArmorPowerMod",
+            "actor_value": 140,
+            "actor_value_handling": "single",
+            "icon_string": "av_heavy_armor",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "light_armor_power_mod",
+            "display_name": "$ShowLightArmorPowerMod",
+            "actor_value": 141,
+            "actor_value_handling": "single",
+            "icon_string": "av_light_armor",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "pickpocket_power_mod",
+            "display_name": "$ShowPickpocketPowerMod",
+            "actor_value": 142,
+            "actor_value_handling": "single",
+            "icon_string": "av_pickpocket",
+            "overwrite_mod": "hand_to_hand",
+            "overwrite": {
+                "display_name": "$ShowSecurityPowerMod"
+            },
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "lockpicking_power_mod",
+            "display_name": "$ShowLockpickingPowerMod",
+            "actor_value": 143,
+            "actor_value_handling": "single",
+            "icon_string": "av_lockpicking",
+            "overwrite_mod": "hand_to_hand",
+            "overwrite": {
+                "display_name": "$ShowHandToHandPowerMod",
+                "icon_string": "av_unarmed"
+            },
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "sneak_power_mod",
+            "display_name": "$ShowSneakPowerMod",
+            "actor_value": 144,
+            "actor_value_handling": "single",
+            "icon_string": "av_sneak",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "alchemy_power_mod",
+            "display_name": "$ShowAlchemyPowerMod",
+            "actor_value": 145,
+            "actor_value_handling": "single",
+            "icon_string": "av_alchemy",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "speech_power_mod",
+            "display_name": "$ShowSpeechPowerMod",
+            "actor_value": 146,
+            "actor_value_handling": "single",
+            "icon_string": "default_misc",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "enchanting_power_mod",
+            "display_name": "$ShowEnchantingPowerMod",
+            "actor_value": 152,
+            "actor_value_handling": "single",
+            "icon_string": "av_enchanting",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "alteration_power_mod",
+            "display_name": "$ShowAlterationPowerMod",
+            "actor_value": 147,
+            "actor_value_handling": "single",
+            "icon_string": "av_alteration",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "conjuration_power_mod",
+            "display_name": "$ShowConjurationPowerMod",
+            "actor_value": 148,
+            "actor_value_handling": "single",
+            "icon_string": "av_conjuration",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "destruction_power_mod",
+            "display_name": "$ShowDestructionPowerMod",
+            "actor_value": 149,
+            "actor_value_handling": "single",
+            "icon_string": "av_destruction",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "illusion_power_mod",
+            "display_name": "$ShowIllusionPowerMod",
+            "actor_value": 150,
+            "actor_value_handling": "single",
+            "icon_string": "av_illusion",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "restoration_power_mod",
+            "display_name": "$ShowRestorationPowerMod",
+            "actor_value": 151,
+            "actor_value_handling": "single",
+            "icon_string": "av_restoration",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "speed_mult",
+            "display_name": "$ShowSpeedMult",
+            "actor_value": 30,
+            "actor_value_handling": "single",
+            "ending": "%",
+            "icon_string": "av_speedmult",
+            "stats_column": "player",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "inventory_weight",
+            "display_name": "$ShowInventoryWeight",
+            "actor_value": 31,
+            "actor_value_handling": "single",
+            "icon_string": "av_inventory_weight",
+            "stats_column": "player",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "carry_weight",
+            "display_name": "$ShowCarryWeight",
+            "actor_value": 32,
+            "actor_value_handling": "single",
+            "icon_string": "av_carry_weight",
+            "stats_column": "player",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "critical_chance",
+            "display_name": "$ShowCriticalChance",
+            "actor_value": 33,
+            "actor_value_handling": "single",
+            "ending": "%",
+            "icon_string": "av_critical_chance",
+            "stats_column": "attack",
+            "stats_inventory_column": "effect"
+        },
+        {
+            "key": "melee_damage",
+            "display_name": "$ShowMeleeDamage",
+            "actor_value": 34,
+            "actor_value_handling": "single",
+            "icon_string": "av_melee_damage",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "unarmed_damage",
+            "display_name": "$ShowUnarmedDamage",
+            "actor_value": 35,
+            "actor_value_handling": "single",
+            "icon_string": "av_unarmed",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "absorb_chance",
+            "display_name": "$ShowAbsorbChance",
+            "actor_value": 83,
+            "actor_value_handling": "single",
+            "icon_string": "av_absorb_chance",
             "stats_column": "none",
             "stats_inventory_column": "none"
         }
+
 
 
     ]
