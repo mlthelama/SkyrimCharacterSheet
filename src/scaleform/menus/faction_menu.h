@@ -3,18 +3,16 @@
 #include "CLIK/GFx/Controls/Button.h"
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
-#include "data/factiondata.h"
 #include "util/menukeys.h"
+#include <setting/data/menu_data.h>
 
 namespace scaleform {
-    using faction_menu_value = menu_util::faction_menu_value;
-    using show_menu = menu_util::show_menu;
 
     class faction_menu final : public RE::IMenu {
     public:
         static constexpr std::string_view menu_name = "ShowFactions";
         static constexpr std::string_view file_name = menu_name;
-        static constexpr show_menu menu = show_menu::m_faction;
+        static constexpr setting_data::menu_data::menu_type menu_type = setting_data::menu_data::menu_type::faction;
 
         static void Register();
 
@@ -89,7 +87,7 @@ namespace scaleform {
 
         static void log(const RE::FxDelegateArgs& a_params);
 
-        static void process_prev(show_menu a_menu);
+        static void process_prev();
 
         RE::GPtr<RE::GFxMovieView> view_;
         bool is_active_ = false;
@@ -121,10 +119,10 @@ namespace scaleform {
         CLIK::TextField thane_count_value_;
         CLIK::TextField champion_count_value_;
 
-        std::map<faction_menu_value, RE::GFxValue&> menu_map_ = {
-            { faction_menu_value::m_faction, faction_item_list_provider_ },
-            { faction_menu_value::m_thane, thane_item_list_provider_ },
-            { faction_menu_value::m_champion, champion_item_list_provider_ },
+        std::map<setting_data::menu_data::faction_column_type, RE::GFxValue&> menu_map_ = {
+            { setting_data::menu_data::faction_column_type::faction, faction_item_list_provider_ },
+            { setting_data::menu_data::faction_column_type::thane, thane_item_list_provider_ },
+            { setting_data::menu_data::faction_column_type::champion, champion_item_list_provider_ },
         };
     };
 }

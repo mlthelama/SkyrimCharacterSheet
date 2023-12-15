@@ -1,6 +1,10 @@
 #include "scaleform/menus/faction_menu.h"
 #include "handler/show_handler.h"
 #include "mod/mod_manager.h"
+#include <actor/faction.h>
+#include <actor/thane.h>
+#include <setting/config_setting.h>
+#include "actor/champion.h"
 
 namespace scaleform {
     void faction_menu::Register() {
@@ -51,7 +55,6 @@ namespace scaleform {
                     a_def->GetHeight());
                 a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
             });
-        menu_util::log_resolution();
         logger::debug("Loading Menu {} was successful {}"sv, file_name, success);
         view_ = v_menu->uiMovie;
         if (mod::mod_manager::get_singleton()->get_skyrim_souls()) {
@@ -167,7 +170,8 @@ namespace scaleform {
 
         update_lists();
 
-        prev_.Label(get_prev_menu_name(menu));
+        auto previous_name = setting::config_setting::get_singleton()->get_previous_menu_name(menu_type);
+        prev_.Label(previous_name);
         prev_.Disabled(false);
 
         disable_item_lists();
@@ -192,7 +196,10 @@ namespace scaleform {
         a_field.Visible(true);
     }
 
-    void faction_menu::update_title() const { update_text(title_, get_menu_name(menu)); }
+    void faction_menu::update_title() const {
+        auto name = setting::config_setting::get_singleton()->get_menu_name(menu_type);
+        update_text(title_, name);
+    }
 
     void faction_menu::update_headers() const {
         update_text(faction_header_, menu_keys::faction_title);
@@ -247,37 +254,40 @@ namespace scaleform {
     }
 
     void faction_menu::update_menu_values() const {
-        auto values = faction_data::get_values_to_display();
+        auto* player = RE::PlayerCharacter::GetSingleton();
+        auto faction_list = actor::faction::get_actor_factions(player);
+        auto champion_list = actor::champion::get_actor_champions(player);
+        auto thane_list = actor::thane::get_actor_thanes(player);
 
-        logger::debug("Update menu Values, values to process {}"sv, values.size());
-        for (auto& [faction_value, faction_item_ptr] : values) {
-            const auto faction_item = faction_item_ptr.get();
-            auto faction_menu = faction_item->get_faction_menu();
-
-            faction_item->log_stat_item(faction_value);
-
-            if (faction_item->get_value().empty() || faction_menu == faction_menu_value::m_none) {
+        logger::debug("start filling menu with data (faction), values to process {}"sv, faction_list.size());
+        for (auto* faction : faction_list) {
+            if (faction->column == setting_data::menu_data::faction_column_type::none) {
                 continue;
             }
+            menu_map_.find(faction->column)
+                ->second.PushBack(build_gfx_value(faction->faction_name, faction->faction_rank_name));
+        }
 
-            if (faction_item->get_faction_menu() != faction_menu_value::m_none) {
-                auto key_value = faction_item->get_value();
-                menu_map_.find(faction_menu)
-                    ->second.PushBack(build_gfx_value(faction_item->get_key(),
-                        key_value == const_static_display_value ? "" : key_value));
-                logger::trace("added to Menu {}, Name {}, Key {}, value {}"sv,
-                    string_util::get_int_from_enum(faction_menu),
-                    string_util::get_int_from_enum(faction_value),
-                    faction_item->get_key(),
-                    faction_item->get_value());
+        logger::debug("start filling menu with data (champion), values to process {}"sv, champion_list.size());
+        for (auto* champion : champion_list) {
+            if (champion->column == setting_data::menu_data::faction_column_type::none) {
+                continue;
             }
+            //TODO add in favor or not
+            menu_map_.find(champion->column)
+                ->second.PushBack(build_gfx_value(champion->champion_name, champion->champion_finished_status));
         }
 
-        for (auto& [fst, snd] : values) {
-            snd.reset();
+        logger::debug("start filling menu with data (thane), values to process {}"sv, thane_list.size());
+        for (auto* thane : thane_list) {
+            if (thane->column == setting_data::menu_data::faction_column_type::none) {
+                continue;
+            }
+            //TODO add bounty
+            menu_map_.find(thane->column)->second.PushBack(build_gfx_value(thane->name, thane->thane_name));
         }
-        values.clear();
-        logger::debug("Done Updating Values, Map Size is {}"sv, values.size());
+
+        logger::debug("Done showing values. return."sv);
     }
 
     void faction_menu::update_bottom_values() const {
@@ -311,14 +321,15 @@ namespace scaleform {
     void faction_menu::prev_menu(const RE::FxDelegateArgs& a_params) {
         logger::debug("GUI Prev Button Pressed, parameter count {}"sv, a_params.GetArgCount());
         close();
-        process_prev(menu);
+        process_prev();
     }
 
     void faction_menu::log(const RE::FxDelegateArgs& a_params) {
         logger::debug("{}: {}"sv, menu_name, a_params[0].GetString());
     }
 
-    void faction_menu::process_prev(const show_menu a_menu) {
-        handler::show_handler::handle_menu_swap(get_prev_menu(a_menu));
+    void faction_menu::process_prev() {
+        auto next_menu = setting::config_setting::get_singleton()->get_previous_menu_type(menu_type);
+        handler::show_handler::handle_menu_swap(next_menu);
     }
 }

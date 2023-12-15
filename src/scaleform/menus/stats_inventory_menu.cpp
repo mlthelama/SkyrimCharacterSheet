@@ -1,4 +1,7 @@
 ﻿#include "stats_inventory_menu.h"
+#include "util/player/player.h"
+#include <actor/player.h>
+#include <setting/data/menu_data.h>
 
 namespace scaleform {
     void stats_inventory_menu::Register() {
@@ -54,7 +57,6 @@ namespace scaleform {
                     a_def->GetHeight());
                 a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
             });
-        menu_util::log_resolution();
         logger::debug("Loading Menu {} was successful {}"sv, file_name, success);
         view_ = v_menu->uiMovie;
         //_view->SetMouseCursorCount(0);
@@ -224,41 +226,24 @@ namespace scaleform {
     }
 
     void stats_inventory_menu::update_menu_values() const {
-        auto values = player_data::get_values_to_display(menu, menu_name);
-        logger::debug("Update menu Values, values to process {}"sv, values.size());
-
-        for (auto& [fst, snd] : values) {
-            auto stat_value = fst;
-            const auto stat_item = snd.get();
-
-            stat_item->log_stat_item(stat_value, menu);
-
-            if (stat_item->get_value().empty() ||
-                stat_item->get_stats_inventory_menu() == stats_inventory_menu_value::m_none ||
-                stat_item->get_stats_inventory_menu() == stats_inventory_menu_value::m_equip) {
+        auto* player = RE::PlayerCharacter::GetSingleton();
+        auto player_data = actor::player::get_player_data(player, setting_data::menu_data::menu_type::stats_inventory);
+        logger::debug("start filling menu with data, values to process {}"sv, player_data.size());
+        for (auto* item : player_data) {
+            if (item->inventory_column == setting_data::menu_data::stats_inventory_column_type::none) {
                 continue;
             }
-
-            menu_map_.find(stat_item->get_stats_inventory_menu())
-                ->second.PushBack(build_gfx_value(stat_item->get_key(), stat_item->get_value(), stat_item->get_icon()));
-            logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
-                string_util::get_int_from_enum(stat_item->get_stats_menu()),
-                string_util::get_int_from_enum(stat_value),
-                stat_item->get_key(),
-                stat_item->get_value());
+            menu_map_.find(item->inventory_column)
+                ->second.PushBack(build_gfx_value(item->name, item->value, item->icon));
         }
-        for (auto& [fst, snd] : values) {
-            snd.reset();
-        }
-        values.clear();
 
         //it seems the inventory needs a bit after an equip change, so an item might be shown equipped
-        for (const auto armor = player_data::get_armor_map(); auto [slot, name] : armor) {
-            menu_map_.find(stats_inventory_menu_value::m_equip)
+        for (const auto armor = util::player::get_equipment(player); auto [slot, name] : armor) {
+            menu_map_.find(setting_data::menu_data::stats_inventory_column_type::equip)
                 ->second.PushBack(build_gfx_value(slot, static_cast<std::string>(name)));
         }
 
-        logger::debug("Done Updating Values, Map Size is {}"sv, values.size());
+        logger::debug("Done showing values, processed {} items. return."sv, player_data.size());
     }
 
     void stats_inventory_menu::on_close() {}

@@ -25,7 +25,8 @@ void init_logger() {
         log->flush_on(spdlog::level::info);
 
         spdlog::set_default_logger(std::move(log));
-        spdlog::set_pattern("[%H:%M:%S.%f][%s(%#)][%!][%l] %v"s);
+        //spdlog::set_pattern("[%H:%M:%S.%f][%s(%#)][%!][%l] %v"s);
+        spdlog::set_pattern("[%H:%M:%S.%f] %s(%#) [%^%l%$] %v"s);
 
         logger::info("{} v{}"sv, Version::PROJECT, Version::NAME);
 

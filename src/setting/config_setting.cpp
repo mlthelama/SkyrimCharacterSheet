@@ -37,14 +37,11 @@ namespace setting {
 
                 auto& key = menu_element.at("key");
                 if (key.is_string()) {
-                    //std::string key_value{ key };
-                    //auto menu = magic_enum::enum_cast<menu_data::menu_type>(key_value);
-                    //auto menu = magic_enum::enum_cast<menu_data::menu_type>(to_string(key));
                     auto menu = magic_enum::enum_cast<menu_data::menu_type>(std::string{ key });
                     if (menu.has_value()) {
                         menu_data->menu = menu.value();
                     } else {
-                        logger::warn("could not get enum for key {}"sv, to_string(key));
+                        logger::warn("could not get enum for name {}"sv, to_string(key));
                     }
                 }
 
@@ -56,7 +53,7 @@ namespace setting {
                 //better for access, if not set let it fail
                 menu_data_map[menu_data->menu] = menu_data;
 
-                logger::trace("menu key {}, name {}"sv, magic_enum::enum_name(menu_data->menu), menu_data->menu_name);
+                logger::trace("menu name {}, name {}"sv, magic_enum::enum_name(menu_data->menu), menu_data->menu_name);
             }
         }
         data->menu_data_map = menu_data_map;
@@ -172,7 +169,7 @@ namespace setting {
         logger::trace("loaded {} player setting"sv, data->player_data_list.size());
     }
 
-    std::string_view config_setting::get_menu_name(setting_data::menu_data::menu_type a_menu) {
+    std::string config_setting::get_menu_name(setting_data::menu_data::menu_type a_menu) {
         if (const config_setting_data* data = this->data_;
             data && !data->menu_data_map.empty() && data->menu_data_map.contains(a_menu)) {
             return data->menu_data_map.at(a_menu)->menu_name;
@@ -210,7 +207,7 @@ namespace setting {
         return menu_data::menu_type::stats;
     }
 
-    std::string_view config_setting::get_next_menu_name(setting_data::menu_data::menu_type a_menu) {
+    std::string config_setting::get_next_menu_name(setting_data::menu_data::menu_type a_menu) {
         auto* next_menu = get_next_menu(a_menu);
         if (next_menu) {
             return next_menu->menu_name;
@@ -218,7 +215,7 @@ namespace setting {
         return {};
     }
 
-    std::string_view config_setting::get_previous_menu_name(setting_data::menu_data::menu_type a_menu) {
+    std::string config_setting::get_previous_menu_name(setting_data::menu_data::menu_type a_menu) {
         auto* previous_menu = get_previous_menu(a_menu);
         if (previous_menu) {
             return previous_menu->menu_name;
@@ -309,7 +306,7 @@ namespace setting {
                     std::vector<setting_data::faction_rank_data*> faction_rank_data_list;
                     for (auto& rank_element : json_rank) {
                         auto* faction_rank_data = new setting_data::faction_rank_data();
-                        auto& rank_key = rank_element.at("key");
+                        auto& rank_key = rank_element.at("name");
                         if (rank_key.is_string()) {
                             faction_rank_data->key = rank_key;
                         }
@@ -354,7 +351,7 @@ namespace setting {
                                     faction_rank_quest_data->stages.size());
                             }
                             faction_rank_data->quests = faction_rank_quest_data_list;
-                            logger::trace("rank key {}, rank name {}, quests {} "sv,
+                            logger::trace("rank name {}, rank name {}, quests {} "sv,
                                 faction_rank_data->key,
                                 faction_rank_data->name,
                                 faction_rank_data->quests.size());
@@ -433,7 +430,7 @@ namespace setting {
             for (auto& champion_element : json_champion) {
                 auto* champion_data = new setting_data::champion_data();
 
-                auto& key = champion_element.at("key");
+                auto& key = champion_element.at("name");
                 if (key.is_string()) {
                     champion_data->key = magic_enum::enum_cast<champion_data::champion>(std::string{ key })
                                              .value_or(champion_data::champion::custom);
@@ -674,7 +671,7 @@ namespace setting {
                             static_cast<RE::ActorValue>(actor_value);
                         player_data->actor_value = *av_data;
                     } else {
-                        logger::warn("key {}, actor value handling {}, actor_value json type mismatch {}"sv,
+                        logger::warn("name {}, actor value handling {}, actor_value json type mismatch {}"sv,
                             magic_enum::enum_name(player_data->key),
                             magic_enum::enum_name(player_data->actor_value_handling),
                             actor_value.type_name());
@@ -691,7 +688,7 @@ namespace setting {
                         av_data->actor_value_list = actor_value_list;
                         player_data->actor_value = *av_data;
                     } else {
-                        logger::warn("key {}, actor value handling {}, actor_value json type mismatch {}"sv,
+                        logger::warn("name {}, actor value handling {}, actor_value json type mismatch {}"sv,
                             magic_enum::enum_name(player_data->key),
                             magic_enum::enum_name(player_data->actor_value_handling),
                             actor_value.type_name());

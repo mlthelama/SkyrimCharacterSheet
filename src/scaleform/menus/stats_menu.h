@@ -3,17 +3,16 @@
 #include "CLIK/GFx/Controls/Button.h"
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
-#include "data/playerdata.h"
+#include "setting/config_setting.h"
+#include "setting/data/player_data.h"
 
 namespace scaleform {
-    using stats_menu_value = menu_util::stats_menu_value;
-    using show_menu = menu_util::show_menu;
 
     class stats_menu final : public RE::IMenu {
     public:
         static constexpr std::string_view menu_name = "ShowStats";
         static constexpr std::string_view file_name = menu_name;
-        static constexpr show_menu menu = show_menu::m_stats;
+        static constexpr setting_data::menu_data::menu_type menu_type = setting_data::menu_data::menu_type::stats;
 
         static void Register();
 
@@ -58,7 +57,7 @@ namespace scaleform {
 
         static void update_text(CLIK::TextField a_field, std::string_view a_string, const std::string& a_auto_size);
 
-        void update_title() const { update_text(title_, get_menu_name(menu)); }
+        void update_title() const;
 
         void update_headers() const;
 
@@ -88,11 +87,11 @@ namespace scaleform {
 
         static void log(const RE::FxDelegateArgs& a_params);
 
-        [[nodiscard]] CLIK::TextField& get_text_field_key(stats_value a_stats_value) const;
+        [[nodiscard]] CLIK::TextField& get_text_field_key(setting_data::player_data::stat a_stats_value) const;
 
-        [[nodiscard]] CLIK::TextField& get_text_fields_value(stats_value a_stats_value) const;
+        [[nodiscard]] CLIK::TextField& get_text_fields_value(setting_data::player_data::stat a_stats_value) const;
 
-        static void process_next(show_menu a_menu);
+        static void process_next();
 
         RE::GPtr<RE::GFxMovieView> view_;
         bool is_active_ = false;
@@ -142,30 +141,31 @@ namespace scaleform {
 
         CLIK::GFx::Controls::Button menu_close_;
 
-        std::map<stats_menu_value, RE::GFxValue&> menu_map_ = {
-            { stats_menu_value::m_player, player_item_list_provider_ },
-            { stats_menu_value::m_defence, defence_item_list_provider_ },
-            { stats_menu_value::m_attack, attack_item_list_provider_ },
-            { stats_menu_value::m_magic, perks_magic_item_list_provider_ },
-            { stats_menu_value::m_warrior, perks_warrior_item_list_provider_ },
-            { stats_menu_value::m_thief, perks_thief_item_list_provider_ },
+        std::map<setting_data::menu_data::stats_column_type, RE::GFxValue&> menu_map_ = {
+            { setting_data::menu_data::stats_column_type::player, player_item_list_provider_ },
+            { setting_data::menu_data::stats_column_type::defence, defence_item_list_provider_ },
+            { setting_data::menu_data::stats_column_type::attack, attack_item_list_provider_ },
+            { setting_data::menu_data::stats_column_type::magic, perks_magic_item_list_provider_ },
+            { setting_data::menu_data::stats_column_type::warrior, perks_warrior_item_list_provider_ },
+            { setting_data::menu_data::stats_column_type::thief, perks_thief_item_list_provider_ },
         };
 
-        std::map<stats_value, CLIK::TextField&> bottom_map_key_ = {
-            { stats_value::name, name_key_ },
-            { stats_value::level, level_key_ },
-            { stats_value::race, race_key_ },
-            { stats_value::perk_count, perks_key_ },
-            { stats_value::beast, beast_key_ },
-            { stats_value::xp, xp_key_ },
+        std::map<setting_data::player_data::stat, CLIK::TextField&> bottom_map_key_ = {
+            { setting_data::player_data::stat::name, name_key_ },
+            { setting_data::player_data::stat::level, level_key_ },
+            { setting_data::player_data::stat::race, race_key_ },
+            { setting_data::player_data::stat::perk_count, perks_key_ },
+            { setting_data::player_data::stat::beast, beast_key_ },
+            { setting_data::player_data::stat::xp, xp_key_ },
         };
-        std::map<stats_value, CLIK::TextField&> bottom_map_value_ = {
-            { stats_value::name, name_value_ },
-            { stats_value::level, level_value_ },
-            { stats_value::race, race_value_ },
-            { stats_value::perk_count, perks_value_ },
-            { stats_value::beast, beast_value_ },
-            { stats_value::xp, xp_value_ },
+
+        std::map<setting_data::player_data::stat, CLIK::TextField&> bottom_map_value_ = {
+            { setting_data::player_data::stat::name, name_value_ },
+            { setting_data::player_data::stat::level, level_value_ },
+            { setting_data::player_data::stat::race, race_value_ },
+            { setting_data::player_data::stat::perk_count, perks_value_ },
+            { setting_data::player_data::stat::beast, beast_value_ },
+            { setting_data::player_data::stat::xp, xp_value_ },
         };
     };
 }

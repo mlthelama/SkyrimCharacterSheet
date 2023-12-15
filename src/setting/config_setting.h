@@ -22,14 +22,14 @@ namespace setting {
         void load_all_thane_setting_files();
         void load_all_player_setting_files();
 
-        std::string_view get_menu_name(menu_data::menu_type a_menu);
-        menu_data::stats_column_type get_stats_column_value(uint32_t a_column_id);
-        menu_data::faction_column_type get_faction_column_value(uint32_t a_column_id);
-        menu_data::stats_inventory_column_type get_stats_inventory_column_value(uint32_t a_column_id);
+        std::string get_menu_name(menu_data::menu_type a_menu);
+        [[maybe_unused]] menu_data::stats_column_type get_stats_column_value(uint32_t a_column_id);
+        [[maybe_unused]] menu_data::faction_column_type get_faction_column_value(uint32_t a_column_id);
+        [[maybe_unused]] menu_data::stats_inventory_column_type get_stats_inventory_column_value(uint32_t a_column_id);
         menu_data::menu_type get_next_menu_type(menu_data::menu_type a_menu);
         menu_data::menu_type get_previous_menu_type(menu_data::menu_type a_menu);
-        std::string_view get_next_menu_name(menu_data::menu_type a_menu);
-        std::string_view get_previous_menu_name(menu_data::menu_type a_menu);
+        std::string get_next_menu_name(menu_data::menu_type a_menu);
+        std::string get_previous_menu_name(menu_data::menu_type a_menu);
         std::map<RE::FormID, faction_data*> get_faction_data();
         std::vector<faction_data*> get_special_faction_data();
         std::vector<champion_data*> get_champion_data();

@@ -21,7 +21,6 @@ namespace actor {
         logger::trace("Got {} faction(s) from the config to check"sv, config_faction.size());
 
         const auto actor_sex = a_actor->GetActorBase()->GetSex();
-        //const auto rank_default = "Member";
 
         constexpr auto male = RE::SEXES::SEX::kMale;
         constexpr auto female = RE::SEXES::SEX::kFemale;
@@ -37,10 +36,10 @@ namespace actor {
                 if (!config_faction.contains(form_id)) {
                     logger::trace("name {}, formId {}, rank {} not handled"sv,
                         name,
-                        string_util::int_to_hex(form_id),
+                        util::type_util::int_to_hex(form_id),
                         a_rank);
                 } else {
-                    logger::trace("name {}, formId {}, rank {}"sv, name, string_util::int_to_hex(form_id), a_rank);
+                    logger::trace("name {}, formId {}, rank {}"sv, name, util::type_util::int_to_hex(form_id), a_rank);
                     std::string rank;
 
                     for (auto it = rank_data.begin(); it != rank_data.end(); ++it) {
@@ -59,7 +58,7 @@ namespace actor {
 
                     //if the rank was set from the game files we can skip the next part
                     auto* faction_data = config_faction.at(form_id);
-                    logger::trace("got rank {} from game, faction key {}, name {}"sv,
+                    logger::trace("got rank {} from game, faction name {}, name {}"sv,
                         rank,
                         magic_enum::enum_name(faction_data->key),
                         faction_data->name);
@@ -103,7 +102,7 @@ namespace actor {
 
     void faction::get_faction_rank(setting::config_setting::faction_data*& a_faction_data,
         actor_faction_data*& a_actor_faction_data) {
-        logger::trace("getting rank in faction key {}, name {}"sv,
+        logger::trace("getting rank in faction name {}, name {}"sv,
             magic_enum::enum_name(a_faction_data->key),
             a_actor_faction_data->faction_name);
 

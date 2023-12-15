@@ -5,8 +5,9 @@
 namespace actor {
     class actor_player_data {
     public:
+        setting_data::player_data::stat key;
         std::string icon;
-        std::string key;
+        std::string name;
         std::string value;
         setting_data::menu_data::stats_column_type column;
         setting_data::menu_data::stats_inventory_column_type inventory_column;
@@ -25,6 +26,9 @@ namespace actor {
             float& a_current_result);
         static void process_damage_resist(RE::PlayerCharacter*& a_player,
             setting_data::player_data*& a_player_data_element,
+            actor_player_data*& a_player_data);
+        static void process_ending(setting_data::player_data*& a_player_data_element,
+            float& a_current_result,
             actor_player_data*& a_player_data);
     };
 }  // actor

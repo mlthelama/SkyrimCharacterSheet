@@ -3,19 +3,19 @@
 namespace util {
     class player {
     public:
-        static std::string get_ammo_damage(RE::PlayerCharacter*& a_player);
+        static float get_ammo_damage(RE::PlayerCharacter*& a_player);
 
-        static std::string get_weapon_damage(RE::PlayerCharacter*& a_player, bool a_left);
+        static float get_weapon_damage(RE::PlayerCharacter*& a_player, bool a_left);
 
-        static std::string get_weapon_speed(RE::PlayerCharacter*& a_player, bool a_left);
+        static float get_weapon_speed(RE::PlayerCharacter*& a_player, bool a_left);
 
-        static std::string get_weapon_reach(RE::PlayerCharacter*& a_player, bool a_left);
+        static float get_weapon_reach(RE::PlayerCharacter*& a_player, bool a_left);
 
-        static std::string get_weapon_base_damage(RE::PlayerCharacter*& a_player, bool a_left);
+        static float get_weapon_base_damage(RE::PlayerCharacter*& a_player, bool a_left);
 
-        static std::string get_weapon_stagger(RE::PlayerCharacter*& a_player, bool a_left);
+        static float get_weapon_stagger(RE::PlayerCharacter*& a_player, bool a_left);
 
-        static std::string get_weapon_critical_damage(RE::PlayerCharacter*& a_player, bool a_left);
+        static float get_weapon_critical_damage(RE::PlayerCharacter*& a_player, bool a_left);
 
         static std::string get_xp(RE::PlayerCharacter*& a_player);
 
@@ -24,6 +24,8 @@ namespace util {
         static float get_fall_damage_mod(RE::PlayerCharacter*& a_player);
 
         static float get_damage_resistance(RE::PlayerCharacter*& a_player);
+
+        static std::string get_is_beast(RE::PlayerCharacter*& a_player);
 
     private:
         static RE::InventoryEntryData* get_equipped_weapon(RE::PlayerCharacter*& a_player, bool a_left);

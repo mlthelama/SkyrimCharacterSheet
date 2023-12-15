@@ -2,7 +2,6 @@
 #include "handler/show_handler.h"
 
 namespace event {
-    using show_menu = menu_util::show_menu;
 
     equip_event* equip_event::get_singleton() {
         static equip_event singleton;
@@ -25,7 +24,7 @@ namespace event {
         if (formid->IsArmor() || formid->IsWeapon() || formid->IsAmmo()) {
             logger::trace("Player {} {}"sv, (a_event->equipped ? "equipped" : "unequipped"), formid->GetName());
             //if menu is open trigger reload of data
-            if (handler::show_handler::is_menu_open(show_menu::m_stats_inventory)) {
+            if (handler::show_handler::is_menu_open(setting_data::menu_data::menu_type::stats_inventory)) {
                 handler::show_handler::handle_inventory_stats_update();
             }
         }

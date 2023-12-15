@@ -1,5 +1,6 @@
 ﻿#include "armor_rating_rescaled_remake.h"
 #include "toml++/toml.h"
+#include "util/type_util.h"
 
 namespace mod {
     static double scaling_factor{};
@@ -43,7 +44,7 @@ namespace mod {
 
         //multiply by 100
         logger::trace("New Calculated Damage Resistance {}, hidden {}, vanilla {},  one {}, two {}, three {}, res {}",
-            string_util::get_string_value_from_float(static_cast<float>(res)),
+            util::type_util::get_float_as_string(static_cast<float>(res)),
             hidden_resist,
             vanilla_resist,
             function_one,

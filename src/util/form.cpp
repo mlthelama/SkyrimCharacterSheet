@@ -1,4 +1,5 @@
 ﻿#include "form.h"
+#include "type_util.h"
 
 namespace util {
     RE::TESForm* form::get_tes_form_from_mod_and_form(const std::string& a_mod, const std::string& a_form) {
@@ -14,7 +15,7 @@ namespace util {
 
         form = RE::TESDataHandler::GetSingleton()->LookupForm(form_id, a_mod);
         if (form) {
-            logger::trace("got form id {}, name {}", string_util::int_to_hex(form->GetFormID()), form->GetName());
+            logger::trace("got form id {}, name {}", util::type_util::int_to_hex(form->GetFormID()), form->GetName());
         }
 
         return form;

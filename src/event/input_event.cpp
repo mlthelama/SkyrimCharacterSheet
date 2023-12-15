@@ -2,7 +2,6 @@
 #include "handler/show_handler.h"
 
 namespace event {
-    using show_menu = menu_util::show_menu;
 
     input_event* input_event::get_singleton() {
         static input_event singleton;
@@ -61,10 +60,10 @@ namespace event {
             if (ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) || ui->IsMenuOpen(RE::MagicMenu::MENU_NAME)) {
                 if (key == static_cast<uint32_t>(ini_setting::get_show_inventory_button())) {
                     logger::debug("configured Key ({}) for Inventory pressed"sv, key);
-                    if (!handler::show_handler::is_menu_open(show_menu::m_stats_inventory)) {
+                    if (!handler::show_handler::is_menu_open(setting_data::menu_data::menu_type::stats_inventory)) {
                         handler::show_handler::handle_inventory_stats_open();
                     } else {
-                        handler::show_handler::close_window(show_menu::m_stats_inventory);
+                        handler::show_handler::close_window(setting_data::menu_data::menu_type::stats_inventory);
                     }
                 }
             }

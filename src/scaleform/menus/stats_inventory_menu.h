@@ -3,17 +3,14 @@
 #include "CLIK/GFx/Controls/Button.h"
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
-#include "data/playerdata.h"
+#include <setting/data/menu_data.h>
 
 namespace scaleform {
-    using show_menu = menu_util::show_menu;
-    using stats_inventory_menu_value = menu_util::stats_inventory_menu_value;
 
     class stats_inventory_menu final : public RE::IMenu {
     public:
         static constexpr std::string_view menu_name = "ShowStatsInventory";
         static constexpr std::string_view file_name = menu_name;
-        static constexpr show_menu menu = show_menu::m_stats_inventory;
 
         static void Register();
 
@@ -115,11 +112,11 @@ namespace scaleform {
 
         CLIK::GFx::Controls::Button menu_close_;
 
-        std::map<stats_inventory_menu_value, RE::GFxValue&> menu_map_ = {
-            { stats_inventory_menu_value::m_equip, equip_item_list_provider_ },
-            { stats_inventory_menu_value::m_armor, armor_item_list_provider_ },
-            { stats_inventory_menu_value::m_weapon, weapon_item_list_provider_ },
-            { stats_inventory_menu_value::m_effect, effect_item_list_provider_ },
+        std::map<setting_data::menu_data::stats_inventory_column_type, RE::GFxValue&> menu_map_ = {
+            { setting_data::menu_data::stats_inventory_column_type::equip, equip_item_list_provider_ },
+            { setting_data::menu_data::stats_inventory_column_type::armor, armor_item_list_provider_ },
+            { setting_data::menu_data::stats_inventory_column_type::weapon, weapon_item_list_provider_ },
+            { setting_data::menu_data::stats_inventory_column_type::effect, effect_item_list_provider_ },
         };
     };
 }
