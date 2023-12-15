@@ -4,7 +4,6 @@
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
 #include "setting/data/menu_data.h"
-#include "util/menukeys.h"
 
 namespace scaleform {
 
@@ -131,5 +130,6 @@ namespace scaleform {
 
         std::string previous_menu_name_;
         std::string menu_name_;
+        std::string count_name_;
     };
 }

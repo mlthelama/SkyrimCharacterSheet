@@ -82,6 +82,7 @@ namespace scaleform {
         }
         previous_menu_name_ = config_setting->get_previous_menu_name(menu_data->menu);
         menu_name_ = menu_data->menu_name;
+        count_name_ = config_setting->get_key_data(setting_data::key_data::key_name::count)->name;
 
         is_active_ = true;
         view_->SetVisible(true);
@@ -278,7 +279,6 @@ namespace scaleform {
             if (champion->column == setting_data::menu_data::faction_column_type::none) {
                 continue;
             }
-            //TODO add in favor or not
             menu_map_.find(champion->column)
                 ->second.PushBack(build_gfx_value(champion->champion_name, champion->champion_finished_status));
         }
@@ -296,15 +296,15 @@ namespace scaleform {
     }
 
     void faction_menu::update_bottom_values() const {
-        update_text(faction_count_key_, menu_keys::count);
+        update_text(faction_count_key_, count_name_);
         update_text(faction_count_value_,
             fmt::format(FMT_STRING("{}"), faction_item_list_provider_.GetArraySize()),
             "right");
-        update_text(thane_count_key_, menu_keys::count);
+        update_text(thane_count_key_, count_name_);
         update_text(thane_count_value_,
             fmt::format(FMT_STRING("{}"), thane_item_list_provider_.GetArraySize()),
             "right");
-        update_text(champion_count_key_, menu_keys::count);
+        update_text(champion_count_key_, count_name_);
         update_text(champion_count_value_,
             fmt::format(FMT_STRING("{}"), champion_item_list_provider_.GetArraySize()),
             "right");

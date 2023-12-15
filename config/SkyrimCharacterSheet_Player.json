@@ -637,7 +637,7 @@
       "display_name": "$ShowWeaponSpeedMult",
       "icon_string": "av_weapon_speed_mult",
       "stats_column": "attack",
-      "stats_inventory_column": "effect",
+      "stats_inventory_column": "weapon",
       "hide_value_when_zero": true
     },
     {
@@ -645,7 +645,7 @@
       "display_name": "$ShowLeftWeaponSpeedMult",
       "icon_string": "av_weapon_speed_mult",
       "stats_column": "attack",
-      "stats_inventory_column": "effect",
+      "stats_inventory_column": "weapon",
       "hide_value_when_zero": true
     },
     {
