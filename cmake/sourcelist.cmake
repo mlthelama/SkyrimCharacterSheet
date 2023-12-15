@@ -64,5 +64,4 @@ set(sources ${sources}
 	src/util/quest/quest.h
 	src/util/type_util.cpp
 	src/util/type_util.h
-	src/util/utils.h
 )

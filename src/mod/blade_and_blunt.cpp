@@ -1,4 +1,5 @@
 ﻿#include "blade_and_blunt.h"
+#include "setting/game_setting.h"
 
 namespace mod {
     float blade_and_blunt::calculate_armor_damage_resistance(float a_armor_rating) {

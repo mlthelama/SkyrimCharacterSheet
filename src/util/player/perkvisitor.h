@@ -1,5 +1,4 @@
 #pragma once
-#include "util/utils.h"
 
 namespace util {
     class perk_visitor : public RE::PerkEntryVisitor {

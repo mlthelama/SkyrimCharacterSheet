@@ -2,6 +2,7 @@
 #include "event/equip_event.h"
 #include "event/input_event.h"
 #include "event/menu_open_close_event.h"
+#include "setting/ini_setting.h"
 
 namespace event {
     void sink_event_handlers() {

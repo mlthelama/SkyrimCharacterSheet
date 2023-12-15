@@ -1,4 +1,5 @@
 ﻿#include "armor_rating_rescaled_remake.h"
+#include "setting/game_setting.h"
 #include "toml++/toml.h"
 #include "util/type_util.h"
 
@@ -37,7 +38,7 @@ namespace mod {
         auto function_one = vanilla_resist * 5.0 * static_cast<float>(scaling_factor);
         auto function_two = function_one / (1 + function_one);
         auto function_three = function_two + (1 - function_two) * hidden_resist;
-        auto res = min(function_three, game_settings->get_max_armor_resistance());
+        auto res = fmin(function_three, game_settings->get_max_armor_resistance());
         if (overwrite_armor_cap > 0 && res > overwrite_armor_cap) {
             res = overwrite_armor_cap;
         }

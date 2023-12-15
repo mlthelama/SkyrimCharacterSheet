@@ -37,16 +37,16 @@ namespace util {
 
     bool quest::is_one_quest_stage_complete(RE::TESQuest* a_quest, std::vector<uint16_t> a_stages) {
         auto finished_stages = get_stages_if_complete(a_quest);
-        auto intersect = vector_util::get_intersect(finished_stages, a_stages);
+        auto intersect = type_util::get_vector_intersect(finished_stages, a_stages);
         auto form_id = util::type_util::int_to_hex(a_quest->formID);
 
         logger::debug("for quest {}, got stages (values)/size completed ({})/{}, given ({})/{}, intersect ({})/{}"sv,
             form_id,
-            vector_util::get_delimited_string(finished_stages),
+            type_util::get_delimited_string_from_vector(finished_stages),
             finished_stages.size(),
-            vector_util::get_delimited_string(a_stages),
+            type_util::get_delimited_string_from_vector(a_stages),
             a_stages.size(),
-            vector_util::get_delimited_string(intersect),
+            type_util::get_delimited_string_from_vector(intersect),
             intersect.size());
 
         return !intersect.empty();

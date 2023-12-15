@@ -781,7 +781,8 @@
             "ending": "%",
             "icon_string": "av_onehanded",
             "stats_column": "warrior",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "two_handed_mod",
@@ -791,7 +792,8 @@
             "ending": "%",
             "icon_string": "av_twohanded",
             "stats_column": "warrior",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "archery_mod",
@@ -801,7 +803,8 @@
             "ending": "%",
             "icon_string": "av_archery",
             "stats_column": "thief",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "block_mod",
@@ -811,7 +814,8 @@
             "ending": "%",
             "icon_string": "av_block",
             "stats_column": "warrior",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "smithing_mod",
@@ -821,7 +825,8 @@
             "ending": "%",
             "icon_string": "av_smithing",
             "stats_column": "warrior",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "heavy_armor_mod",
@@ -831,7 +836,8 @@
             "ending": "%",
             "icon_string": "av_heavy_armor",
             "stats_column": "warrior",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "light_armor_mod",
@@ -841,7 +847,8 @@
             "ending": "%",
             "icon_string": "av_light_armor",
             "stats_column": "warrior",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "pickpocket_mod",
@@ -855,7 +862,8 @@
                 "display_name": "$ShowSecurityMod"
             },
             "stats_column": "thief",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "lockpicking_mod",
@@ -870,7 +878,8 @@
                 "icon_string": "av_unarmed"
             },
             "stats_column": "thief",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "sneaking_mod",
@@ -880,7 +889,8 @@
             "ending": "%",
             "icon_string": "av_sneak",
             "stats_column": "thief",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "alchemy_mod",
@@ -890,7 +900,8 @@
             "ending": "%",
             "icon_string": "av_alchemy",
             "stats_column": "thief",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "speech_mod",
@@ -900,7 +911,8 @@
             "ending": "%",
             "icon_string": "default_misc",
             "stats_column": "thief",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "enchanting_mod",
@@ -910,7 +922,8 @@
             "ending": "%",
             "icon_string": "av_enchanting",
             "stats_column": "magic",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "alteration_mod",
@@ -920,7 +933,8 @@
             "ending": "%",
             "icon_string": "av_alteration",
             "stats_column": "magic",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "conjuration_mod",
@@ -930,7 +944,8 @@
             "ending": "%",
             "icon_string": "av_conjuration",
             "stats_column": "magic",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "destruction_mod",
@@ -940,7 +955,8 @@
             "ending": "%",
             "icon_string": "av_destruction",
             "stats_column": "magic",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "illusion_mod",
@@ -950,7 +966,8 @@
             "ending": "%",
             "icon_string": "av_illusion",
             "stats_column": "magic",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "restoration_mod",
@@ -960,7 +977,8 @@
             "ending": "%",
             "icon_string": "av_restoration",
             "stats_column": "magic",
-            "stats_inventory_column": "effect"
+            "stats_inventory_column": "effect",
+            "hide_value_when_zero": true
         },
         {
             "key": "arrow_damage",
@@ -1039,8 +1057,36 @@
             "icon_string": "default_misc",
             "stats_column": "none",
             "stats_inventory_column": "none"
+        },
+        {
+            "key": "health_perm",
+            "display_name": "Health Permanent",
+            "actor_value": 24,
+            "actor_value_handling": "single",
+            "actor_value_source": "permanent",
+            "icon_string": "av_health",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "magicka_perm",
+            "display_name": "Magicka Permanent",
+            "actor_value": 25,
+            "actor_value_handling": "single",
+            "actor_value_source": "permanent",
+            "icon_string": "av_magicka",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
+        },
+        {
+            "key": "stamina_perm",
+            "display_name": "Stamina Permanent",
+            "actor_value": 26,
+            "actor_value_handling": "single",
+            "actor_value_source": "permanent",
+            "icon_string": "av_stamina",
+            "stats_column": "none",
+            "stats_inventory_column": "none"
         }
-        
-
     ]
 }

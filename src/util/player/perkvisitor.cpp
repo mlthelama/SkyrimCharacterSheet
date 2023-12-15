@@ -1,5 +1,5 @@
 ﻿#include "perkvisitor.h"
-#include <util/type_util.h>
+#include "util/type_util.h"
 
 namespace util {
     RE::PerkEntryVisitor::ReturnType perk_visitor::Visit(RE::BGSPerkEntry* perk_entry) {

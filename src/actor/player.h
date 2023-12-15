@@ -30,5 +30,8 @@ namespace actor {
         static void process_ending(setting_data::player_data*& a_player_data_element,
             float& a_current_result,
             actor_player_data*& a_player_data);
+        static float get_actor_value(RE::PlayerCharacter*& a_player,
+            RE::ActorValue a_actor_value,
+            setting_data::player_data::actor_value_source_handling source_handling);
     };
 }  // actor
