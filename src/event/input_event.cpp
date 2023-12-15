@@ -24,7 +24,6 @@ namespace event {
 
         auto* ui = RE::UI::GetSingleton();
         auto* intfc_str = RE::InterfaceStrings::GetSingleton();
-        auto* user_event = RE::UserEvents::GetSingleton();
 
 
         if (ui->IsMenuOpen(intfc_str->console)) {
