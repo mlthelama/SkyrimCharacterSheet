@@ -33,14 +33,14 @@ namespace actor {
                 quest_done =
                     util::quest::is_one_quest_stage_complete(champion_data->form->formID, champion_data->stages);
                 if (quest_done) {
-                    actor_champion->champion_finished_status = "pro daedra";  //TODO
+                    actor_champion->champion_finished_status = config_setting->get_key_data(setting_data::key_data::key_name::in_favor)->name; 
                 }
             }
             if (!quest_done && !champion_data->alternate_stages.empty()) {
                 quest_done = util::quest::is_one_quest_stage_complete(champion_data->form->formID,
                     champion_data->alternate_stages);
                 if (quest_done) {
-                    actor_champion->champion_finished_status = "alternate";  //TODO
+                    actor_champion->champion_finished_status = config_setting->get_key_data(setting_data::key_data::key_name::alternative)->name;
                 }
             }
 

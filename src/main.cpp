@@ -68,6 +68,7 @@ void init_config_setting() {
         config_setting->load_all_champion_setting_files();
         config_setting->load_all_thane_setting_files();
         config_setting->load_all_player_setting_files();
+        config_setting->load_key_setting_file();
     } catch (const std::exception& e) {
         logger::warn("failed to load json setting {}"sv, e.what());
     }

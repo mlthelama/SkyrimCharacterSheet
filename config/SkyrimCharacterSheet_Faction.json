@@ -1,230 +1,307 @@
 {
-    "faction": [{
-            "key": "companions",
-            "name": "$ShowCompanions",
-            "mod": "Skyrim.esm",
-            "form_faction": "0x00048362"
+  "faction": [
+    {
+      "key": "companions",
+      "name": "$ShowCompanions",
+      "mod": "Skyrim.esm",
+      "form_faction": "0x00048362"
+    },
+    {
+      "key": "dark_brotherhood",
+      "name": "$ShowDarkbrotherHood",
+      "mod": "Skyrim.esm",
+      "form_faction": "0x0001BDB3",
+      "rank": [
+        {
+          "key": "assassin",
+          "name": "$ShowAssassin"
         },
         {
-            "key": "dark_brotherhood",
-            "name": "$ShowDarkbrotherHood",
-            "mod": "Skyrim.esm",
-            "form_faction": "0x0001BDB3",
-            "rank": [{
-                    "key": "assassin",
-                    "name": "$ShowAssassin"
-                },
-                {
-                    "key": "listener",
-                    "name": "$ShowListener",
-                    "quest": [{
-                        "mod": "Skyrim.esm",
-                        "form_quest": "0x0001EA59",
-                        "stages": [200, 255]
-                    }]
-                }
-            ]
-        },
-        {
-            "key": "college_of_winterhold",
-            "name": "$ShowCollegeOfWinterhold",
-            "mod": "Skyrim.esm",
-            "form_faction": "0x0001F259"
-        },
-        {
-            "key": "orc_friend",
-            "name": "$ShowOrcFriend",
-            "mod": "Skyrim.esm",
-            "form_faction": "0x00024029"
-        },
-        {
-            "key": "thiefs_guild",
-            "name": "$ShowThiefsGuild",
-            "mod": "Skyrim.esm",
-            "form_faction": "0x00029DA9"
-        },
-        {
-            "key": "imperial_legion",
-            "name": "$ShowImperialLegion",
-            "mod": "Skyrim.esm",
-            "form_faction": "0x0002BF9A",
-            "rank": [{
-                    "key": "auxiliary",
-                    "name": "$ShowAuxiliary",
-                    "quest": [{
-                        "mod": "Skyrim.esm",
-                        "form_quest": "0x000D517A",
-                        "stages": [200]
-                    }]
-                },
-                {
-                    "key": "quaestor",
-                    "name": "$ShowQuaestor",
-                    "quest": [{
-                        "mod": "Skyrim.esm",
-                        "form_quest": "0x00096E71",
-                        "stages": [9000, 9999]
-                    }]
-                },
-                {
-                    "key": "praefect",
-                    "name": "$ShowPraefect",
-                    "quest": [{
-                            "mod": "Skyrim.esm",
-                            "form_quest": "0x0003BCC4",
-                            "stages": [200, 255]
-                        },
-                        {
-                            "mod": "Skyrim.esm",
-                            "form_quest": "0x00083042",
-                            "stages": [9000, 9999]
-                        }
-                    ]
-                },
-                {
-                    "key": "tribune",
-                    "name": "$ShowTribune",
-                    "quest": [{
-                            "mod": "Skyrim.esm",
-                            "form_quest": "0x000504F0",
-                            "stages": [200, 255]
-                        },
-                        {
-                            "mod": "Skyrim.esm",
-                            "form_quest": "0x00083042",
-                            "stages": [9000, 9999]
-                        }
-                    ]
-                },
-                {
-                    "key": "legate",
-                    "name": "$ShowLegate",
-                    "quest": [{
-                        "mod": "Skyrim.esm",
-                        "form_quest": "0x00035A23",
-                        "stages": [200, 255]
-                    }]
-                }
-            ]
-        },
-        {
-            "key": "stormcloaks",
-            "name": "$ShowStormcloaks",
-            "mod": "Skyrim.esm",
-            "form_faction": "0x0002BF9B",
-            "rank": [{
-                    "key": "unblooded",
-                    "name": "$ShowUnblooded",
-                    "quest": [{
-                        "mod": "Skyrim.esm",
-                        "form_quest": "0x000E2D29",
-                        "stages": [200]
-                    }]
-                },
-                {
-                    "key": "ice_veins",
-                    "name": "$ShowIceVeins",
-                    "quest": [{
-                        "mod": "Skyrim.esm",
-                        "form_quest": "0x00096E71",
-                        "stages": [9000, 9999]
-                    }]
-                },
-                {
-                    "key": "bone_breaker",
-                    "name": "$ShowBoneBreaker",
-                    "quest": [{
-                        "mod": "Skyrim.esm",
-                        "form_quest": "0x00035A23",
-                        "stages": [200, 255]
-                    }]
-                },
-                {
-                    "key": "snow_hammer",
-                    "name": "$ShowSnowHammer",
-                    "quest": [{
-                            "mod": "Skyrim.esm",
-                            "form_quest": "0x000504F0",
-                            "stages": [200, 255]
-                        },
-                        {
-                            "mod": "Skyrim.esm",
-                            "form_quest": "0x00083042",
-                            "stages": [9000, 9999]
-                        }
-                    ]
-                },
-                {
-                    "key": "stormblade",
-                    "name": "$ShowLegate",
-                    "quest": [{
-                            "mod": "Skyrim.esm",
-                            "form_quest": "0x0003BCC4",
-                            "stages": [200, 255]
-                        },
-                        {
-                            "mod": "Skyrim.esm",
-                            "form_quest": "0x00083042",
-                            "stages": [9000, 9999]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "key": "greybeard",
-            "name": "$ShowGreybeard",
-            "mod": "Skyrim.esm",
-            "form_faction": "0x0002C6C8",
-            "rank": [{
-                "key": "ysmir",
-                "name": "$ShowYsmir"
-            }]
-        },
-        {
-            "key": "volkihar_vampire_clan",
-            "name": "$ShowVolkiharVampireClan",
-            "mod": "Dawnguard.esm",
-            "form_faction": "0x00003376",
-            "rank": [{
-                "key": "vampire_lord",
-                "name": "$ShowVampireLord"
-            }]
-        },
-        {
-            "key": "dawnguard",
-            "name": "$ShowVampireHunter",
-            "mod": "Dawnguard.esm",
-            "form_faction": "0x00003375",
-            "rank": [{
-                "key": "vampire_hunter",
-                "name": "$ShowVampireHunter"
-            }]
-        },
-        {
-            "key": "house_telvanni",
-            "name": "$ShowHouseTelvanni",
-            "mod": "Dragonborn.esm",
-            "form_faction": "0x00019B8A",
-            "rank": [{
-                "key": "honoary_member",
-                "name": "$ShowHonoraryMember"
-            }]
-        },
-        {
-            "key": "bard_college",
-            "name": "$ShowBardCollege",
-            "rank": [{
-                "key": "bard",
-                "name": "$ShowBard",
-                "quest": [{
-                    "mod": "Skyrim.esm",
-                    "form_quest": "0x00053511",
-                    "stages": [300]
-                }]
-            }]
+          "key": "listener",
+          "name": "$ShowListener",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x0001EA59",
+              "stages": [
+                200,
+                255
+              ]
+            }
+          ]
         }
-
-
-    ]
+      ]
+    },
+    {
+      "key": "college_of_winterhold",
+      "name": "$ShowCollegeOfWinterhold",
+      "mod": "Skyrim.esm",
+      "form_faction": "0x0001F259"
+    },
+    {
+      "key": "orc_friend",
+      "name": "$ShowOrcFriend",
+      "mod": "Skyrim.esm",
+      "form_faction": "0x00024029"
+    },
+    {
+      "key": "thiefs_guild",
+      "name": "$ShowThiefsGuild",
+      "mod": "Skyrim.esm",
+      "form_faction": "0x00029DA9"
+    },
+    {
+      "key": "imperial_legion",
+      "name": "$ShowImperialLegion",
+      "mod": "Skyrim.esm",
+      "form_faction": "0x0002BF9A",
+      "rank": [
+        {
+          "key": "auxiliary",
+          "name": "$ShowAuxiliary",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x000D517A",
+              "stages": [
+                200
+              ]
+            }
+          ]
+        },
+        {
+          "key": "quaestor",
+          "name": "$ShowQuaestor",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x00096E71",
+              "stages": [
+                9000,
+                9999
+              ]
+            }
+          ]
+        },
+        {
+          "key": "praefect",
+          "name": "$ShowPraefect",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x0003BCC4",
+              "stages": [
+                200,
+                255
+              ]
+            },
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x00083042",
+              "stages": [
+                9000,
+                9999
+              ]
+            }
+          ]
+        },
+        {
+          "key": "tribune",
+          "name": "$ShowTribune",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x000504F0",
+              "stages": [
+                200,
+                255
+              ]
+            },
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x00083042",
+              "stages": [
+                9000,
+                9999
+              ]
+            }
+          ]
+        },
+        {
+          "key": "legate",
+          "name": "$ShowLegate",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x00035A23",
+              "stages": [
+                200,
+                255
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "stormcloaks",
+      "name": "$ShowStormcloaks",
+      "mod": "Skyrim.esm",
+      "form_faction": "0x0002BF9B",
+      "rank": [
+        {
+          "key": "unblooded",
+          "name": "$ShowUnblooded",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x000E2D29",
+              "stages": [
+                200
+              ]
+            }
+          ]
+        },
+        {
+          "key": "ice_veins",
+          "name": "$ShowIceVeins",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x00096E71",
+              "stages": [
+                9000,
+                9999
+              ]
+            }
+          ]
+        },
+        {
+          "key": "bone_breaker",
+          "name": "$ShowBoneBreaker",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x00035A23",
+              "stages": [
+                200,
+                255
+              ]
+            }
+          ]
+        },
+        {
+          "key": "snow_hammer",
+          "name": "$ShowSnowHammer",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x000504F0",
+              "stages": [
+                200,
+                255
+              ]
+            },
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x00083042",
+              "stages": [
+                9000,
+                9999
+              ]
+            }
+          ]
+        },
+        {
+          "key": "stormblade",
+          "name": "$ShowLegate",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x0003BCC4",
+              "stages": [
+                200,
+                255
+              ]
+            },
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x00083042",
+              "stages": [
+                9000,
+                9999
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "greybeard",
+      "name": "$ShowGreybeard",
+      "mod": "Skyrim.esm",
+      "form_faction": "0x0002C6C8",
+      "rank": [
+        {
+          "key": "ysmir",
+          "name": "$ShowYsmir"
+        }
+      ]
+    },
+    {
+      "key": "volkihar_vampire_clan",
+      "name": "$ShowVolkiharVampireClan",
+      "mod": "Dawnguard.esm",
+      "form_faction": "0x00003376",
+      "rank": [
+        {
+          "key": "vampire_lord",
+          "name": "$ShowVampireLord"
+        }
+      ]
+    },
+    {
+      "key": "dawnguard",
+      "name": "$ShowVampireHunter",
+      "mod": "Dawnguard.esm",
+      "form_faction": "0x00003375",
+      "rank": [
+        {
+          "key": "vampire_hunter",
+          "name": "$ShowVampireHunter"
+        }
+      ]
+    },
+    {
+      "key": "house_telvanni",
+      "name": "$ShowHouseTelvanni",
+      "mod": "Dragonborn.esm",
+      "form_faction": "0x00019B8A",
+      "rank": [
+        {
+          "key": "honoary_member",
+          "name": "$ShowHonoraryMember"
+        }
+      ]
+    },
+    {
+      "key": "bard_college",
+      "name": "$ShowBardCollege",
+      "rank": [
+        {
+          "key": "bard",
+          "name": "$ShowBard",
+          "quest": [
+            {
+              "mod": "Skyrim.esm",
+              "form_quest": "0x00053511",
+              "stages": [
+                300
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

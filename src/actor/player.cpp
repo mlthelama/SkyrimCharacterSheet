@@ -3,6 +3,7 @@
 #include "setting/game_setting.h"
 #include "util/player/player.h"
 #include "util/type_util.h"
+#include "mod/mod_manager.h"
 
 namespace actor {
 
@@ -49,7 +50,9 @@ namespace actor {
             player_data->key = player_data_element->key;
             player_data->name = player_data_element->display_name;
             player_data->icon = player_data_element->icon_string;
-            if (player_data_element->overwrite_mod != setting_data::player_data::mod_values::none) {
+
+            auto* mod = mod::mod_manager::get_singleton();
+            if (player_data_element->overwrite_mod == setting_data::player_data::mod_values::hand_to_hand && mod->get_hand_to_hand()){
                 if (player_data_element->mod_data) {
                     if (!player_data_element->mod_data->display_name.empty()) {
                         player_data->name = player_data_element->mod_data->display_name;

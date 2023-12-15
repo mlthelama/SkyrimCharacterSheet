@@ -1,0 +1,24 @@
+{
+  "keys": [
+    {
+      "key": "vampire",
+      "name": "$ShowVampire"
+    },
+    {
+      "key": "werewolf",
+      "name": "$ShowWerewolf"
+    },
+    {
+      "key": "count",
+      "name": "$ShowCount"
+    },
+    {
+      "key": "in_favor",
+      "name": "$ShowInFavor"
+    },
+    {
+      "key": "alternative",
+      "name": "$ShowAlternative"
+    }
+  ]
+}
