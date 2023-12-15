@@ -59,112 +59,31 @@ namespace actor {
                     }
                 }
             }
+
             player_data->column = player_data_element->stats_column;
             player_data->inventory_column = player_data_element->stats_inventory_column;
-            if (player_data_element->actor_value_handling == setting_data::player_data::value_handling::single) {
-                auto value = 0.f;
-                switch (player_data_element->key) {
-                    case setting_data::player_data::stat::name:
-                        player_data->value = a_player->GetName();
-                        break;
-                    case setting_data::player_data::stat::race:
-                        player_data->value = a_player->GetRace()->GetName();
-                        break;
-                    case setting_data::player_data::stat::level:
-                        player_data->value = std::to_string(a_player->GetLevel());
-                        break;
-                    case setting_data::player_data::stat::perk_count:
-                        player_data->value = std::to_string(a_player->GetGameStatsData().perkCount);
-                        break;
-                    case setting_data::player_data::stat::height:
-                        value = a_player->GetHeight();
-                        break;
-                    case setting_data::player_data::stat::equipped_weight:
-                    case setting_data::player_data::stat::weight:
-                        value = a_player->GetWeight();
-                        break;
-                    case setting_data::player_data::stat::damage:
-                    case setting_data::player_data::stat::damage_left:
-                        value = util::player::get_weapon_damage(a_player,
-                            player_data_element->key == setting_data::player_data::stat::damage_left);
-                        break;
-                    case setting_data::player_data::stat::skill_trainings_this_level:
-                        player_data->value = std::to_string(a_player->GetInfoRuntimeData().skillTrainingsThisLevel);
-                        break;
-                    case setting_data::player_data::stat::resist_damage:
-                        process_damage_resist(a_player, player_data_element, player_data);
-                        break;
-                    case setting_data::player_data::stat::weapon_speed_mult:
-                    case setting_data::player_data::stat::weapon_speed_mult_left:
-                        value = util::player::get_weapon_speed(a_player,
-                            player_data_element->key == setting_data::player_data::stat::weapon_speed_mult_left);
-                        break;
-                    case setting_data::player_data::stat::beast:
-                        player_data->value = util::player::get_is_beast(a_player);
-                        break;
-                    case setting_data::player_data::stat::xp:
-                        player_data->value = util::player::get_xp(a_player);
-                        break;
-                    case setting_data::player_data::stat::arrow_damage:
-                        value = util::player::get_ammo_damage(a_player);
-                        break;
-                    case setting_data::player_data::stat::weapon_reach:
-                    case setting_data::player_data::stat::weapon_reach_left:
-                        value = util::player::get_weapon_reach(a_player,
-                            player_data_element->key == setting_data::player_data::stat::weapon_reach_left);
-                        break;
-                    case setting_data::player_data::stat::weapon_base_damage:
-                    case setting_data::player_data::stat::weapon_base_damage_left:
-                        value = util::player::get_weapon_base_damage(a_player,
-                            player_data_element->key == setting_data::player_data::stat::weapon_base_damage_left);
-                        break;
-                    case setting_data::player_data::stat::weapon_stagger:
-                    case setting_data::player_data::stat::weapon_stagger_left:
-                        value = util::player::get_weapon_stagger(a_player,
-                            player_data_element->key == setting_data::player_data::stat::weapon_stagger_left);
-                        break;
-                    case setting_data::player_data::stat::weapon_crit_damage_rating:
-                    case setting_data::player_data::stat::weapon_crit_damage_rating_left:
-                        value = util::player::get_weapon_critical_damage(a_player,
-                            player_data_element->key ==
-                                setting_data::player_data::stat::weapon_crit_damage_rating_left);
-                        break;
-                    case setting_data::player_data::stat::fall_damage_mod:
-                        value = util::player::get_fall_damage_mod(a_player);
-                        break;
-                    case setting_data::player_data::stat::warmth:
-                        value = a_player->GetWarmthRating();
-                        break;
-                    default:
-                        if (player_data_element->actor_value.actor_value != RE::ActorValue::kNone) {
-                            value = get_actor_value(a_player,
-                                player_data_element->actor_value.actor_value,
-                                player_data_element->actor_value_source);
-                        }
-                }
-                //if value is set directly we do currently not modify it
-                if (player_data->value.empty()) {
-                    process_ending(player_data_element, value, player_data);
-                }
-            } else if (player_data_element->actor_value_handling ==
-                       setting_data::player_data::value_handling::multiply) {
-                float result = 0.f;
-                auto assign_base = true;
-                for (auto& av : player_data_element->actor_value.actor_value_list) {
-                    if (assign_base) {
-                        result = get_actor_value(a_player, av, player_data_element->actor_value_source);
-                        assign_base = false;
-                    } else {
-                        result *= get_actor_value(a_player, av, player_data_element->actor_value_source);
-                    }
-                }
-
-                process_result_handling(player_data_element, result);
-                player_data->value = util::type_util::get_float_as_string(result);
-                if (!player_data_element->ending.empty()) {
-                    player_data->value += player_data_element->ending;
-                }
-                player_data->value += process_max_handling(player_data_element, result);
+            switch (player_data_element->actor_value_handling) {
+                case setting_data::player_data::value_handling::single:
+                    process_single(a_player, player_data_element, player_data);
+                    break;
+                case setting_data::player_data::value_handling::multiply:
+                    process_multiply(a_player, player_data_element, player_data);
+                    break;
+                case setting_data::player_data::value_handling::value_or:
+                    logger::warn("value_or is not implemented"sv);
+                    break;
+                case setting_data::player_data::value_handling::single_with_permanent:
+                    process_single_with_additional(a_player,
+                        player_data_element,
+                        player_data,
+                        setting_data::player_data::actor_value_source_handling::permanent);
+                    break;
+                case setting_data::player_data::value_handling::single_with_base:
+                    process_single_with_additional(a_player,
+                        player_data_element,
+                        player_data,
+                        setting_data::player_data::actor_value_source_handling::base);
+                    break;
             }
 
             player_data->log(a_menu);
@@ -182,7 +101,7 @@ namespace actor {
         return actor_player_data_list;
     }
 
-    void player::process_result_handling(setting_data::player_data*& a_player_data_element, float& a_current_result) {
+    void player::handle_result_handling(setting_data::player_data*& a_player_data_element, float& a_current_result) {
         switch (a_player_data_element->result_handling) {
             case setting_data::player_data::result_value_handling::none:
                 break;
@@ -200,7 +119,7 @@ namespace actor {
         }
     }
 
-    std::string player::process_max_handling(setting_data::player_data*& a_player_data_element,
+    std::string player::handle_max_handling(setting_data::player_data*& a_player_data_element,
         float& a_current_result) {
         if (a_player_data_element->max == setting_data::player_data::max_handling::none) {
             return {};
@@ -222,7 +141,7 @@ namespace actor {
         return value;
     }
 
-    void player::process_damage_resist(RE::PlayerCharacter*& a_player,
+    void player::handle_damage_resist(RE::PlayerCharacter*& a_player,
         setting_data::player_data*& a_player_data_element,
         actor_player_data*& a_player_data) {
         auto resist_damage = util::player::get_damage_resistance(a_player);
@@ -230,21 +149,21 @@ namespace actor {
         if (!a_player_data_element->ending.empty()) {
             a_player_data->value += a_player_data_element->ending;
         }
-        a_player_data->value += process_max_handling(a_player_data_element, resist_damage);
+        a_player_data->value += handle_max_handling(a_player_data_element, resist_damage);
     }
 
-    void player::process_ending(setting_data::player_data*& a_player_data_element,
+    void player::handle_ending(setting_data::player_data*& a_player_data_element,
         float& a_current_result,
         actor_player_data*& a_player_data) {
         if (a_player_data_element->hide_value_when_zero && a_current_result == 0) {
             return;
         }
-        process_result_handling(a_player_data_element, a_current_result);
+        handle_result_handling(a_player_data_element, a_current_result);
         a_player_data->value = util::type_util::get_float_as_string(a_current_result);
         if (!a_player_data_element->ending.empty()) {
             a_player_data->value += a_player_data_element->ending;
         }
-        a_player_data->value += process_max_handling(a_player_data_element, a_current_result);
+        a_player_data->value += handle_max_handling(a_player_data_element, a_current_result);
     }
 
     float player::get_actor_value(RE::PlayerCharacter*& a_player,
@@ -260,5 +179,137 @@ namespace actor {
         }
 
         return {};
+    }
+
+    void player::process_single(RE::PlayerCharacter*& a_player,
+        setting_data::player_data*& a_player_data_element,
+        actor_player_data*& a_player_data) {
+        auto value = 0.f;
+        switch (a_player_data_element->key) {
+            case setting_data::player_data::stat::name:
+                a_player_data->value = a_player->GetName();
+                break;
+            case setting_data::player_data::stat::race:
+                a_player_data->value = a_player->GetRace()->GetName();
+                break;
+            case setting_data::player_data::stat::level:
+                a_player_data->value = std::to_string(a_player->GetLevel());
+                break;
+            case setting_data::player_data::stat::perk_count:
+                a_player_data->value = std::to_string(a_player->GetGameStatsData().perkCount);
+                break;
+            case setting_data::player_data::stat::height:
+                value = a_player->GetHeight();
+                break;
+            case setting_data::player_data::stat::equipped_weight:
+            case setting_data::player_data::stat::weight:
+                value = a_player->GetWeight();
+                break;
+            case setting_data::player_data::stat::damage:
+            case setting_data::player_data::stat::damage_left:
+                value = util::player::get_weapon_damage(a_player,
+                    a_player_data_element->key == setting_data::player_data::stat::damage_left);
+                break;
+            case setting_data::player_data::stat::skill_trainings_this_level:
+                a_player_data->value = std::to_string(a_player->GetInfoRuntimeData().skillTrainingsThisLevel);
+                break;
+            case setting_data::player_data::stat::resist_damage:
+                handle_damage_resist(a_player, a_player_data_element, a_player_data);
+                break;
+            case setting_data::player_data::stat::weapon_speed_mult:
+            case setting_data::player_data::stat::weapon_speed_mult_left:
+                value = util::player::get_weapon_speed(a_player,
+                    a_player_data_element->key == setting_data::player_data::stat::weapon_speed_mult_left);
+                break;
+            case setting_data::player_data::stat::beast:
+                a_player_data->value = util::player::get_is_beast(a_player);
+                break;
+            case setting_data::player_data::stat::xp:
+                a_player_data->value = util::player::get_xp(a_player);
+                break;
+            case setting_data::player_data::stat::arrow_damage:
+                value = util::player::get_ammo_damage(a_player);
+                break;
+            case setting_data::player_data::stat::weapon_reach:
+            case setting_data::player_data::stat::weapon_reach_left:
+                value = util::player::get_weapon_reach(a_player,
+                    a_player_data_element->key == setting_data::player_data::stat::weapon_reach_left);
+                break;
+            case setting_data::player_data::stat::weapon_base_damage:
+            case setting_data::player_data::stat::weapon_base_damage_left:
+                value = util::player::get_weapon_base_damage(a_player,
+                    a_player_data_element->key == setting_data::player_data::stat::weapon_base_damage_left);
+                break;
+            case setting_data::player_data::stat::weapon_stagger:
+            case setting_data::player_data::stat::weapon_stagger_left:
+                value = util::player::get_weapon_stagger(a_player,
+                    a_player_data_element->key == setting_data::player_data::stat::weapon_stagger_left);
+                break;
+            case setting_data::player_data::stat::weapon_crit_damage_rating:
+            case setting_data::player_data::stat::weapon_crit_damage_rating_left:
+                value = util::player::get_weapon_critical_damage(a_player,
+                    a_player_data_element->key == setting_data::player_data::stat::weapon_crit_damage_rating_left);
+                break;
+            case setting_data::player_data::stat::fall_damage_mod:
+                value = util::player::get_fall_damage_mod(a_player);
+                break;
+            case setting_data::player_data::stat::warmth:
+                value = a_player->GetWarmthRating();
+                break;
+            default:
+                if (a_player_data_element->actor_value.actor_value != RE::ActorValue::kNone) {
+                    value = get_actor_value(a_player,
+                        a_player_data_element->actor_value.actor_value,
+                        a_player_data_element->actor_value_source);
+                }
+        }
+        //if value is set directly we do currently not modify it
+        if (a_player_data->value.empty()) {
+            handle_ending(a_player_data_element, value, a_player_data);
+        }
+    }
+
+    void player::process_multiply(RE::PlayerCharacter*& a_player,
+        setting_data::player_data*& a_player_data_element,
+        actor_player_data*& a_player_data) {
+        float result = 0.f;
+        auto assign_base = true;
+        for (auto& av : a_player_data_element->actor_value.actor_value_list) {
+            if (assign_base) {
+                result = get_actor_value(a_player, av, a_player_data_element->actor_value_source);
+                assign_base = false;
+            } else {
+                result *= get_actor_value(a_player, av, a_player_data_element->actor_value_source);
+            }
+        }
+        handle_ending(a_player_data_element, result, a_player_data);
+    }
+
+    void player::process_single_with_additional(RE::PlayerCharacter*& a_player,
+        setting_data::player_data*& a_player_data_element,
+        actor_player_data*& a_player_data,
+        setting_data::player_data::actor_value_source_handling a_additional) {
+        if (a_player_data_element->actor_value.actor_value == RE::ActorValue::kNone) {
+            logger::warn("skipping creation of {}, because actor value is none"sv,
+                magic_enum::enum_name(a_player_data_element->actor_value_handling));
+            return;
+        }
+
+        //first get the single value. permanent could be configured as actor_value_source_handling, but it is what it is
+        process_single(a_player, a_player_data_element, a_player_data);
+
+        if (a_player_data->value.empty()) {
+            return;
+        }
+
+        auto result = get_actor_value(a_player, a_player_data_element->actor_value.actor_value, a_additional);
+        if (a_player_data_element->hide_value_when_zero && result == 0) {
+            return;
+        }
+
+        handle_result_handling(a_player_data_element, result);
+        a_player_data->value +=
+            fmt::format(" ({}{})"sv, util::type_util::get_float_as_string(result), a_player_data_element->ending);
+        a_player_data->value += handle_max_handling(a_player_data_element, result);
     }
 }  // actor

@@ -21,17 +21,27 @@ namespace actor {
             setting_data::menu_data::menu_type a_menu);
 
     private:
-        static void process_result_handling(setting_data::player_data*& a_player_data_element, float& a_current_result);
-        static std::string process_max_handling(setting_data::player_data*& a_player_data_element,
+        static void handle_result_handling(setting_data::player_data*& a_player_data_element, float& a_current_result);
+        static std::string handle_max_handling(setting_data::player_data*& a_player_data_element,
             float& a_current_result);
-        static void process_damage_resist(RE::PlayerCharacter*& a_player,
+        static void handle_damage_resist(RE::PlayerCharacter*& a_player,
             setting_data::player_data*& a_player_data_element,
             actor_player_data*& a_player_data);
-        static void process_ending(setting_data::player_data*& a_player_data_element,
+        static void handle_ending(setting_data::player_data*& a_player_data_element,
             float& a_current_result,
             actor_player_data*& a_player_data);
         static float get_actor_value(RE::PlayerCharacter*& a_player,
             RE::ActorValue a_actor_value,
             setting_data::player_data::actor_value_source_handling source_handling);
+        static void process_single(RE::PlayerCharacter*& a_player,
+            setting_data::player_data*& a_player_data_element,
+            actor_player_data*& a_player_data);
+        static void process_multiply(RE::PlayerCharacter*& a_player,
+            setting_data::player_data*& a_player_data_element,
+            actor_player_data*& a_player_data);
+        static void process_single_with_additional(RE::PlayerCharacter*& a_player,
+            setting_data::player_data*& a_player_data_element,
+            actor_player_data*& a_player_data,
+            setting_data::player_data::actor_value_source_handling a_additional);
     };
 }  // actor
