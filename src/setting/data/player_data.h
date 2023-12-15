@@ -143,7 +143,7 @@ namespace setting_data {
         };
 
         //TODO add default_with_base and default_with_permanent
-        enum class value_handling { single, multiply, value_or };
+        enum class value_handling { single, multiply, value_or, single_with_permanent, single_with_base };
 
         enum class result_value_handling { none, multiply, divide, add };
 

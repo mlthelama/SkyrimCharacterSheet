@@ -663,7 +663,9 @@ namespace setting {
                 }
 
                 auto& actor_value = player_element["actor_value"];
-                if (player_data->actor_value_handling == player_data::value_handling::single &&
+                if ((player_data->actor_value_handling == player_data::value_handling::single ||
+                        player_data->actor_value_handling == player_data::value_handling::single_with_permanent ||
+                        player_data->actor_value_handling == player_data::value_handling::single_with_base) &&
                     !actor_value.is_null()) {
                     if (actor_value.is_number()) {
                         auto* av_data = new setting_data::actor_value_data();
