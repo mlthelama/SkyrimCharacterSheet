@@ -1,7 +1,7 @@
 ﻿#include "stats_inventory_menu.h"
 #include "actor/player.h"
+#include "setting/config_setting.h"
 #include "setting/data/menu_data.h"
-#include "util/menukeys.h"
 #include "util/player/player.h"
 
 namespace scaleform {
@@ -67,6 +67,12 @@ namespace scaleform {
         //menu->inputContext = Context::kNone;
 
         init_extensions();
+
+        auto menu_data = setting::config_setting::get_singleton()->get_menu_data(
+            setting_data::menu_data::menu_type::stats_inventory);
+        for (auto* column : menu_data->columns) {
+            column_name_map_[column->stat_inventory_column] = column->column_name;
+        }
 
         is_active_ = true;
         view_->SetVisible(true);
@@ -178,10 +184,10 @@ namespace scaleform {
     }
 
     void stats_inventory_menu::update_headers() const {
-        update_text(equip_header_, menu_keys::equip_title);
-        update_text(armor_header_, menu_keys::armor_title);
-        update_text(weapon_header_, menu_keys::weapon_title);
-        update_text(effect_header_, menu_keys::effect_title);
+        update_text(equip_header_, get_column_name(setting_data::menu_data::stats_inventory_column_type::equip));
+        update_text(armor_header_, get_column_name(setting_data::menu_data::stats_inventory_column_type::armor));
+        update_text(weapon_header_, get_column_name(setting_data::menu_data::stats_inventory_column_type::weapon));
+        update_text(effect_header_, get_column_name(setting_data::menu_data::stats_inventory_column_type::effect));
     }
 
     RE::GFxValue stats_inventory_menu::build_gfx_value(const std::string_view& a_key,
@@ -265,5 +271,11 @@ namespace scaleform {
         logger::debug("{}: {}"sv, menu_name, a_params[0].GetString());
     }
 
-
+    std::string stats_inventory_menu::get_column_name(
+        setting_data::menu_data::stats_inventory_column_type a_column) const {
+        if (!column_name_map_.empty() && column_name_map_.contains(a_column)) {
+            return column_name_map_.at(a_column);
+        }
+        return {};
+    }
 }

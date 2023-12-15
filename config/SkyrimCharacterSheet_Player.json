@@ -60,14 +60,16 @@
       "display_name": "$ShowDamage",
       "icon_string": "av_damage",
       "stats_column": "attack",
-      "stats_inventory_column": "weapon"
+      "stats_inventory_column": "weapon",
+      "hide_value_when_zero": true
     },
     {
       "key": "damage_left",
       "display_name": "$ShowDamageLeft",
       "icon_string": "av_damage_left",
       "stats_column": "attack",
-      "stats_inventory_column": "weapon"
+      "stats_inventory_column": "weapon",
+      "hide_value_when_zero": true
     },
     {
       "key": "skill_trainings_this_level",
@@ -600,7 +602,8 @@
       "ending": "%",
       "icon_string": "av_critical_chance",
       "stats_column": "attack",
-      "stats_inventory_column": "effect"
+      "stats_inventory_column": "effect",
+      "hide_value_when_zero": true
     },
     {
       "key": "melee_damage",
@@ -634,14 +637,16 @@
       "display_name": "$ShowWeaponSpeedMult",
       "icon_string": "av_weapon_speed_mult",
       "stats_column": "attack",
-      "stats_inventory_column": "effect"
+      "stats_inventory_column": "effect",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_speed_mult_left",
       "display_name": "$ShowLeftWeaponSpeedMult",
       "icon_string": "av_weapon_speed_mult",
       "stats_column": "attack",
-      "stats_inventory_column": "effect"
+      "stats_inventory_column": "effect",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_item_charge",
@@ -650,7 +655,8 @@
       "actor_value_handling": "single",
       "icon_string": "default_misc",
       "stats_column": "none",
-      "stats_inventory_column": "none"
+      "stats_inventory_column": "none",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_item_charge_left",
@@ -659,7 +665,8 @@
       "actor_value_handling": "single",
       "icon_string": "default_misc",
       "stats_column": "none",
-      "stats_inventory_column": "none"
+      "stats_inventory_column": "none",
+      "hide_value_when_zero": true
     },
     {
       "key": "mass",
@@ -765,7 +772,8 @@
       "key": "beast",
       "display_name": "$ShowBeast",
       "stats_column": "special",
-      "stats_inventory_column": "none"
+      "stats_inventory_column": "none",
+      "hide_value_when_zero": true
     },
     {
       "key": "xp",
@@ -995,63 +1003,72 @@
       "display_name": "$ShowDamageArrow",
       "icon_string": "av_damage_arrow",
       "stats_column": "attack",
-      "stats_inventory_column": "weapon"
+      "stats_inventory_column": "weapon",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_reach",
       "display_name": "$ShowWeaponReach",
       "icon_string": "default_misc",
       "stats_column": "attack",
-      "stats_inventory_column": "weapon"
+      "stats_inventory_column": "weapon",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_reach_left",
       "display_name": "$ShowWeaponReachLeft",
       "icon_string": "default_misc",
       "stats_column": "attack",
-      "stats_inventory_column": "weapon"
+      "stats_inventory_column": "weapon",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_base_damage",
       "display_name": "$ShowWeaponBaseDamage",
       "icon_string": "default_misc",
       "stats_column": "none",
-      "stats_inventory_column": "none"
+      "stats_inventory_column": "none",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_base_damage_left",
       "display_name": "$ShowWeaponBaseDamageLeft",
       "icon_string": "default_misc",
       "stats_column": "none",
-      "stats_inventory_column": "none"
+      "stats_inventory_column": "none",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_stagger",
       "display_name": "$ShowWeaponStagger",
       "icon_string": "default_misc",
       "stats_column": "attack",
-      "stats_inventory_column": "weapon"
+      "stats_inventory_column": "weapon",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_stagger_left",
       "display_name": "$ShowWeaponStaggerLeft",
       "icon_string": "default_misc",
       "stats_column": "attack",
-      "stats_inventory_column": "weapon"
+      "stats_inventory_column": "weapon",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_crit_damage_rating",
       "display_name": "$ShowWeaponCritDamageRating",
       "icon_string": "default_misc",
       "stats_column": "none",
-      "stats_inventory_column": "none"
+      "stats_inventory_column": "none",
+      "hide_value_when_zero": true
     },
     {
       "key": "weapon_crit_damage_rating_left",
       "display_name": "$ShowWeaponCritDamageRatingLeft",
       "icon_string": "default_misc",
       "stats_column": "none",
-      "stats_inventory_column": "none"
+      "stats_inventory_column": "none",
+      "hide_value_when_zero": true
     },
     {
       "key": "fall_damage_mod",

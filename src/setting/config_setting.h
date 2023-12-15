@@ -35,6 +35,7 @@ namespace setting {
         std::vector<champion_data*> get_champion_data();
         std::vector<thane_data*> get_thane_data();
         std::vector<player_data*> get_player_data();
+        menu_data* get_menu_data(menu_data::menu_type a_menu);
 
         config_setting(const config_setting&) = delete;
         config_setting(config_setting&&) = delete;

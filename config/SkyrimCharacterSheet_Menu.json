@@ -1,15 +1,74 @@
 {
-    "menu": [{
-            "key": "stats",
-            "name": "$ShowStatsTitle"
+  "menu": [
+    {
+      "key": "stats",
+      "name": "$ShowStatsTitle",
+      "columns": [
+        {
+          "key": "player",
+          "name": "$ShowStatsPlayerTitle"
         },
         {
-            "key": "faction",
-            "name": "$ShowFactionsTitle"
+          "key": "defence",
+          "name": "$ShowStatsDefenceTitle"
         },
         {
-            "key": "stats_inventory",
-            "name": "$ShowStatsInventoryTitle"
+          "key": "attack",
+          "name": "$ShowStatsAttackTitle"
+        },
+        {
+          "key": "magic",
+          "name": "$ShowStatsMagicTitle"
+        },
+        {
+          "key": "warrior",
+          "name": "$ShowStatsWarriorTitle"
+        },
+        {
+          "key": "thief",
+          "name": "$ShowStatsThiefTitle"
         }
-    ]
+      ]
+    },
+    {
+      "key": "faction",
+      "name": "$ShowFactionsTitle",
+      "columns": [
+        {
+          "key": "faction",
+          "name": "$ShowFactionsFactionTitle"
+        },
+        {
+          "key": "thane",
+          "name": "$ShowFactionsThaneTitle"
+        },
+        {
+          "key": "champion",
+          "name": "$ShowFactionsChampionTitle"
+        }
+      ]
+    },
+    {
+      "key": "stats_inventory",
+      "name": "$ShowStatsInventoryTitle",
+      "columns": [
+        {
+          "key": "equip",
+          "name": "$ShowStatsInventoryEquipmentTitle"
+        },
+        {
+          "key": "armor",
+          "name": "$ShowStatsInventoryArmorTitle"
+        },
+        {
+          "key": "weapon",
+          "name": "$ShowStatsInventoryWeaponTitle"
+        },
+        {
+          "key": "effect",
+          "name": "$ShowStatsInventoryEffectTitle"
+        }
+      ]
+    }
+  ]
 }
