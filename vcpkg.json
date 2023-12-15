@@ -3,7 +3,7 @@
   "version-string": "1.1.0.1",
   "description": "An info page",
   "homepage": "https://github.com/mlthelama/SkyrimCharacterSheet",
-  "license": "MIT",
+  "license": "GPL-2.0-or-later",
   "dependencies": [ 
     "simpleini",
     "tomlplusplus",
