@@ -50,10 +50,52 @@ namespace setting {
                     menu_data->menu_name = name;
                 }
 
+                auto& columns_json = menu_element["columns"];
+                if (columns_json.is_array()) {
+                    std::vector<menu_data::menu_column*> column_data_list;
+                    for (auto& column : columns_json) {
+                        auto* column_data = new menu_data::menu_column();
+
+                        auto& column_key = column.at("key");
+                        if (menu_data->menu == menu_data::menu_type::stats) {
+                            auto stat_column =
+                                magic_enum::enum_cast<menu_data::stats_column_type>(std::string{ column_key });
+                            if (stat_column.has_value()) {
+                                column_data->stat_column = stat_column.value();
+                            }
+                        }
+                        if (menu_data->menu == menu_data::menu_type::faction) {
+                            auto faction_column =
+                                magic_enum::enum_cast<menu_data::faction_column_type>(std::string{ column_key });
+                            if (faction_column.has_value()) {
+                                column_data->faction_column = faction_column.value();
+                            }
+                        }
+                        if (menu_data->menu == menu_data::menu_type::stats_inventory) {
+                            auto stat_inventory_column = magic_enum::enum_cast<menu_data::stats_inventory_column_type>(
+                                std::string{ column_key });
+                            if (stat_inventory_column.has_value()) {
+                                column_data->stat_inventory_column = stat_inventory_column.value();
+                            }
+                        }
+
+                        auto& column_name = column.at("name");
+                        if (column_name.is_string()) {
+                            column_data->column_name = column_name;
+                        }
+
+                        column_data_list.push_back(column_data);
+                    }
+                    menu_data->columns = column_data_list;
+                }
+
                 //better for access, if not set let it fail
                 menu_data_map[menu_data->menu] = menu_data;
 
-                logger::trace("menu name {}, name {}"sv, magic_enum::enum_name(menu_data->menu), menu_data->menu_name);
+                logger::trace("menu name {}, name {}, columns {}"sv,
+                    magic_enum::enum_name(menu_data->menu),
+                    menu_data->menu_name,
+                    menu_data->columns.size());
             }
         }
         data->menu_data_map = menu_data_map;
@@ -258,6 +300,14 @@ namespace setting {
         return {};
     }
 
+    config_setting::menu_data* config_setting::get_menu_data(setting_data::menu_data::menu_type a_menu) {
+        if (const config_setting_data* data = this->data_;
+            data && !data->menu_data_map.empty() && data->menu_data_map.contains(a_menu)) {
+            return data->menu_data_map.at(a_menu);
+        }
+        return {};
+    }
+
     void config_setting::load_faction_setting_file(std::map<RE::FormID, faction_data*>& a_data,
         std::vector<faction_data*>& a_data_list,
         const std::string& file) {
@@ -306,7 +356,7 @@ namespace setting {
                     std::vector<setting_data::faction_rank_data*> faction_rank_data_list;
                     for (auto& rank_element : json_rank) {
                         auto* faction_rank_data = new setting_data::faction_rank_data();
-                        auto& rank_key = rank_element.at("name");
+                        auto& rank_key = rank_element.at("key");
                         if (rank_key.is_string()) {
                             faction_rank_data->key = rank_key;
                         }
@@ -430,7 +480,7 @@ namespace setting {
             for (auto& champion_element : json_champion) {
                 auto* champion_data = new setting_data::champion_data();
 
-                auto& key = champion_element.at("name");
+                auto& key = champion_element.at("key");
                 if (key.is_string()) {
                     champion_data->key = magic_enum::enum_cast<champion_data::champion>(std::string{ key })
                                              .value_or(champion_data::champion::custom);

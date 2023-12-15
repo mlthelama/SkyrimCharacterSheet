@@ -88,6 +88,8 @@ namespace scaleform {
 
         static void log(const RE::FxDelegateArgs& a_params);
 
+        [[nodiscard]] std::string get_column_name(setting_data::menu_data::stats_inventory_column_type a_column) const;
+
         RE::GPtr<RE::GFxMovieView> view_;
         bool is_active_ = false;
 
@@ -118,5 +120,7 @@ namespace scaleform {
             { setting_data::menu_data::stats_inventory_column_type::weapon, weapon_item_list_provider_ },
             { setting_data::menu_data::stats_inventory_column_type::effect, effect_item_list_provider_ },
         };
+
+        std::map<setting_data::menu_data::stats_inventory_column_type, std::string> column_name_map_;
     };
 }

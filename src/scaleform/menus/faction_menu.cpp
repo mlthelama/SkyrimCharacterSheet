@@ -72,7 +72,16 @@ namespace scaleform {
         }
         v_menu->depthPriority = 5;
         v_menu->inputContext = context::kNone;
+
         init_extensions();
+
+        auto config_setting = setting::config_setting::get_singleton();
+        auto menu_data = config_setting->get_menu_data(setting_data::menu_data::menu_type::faction);
+        for (auto* column : menu_data->columns) {
+            column_name_map_[column->faction_column] = column->column_name;
+        }
+        previous_menu_name_ = config_setting->get_previous_menu_name(menu_data->menu);
+        menu_name_ = menu_data->menu_name;
 
         is_active_ = true;
         view_->SetVisible(true);
@@ -170,8 +179,7 @@ namespace scaleform {
 
         update_lists();
 
-        auto previous_name = setting::config_setting::get_singleton()->get_previous_menu_name(menu_type);
-        prev_.Label(previous_name);
+        prev_.Label(previous_menu_name_);
         prev_.Disabled(false);
 
         disable_item_lists();
@@ -196,15 +204,12 @@ namespace scaleform {
         a_field.Visible(true);
     }
 
-    void faction_menu::update_title() const {
-        auto name = setting::config_setting::get_singleton()->get_menu_name(menu_type);
-        update_text(title_, name);
-    }
+    void faction_menu::update_title() const { update_text(title_, menu_name_); }
 
     void faction_menu::update_headers() const {
-        update_text(faction_header_, menu_keys::faction_title);
-        update_text(thane_header_, menu_keys::thane_title);
-        update_text(champion_header_, menu_keys::champion_title);
+        update_text(faction_header_, get_column_name(setting_data::menu_data::faction_column_type::faction));
+        update_text(thane_header_, get_column_name(setting_data::menu_data::faction_column_type::thane));
+        update_text(champion_header_, get_column_name(setting_data::menu_data::faction_column_type::champion));
     }
 
     RE::GFxValue faction_menu::build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
@@ -331,5 +336,11 @@ namespace scaleform {
     void faction_menu::process_prev() {
         auto next_menu = setting::config_setting::get_singleton()->get_previous_menu_type(menu_type);
         handler::show_handler::handle_menu_swap(next_menu);
+    }
+    std::string faction_menu::get_column_name(setting_data::menu_data::faction_column_type a_column) const {
+        if (!column_name_map_.empty() && column_name_map_.contains(a_column)) {
+            return column_name_map_.at(a_column);
+        }
+        return {};
     }
 }

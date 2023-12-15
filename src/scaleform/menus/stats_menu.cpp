@@ -72,7 +72,16 @@ namespace scaleform {
         }
         v_menu->depthPriority = 5;
         v_menu->inputContext = context::kNone;
+
         init_extensions();
+
+        auto config_setting = setting::config_setting::get_singleton();
+        auto menu_data = config_setting->get_menu_data(setting_data::menu_data::menu_type::stats);
+        for (auto* column : menu_data->columns) {
+            column_name_map_[column->stat_column] = column->column_name;
+        }
+        next_menu_name_ = config_setting->get_next_menu_name(menu_data->menu);
+        menu_name_ = menu_data->menu_name;
 
         is_active_ = true;
         view_->SetVisible(true);
@@ -190,8 +199,7 @@ namespace scaleform {
 
         update_lists();
 
-        auto next_name = setting::config_setting::get_singleton()->get_next_menu_name(menu_type);
-        next_.Label(next_name);
+        next_.Label(next_menu_name_);
         next_.Disabled(false);
 
         disable_item_lists();
@@ -214,20 +222,17 @@ namespace scaleform {
         a_field.HTMLText(a_string);
         a_field.Visible(true);
     }
-    void stats_menu::update_title() const {
-        auto name = setting::config_setting::get_singleton()->get_menu_name(menu_type);
-        update_text(title_, name);
-    }
+    void stats_menu::update_title() const { update_text(title_, menu_name_); }
 
     void stats_menu::update_headers() const {
-        //TODO add keys to json file
-        update_text(values_header_, menu_keys::player_title);
-        update_text(attack_header_, menu_keys::attack_title);
-        update_text(perks_magic_header_, menu_keys::magic_title);
-        update_text(defence_header_, menu_keys::defence_title);
-        update_text(perks_warrior_header_, menu_keys::warrior_title);
-        update_text(perks_thief_header_, menu_keys::thief_title);
+        update_text(values_header_, get_column_name(setting_data::menu_data::stats_column_type::player));
+        update_text(attack_header_, get_column_name(setting_data::menu_data::stats_column_type::attack));
+        update_text(perks_magic_header_, get_column_name(setting_data::menu_data::stats_column_type::magic));
+        update_text(defence_header_, get_column_name(setting_data::menu_data::stats_column_type::defence));
+        update_text(perks_warrior_header_, get_column_name(setting_data::menu_data::stats_column_type::warrior));
+        update_text(perks_thief_header_, get_column_name(setting_data::menu_data::stats_column_type::thief));
     }
+
     RE::GFxValue stats_menu::build_gfx_value(const std::string_view& a_key,
         const std::string& a_val,
         const std::string_view& a_icon) const {
@@ -352,6 +357,13 @@ namespace scaleform {
     void stats_menu::process_next() {
         auto next_menu = setting::config_setting::get_singleton()->get_next_menu_type(menu_type);
         handler::show_handler::handle_menu_swap(next_menu);
+    }
+
+    std::string stats_menu::get_column_name(setting_data::menu_data::stats_column_type a_column) const {
+        if (!column_name_map_.empty() && column_name_map_.contains(a_column)) {
+            return column_name_map_.at(a_column);
+        }
+        return {};
     }
 
 }

@@ -93,6 +93,8 @@ namespace scaleform {
 
         static void process_next();
 
+        [[nodiscard]] std::string get_column_name(setting_data::menu_data::stats_column_type a_column) const;
+
         RE::GPtr<RE::GFxMovieView> view_;
         bool is_active_ = false;
 
@@ -167,5 +169,10 @@ namespace scaleform {
             { setting_data::player_data::stat::beast, beast_value_ },
             { setting_data::player_data::stat::xp, xp_value_ },
         };
+
+        std::map<setting_data::menu_data::stats_column_type, std::string> column_name_map_;
+        
+        std::string next_menu_name_;
+        std::string menu_name_;
     };
 }
