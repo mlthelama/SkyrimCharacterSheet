@@ -1,10 +1,10 @@
 #include "scaleform/menus/faction_menu.h"
+#include "actor/champion.h"
+#include "actor/faction.h"
+#include "actor/thane.h"
 #include "handler/show_handler.h"
 #include "mod/mod_manager.h"
-#include <actor/faction.h>
-#include <actor/thane.h>
-#include <setting/config_setting.h>
-#include "actor/champion.h"
+#include "setting/config_setting.h"
 
 namespace scaleform {
     void faction_menu::Register() {

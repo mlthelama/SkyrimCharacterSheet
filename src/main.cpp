@@ -3,6 +3,7 @@
 #include "scaleform/scaleform.h"
 #include "setting/config_setting.h"
 #include "setting/game_setting.h"
+#include "setting/ini_setting.h"
 
 void init_logger() {
     if (static bool initialized = false; !initialized) {
@@ -103,7 +104,7 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
 
 EXTERN_C [[maybe_unused]] __declspec(dllexport) constinit auto SKSEPlugin_Version = []() noexcept {
     SKSE::PluginVersionData v;
-    v.PluginName(Version::PROJECT.data());
+    v.PluginName(Version::PROJECT);
     v.AuthorName(Version::AUTHOR);
     v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH, Version::BETA });
     v.UsesAddressLibrary(true);

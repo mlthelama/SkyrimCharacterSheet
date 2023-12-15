@@ -17,6 +17,8 @@ namespace handler {
             case setting_data::menu_data::menu_type::stats_inventory:
                 scaleform::stats_inventory_menu::close();
                 break;
+            case setting_data::menu_data::menu_type::total:
+                break;
         }
     }
 
@@ -88,7 +90,7 @@ namespace handler {
     std::string_view show_handler::get_menu_scaleform_name(const setting_data::menu_data::menu_type a_menu) {
         if (!menu_scale_form_name_.contains(a_menu)) {
             logger::warn("can not find Scaleform Name for Menu {}"sv, magic_enum::enum_name(a_menu));
-            return "";
+            return {};
         }
         return menu_scale_form_name_.find(a_menu)->second;
     }

@@ -142,6 +142,7 @@ namespace setting_data {
             custom
         };
 
+        //TODO add default_with_base and default_with_permanent
         enum class value_handling { single, multiply, value_or };
 
         enum class result_value_handling { none, multiply, divide, add };
@@ -150,10 +151,13 @@ namespace setting_data {
 
         enum class mod_values { none, armor_rating_rescaled_remake, hand_to_hand, skyrim_unbound, skyrim_souls };
 
+        enum class actor_value_source_handling { standard, base, permanent };
+
         stat key;
         std::string display_name;
         actor_value_data actor_value;
         value_handling actor_value_handling;
+        actor_value_source_handling actor_value_source;
         std::string ending;
         result_value_handling result_handling;
         int32_t result_value;
@@ -163,6 +167,7 @@ namespace setting_data {
         overwrite_mod_data* mod_data;
         setting_data::menu_data::stats_column_type stats_column;
         setting_data::menu_data::stats_inventory_column_type stats_inventory_column;
+        bool hide_value_when_zero;
 
         inline void log() {
             std::string log_string =
@@ -180,6 +185,9 @@ namespace setting_data {
             }
             if (result_handling != result_value_handling::none) {
                 log_string += fmt::format(", result_handling '{}'"sv, magic_enum::enum_name(result_handling));
+            }
+            if (actor_value_source != actor_value_source_handling::standard) {
+                log_string += fmt::format(", actor_value_source '{}'"sv, magic_enum::enum_name(actor_value_source));
             }
             if (result_value != 0) {
                 log_string += fmt::format(", result_value '{}'"sv, result_value);
@@ -203,6 +211,9 @@ namespace setting_data {
             }
             log_string += fmt::format(", stats column '{}'"sv, magic_enum::enum_name(stats_column));
             log_string += fmt::format(", stats inv column '{}'"sv, magic_enum::enum_name(stats_inventory_column));
+            if (hide_value_when_zero) {
+                log_string += fmt::format(", hide_value_when_zero '{}'"sv, hide_value_when_zero);
+            }
 
             logger::trace("{}"sv, log_string);
         }

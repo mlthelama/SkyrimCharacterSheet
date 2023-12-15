@@ -1,5 +1,6 @@
 ﻿#include "menu_open_close_event.h"
 #include "handler/show_handler.h"
+#include "setting/ini_setting.h"
 
 namespace event {
 

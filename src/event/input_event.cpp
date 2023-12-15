@@ -1,5 +1,6 @@
 ﻿#include "input_event.h"
 #include "handler/show_handler.h"
+#include "setting/ini_setting.h"
 
 namespace event {
 

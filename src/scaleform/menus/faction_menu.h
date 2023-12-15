@@ -3,8 +3,8 @@
 #include "CLIK/GFx/Controls/Button.h"
 #include "CLIK/GFx/Controls/ScrollingList.h"
 #include "CLIK/TextField.h"
+#include "setting/data/menu_data.h"
 #include "util/menukeys.h"
-#include <setting/data/menu_data.h>
 
 namespace scaleform {
 

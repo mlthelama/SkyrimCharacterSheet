@@ -37,7 +37,15 @@ namespace util {
         static std::string get_float_as_string(float a_value);
 
         template <typename T>
-        static std::vector<T> get_vector_intersect(std::vector<T>& a_vector_first, std::vector<T>& a_vector_second);
+        static std::vector<T> get_vector_intersect(std::vector<T>& a_vector_first, std::vector<T>& a_vector_second) {
+            std::vector<T> intersection_vector;
+
+            std::ranges::sort(a_vector_first);
+            std::ranges::sort(a_vector_second);
+
+            std::ranges::set_intersection(a_vector_first, a_vector_second, back_inserter(intersection_vector));
+            return intersection_vector;
+        }
 
     private:
         static std::string cut_string(const std::string& a_value);

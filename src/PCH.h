@@ -10,6 +10,8 @@
 #include "magic_enum.hpp"
 #include "nlohmann/json.hpp"
 
+#include "Version.h"
+
 using namespace std::literals;
 
 namespace stl {
@@ -17,7 +19,3 @@ namespace stl {
 }
 
 namespace logger = SKSE::log;
-
-#include "Version.h"
-#include "setting/ini_setting.h"
-#include "util/utils.h"

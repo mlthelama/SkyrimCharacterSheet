@@ -1,7 +1,7 @@
 #include "scaleform/menus/stats_menu.h"
+#include "actor/player.h"
 #include "handler/show_handler.h"
 #include "mod/mod_manager.h"
-#include <actor/player.h>
 
 namespace scaleform {
     void stats_menu::Register() {

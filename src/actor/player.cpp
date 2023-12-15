@@ -137,10 +137,12 @@ namespace actor {
                         break;
                     default:
                         if (player_data_element->actor_value.actor_value != RE::ActorValue::kNone) {
-                            value = a_player->AsActorValueOwner()->GetActorValue(
-                                player_data_element->actor_value.actor_value);
+                            value = get_actor_value(a_player,
+                                player_data_element->actor_value.actor_value,
+                                player_data_element->actor_value_source);
                         }
                 }
+                //if value is set directly we do currently not modify it
                 if (player_data->value.empty()) {
                     process_ending(player_data_element, value, player_data);
                 }
@@ -150,10 +152,10 @@ namespace actor {
                 auto assign_base = true;
                 for (auto& av : player_data_element->actor_value.actor_value_list) {
                     if (assign_base) {
-                        result = a_player->AsActorValueOwner()->GetActorValue(av);
+                        result = get_actor_value(a_player, av, player_data_element->actor_value_source);
                         assign_base = false;
                     } else {
-                        result *= a_player->AsActorValueOwner()->GetActorValue(av);
+                        result *= get_actor_value(a_player, av, player_data_element->actor_value_source);
                     }
                 }
 
@@ -181,9 +183,6 @@ namespace actor {
     }
 
     void player::process_result_handling(setting_data::player_data*& a_player_data_element, float& a_current_result) {
-        if (a_player_data_element->result_value == 0) {
-            return;
-        }
         switch (a_player_data_element->result_handling) {
             case setting_data::player_data::result_value_handling::none:
                 break;
@@ -191,7 +190,9 @@ namespace actor {
                 a_current_result *= static_cast<float>(a_player_data_element->result_value);
                 break;
             case setting_data::player_data::result_value_handling::divide:
-                a_current_result /= static_cast<float>(a_player_data_element->result_value);
+                if (a_player_data_element->result_value != 0) {
+                    a_current_result /= static_cast<float>(a_player_data_element->result_value);
+                }
                 break;
             case setting_data::player_data::result_value_handling::add:
                 a_current_result += static_cast<float>(a_player_data_element->result_value);
@@ -235,7 +236,7 @@ namespace actor {
     void player::process_ending(setting_data::player_data*& a_player_data_element,
         float& a_current_result,
         actor_player_data*& a_player_data) {
-        if (a_current_result == 0) {
+        if (a_player_data_element->hide_value_when_zero && a_current_result == 0) {
             return;
         }
         process_result_handling(a_player_data_element, a_current_result);
@@ -244,5 +245,20 @@ namespace actor {
             a_player_data->value += a_player_data_element->ending;
         }
         a_player_data->value += process_max_handling(a_player_data_element, a_current_result);
+    }
+
+    float player::get_actor_value(RE::PlayerCharacter*& a_player,
+        RE::ActorValue a_actor_value,
+        setting_data::player_data::actor_value_source_handling source_handling) {
+        switch (source_handling) {
+            case setting_data::player_data::actor_value_source_handling::standard:
+                return a_player->AsActorValueOwner()->GetActorValue(a_actor_value);
+            case setting_data::player_data::actor_value_source_handling::base:
+                return a_player->AsActorValueOwner()->GetBaseActorValue(a_actor_value);
+            case setting_data::player_data::actor_value_source_handling::permanent:
+                return a_player->AsActorValueOwner()->GetPermanentActorValue(a_actor_value);
+        }
+
+        return {};
     }
 }  // actor

@@ -695,6 +695,15 @@ namespace setting {
                     }
                 }
 
+                auto& actor_value_source = player_element["actor_value_source"];
+                if (actor_value_source.is_string()) {
+                    player_data->actor_value_source = magic_enum::enum_cast<player_data::actor_value_source_handling>(
+                        std::string{ actor_value_source })
+                                                          .value_or(player_data::actor_value_source_handling::standard);
+                } else {
+                    player_data->actor_value_source = player_data::actor_value_source_handling::standard;
+                }
+
                 auto& ending = player_element["ending"];
                 if (ending.is_string()) {
                     player_data->ending = ending;
@@ -756,6 +765,11 @@ namespace setting {
                     player_data->stats_inventory_column = magic_enum::enum_cast<menu_data::stats_inventory_column_type>(
                         std::string{ stats_inventory_column })
                                                               .value_or(menu_data::stats_inventory_column_type::none);
+                }
+
+                auto& hide_value = player_element["hide_value_when_zero"];
+                if (hide_value.is_boolean()) {
+                    player_data->hide_value_when_zero = hide_value;
                 }
 
                 player_data->log();

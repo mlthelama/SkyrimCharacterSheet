@@ -1,7 +1,8 @@
 ﻿#include "stats_inventory_menu.h"
+#include "actor/player.h"
+#include "setting/data/menu_data.h"
+#include "util/menukeys.h"
 #include "util/player/player.h"
-#include <actor/player.h>
-#include <setting/data/menu_data.h>
 
 namespace scaleform {
     void stats_inventory_menu::Register() {

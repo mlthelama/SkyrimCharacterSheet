@@ -1,6 +1,9 @@
 ﻿#include "player.h"
 #include "mod/armor_rating_rescaled_remake.h"
 #include "mod/blade_and_blunt.h"
+#include "mod/mod_manager.h"
+#include "setting/game_setting.h"
+#include "util/menukeys.h"
 #include "util/player/perkvisitor.h"
 #include "util/type_util.h"
 
@@ -175,7 +178,7 @@ namespace util {
         if (mod::mod_manager::get_singleton()->get_blade_and_blunt()) {
             return mod::blade_and_blunt::calculate_armor_damage_resistance(a_armor_rating);
         }
-        
+
         return a_armor_rating * game_settings->get_armor_scaling_factor() +
                game_settings->get_armor_base_factor() * 100 * a_pieces_worn;
     }
