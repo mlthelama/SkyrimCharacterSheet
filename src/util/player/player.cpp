@@ -5,72 +5,71 @@
 #include "util/type_util.h"
 
 namespace util {
-    std::string player::get_ammo_damage(RE::PlayerCharacter*& a_player) {
+    float player::get_ammo_damage(RE::PlayerCharacter*& a_player) {
         if (const RE::TESAmmo* ammo = a_player->GetCurrentAmmo()) {
             logger::trace("ammo name {}"sv, ammo->GetName());
-            return string_util::get_string_value_from_float(ammo->data.damage);
+            return ammo->data.damage;
         }
         return {};
     }
 
-    std::string player::get_weapon_damage(RE::PlayerCharacter*& a_player, bool a_left) {
-        float damage = -1;
+    float player::get_weapon_damage(RE::PlayerCharacter*& a_player, bool a_left) {
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
-            damage = a_player->GetDamage(hand);
+            auto damage = a_player->GetDamage(hand);
             logger::trace("name {}, weapon damage {}, left {}"sv, hand->GetDisplayName(), damage, a_left);
+            return damage;
         }
-        return (damage == -1) ? "" : string_util::get_string_value_from_float(damage);
+        return {};
     }
 
-    std::string player::get_weapon_speed(RE::PlayerCharacter*& a_player, bool a_left) {
-        float speed = -1;
-        //could also get other weapon stats that way
+    float player::get_weapon_speed(RE::PlayerCharacter*& a_player, bool a_left) {
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
-            speed = static_cast<RE::TESObjectWEAP*>(hand->object)->GetSpeed();
+            auto speed = static_cast<RE::TESObjectWEAP*>(hand->object)->GetSpeed();
             logger::trace("name {}, weapon speed {}, left {}"sv, hand->GetDisplayName(), speed, a_left);
+            return speed;
         }
-        return (speed == -1) ? "" : string_util::get_string_value_from_float(speed);
+        return {};
     }
 
-    std::string player::get_weapon_reach(RE::PlayerCharacter*& a_player, bool a_left) {
-        float reach = -1;
+    float player::get_weapon_reach(RE::PlayerCharacter*& a_player, bool a_left) {
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
-            reach = static_cast<RE::TESObjectWEAP*>(hand->object)->GetReach();
+            auto reach = static_cast<RE::TESObjectWEAP*>(hand->object)->GetReach();
             logger::trace("name {}, weapon reach {}, left {}"sv, hand->GetDisplayName(), reach, a_left);
+            return reach;
         }
-        return (reach == -1) ? "" : string_util::get_string_value_from_float(reach);
+        return {};
     }
 
-    std::string player::get_weapon_base_damage(RE::PlayerCharacter*& a_player, bool a_left) {
-        float base_damage = -1;
+    float player::get_weapon_base_damage(RE::PlayerCharacter*& a_player, bool a_left) {
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
-            base_damage = static_cast<RE::TESObjectWEAP*>(hand->object)->attackDamage;
+            auto base_damage = static_cast<RE::TESObjectWEAP*>(hand->object)->attackDamage;
             logger::trace("name {}, weapon base damage {}, left {}"sv, hand->GetDisplayName(), base_damage, a_left);
+            return base_damage;
         }
-        return (base_damage == -1) ? "" : string_util::get_string_value_from_float(base_damage);
+        return {};
     }
 
-    std::string player::get_weapon_stagger(RE::PlayerCharacter*& a_player, bool a_left) {
-        float stagger = -1;
+    float player::get_weapon_stagger(RE::PlayerCharacter*& a_player, bool a_left) {
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
-            stagger = static_cast<RE::TESObjectWEAP*>(hand->object)->GetStagger();
+            auto stagger = static_cast<RE::TESObjectWEAP*>(hand->object)->GetStagger();
             logger::trace("name {}, weapon stagger {}, left {}"sv, hand->GetDisplayName(), stagger, a_left);
+            return stagger;
         }
-        return (stagger == -1) ? "" : string_util::get_string_value_from_float(stagger);
+        return {};
     }
 
-    std::string player::get_weapon_critical_damage(RE::PlayerCharacter*& a_player, bool a_left) {
-        float critical_damage = -1;
+    float player::get_weapon_critical_damage(RE::PlayerCharacter*& a_player, bool a_left) {
         if (const auto hand = get_equipped_weapon(a_player, a_left)) {
             const auto [prcntMult, pad04, effect, damage, flags, pad13, pad14] =
                 static_cast<RE::TESObjectWEAP*>(hand->object)->criticalData;
-            critical_damage = prcntMult * damage;
+            auto critical_damage = prcntMult * damage;
             logger::trace("name {}, weapon critical damage {}, Left {}"sv,
                 hand->GetDisplayName(),
                 critical_damage,
                 a_left);
+            return critical_damage;
         }
-        return (critical_damage == -1) ? "" : string_util::get_string_value_from_float(critical_damage);
+        return {};
     }
 
     std::string player::get_xp(RE::PlayerCharacter*& a_player) {
@@ -113,14 +112,14 @@ namespace util {
     }
 
     float player::get_fall_damage_mod(RE::PlayerCharacter*& a_player) {
-        float fall_damage_mod = 0;
         if (a_player->HasPerkEntries(RE::BGSEntryPoint::ENTRY_POINTS::kModFallingDamage)) {
             auto perk_visit = util::perk_visitor();
             a_player->ForEachPerkEntry(RE::BGSEntryPoint::ENTRY_POINTS::kModFallingDamage, perk_visit);
-            fall_damage_mod = perk_visit.get_result();
+            auto fall_damage_mod = perk_visit.get_result();
             logger::trace("perk visit got {} for falling damage"sv, fall_damage_mod);
+            return fall_damage_mod;
         }
-        return fall_damage_mod;
+        return {};
     }
 
     float player::get_damage_resistance(RE::PlayerCharacter*& a_player) {
@@ -142,15 +141,20 @@ namespace util {
         return calculate_armor_damage_resistance(armor_rating, armor_count);
     }
 
-    RE::InventoryEntryData* player::get_equipped_weapon(RE::PlayerCharacter*& a_player, bool a_left) {
-        /*RE::InventoryEntryData* weapon;
-        if (a_left) {
-            weapon = a_player->GetActorRuntimeData().currentProcess->middleHigh->leftHand;
-        } else {
-            weapon = a_player->GetActorRuntimeData().currentProcess->middleHigh->rightHand;
-        }*/
-        auto* weapon = a_player->GetEquippedEntryData(a_left);
+    std::string player::get_is_beast(RE::PlayerCharacter*& a_player) {
+        if (a_player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kVampirePerks) > 0) {
+            return static_cast<std::string>(menu_keys::vampire);
+        }
+        if (a_player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kWerewolfPerks) > 0) {
+            return static_cast<std::string>(menu_keys::werewolf);
+        }
 
+        return {};
+    }
+
+
+    RE::InventoryEntryData* player::get_equipped_weapon(RE::PlayerCharacter*& a_player, bool a_left) {
+        auto* weapon = a_player->GetEquippedEntryData(a_left);
         if (weapon) {
             logger::trace("equipped item is {}, left {}"sv, weapon->GetDisplayName(), a_left);
         }
@@ -171,9 +175,9 @@ namespace util {
         if (mod::mod_manager::get_singleton()->get_blade_and_blunt()) {
             return mod::blade_and_blunt::calculate_armor_damage_resistance(a_armor_rating);
         }
-
-        return a_armor_rating * (game_settings->get_armor_scaling_factor() + game_settings->get_armor_base_factor()) *
-               100 * a_pieces_worn;
+        
+        return a_armor_rating * game_settings->get_armor_scaling_factor() +
+               game_settings->get_armor_base_factor() * 100 * a_pieces_worn;
     }
 
 }  // util

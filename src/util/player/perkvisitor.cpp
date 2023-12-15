@@ -1,11 +1,12 @@
 ﻿#include "perkvisitor.h"
+#include <util/type_util.h>
 
 namespace util {
     RE::PerkEntryVisitor::ReturnType perk_visitor::Visit(RE::BGSPerkEntry* perk_entry) {
         const auto* entry_point = static_cast<RE::BGSEntryPointPerkEntry*>(perk_entry);
         const auto* perk = entry_point->perk;
 
-        logger::trace("formid {}, name {}"sv, string_util::int_to_hex(perk->GetFormID()), perk->GetName());
+        logger::trace("formid {}, name {}"sv, util::type_util::int_to_hex(perk->GetFormID()), perk->GetName());
 
         if (entry_point->functionData &&
             entry_point->entryData.function == RE::BGSEntryPointPerkEntry::EntryData::Function::kMultiplyValue) {

@@ -2,7 +2,6 @@
 #include "handler/show_handler.h"
 
 namespace event {
-    using show_menu = menu_util::show_menu;
 
     menu_open_close_event* menu_open_close_event::get_singleton() {
         static menu_open_close_event singleton;
@@ -21,7 +20,8 @@ namespace event {
         if (a_event->opening &&
             (a_event->menuName == RE::InventoryMenu::MENU_NAME || a_event->menuName == RE::MagicMenu::MENU_NAME)) {
             if (handler::show_handler::is_menu_open()) {
-                handler::show_handler::close_window(show_menu::m_stats);
+                handler::show_handler::close_window(setting_data::menu_data::menu_type::stats);
+                handler::show_handler::close_window(setting_data::menu_data::menu_type::faction);
             }
 
             if ((ini_setting::get_show_inventory_stats_auto_open() &&
@@ -34,7 +34,7 @@ namespace event {
 
         if (!a_event->opening &&
             (a_event->menuName == RE::InventoryMenu::MENU_NAME || a_event->menuName == RE::MagicMenu::MENU_NAME)) {
-            handler::show_handler::close_window(show_menu::m_stats_inventory);
+            handler::show_handler::close_window(setting_data::menu_data::menu_type::stats_inventory);
         }
 
         return event_result::kContinue;

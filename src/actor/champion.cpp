@@ -32,10 +32,6 @@ namespace actor {
             if (!champion_data->stages.empty()) {
                 quest_done =
                     util::quest::is_one_quest_stage_complete(champion_data->form->formID, champion_data->stages);
-                //get_faction_rank(faction_data, actor_faction);
-                /*if (!actor_faction->faction_rank_name.empty()) {
-                    actor_faction_list.push_back(actor_faction);
-                }*/
                 if (quest_done) {
                     actor_champion->champion_finished_status = "pro daedra";  //TODO
                 }
@@ -49,6 +45,7 @@ namespace actor {
             }
 
             if (quest_done && !actor_champion->champion_finished_status.empty()) {
+                actor_champion->column = setting_data::menu_data::faction_column_type::champion;
                 actor_champion_list.push_back(actor_champion);
             }
             actor_champion->log(quest_done);

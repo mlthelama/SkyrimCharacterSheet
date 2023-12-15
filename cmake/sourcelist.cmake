@@ -16,15 +16,6 @@ set(sources ${sources}
 	src/actor/player.h
 	src/actor/thane.cpp
 	src/actor/thane.h
-	src/data/faction/factionitem.h
-	src/data/faction/provider/champion.h
-	src/data/faction/provider/faction.h
-	src/data/faction/provider/thane.h
-	src/data/faction/quest/civilwar.h
-	src/data/factiondata.h
-	src/data/playerdata.h
-	src/data/stats/provider/playerdataprovider.h
-	src/data/stats/statitem.h
 	src/event/equip_event.cpp
 	src/event/equip_event.h
 	src/event/event.cpp
@@ -60,16 +51,11 @@ set(sources ${sources}
 	src/setting/game_setting.cpp
 	src/setting/game_setting.h
 	src/setting/ini_setting.h
-	src/setting/stats/factionsettings.h
-	src/setting/stats/statssettings.h
-	src/util/constants.h
 	src/util/file.cpp
 	src/util/file.h
 	src/util/form.cpp
 	src/util/form.h
-	src/util/iconkeys.h
 	src/util/menukeys.h
-	src/util/offset.h
 	src/util/player/perkvisitor.cpp
 	src/util/player/perkvisitor.h
 	src/util/player/player.cpp

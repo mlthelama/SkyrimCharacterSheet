@@ -20,5 +20,4 @@ namespace logger = SKSE::log;
 
 #include "Version.h"
 #include "setting/ini_setting.h"
-#include "util/constants.h"
 #include "util/utils.h"

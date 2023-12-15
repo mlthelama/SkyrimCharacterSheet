@@ -1,6 +1,7 @@
 #include "scaleform/menus/stats_menu.h"
 #include "handler/show_handler.h"
 #include "mod/mod_manager.h"
+#include <actor/player.h>
 
 namespace scaleform {
     void stats_menu::Register() {
@@ -53,7 +54,6 @@ namespace scaleform {
                     a_def->GetHeight());
                 a_def->SetState(RE::GFxState::StateType::kLog, RE::make_gptr<Logger>().get());
             });
-        menu_util::log_resolution();
         logger::debug("Loading Menu {} was successful {}"sv, file_name, success);
         view_ = v_menu->uiMovie;
 
@@ -190,7 +190,8 @@ namespace scaleform {
 
         update_lists();
 
-        next_.Label(get_next_menu_name(menu));
+        auto next_name = setting::config_setting::get_singleton()->get_next_menu_name(menu_type);
+        next_.Label(next_name);
         next_.Disabled(false);
 
         disable_item_lists();
@@ -212,6 +213,10 @@ namespace scaleform {
         a_field.AutoSize(CLIK::Object{ a_auto_size });
         a_field.HTMLText(a_string);
         a_field.Visible(true);
+    }
+    void stats_menu::update_title() const {
+        auto name = setting::config_setting::get_singleton()->get_menu_name(menu_type);
+        update_text(title_, name);
     }
 
     void stats_menu::update_headers() const {
@@ -283,47 +288,31 @@ namespace scaleform {
     }
 
     void stats_menu::update_menu_values() const {
-        auto values = player_data::get_values_to_display(menu, menu_name);
-        logger::debug("Update menu Values, values to process {}"sv, values.size());
+        auto* player = RE::PlayerCharacter::GetSingleton();
+        auto player_data = actor::player::get_player_data(player, setting_data::menu_data::menu_type::stats);
+        logger::debug("start filling menu with data, values to process {}"sv, player_data.size());
 
-        for (auto& [stat_value, stat_item_ptr] : values) {
-            const auto stat_item = stat_item_ptr.get();
-
-            stat_item->log_stat_item(stat_value, menu);
-
-            if (stat_item->get_value().empty() || stat_item->get_stats_menu() == stats_menu_value::m_none) {
+        for (auto* item : player_data) {
+            if (item->column == setting_data::menu_data::stats_column_type::none) {
                 continue;
             }
-
-            switch (stat_value) {
-                case stats_value::name:
-                case stats_value::level:
-                case stats_value::race:
-                case stats_value::perk_count:
-                case stats_value::beast:
-                case stats_value::xp:
-                    update_text(get_text_field_key(stat_value), stat_item->get_key());
-                    update_text(get_text_fields_value(stat_value), stat_item->get_value(), "right");
+            switch (item->key) {
+                case setting_data::player_data::stat::name:
+                case setting_data::player_data::stat::level:
+                case setting_data::player_data::stat::race:
+                case setting_data::player_data::stat::perk_count:
+                case setting_data::player_data::stat::beast:
+                case setting_data::player_data::stat::xp:
+                    update_text(get_text_field_key(item->key), item->name);
+                    update_text(get_text_fields_value(item->key), item->value, "right");
                     break;
                 default:
-                    if (stat_item->get_stats_menu() != stats_menu_value::m_special) {
-                        menu_map_.find(stat_item->get_stats_menu())
-                            ->second.PushBack(
-                                build_gfx_value(stat_item->get_key(), stat_item->get_value(), stat_item->get_icon()));
-                        logger::trace("added to Menu {}, Name {}, Key {}, Value {}"sv,
-                            string_util::get_int_from_enum(stat_item->get_stats_menu()),
-                            string_util::get_int_from_enum(stat_value),
-                            stat_item->get_key(),
-                            stat_item->get_value());
-                    }
+                    menu_map_.find(item->column)->second.PushBack(build_gfx_value(item->name, item->value, item->icon));
+                    item->log(setting_data::menu_data::menu_type::stats);
                     break;
             }
         }
-        for (auto& [fst, snd] : values) {
-            snd.reset();
-        }
-        values.clear();
-        logger::debug("Done Updateing Values, Map Size is {}"sv, values.size());
+        logger::debug("Done showing values, processed {} items. return."sv, player_data.size());
     }
 
     void stats_menu::on_close() {}
@@ -345,23 +334,24 @@ namespace scaleform {
     void stats_menu::next_menu(const RE::FxDelegateArgs& a_params) {
         logger::debug("GUI Next Button Pressed, parameter count {}"sv, a_params.GetArgCount());
         close();
-        process_next(menu);
+        process_next();
     }
 
     void stats_menu::log(const RE::FxDelegateArgs& a_params) {
         logger::debug("{}: {}"sv, menu_name, a_params[0].GetString());
     }
 
-    CLIK::TextField& stats_menu::get_text_field_key(const stats_value a_stats_value) const {
+    CLIK::TextField& stats_menu::get_text_field_key(const setting_data::player_data::stat a_stats_value) const {
         return bottom_map_key_.find(a_stats_value)->second;
     }
 
-    CLIK::TextField& stats_menu::get_text_fields_value(const stats_value a_stats_value) const {
+    CLIK::TextField& stats_menu::get_text_fields_value(const setting_data::player_data::stat a_stats_value) const {
         return bottom_map_value_.find(a_stats_value)->second;
     }
 
-    void stats_menu::process_next(const show_menu a_menu) {
-        handler::show_handler::handle_menu_swap(get_next_menu(a_menu));
+    void stats_menu::process_next() {
+        auto next_menu = setting::config_setting::get_singleton()->get_next_menu_type(menu_type);
+        handler::show_handler::handle_menu_swap(next_menu);
     }
 
 }

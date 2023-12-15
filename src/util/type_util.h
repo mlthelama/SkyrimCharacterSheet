@@ -36,12 +36,6 @@ namespace util {
 
         static std::string get_float_as_string(float a_value);
 
-        static float calculate_value(float a_rate_multiplier, float a_rate);
-
-        static std::string concat_string(std::string& a_value, std::string& a_ending);
-
-        static std::string get_format_value(float& a_resistance, float& a_max_resistance, std::string& a_ending);
-
         template <typename T>
         static std::vector<T> get_vector_intersect(std::vector<T>& a_vector_first, std::vector<T>& a_vector_second);
 

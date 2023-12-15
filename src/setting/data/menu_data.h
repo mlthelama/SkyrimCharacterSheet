@@ -21,6 +21,6 @@ namespace setting_data {
         enum class stats_inventory_column_type : std::uint32_t { none, equip, armor, weapon, effect };
 
         menu_type menu;
-        std::string_view menu_name;
+        std::string menu_name;
     };
 }  // setting_data

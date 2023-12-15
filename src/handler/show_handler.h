@@ -5,14 +5,13 @@
 
 namespace handler {
     class show_handler {
-        using show_menu = menu_util::show_menu;
-
     public:
         static show_handler* get_singleton();
 
-        static void close_window(show_menu a_menu);
+        static void close_window(setting_data::menu_data::menu_type a_menu);
 
-        static void swap_window(show_menu a_menu_open, show_menu a_menu_close);
+        static void swap_window(setting_data::menu_data::menu_type a_menu_open,
+            setting_data::menu_data::menu_type a_menu_close);
 
         static void close_all_windows();
 
@@ -22,13 +21,13 @@ namespace handler {
 
         static bool is_menu_open();
 
-        static bool is_menu_open(show_menu a_menu_open);
+        static bool is_menu_open(setting_data::menu_data::menu_type a_menu);
 
         static void handle_inventory_stats_open();
 
         static void handle_inventory_stats_update();
 
-        static void handle_menu_swap(show_menu a_menu);
+        static void handle_menu_swap(setting_data::menu_data::menu_type a_menu);
 
         show_handler() = default;
         show_handler(const show_handler&) = delete;
@@ -39,14 +38,14 @@ namespace handler {
         show_handler& operator=(show_handler&&) = delete;
 
     private:
-        inline static std::map<show_menu, std::string_view> menu_scale_form_name_ = {
-            { show_menu::m_stats, scaleform::stats_menu::menu_name },
-            { show_menu::m_faction, scaleform::faction_menu::menu_name },
-            { show_menu::m_stats_inventory, scaleform::stats_inventory_menu::menu_name }
+        inline static std::map<setting_data::menu_data::menu_type, std::string_view> menu_scale_form_name_ = {
+            { setting_data::menu_data::menu_type::stats, scaleform::stats_menu::menu_name },
+            { setting_data::menu_data::menu_type::faction, scaleform::faction_menu::menu_name },
+            { setting_data::menu_data::menu_type::stats_inventory, scaleform::stats_inventory_menu::menu_name }
         };
 
-        static std::string_view get_menu_scaleform_name(show_menu a_menu);
+        static std::string_view get_menu_scaleform_name(setting_data::menu_data::menu_type a_menu);
 
-        static void show_window(show_menu a_menu);
+        static void show_window(setting_data::menu_data::menu_type a_menu);
     };
 }
