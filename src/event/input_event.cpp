@@ -24,6 +24,7 @@ namespace event {
 
         auto* ui = RE::UI::GetSingleton();
         auto* intfc_str = RE::InterfaceStrings::GetSingleton();
+        auto* user_event = RE::UserEvents::GetSingleton();
 
 
         if (ui->IsMenuOpen(intfc_str->console)) {
@@ -83,7 +84,9 @@ namespace event {
             if (ui->IsMenuOpen(RE::CraftingMenu::MENU_NAME)) {
                 continue;
             }
-
+            
+            
+            
             if (key == key_) {
                 logger::debug("configured Key ({}) pressed"sv, key);
                 handler::show_handler::handle_main_button_press();

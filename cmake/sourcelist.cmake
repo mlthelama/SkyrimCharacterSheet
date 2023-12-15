@@ -56,7 +56,6 @@ set(sources ${sources}
 	src/util/file.h
 	src/util/form.cpp
 	src/util/form.h
-	src/util/menukeys.h
 	src/util/player/perkvisitor.cpp
 	src/util/player/perkvisitor.h
 	src/util/player/player.cpp
