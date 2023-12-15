@@ -175,12 +175,14 @@ namespace util {
             return mod::armor_rating_rescaled_remake::calculate_armor_damage_resistance(a_armor_rating, a_pieces_worn);
         }
 
+        auto resistance = a_armor_rating * game_settings->get_armor_scaling_factor() +
+                          game_settings->get_armor_base_factor() * 100 * a_pieces_worn;
+
         if (mod::mod_manager::get_singleton()->get_blade_and_blunt()) {
-            return mod::blade_and_blunt::calculate_armor_damage_resistance(a_armor_rating);
+            return mod::blade_and_blunt::calculate_armor_damage_resistance(resistance);
         }
 
-        return a_armor_rating * game_settings->get_armor_scaling_factor() +
-               game_settings->get_armor_base_factor() * 100 * a_pieces_worn;
+        return resistance;
     }
 
 }  // util
