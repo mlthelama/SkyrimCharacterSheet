@@ -11,7 +11,7 @@ namespace util {
     float player::get_ammo_damage(RE::PlayerCharacter*& a_player) {
         if (const RE::TESAmmo* ammo = a_player->GetCurrentAmmo()) {
             logger::trace("ammo name {}"sv, ammo->GetName());
-            return ammo->data.damage;
+            return ammo->GetRuntimeData().data.damage;
         }
         return {};
     }
