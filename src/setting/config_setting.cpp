@@ -262,27 +262,6 @@ namespace setting {
         logger::trace("done loading key setting file, loaded {}"sv, data->key_data_map.size());
     }
 
-    [[maybe_unused]] std::string config_setting::get_menu_name(setting_data::menu_data::menu_type a_menu) {
-        if (const config_setting_data* data = this->data_;
-            data && !data->menu_data_map.empty() && data->menu_data_map.contains(a_menu)) {
-            return data->menu_data_map.at(a_menu)->menu_name;
-        }
-        return {};
-    }
-
-    setting_data::menu_data::stats_column_type config_setting::get_stats_column_value(uint32_t a_column_id) {
-        return static_cast<menu_data::stats_column_type>(a_column_id);
-    }
-
-    setting_data::menu_data::faction_column_type config_setting::get_faction_column_value(uint32_t a_column_id) {
-        return static_cast<menu_data::faction_column_type>(a_column_id);
-    }
-
-    setting_data::menu_data::stats_inventory_column_type config_setting::get_stats_inventory_column_value(
-        uint32_t a_column_id) {
-        return static_cast<menu_data::stats_inventory_column_type>(a_column_id);
-    }
-
     setting_data::menu_data::menu_type config_setting::get_next_menu_type(setting_data::menu_data::menu_type a_menu) {
         auto* next_menu = get_next_menu(a_menu);
         if (next_menu) {
