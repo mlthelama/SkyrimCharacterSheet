@@ -171,7 +171,7 @@ namespace scaleform {
         };
 
         std::map<setting_data::menu_data::stats_column_type, std::string> column_name_map_;
-        
+
         std::string next_menu_name_;
         std::string menu_name_;
     };

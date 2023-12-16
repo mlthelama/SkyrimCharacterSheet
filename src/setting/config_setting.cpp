@@ -358,8 +358,8 @@ namespace setting {
         }
         return {};
     }
-    
-    config_setting::key_data* config_setting::get_key_data(setting_data::key_data::key_name a_key) { 
+
+    config_setting::key_data* config_setting::get_key_data(setting_data::key_data::key_name a_key) {
         if (const config_setting_data* data = this->data_;
             data && !data->key_data_map.empty() && data->key_data_map.contains(a_key)) {
             return data->key_data_map.at(a_key);

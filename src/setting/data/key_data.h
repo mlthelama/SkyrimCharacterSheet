@@ -4,7 +4,7 @@ namespace setting_data {
     class key_data {
     public:
         enum class key_name { none, vampire, werewolf, count, in_favor, alternative };
-        
+
         key_name key;
         std::string name;
 

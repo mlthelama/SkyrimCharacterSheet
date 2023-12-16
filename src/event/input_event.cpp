@@ -25,7 +25,6 @@ namespace event {
         auto* ui = RE::UI::GetSingleton();
         auto* intfc_str = RE::InterfaceStrings::GetSingleton();
 
-
         if (ui->IsMenuOpen(intfc_str->console)) {
             return event_result::kContinue;
         }
@@ -43,7 +42,8 @@ namespace event {
             }
 
             auto key = button->idCode;
-            switch (button->device.get()) {
+            auto device = button->device.get();
+            switch (device) {
                 case RE::INPUT_DEVICE::kMouse:
                     key += k_mouse_offset;
                     break;
@@ -83,9 +83,7 @@ namespace event {
             if (ui->IsMenuOpen(RE::CraftingMenu::MENU_NAME)) {
                 continue;
             }
-            
-            
-            
+
             if (key == key_) {
                 logger::debug("configured Key ({}) pressed"sv, key);
                 handler::show_handler::handle_main_button_press();

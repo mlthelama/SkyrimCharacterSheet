@@ -2,10 +2,10 @@
 #include "mod/armor_rating_rescaled_remake.h"
 #include "mod/blade_and_blunt.h"
 #include "mod/mod_manager.h"
+#include "setting/config_setting.h"
 #include "setting/game_setting.h"
 #include "util/player/perkvisitor.h"
 #include "util/type_util.h"
-#include "setting/config_setting.h"
 
 namespace util {
     float player::get_ammo_damage(RE::PlayerCharacter*& a_player) {
@@ -155,7 +155,7 @@ namespace util {
 
         return {};
     }
-    
+
     RE::InventoryEntryData* player::get_equipped_weapon(RE::PlayerCharacter*& a_player, bool a_left) {
         auto* weapon = a_player->GetEquippedEntryData(a_left);
         if (weapon) {

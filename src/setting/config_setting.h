@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include "setting/data/champion_data.h"
 #include "setting/data/faction_data.h"
+#include "setting/data/key_data.h"
 #include "setting/data/menu_data.h"
 #include "setting/data/player_data.h"
 #include "setting/data/thane_data.h"
-#include "setting/data/key_data.h"
 
 namespace setting {
     class config_setting {
