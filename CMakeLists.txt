@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 
 set(NAME "SkyrimCharacterSheet")
-set(VERSION 1.1.0.2)
+set(VERSION 1.1.0.3)
 
 # ---- Options ----
 
