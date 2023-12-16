@@ -1,6 +1,6 @@
 ﻿#include "menu_open_close_event.h"
 #include "handler/show_handler.h"
-#include "setting/ini_setting.h"
+#include "setting/input_setting.h"
 
 namespace event {
 
@@ -25,9 +25,9 @@ namespace event {
                 handler::show_handler::close_window(setting_data::menu_data::menu_type::faction);
             }
 
-            if ((ini_setting::get_show_inventory_stats_auto_open() &&
+            if ((setting::input_setting::auto_open_inventory_menu_inventory() &&
                     a_event->menuName == RE::InventoryMenu::MENU_NAME) ||
-                (ini_setting::get_show_inventory_stats_auto_open_magic_menu() &&
+                (setting::input_setting::auto_open_inventory_menu_magic() &&
                     a_event->menuName == RE::MagicMenu::MENU_NAME)) {
                 handler::show_handler::handle_inventory_stats_open();
             }

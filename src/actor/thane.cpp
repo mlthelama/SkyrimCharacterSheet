@@ -32,7 +32,7 @@ namespace actor {
 
         std::vector<actor_thane_data*> actor_thane_list;
         for (auto* thane_data : config_thane) {
-            thane_data->log();
+            //thane_data->log();
             auto* actor_thane = new actor_thane_data();
             actor_thane->name = thane_data->name;
 
@@ -78,13 +78,13 @@ namespace actor {
                 actor_thane_list.push_back(actor_thane);
             }
 
-            if (thane_data->crime_faction && thane_data->crime_faction->Is(RE::FormType::Faction)) {
+            /*if (thane_data->crime_faction && thane_data->crime_faction->Is(RE::FormType::Faction)) {
                 auto* faction = thane_data->crime_faction->As<RE::TESFaction>();
                 actor_thane->hold_bounty = a_actor->GetCrimeGoldValue(faction);
                 if (actor_thane->hold_bounty > 0) {
                     actor_thane_list.push_back(actor_thane);
                 }
-            }
+            }*/
 
             actor_thane->log(quest_done, bypass_done);
         }

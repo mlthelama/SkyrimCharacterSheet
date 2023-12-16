@@ -36,7 +36,7 @@ namespace actor {
 
         std::vector<actor_player_data*> actor_player_data_list;
         for (auto* player_data_element : config_player) {
-            player_data_element->log();
+            //player_data_element->log();
             //skip element if menu type for the requested menu is disabled
             if ((a_menu == setting_data::menu_data::menu_type::stats &&
                     player_data_element->stats_column == setting_data::menu_data::stats_column_type::none) ||

@@ -5,6 +5,7 @@
 #include "handler/show_handler.h"
 #include "mod/mod_manager.h"
 #include "setting/config_setting.h"
+#include "setting/input_setting.h"
 
 namespace scaleform {
     void faction_menu::Register() {
@@ -57,7 +58,7 @@ namespace scaleform {
             });
         logger::debug("Loading Menu {} was successful {}"sv, file_name, success);
         view_ = v_menu->uiMovie;
-        if (mod::mod_manager::get_singleton()->get_skyrim_souls()) {
+        if (mod::mod_manager::get_singleton()->get_skyrim_souls() || !setting::input_setting::get_menu_pause_game()) {
             v_menu->menuFlags.set(flag::kAllowSaving,
                 flag::kUsesCursor,
                 flag::kDisablePauseMenu,

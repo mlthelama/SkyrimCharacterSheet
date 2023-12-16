@@ -1,6 +1,7 @@
 ﻿#include "input_event.h"
 #include "handler/show_handler.h"
 #include "setting/ini_setting.h"
+#include "setting/input_setting.h"
 
 namespace event {
 
@@ -35,15 +36,14 @@ namespace event {
             }
 
             //this stays static_cast
-            const auto* button = static_cast<RE::ButtonEvent*>(event);
+            auto* button = static_cast<RE::ButtonEvent*>(event);
             // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
             if (!button->IsDown()) {
                 continue;
             }
 
             auto key = button->idCode;
-            auto device = button->device.get();
-            switch (device) {
+            switch (button->device.get()) {
                 case RE::INPUT_DEVICE::kMouse:
                     key += k_mouse_offset;
                     break;
@@ -56,7 +56,6 @@ namespace event {
                 default:
                     continue;
             }
-
 
             if (ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) || ui->IsMenuOpen(RE::MagicMenu::MENU_NAME)) {
                 if (key == static_cast<uint32_t>(ini_setting::get_show_inventory_button())) {
@@ -84,19 +83,40 @@ namespace event {
                 continue;
             }
 
+            //logger::info("user event {}, id {}"sv, button->userEvent, button->idCode);
+
+            if (handler::show_handler::is_menu_open(setting_data::menu_data::menu_type::stats)) {
+                auto next = setting::input_setting::get_next_page_menu_key_list();
+                if (std::find(next.begin(), next.end(), key) != next.end()) {
+                    logger::debug("next menu Key ({}) pressed"sv, key);
+                    handler::show_handler::handle_next_menu_button_press();
+                    break;
+                }
+            }
+
+            if (handler::show_handler::is_menu_open(setting_data::menu_data::menu_type::faction)) {
+                auto previous = setting::input_setting::get_previous_page_menu_key_list();
+                if (std::find(previous.begin(), previous.end(), key) != previous.end()) {
+                    logger::debug("previous menu Key ({}) pressed"sv, key);
+                    handler::show_handler::handle_next_menu_button_press();
+                    break;
+                }
+            }
+
             if (key == key_) {
                 logger::debug("configured Key ({}) pressed"sv, key);
                 handler::show_handler::handle_main_button_press();
                 break;
             }
+
             if (handler::show_handler::is_menu_open() && key == RE::BSWin32KeyboardDevice::Key::kEscape) {
+                //TODO Test
+                //button->idCode = k_invalid;
+                //button->userEvent = "";
+                //logger::info("value {}"sv, button->value);
                 handler::show_handler::close_all_windows();
-                break;
-            }
-            if (key == static_cast<uint32_t>(ini_setting::get_open_faction_menu_button())) {
-                logger::debug("next menu Key ({}) pressed"sv, key);
-                handler::show_handler::handle_next_menu_button_press();
-                break;
+                //break;
+                //continue;
             }
         }
         return event_result::kContinue;

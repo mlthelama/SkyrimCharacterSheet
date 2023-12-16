@@ -2,14 +2,14 @@
 #include "event/equip_event.h"
 #include "event/input_event.h"
 #include "event/menu_open_close_event.h"
-#include "setting/ini_setting.h"
+#include "setting/input_setting.h"
 
 namespace event {
     void sink_event_handlers() {
         input_event::sink();
         logger::info("Added Input Event"sv);
 
-        if (ini_setting::get_show_inventory_stats()) {
+        if (setting::input_setting::is_inventory_menu_enabled()) {
             menu_open_close_event::sink();
             logger::info("Added Menu Event"sv);
 
