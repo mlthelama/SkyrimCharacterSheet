@@ -81,7 +81,7 @@ namespace actor {
         auto special_config_faction = config_setting->get_special_faction_data();
         logger::trace("Checking for special faction, got {} to check"sv, special_config_faction.size());
         for (auto* faction_data : special_config_faction) {
-            faction_data->log();
+            //faction_data->log();
             auto* actor_faction = new actor_faction_data();
             actor_faction->faction_name = faction_data->name;
             if (!faction_data->ranks.empty()) {

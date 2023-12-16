@@ -4,6 +4,7 @@
 #include "setting/config_setting.h"
 #include "setting/game_setting.h"
 #include "setting/ini_setting.h"
+#include "setting/input_setting.h"
 
 void init_logger() {
     if (static bool initialized = false; !initialized) {
@@ -33,13 +34,15 @@ void init_logger() {
 
         try {
             ini_setting::load_settings();
+            setting::input_setting::load_setting();
         } catch (const std::exception& e) {
             logger::warn("failed to load ini_setting {}"sv, e.what());
         }
 
-        if (ini_setting::get_is_debug()) {
+        if (setting::input_setting::get_is_debug()) {
             spdlog::set_level(spdlog::level::trace);
             spdlog::flush_on(spdlog::level::trace);
+            setting::input_setting::log();
         }
 
     } catch (const std::exception& e) {
@@ -78,7 +81,7 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
     init_logger();
 
     logger::info("{} loading"sv, Version::PROJECT);
-    logger::info("Game version {}", a_skse->RuntimeVersion().string());
+    logger::info("Game version {}"sv, a_skse->RuntimeVersion().string());
 
     Init(a_skse);
 

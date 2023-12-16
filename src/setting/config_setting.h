@@ -24,7 +24,7 @@ namespace setting {
         void load_all_thane_setting_files();
         void load_all_player_setting_files();
         void load_key_setting_file();
-        
+
         menu_data::menu_type get_next_menu_type(menu_data::menu_type a_menu);
         menu_data::menu_type get_previous_menu_type(menu_data::menu_type a_menu);
         std::string get_next_menu_name(menu_data::menu_type a_menu);

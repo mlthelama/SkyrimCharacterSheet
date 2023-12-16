@@ -24,7 +24,7 @@ namespace actor {
 
         std::vector<actor_champion_data*> actor_champion_list;
         for (auto* champion_data : config_champion) {
-            champion_data->log();
+            //champion_data->log();
             auto* actor_champion = new actor_champion_data();
             actor_champion->champion_name = champion_data->name;
             auto quest_done = false;
