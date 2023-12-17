@@ -43,7 +43,6 @@ set(sources ${sources}
 	src/setting/config_setting.h
 	src/setting/data/champion_data.h
 	src/setting/data/faction_data.h
-	src/setting/data/key_data.h
 	src/setting/data/menu_data.h
 	src/setting/data/player_data.h
 	src/setting/data/thane_data.h
