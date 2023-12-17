@@ -58,4 +58,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: SkyrimCharacterSheet
-          path: ${{ github.workspace }}/main/artifacts/SkyrimCharacterSheet.zip
+          path: ${{ github.workspace }}/artifacts/SkyrimCharacterSheet.zip
