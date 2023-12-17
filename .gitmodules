@@ -1,0 +1,3 @@
+[submodule "extern/skyui"]
+	path = extern/skyui
+	url = https://github.com/mlthelama/skyui.git
