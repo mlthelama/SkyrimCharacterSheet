@@ -1,4 +1,5 @@
 #include "event/event.h"
+#include "hook/hook.h"
 #include "mod/mod_manager.h"
 #include "scaleform/scaleform.h"
 #include "setting/config_setting.h"
@@ -84,6 +85,8 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
 
     Init(a_skse);
 
+    SKSE::AllocTrampoline(1 << 4);
+
     SKSE::GetMessagingInterface()->RegisterListener([](SKSE::MessagingInterface::Message* a_msg) {
         switch (a_msg->type) {
             case SKSE::MessagingInterface::kDataLoaded:
@@ -95,6 +98,7 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
 
                 scaleform::Register();
                 setting::game_setting::get_singleton()->set_settings();
+                hook::hook::install();
 
                 logger::info("Done with Data loaded"sv);
                 break;

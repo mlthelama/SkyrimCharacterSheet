@@ -12,6 +12,7 @@ namespace event {
     }
 
     void menu_open_close_event::sink() { RE::UI::GetSingleton()->AddEventSink(get_singleton()); }
+
     menu_open_close_event::event_result menu_open_close_event::ProcessEvent(const RE::MenuOpenCloseEvent* a_event,
         [[maybe_unused]] RE::BSTEventSource<RE::MenuOpenCloseEvent>* a_event_source) {
         if (!a_event) {

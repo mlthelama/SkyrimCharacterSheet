@@ -106,6 +106,7 @@ namespace event {
                 }
             }
         }
+
         return event_result::kContinue;
     }
 

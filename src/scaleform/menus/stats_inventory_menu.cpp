@@ -24,13 +24,7 @@ namespace scaleform {
         }
     }
 
-    bool stats_inventory_menu::is_menu_open() {
-        auto is_open = RE::UI::GetSingleton()->IsMenuOpen(menu_name);
-        if (is_open) {
-            logger::trace("Menu {} is open {}"sv, menu_name, is_open);
-        }
-        return is_open;
-    }
+    bool stats_inventory_menu::is_menu_open() { return RE::UI::GetSingleton()->IsMenuOpen(menu_name); }
 
     void stats_inventory_menu::refresh_lists() {
         if (is_menu_open()) {
