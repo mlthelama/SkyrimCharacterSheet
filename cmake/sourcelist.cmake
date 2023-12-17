@@ -26,8 +26,6 @@ set(sources ${sources}
 	src/event/menu_open_close_event.h
 	src/hook/hook.cpp
 	src/hook/hook.h
-	src/hook/inventory_3d_manager_hook.cpp
-	src/hook/inventory_3d_manager_hook.h
 	src/hook/menu_control_hook.cpp
 	src/hook/menu_control_hook.h
 	src/main.cpp
