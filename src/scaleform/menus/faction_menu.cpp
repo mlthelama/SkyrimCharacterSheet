@@ -6,6 +6,7 @@
 #include "scaleform/menus/stats_menu.h"
 #include "setting/config_setting.h"
 #include "setting/input_setting.h"
+#include "setting/key_setting.h"
 #include "util/key_util.h"
 
 namespace scaleform {
@@ -85,7 +86,7 @@ namespace scaleform {
         }
         previous_menu_name_ = config_setting->get_previous_menu_name(menu_data->menu);
         menu_name_ = menu_data->menu_name;
-        count_name_ = config_setting->get_key_data(setting_data::key_data::key_name::count)->name;
+        count_name_ = setting::key_setting::get_key(setting::key_setting::key_name::count);
 
         is_active_ = true;
         view_->SetVisible(true);

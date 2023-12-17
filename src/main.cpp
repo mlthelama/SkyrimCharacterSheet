@@ -5,6 +5,7 @@
 #include "setting/game_setting.h"
 #include "setting/ini_setting.h"
 #include "setting/input_setting.h"
+#include "setting/key_setting.h"
 
 void init_logger() {
     if (static bool initialized = false; !initialized) {
@@ -71,7 +72,7 @@ void init_config_setting() {
         config_setting->load_all_champion_setting_files();
         config_setting->load_all_thane_setting_files();
         config_setting->load_all_player_setting_files();
-        config_setting->load_key_setting_file();
+        setting::key_setting::load_setting();
     } catch (const std::exception& e) {
         logger::warn("failed to load json setting {}"sv, e.what());
     }

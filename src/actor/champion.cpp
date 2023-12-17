@@ -1,5 +1,6 @@
 ﻿#include "champion.h"
 #include "setting/config_setting.h"
+#include "setting/key_setting.h"
 #include "util/quest/quest.h"
 
 namespace actor {
@@ -34,7 +35,7 @@ namespace actor {
                     util::quest::is_one_quest_stage_complete(champion_data->form->formID, champion_data->stages);
                 if (quest_done) {
                     actor_champion->champion_finished_status =
-                        config_setting->get_key_data(setting_data::key_data::key_name::in_favor)->name;
+                        setting::key_setting::get_key(setting::key_setting::key_name::in_favor);
                 }
             }
             if (!quest_done && !champion_data->alternate_stages.empty()) {
@@ -42,7 +43,7 @@ namespace actor {
                     champion_data->alternate_stages);
                 if (quest_done) {
                     actor_champion->champion_finished_status =
-                        config_setting->get_key_data(setting_data::key_data::key_name::alternative)->name;
+                        setting::key_setting::get_key(setting::key_setting::key_name::alternative);
                 }
             }
 

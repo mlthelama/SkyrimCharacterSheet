@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "setting/data/champion_data.h"
 #include "setting/data/faction_data.h"
-#include "setting/data/key_data.h"
 #include "setting/data/menu_data.h"
 #include "setting/data/player_data.h"
 #include "setting/data/thane_data.h"
@@ -14,7 +13,6 @@ namespace setting {
         using champion_data = setting_data::champion_data;
         using thane_data = setting_data::thane_data;
         using player_data = setting_data::player_data;
-        using key_data = setting_data::key_data;
 
         static config_setting* get_singleton();
 
@@ -23,7 +21,6 @@ namespace setting {
         void load_all_champion_setting_files();
         void load_all_thane_setting_files();
         void load_all_player_setting_files();
-        void load_key_setting_file();
 
         menu_data::menu_type get_next_menu_type(menu_data::menu_type a_menu);
         menu_data::menu_type get_previous_menu_type(menu_data::menu_type a_menu);
@@ -35,7 +32,6 @@ namespace setting {
         std::vector<thane_data*> get_thane_data();
         std::vector<player_data*> get_player_data();
         menu_data* get_menu_data(menu_data::menu_type a_menu);
-        key_data* get_key_data(key_data::key_name a_key);
 
         config_setting(const config_setting&) = delete;
         config_setting(config_setting&&) = delete;
@@ -54,7 +50,6 @@ namespace setting {
             std::vector<champion_data*> champion_data_list;
             std::vector<thane_data*> thane_data_list;
             std::vector<player_data*> player_data_list;
-            std::map<key_data::key_name, key_data*> key_data_map;
         };
 
         config_setting_data* data_;
