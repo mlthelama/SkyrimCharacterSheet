@@ -74,7 +74,7 @@ namespace scaleform {
         }
         v_menu->depthPriority = 3;
         v_menu->inputContext = context::kNone;
-        
+
 
         init_extensions();
 
@@ -360,8 +360,6 @@ namespace scaleform {
     }
 
     bool faction_menu::ProcessButton(RE::ButtonEvent* a_event) {
-        logger::info("got event key {}"sv, a_event->idCode);
-
         auto key = a_event->idCode;
         util::key_util::get_key_id(a_event->GetDevice(), key);
 
