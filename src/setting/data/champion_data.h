@@ -37,8 +37,8 @@ namespace setting_data {
                 magic_enum::enum_name(key),
                 name,
                 form ? util::type_util::int_to_hex(form->formID) : "",
-                util::type_util::get_delimited_string_from_vector(stages),
-                util::type_util::get_delimited_string_from_vector(alternate_stages),
+                util::type_util::get_delimited_string(stages),
+                util::type_util::get_delimited_string(alternate_stages),
                 magic_enum::enum_name(faction_column));
         }
     };

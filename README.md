@@ -19,7 +19,6 @@
 ## Build Dependencies
 * [CommonLibSSE NG](https://github.com/CharmedBaryon/CommonLibSSE-NG)
 * [spdlog](https://github.com/gabime/spdlog)
-* [simpleini](https://github.com/brofield/simpleini)
 * [nlohmann-json](https://github.com/nlohmann/json)
 * [tomlplusplus](https://github.com/marzer/tomlplusplus)
 * [magic-enum](https://github.com/Neargye/magic_enum)

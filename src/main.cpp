@@ -3,7 +3,6 @@
 #include "scaleform/scaleform.h"
 #include "setting/config_setting.h"
 #include "setting/game_setting.h"
-#include "setting/ini_setting.h"
 #include "setting/input_setting.h"
 #include "setting/key_setting.h"
 
@@ -34,7 +33,6 @@ void init_logger() {
         logger::info("{} v{}"sv, Version::PROJECT, Version::NAME);
 
         try {
-            ini_setting::load_settings();
             setting::input_setting::load_setting();
         } catch (const std::exception& e) {
             logger::warn("failed to load ini_setting {}"sv, e.what());
@@ -56,12 +54,12 @@ void init_mod_support() {
     auto* data_handler = RE::TESDataHandler::GetSingleton();
 
     //check for mods here
-    mod_manager->set_armor_rating_rescaled_remake(LoadLibraryW(L"Data/SKSE/Plugins/ArmorRatingRescaledRemake.dll"));
-    mod_manager->set_hand_to_hand(LoadLibraryW(L"Data/SKSE/Plugins/HandToHand.dll"));
-    mod_manager->set_blade_and_blunt(LoadLibraryW(L"Data/SKSE/Plugins/BladeAndBlunt.dll"));
+    mod_manager->set_armor_rating_rescaled_remake(LoadLibrary(L"Data/SKSE/Plugins/ArmorRatingRescaledRemake.dll"));
+    mod_manager->set_hand_to_hand(LoadLibrary(L"Data/SKSE/Plugins/HandToHand.dll"));
+    mod_manager->set_blade_and_blunt(LoadLibrary(L"Data/SKSE/Plugins/BladeAndBlunt.dll"));
 
     mod_manager->set_skyrim_unbound((data_handler && data_handler->LookupModByName("Skyrim Unbound.esp")));
-    mod_manager->set_skyrim_souls(LoadLibraryW(L"Data/SKSE/Plugins/SkyrimSoulsRE.dll"));
+    mod_manager->set_skyrim_souls(LoadLibrary(L"Data/SKSE/Plugins/SkyrimSoulsRE.dll"));
 }
 
 void init_config_setting() {

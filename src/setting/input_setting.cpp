@@ -3,8 +3,8 @@
 namespace setting {
     class stat_menu_input {
     public:
-        std::vector<uint32_t> open_key_combination;
-        std::vector<uint32_t> close_key_combination;
+        std::set<uint32_t> open_key_combination;
+        std::set<uint32_t> close_key_combination;
         std::vector<uint32_t> page_next_keys;
         std::vector<uint32_t> page_previous_keys;
         bool pause_game{};
@@ -12,8 +12,8 @@ namespace setting {
 
     class inventory_menu_input {
     public:
-        std::vector<uint32_t> open_key_combination;
-        std::vector<uint32_t> close_key_combination;
+        std::set<uint32_t> open_key_combination;
+        std::set<uint32_t> close_key_combination;
         bool is_enabled{};
         bool auto_show_inventory{};
         bool auto_show_magic{};
@@ -43,17 +43,19 @@ namespace setting {
 
         if (auto& stat_menu = json_setting.at("stat"); stat_menu.is_object()) {
             if (auto& open_keys = stat_menu.at("open_key_combination"); open_keys.is_array()) {
-                std::vector<uint32_t> keys;
+                std::set<uint32_t> keys;
                 for (auto& key : open_keys) {
-                    keys.push_back(key);
+                    //cast needed in this case
+                    keys.insert(static_cast<uint32_t>(key));
                 }
                 menu_input.open_key_combination = keys;
             }
 
             if (auto& close_keys = stat_menu.at("close_key_combination"); close_keys.is_array()) {
-                std::vector<uint32_t> keys;
+                std::set<uint32_t> keys;
                 for (auto& key : close_keys) {
-                    keys.push_back(key);
+                    //cast needed in this case
+                    keys.insert(static_cast<uint32_t>(key));
                 }
                 menu_input.close_key_combination = keys;
             }
@@ -80,17 +82,19 @@ namespace setting {
         }
         if (auto& inventory_menu = json_setting.at("inventory"); inventory_menu.is_object()) {
             if (auto& open_keys = inventory_menu.at("open_key_combination"); open_keys.is_array()) {
-                std::vector<uint32_t> keys;
+                std::set<uint32_t> keys;
                 for (auto& key : open_keys) {
-                    keys.push_back(key);
+                    //cast needed in this case
+                    keys.insert(static_cast<uint32_t>(key));
                 }
                 inventory_input.open_key_combination = keys;
             }
 
             if (auto& close_keys = inventory_menu.at("close_key_combination"); close_keys.is_array()) {
-                std::vector<uint32_t> keys;
+                std::set<uint32_t> keys;
                 for (auto& key : close_keys) {
-                    keys.push_back(key);
+                    //cast needed in this case
+                    keys.insert(static_cast<uint32_t>(key));
                 }
                 inventory_input.close_key_combination = keys;
             }
@@ -113,9 +117,9 @@ namespace setting {
 
     bool input_setting::get_is_debug() { return is_debug; }
 
-    std::vector<uint32_t> input_setting::get_open_menu_key_combination() { return menu_input.open_key_combination; }
+    std::set<uint32_t> input_setting::get_open_menu_key_combination() { return menu_input.open_key_combination; }
 
-    std::vector<uint32_t> input_setting::get_close_menu_key_combination() { return menu_input.close_key_combination; }
+    std::set<uint32_t> input_setting::get_close_menu_key_combination() { return menu_input.close_key_combination; }
 
     std::vector<uint32_t> input_setting::get_next_page_menu_key_list() { return menu_input.page_next_keys; }
 
@@ -123,11 +127,11 @@ namespace setting {
 
     bool input_setting::get_menu_pause_game() { return menu_input.pause_game; }
 
-    std::vector<uint32_t> input_setting::get_open_inventory_menu_key_combination() {
+    std::set<uint32_t> input_setting::get_open_inventory_menu_key_combination() {
         return inventory_input.open_key_combination;
     }
 
-    std::vector<uint32_t> input_setting::get_close_inventory_menu_key_combination() {
+    std::set<uint32_t> input_setting::get_close_inventory_menu_key_combination() {
         return inventory_input.close_key_combination;
     }
 
