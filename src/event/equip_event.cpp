@@ -1,5 +1,5 @@
 ﻿#include "equip_event.h"
-#include "handler/show_handler.h"
+#include "scaleform/menus/stats_inventory_menu.h"
 
 namespace event {
 
@@ -24,8 +24,15 @@ namespace event {
         if (formid->IsArmor() || formid->IsWeapon() || formid->IsAmmo()) {
             logger::trace("Player {} {}"sv, (a_event->equipped ? "equipped" : "unequipped"), formid->GetName());
             //if menu is open trigger reload of data
-            if (handler::show_handler::is_menu_open(setting_data::menu_data::menu_type::stats_inventory)) {
-                handler::show_handler::handle_inventory_stats_update();
+            if (scaleform::stats_inventory_menu::is_menu_open()) {
+                /*have to add it via task, so inventory is ready, might be useful for other menus as well*/
+                const auto* task = SKSE::GetTaskInterface();
+                task->AddUITask([]() {
+                    if (const auto menu = RE::UI::GetSingleton()->GetMenu<scaleform::stats_inventory_menu>(
+                            scaleform::stats_inventory_menu::menu_name)) {
+                        menu->refresh_lists();
+                    }
+                });
             }
         }
 
