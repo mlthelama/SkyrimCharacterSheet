@@ -1,8 +1,9 @@
 #include "scaleform/menus/stats_menu.h"
 #include "actor/player.h"
-#include "handler/show_handler.h"
 #include "mod/mod_manager.h"
+#include "scaleform/menus/faction_menu.h"
 #include "setting/input_setting.h"
+#include "util/key_util.h"
 
 namespace scaleform {
     void stats_menu::Register() {
@@ -71,7 +72,7 @@ namespace scaleform {
                 flag::kUpdateUsesCursor,
                 flag::kTopmostRenderedMenu);
         }
-        v_menu->depthPriority = 5;
+        v_menu->depthPriority = 3;
         v_menu->inputContext = context::kNone;
 
         init_extensions();
@@ -86,6 +87,9 @@ namespace scaleform {
 
         is_active_ = true;
         view_->SetVisible(true);
+
+        auto menu_controls = RE::MenuControls::GetSingleton();
+        menu_controls->RegisterHandler(this);
     }
 
     RE::IMenu* stats_menu::creator() { return new stats_menu(); }
@@ -95,6 +99,7 @@ namespace scaleform {
     RE::UI_MESSAGE_RESULTS stats_menu::ProcessMessage(RE::UIMessage& a_message) {
         switch (*a_message.type) {
             case RE::UI_MESSAGE_TYPE::kHide:
+            case RE::UI_MESSAGE_TYPE::kForceHide:
                 on_close();
                 return RE::UI_MESSAGE_RESULTS::kHandled;
             default:
@@ -339,7 +344,6 @@ namespace scaleform {
 
     void stats_menu::next_menu(const RE::FxDelegateArgs& a_params) {
         logger::debug("GUI Next Button Pressed, parameter count {}"sv, a_params.GetArgCount());
-        close();
         process_next();
     }
 
@@ -356,8 +360,8 @@ namespace scaleform {
     }
 
     void stats_menu::process_next() {
-        auto next_menu = setting::config_setting::get_singleton()->get_next_menu_type(menu_type);
-        handler::show_handler::handle_menu_swap(next_menu);
+        close();
+        faction_menu::open();
     }
 
     std::string stats_menu::get_column_name(setting_data::menu_data::stats_column_type a_column) const {
@@ -367,4 +371,36 @@ namespace scaleform {
         return {};
     }
 
+    bool stats_menu::CanProcess(RE::InputEvent* a_event) {
+        if (!a_event) {
+            return false;
+        }
+
+        return true;
+    }
+
+    bool stats_menu::ProcessButton(RE::ButtonEvent* a_event) {
+        logger::info("got event key {}"sv, a_event->idCode);
+
+        auto key = a_event->idCode;
+        util::key_util::get_key_id(a_event->GetDevice(), key);
+
+        if (a_event->IsDown()) {
+            if (key == RE::BSWin32KeyboardDevice::Key::kEscape) {
+                close();
+            }
+            auto next = setting::input_setting::get_next_page_menu_key_list();
+            if (std::find(next.begin(), next.end(), key) != next.end()) {
+                logger::debug("next menu Key ({}) pressed"sv, key);
+                process_next();
+            }
+        }
+
+        return true;
+    }
+
+    stats_menu::~stats_menu() {
+        auto menu_controls = RE::MenuControls::GetSingleton();
+        menu_controls->RemoveHandler(this);
+    }
 }

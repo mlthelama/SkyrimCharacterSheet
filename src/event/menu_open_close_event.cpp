@@ -1,5 +1,7 @@
 ﻿#include "menu_open_close_event.h"
-#include "handler/show_handler.h"
+#include "scaleform/menus/faction_menu.h"
+#include "scaleform/menus/stats_inventory_menu.h"
+#include "scaleform/menus/stats_menu.h"
 #include "setting/input_setting.h"
 
 namespace event {
@@ -20,22 +22,22 @@ namespace event {
         //that should not happen
         if (a_event->opening &&
             (a_event->menuName == RE::InventoryMenu::MENU_NAME || a_event->menuName == RE::MagicMenu::MENU_NAME)) {
-            if (handler::show_handler::is_menu_open()) {
-                handler::show_handler::close_window(setting_data::menu_data::menu_type::stats);
-                handler::show_handler::close_window(setting_data::menu_data::menu_type::faction);
+            if (scaleform::stats_menu::is_menu_open() || scaleform::faction_menu::is_menu_open()) {
+                scaleform::stats_menu::close();
+                scaleform::faction_menu::close();
             }
 
             if ((setting::input_setting::auto_open_inventory_menu_inventory() &&
                     a_event->menuName == RE::InventoryMenu::MENU_NAME) ||
                 (setting::input_setting::auto_open_inventory_menu_magic() &&
                     a_event->menuName == RE::MagicMenu::MENU_NAME)) {
-                handler::show_handler::handle_inventory_stats_open();
+                scaleform::stats_inventory_menu::open();
             }
         }
 
         if (!a_event->opening &&
             (a_event->menuName == RE::InventoryMenu::MENU_NAME || a_event->menuName == RE::MagicMenu::MENU_NAME)) {
-            handler::show_handler::close_window(setting_data::menu_data::menu_type::stats_inventory);
+            scaleform::stats_inventory_menu::close();
         }
 
         return event_result::kContinue;

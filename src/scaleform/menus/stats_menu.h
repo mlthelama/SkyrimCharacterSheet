@@ -8,8 +8,13 @@
 
 namespace scaleform {
 
-    class stats_menu final : public RE::IMenu {
+    class stats_menu final
+        : public RE::IMenu
+        , public RE::MenuEventHandler {
     public:
+        using GRefCountBaseStatImpl::operator new;
+        using GRefCountBaseStatImpl::operator delete;
+
         static constexpr std::string_view menu_name = "ShowStats";
         static constexpr std::string_view file_name = menu_name;
         static constexpr setting_data::menu_data::menu_type menu_type = setting_data::menu_data::menu_type::stats;
@@ -31,7 +36,7 @@ namespace scaleform {
     protected:
         stats_menu();
 
-        ~stats_menu() override = default;
+        ~stats_menu() override;
 
         static stl::owner<IMenu*> creator();
 
@@ -42,6 +47,10 @@ namespace scaleform {
         void AdvanceMovie(float a_interval, uint32_t a_current_time) override;
 
         void Accept(CallbackProcessor* a_processor) override;
+
+        bool CanProcess(RE::InputEvent* a_event) override;
+
+        bool ProcessButton(RE::ButtonEvent* a_event) override;
 
     private:
         class Logger : public RE::GFxLog {

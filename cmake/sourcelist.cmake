@@ -24,8 +24,6 @@ set(sources ${sources}
 	src/event/input_event.h
 	src/event/menu_open_close_event.cpp
 	src/event/menu_open_close_event.h
-	src/handler/show_handler.cpp
-	src/handler/show_handler.h
 	src/main.cpp
 	src/mod/armor_rating_rescaled_remake.cpp
 	src/mod/armor_rating_rescaled_remake.h
@@ -58,6 +56,8 @@ set(sources ${sources}
 	src/util/file.h
 	src/util/form.cpp
 	src/util/form.h
+	src/util/key_util.cpp
+	src/util/key_util.h
 	src/util/player/perkvisitor.cpp
 	src/util/player/perkvisitor.h
 	src/util/player/player.cpp

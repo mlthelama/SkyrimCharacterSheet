@@ -1,5 +1,7 @@
 ﻿#include "input_event.h"
-#include "handler/show_handler.h"
+#include "scaleform/menus/faction_menu.h"
+#include "scaleform/menus/stats_inventory_menu.h"
+#include "scaleform/menus/stats_menu.h"
 #include "setting/ini_setting.h"
 #include "setting/input_setting.h"
 
@@ -15,7 +17,7 @@ namespace event {
         [[maybe_unused]] RE::BSTEventSource<RE::InputEvent*>* a_event_source) {
         key_ = static_cast<uint32_t>(ini_setting::get_open_menu_button());
 
-        if (key_ == k_invalid) {
+        if (key_ == util::key_util::k_invalid) {
             return event_result::kContinue;
         }
 
@@ -43,27 +45,15 @@ namespace event {
             }
 
             auto key = button->idCode;
-            switch (button->device.get()) {
-                case RE::INPUT_DEVICE::kMouse:
-                    key += k_mouse_offset;
-                    break;
-                case RE::INPUT_DEVICE::kKeyboard:
-                    key += k_keyboard_offset;
-                    break;
-                case RE::INPUT_DEVICE::kGamepad:
-                    key = get_gamepad_index(static_cast<RE::BSWin32GamepadDevice::Key>(key));
-                    break;
-                default:
-                    continue;
-            }
+            util::key_util::get_key_id(button->device.get(), key);
 
             if (ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) || ui->IsMenuOpen(RE::MagicMenu::MENU_NAME)) {
                 if (key == static_cast<uint32_t>(ini_setting::get_show_inventory_button())) {
                     logger::debug("configured Key ({}) for Inventory pressed"sv, key);
-                    if (!handler::show_handler::is_menu_open(setting_data::menu_data::menu_type::stats_inventory)) {
-                        handler::show_handler::handle_inventory_stats_open();
+                    if (!scaleform::stats_inventory_menu::is_menu_open()) {
+                        scaleform::stats_inventory_menu::open();
                     } else {
-                        handler::show_handler::close_window(setting_data::menu_data::menu_type::stats_inventory);
+                        scaleform::stats_inventory_menu::close();
                     }
                 }
             }
@@ -73,7 +63,8 @@ namespace event {
             }
 
             /*if the game is not paused with the menu, it triggers the menu always in the background*/
-            if (ui->GameIsPaused() && !handler::show_handler::is_menu_open()) {
+            if (ui->GameIsPaused() &&
+                !(scaleform::stats_menu::is_menu_open() || scaleform::faction_menu::is_menu_open())) {
                 continue;
             }
 
@@ -85,103 +76,19 @@ namespace event {
 
             //logger::info("user event {}, id {}"sv, button->userEvent, button->idCode);
 
-            if (handler::show_handler::is_menu_open(setting_data::menu_data::menu_type::stats)) {
-                auto next = setting::input_setting::get_next_page_menu_key_list();
-                if (std::find(next.begin(), next.end(), key) != next.end()) {
-                    logger::debug("next menu Key ({}) pressed"sv, key);
-                    handler::show_handler::handle_next_menu_button_press();
-                    break;
-                }
-            }
-
-            if (handler::show_handler::is_menu_open(setting_data::menu_data::menu_type::faction)) {
-                auto previous = setting::input_setting::get_previous_page_menu_key_list();
-                if (std::find(previous.begin(), previous.end(), key) != previous.end()) {
-                    logger::debug("previous menu Key ({}) pressed"sv, key);
-                    handler::show_handler::handle_next_menu_button_press();
-                    break;
-                }
-            }
-
             if (key == key_) {
                 logger::debug("configured Key ({}) pressed"sv, key);
-                handler::show_handler::handle_main_button_press();
+                if (scaleform::stats_menu::is_menu_open()) {
+                    scaleform::stats_menu::close();
+                } else if (scaleform::faction_menu::is_menu_open()) {
+                    scaleform::faction_menu::close();
+                } else {
+                    scaleform::stats_menu::open();
+                }
                 break;
-            }
-
-            if (handler::show_handler::is_menu_open() && key == RE::BSWin32KeyboardDevice::Key::kEscape) {
-                //TODO Test
-                //button->idCode = k_invalid;
-                //button->userEvent = "";
-                //logger::info("value {}"sv, button->value);
-                handler::show_handler::close_all_windows();
-                //break;
-                //continue;
             }
         }
         return event_result::kContinue;
     }
-
-    uint32_t input_event::get_gamepad_index(RE::BSWin32GamepadDevice::Key a_key) {
-        using key = RE::BSWin32GamepadDevice::Key;
-
-        uint32_t index;
-        switch (a_key) {
-            case key::kUp:
-                index = 0;
-                break;
-            case key::kDown:
-                index = 1;
-                break;
-            case key::kLeft:
-                index = 2;
-                break;
-            case key::kRight:
-                index = 3;
-                break;
-            case key::kStart:
-                index = 4;
-                break;
-            case key::kBack:
-                index = 5;
-                break;
-            case key::kLeftThumb:
-                index = 6;
-                break;
-            case key::kRightThumb:
-                index = 7;
-                break;
-            case key::kLeftShoulder:
-                index = 8;
-                break;
-            case key::kRightShoulder:
-                index = 9;
-                break;
-            case key::kA:
-                index = 10;
-                break;
-            case key::kB:
-                index = 11;
-                break;
-            case key::kX:
-                index = 12;
-                break;
-            case key::kY:
-                index = 13;
-                break;
-            case key::kLeftTrigger:
-                index = 14;
-                break;
-            case key::kRightTrigger:
-                index = 15;
-                break;
-            default:
-                index = k_invalid;
-                break;
-        }
-
-        return index != k_invalid ? index + k_gamepad_offset : k_invalid;
-    }
-
 
 }
