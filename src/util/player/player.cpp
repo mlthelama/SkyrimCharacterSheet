@@ -2,8 +2,8 @@
 #include "mod/armor_rating_rescaled_remake.h"
 #include "mod/blade_and_blunt.h"
 #include "mod/mod_manager.h"
-#include "setting/config_setting.h"
 #include "setting/game_setting.h"
+#include "setting/key_setting.h"
 #include "util/player/perkvisitor.h"
 #include "util/type_util.h"
 
@@ -145,12 +145,11 @@ namespace util {
     }
 
     std::string player::get_is_beast(RE::PlayerCharacter*& a_player) {
-        auto* config_setting = setting::config_setting::get_singleton();
         if (a_player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kVampirePerks) > 0) {
-            return config_setting->get_key_data(setting_data::key_data::key_name::vampire)->name;
+            return setting::key_setting::get_key(setting::key_setting::key_name::vampire);
         }
         if (a_player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kWerewolfPerks) > 0) {
-            return config_setting->get_key_data(setting_data::key_data::key_name::werewolf)->name;
+            return setting::key_setting::get_key(setting::key_setting::key_name::werewolf);
         }
 
         return {};

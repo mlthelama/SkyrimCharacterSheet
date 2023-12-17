@@ -52,6 +52,8 @@ set(sources ${sources}
 	src/setting/ini_setting.h
 	src/setting/input_setting.cpp
 	src/setting/input_setting.h
+	src/setting/key_setting.cpp
+	src/setting/key_setting.h
 	src/util/file.cpp
 	src/util/file.h
 	src/util/form.cpp

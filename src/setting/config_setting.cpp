@@ -211,57 +211,6 @@ namespace setting {
         logger::trace("loaded {} player setting"sv, data->player_data_list.size());
     }
 
-    void config_setting::load_key_setting_file() {
-        logger::trace("loading key setting file"sv);
-        auto file = R"(Data\SKSE\Plugins\SkyrimCharacterSheet\SkyrimCharacterSheet_Keys.json)";
-        std::ifstream key_setting_file(file);
-        if (!key_setting_file) {
-            logger::warn("file {} not found"sv, file);
-            return;
-        }
-
-        if (!this->data_) {
-            this->data_ = new config_setting_data();
-        }
-        config_setting_data* data = this->data_;
-
-        std::map<key_data::key_name, key_data*> key_data_map;
-
-        logger::trace("loading key setting from file {}"sv, file);
-
-        nlohmann::json json_setting;
-        key_setting_file >> json_setting;
-
-        if (json_setting.at("keys").is_array()) {
-            auto& json_keys = json_setting.at("keys");
-            for (auto& key_element : json_keys) {
-                auto* key_data = new setting_data::key_data();
-
-                auto& key = key_element.at("key");
-                if (key.is_string()) {
-                    auto key_name = magic_enum::enum_cast<key_data::key_name>(std::string{ key });
-                    if (key_name.has_value()) {
-                        key_data->key = key_name.value();
-                    } else {
-                        logger::warn("could not get enum for name {}"sv, to_string(key));
-                    }
-                }
-
-                auto& name = key_element.at("name");
-                if (name.is_string()) {
-                    key_data->name = name;
-                }
-
-                key_data_map[key_data->key] = key_data;
-                key_data->log();
-            }
-        }
-
-        data->key_data_map = key_data_map;
-
-        logger::trace("done loading key setting file, loaded {}"sv, data->key_data_map.size());
-    }
-
     setting_data::menu_data::menu_type config_setting::get_next_menu_type(setting_data::menu_data::menu_type a_menu) {
         auto* next_menu = get_next_menu(a_menu);
         if (next_menu) {
@@ -334,14 +283,6 @@ namespace setting {
         if (const config_setting_data* data = this->data_;
             data && !data->menu_data_map.empty() && data->menu_data_map.contains(a_menu)) {
             return data->menu_data_map.at(a_menu);
-        }
-        return {};
-    }
-
-    config_setting::key_data* config_setting::get_key_data(setting_data::key_data::key_name a_key) {
-        if (const config_setting_data* data = this->data_;
-            data && !data->key_data_map.empty() && data->key_data_map.contains(a_key)) {
-            return data->key_data_map.at(a_key);
         }
         return {};
     }
