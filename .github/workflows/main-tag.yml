@@ -46,6 +46,7 @@ jobs:
           configurePreset: 'vs2022-windows'
           buildPreset: 'vs2022-windows'
           buildPresetAdditionalArgs: "['--config Release']"
+          testPresetAdditionalArgs: "['--config Release']"
 
       - name: setup python
         uses: actions/setup-python@v4
