@@ -12,9 +12,6 @@ namespace util {
 
         static void get_key_id(RE::INPUT_DEVICE a_device, uint32_t& a_key);
 
-        //static bool is_key_valid(uint32_t a_key);
-        //static bool is_key_valid_and_matches(uint32_t a_key, uint32_t a_key_to_check);
-
     private:
         static uint32_t get_gamepad_index(RE::BSWin32GamepadDevice::Key a_key);
     };

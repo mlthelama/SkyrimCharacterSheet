@@ -96,6 +96,7 @@ namespace scaleform {
         }
         return RE::UI_MESSAGE_RESULTS::kPassOn;
     }
+    
     void stats_inventory_menu::AdvanceMovie(const float a_interval, const uint32_t a_current_time) {
         IMenu::AdvanceMovie(a_interval, a_current_time);
     }
