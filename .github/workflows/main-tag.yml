@@ -2,8 +2,8 @@ name: Main Tag CI
 
 on:
   push:
-    tags:        
-      - '*'   
+    tags:
+    - '*'
     paths:
       - '.github/workflows/main_ci.yml'
       - 'cmake/**'
@@ -12,8 +12,6 @@ on:
       - 'CMakePresets.json'
       - 'vcpkg-configuration.json'
       - 'vcpkg.json'
-  pull_request:
-  workflow_dispatch:
 
 env:
   VCPKG_COMMIT_ID: 93895b28ea7bc8cda10f156c5d336f3fc070f8b1
