@@ -9,24 +9,29 @@ def make_rel_archive(a_args):
     # english is already existing, those are just needed to copy the english one
     languages = ["czech", "french", "german", "italian", "japanese", "polish", "russian", "spanish"]
 
+    os.chdir('../')
+    v_pwd: str = os.getcwd()
+
     resource_extensions: list[str] = ["*.json"]
-    v_path: str = os.path.join(a_args.src_dir, "config")
+    v_path: str = os.path.join(v_pwd, "config")
     for extension in resource_extensions:
         for path in Path(v_path).rglob(extension):
             archive.write(path, os.path.join("SKSE/Plugins/SkyrimCharacterSheet/", path.relative_to(v_path)))
 
-    archive.write(a_args.dll, "SKSE/Plugins/{}".format(os.path.basename(a_args.dll)))
-    archive.write(a_args.pdb, "SKSE/Plugins/{}".format(os.path.basename(a_args.pdb)))
-    archive.write(os.path.join(a_args.src_dir, "swf", "standard", "ShowStats.swf"), "Interface/ShowStats.swf")
-    archive.write(os.path.join(a_args.src_dir, "swf", "standard", "ShowFactions.swf"), "Interface/ShowFactions.swf")
-    archive.write(os.path.join(a_args.src_dir, "swf", "standard", "ShowStatsInventory.swf"),
+    archive.write(os.path.join(v_pwd, a_args.dll), "SKSE/Plugins/{}".format(os.path.basename(a_args.dll)))
+    archive.write(os.path.join(v_pwd, a_args.pdb), "SKSE/Plugins/{}".format(os.path.basename(a_args.pdb)))
+    archive.write(os.path.join(v_pwd, "swf", "standard", "ShowStats.swf"), "Interface/ShowStats.swf")
+    archive.write(os.path.join(v_pwd, "swf", "standard", "ShowFactions.swf"), "Interface/ShowFactions.swf")
+    archive.write(os.path.join(v_pwd, "swf", "standard", "ShowStatsInventory.swf"),
                   "Interface/ShowStatsInventory.swf")
-    archive.write(os.path.join(a_args.src_dir, "swf", "Translations", "SkyrimCharacterSheet_english.txt"),
+    archive.write(os.path.join(v_pwd, "swf", "Translations", "SkyrimCharacterSheet_english.txt"),
                   "Interface/Translations/SkyrimCharacterSheet_english.txt")
-
+    
     for lang in languages:
-        archive.write(os.path.join(a_args.src_dir, "swf", "Translations", "SkyrimCharacterSheet_english.txt"),
+        archive.write(os.path.join(v_pwd, "swf", "Translations", "SkyrimCharacterSheet_english.txt"),
                       "Interface/Translations/SkyrimCharacterSheet_" + lang + ".txt")
+
+    archive.write(os.path.join(v_pwd, "extern", "skyui", "swf", "icons_item_psychosteve_merged.swf"), "Interface/skyui/icons_item_psychosteve_merged.swf")
 
 
 def parse_arguments():
@@ -34,7 +39,6 @@ def parse_arguments():
     parser.add_argument("--dll", type=str, help="the full dll path", required=True)
     parser.add_argument("--name", type=str, help="the project name", required=True)
     parser.add_argument("--pdb", type=str, help="the full pdb path", required=True)
-    parser.add_argument("--src-dir", type=str, help="the project root source directory", required=True)
     return parser.parse_args()
 
 
