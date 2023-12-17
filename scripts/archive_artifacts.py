@@ -17,7 +17,6 @@ def make_rel_archive(a_args):
 
     archive.write(a_args.dll, "SKSE/Plugins/{}".format(os.path.basename(a_args.dll)))
     archive.write(a_args.pdb, "SKSE/Plugins/{}".format(os.path.basename(a_args.pdb)))
-    archive.write(os.path.join(a_args.src_dir, "config", "SkyrimCharacterSheet.ini"), "SKSE/Plugins/SkyrimCharacterSheet.ini")
     archive.write(os.path.join(a_args.src_dir, "swf", "standard", "ShowStats.swf"), "Interface/ShowStats.swf")
     archive.write(os.path.join(a_args.src_dir, "swf", "standard", "ShowFactions.swf"), "Interface/ShowFactions.swf")
     archive.write(os.path.join(a_args.src_dir, "swf", "standard", "ShowStatsInventory.swf"),

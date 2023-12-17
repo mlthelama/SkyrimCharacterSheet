@@ -100,7 +100,7 @@ namespace util {
                         slot_list.push_back(static_cast<int32_t>(slot));
                     }
                 }
-                auto slot_string = util::type_util::get_delimited_string_from_vector(slot_list);
+                auto slot_string = util::type_util::get_delimited_string(slot_list);
                 slot_list.clear();
                 if (!slot_string.empty()) {
                     slot_map_string[slot_string] = armor->GetName();

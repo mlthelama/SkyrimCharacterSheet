@@ -118,9 +118,14 @@ add_library(
 	${CMAKE_CURRENT_BINARY_DIR}/include/Version.h
 	${CMAKE_CURRENT_BINARY_DIR}/version.rc
 	.clang-format
-    .editorconfig
-	config/SkyrimCharacterSheet.ini
+	.editorconfig
+	config/SkyrimCharacterSheet_Champion.json
 	config/SkyrimCharacterSheet_Faction.json
+	config/SkyrimCharacterSheet_Input.json
+	config/SkyrimCharacterSheet_Keys.json
+	config/SkyrimCharacterSheet_Menu.json
+	config/SkyrimCharacterSheet_Player.json
+	config/SkyrimCharacterSheet_Thane.json
 )
 
 target_compile_features(

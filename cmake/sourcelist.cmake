@@ -48,7 +48,6 @@ set(sources ${sources}
 	src/setting/data/thane_data.h
 	src/setting/game_setting.cpp
 	src/setting/game_setting.h
-	src/setting/ini_setting.h
 	src/setting/input_setting.cpp
 	src/setting/input_setting.h
 	src/setting/key_setting.cpp

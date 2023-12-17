@@ -42,11 +42,11 @@ namespace util {
 
         logger::debug("for quest {}, got stages (values)/size completed ({})/{}, given ({})/{}, intersect ({})/{}"sv,
             form_id,
-            type_util::get_delimited_string_from_vector(finished_stages),
+            type_util::get_delimited_string(finished_stages),
             finished_stages.size(),
-            type_util::get_delimited_string_from_vector(a_stages),
+            type_util::get_delimited_string(a_stages),
             a_stages.size(),
-            type_util::get_delimited_string_from_vector(intersect),
+            type_util::get_delimited_string(intersect),
             intersect.size());
 
         return !intersect.empty();
