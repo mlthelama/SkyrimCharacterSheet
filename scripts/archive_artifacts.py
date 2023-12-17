@@ -11,6 +11,8 @@ def make_rel_archive(a_args):
 
     os.chdir('../')
     v_pwd: str = os.getcwd()
+    if (a_args.dir):
+        v_pwd: str = os.path.join(os.getcwd(), a_args.dir)
 
     resource_extensions: list[str] = ["*.json"]
     v_path: str = os.path.join(v_pwd, "config")
@@ -39,6 +41,7 @@ def parse_arguments():
     parser.add_argument("--dll", type=str, help="the full dll path", required=True)
     parser.add_argument("--name", type=str, help="the project name", required=True)
     parser.add_argument("--pdb", type=str, help="the full pdb path", required=True)
+    parser.add_argument("--dir", type=str, help="additonal", required=False)
     return parser.parse_args()
 
 
