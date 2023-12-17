@@ -13,7 +13,6 @@ on:
       - 'vcpkg-configuration.json'
       - 'vcpkg.json'
   pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 env:
