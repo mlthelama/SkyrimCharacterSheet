@@ -391,10 +391,4 @@ FodyWeavers.xsd
 out/
 build/
 swf/gfx/
-swf/*.swf
-swf/paper*/*.png
-swf/*/*.swf
-fomod/*.zip
-fomod/ShowStats/gui
-fomod/ShowStats/main
-cmake-build-release
+
