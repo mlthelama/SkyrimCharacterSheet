@@ -60,7 +60,6 @@ jobs:
           branches: "main;dev"
           tags: true
           verbose: true
-          prerelease: true
 
       - uses: actions/upload-artifact@v4
         with:
