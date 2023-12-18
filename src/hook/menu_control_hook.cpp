@@ -35,7 +35,6 @@ namespace hook {
                         setting::input_setting::auto_open_inventory_menu_magic() &&
                             ui->IsMenuOpen(RE::MagicMenu::MENU_NAME)) {
                         scaleform::stats_inventory_menu::open();
-                        logger::info("in open auto");
                     }
                 }
 
@@ -65,12 +64,10 @@ namespace hook {
                     if (key_input->is_down_list_equal(false) && scaleform::stats_inventory_menu::is_menu_open()) {
                         scaleform::stats_inventory_menu::close();
                         key_input->set_menu_manual_close(true);
-                        logger::info("in close");
                     }
                     if (key_input->is_down_list_equal(true) && !scaleform::stats_inventory_menu::is_menu_open()) {
                         scaleform::stats_inventory_menu::open();
                         key_input->set_menu_manual_close(false);
-                        logger::info("in open");
                     }
                 }
             }
