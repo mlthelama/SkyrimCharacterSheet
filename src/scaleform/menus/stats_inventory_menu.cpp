@@ -5,6 +5,7 @@
 #include "util/player/player.h"
 
 namespace scaleform {
+
     void stats_inventory_menu::Register() {
         RE::UI::GetSingleton()->Register(menu_name, creator);
         logger::info("Registered {}"sv, menu_name);

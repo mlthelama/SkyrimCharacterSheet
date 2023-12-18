@@ -25,8 +25,6 @@ namespace event {
 
         std::set<uint32_t> open_key_combo_;
         std::set<uint32_t> close_key_combo_;
-        std::set<uint32_t> open_inventory_key_combo_;
-        std::set<uint32_t> close_inventory_key_combo_;
 
         std::set<uint32_t> key_down_list_;
 

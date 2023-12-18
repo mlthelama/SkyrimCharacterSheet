@@ -35,7 +35,7 @@ namespace event {
                     scaleform::stats_inventory_menu::open();
                 }
             }
-            
+
             if (a_event->menuName == RE::BookMenu::MENU_NAME) {
                 if (scaleform::stats_inventory_menu::is_menu_open()) {
                     scaleform::stats_inventory_menu::close();
@@ -43,9 +43,10 @@ namespace event {
             }
         }
 
-        if (!a_event->opening &&
-            (a_event->menuName == RE::InventoryMenu::MENU_NAME || a_event->menuName == RE::MagicMenu::MENU_NAME)) {
-            scaleform::stats_inventory_menu::close();
+        if (!a_event->opening) {
+            if (a_event->menuName == RE::InventoryMenu::MENU_NAME || a_event->menuName == RE::MagicMenu::MENU_NAME) {
+                scaleform::stats_inventory_menu::close();
+            }
         }
 
         return event_result::kContinue;

@@ -17,8 +17,6 @@ namespace event {
         [[maybe_unused]] RE::BSTEventSource<RE::InputEvent*>* a_event_source) {
         open_key_combo_ = setting::input_setting::get_open_menu_key_combination();
         close_key_combo_ = setting::input_setting::get_close_menu_key_combination();
-        open_inventory_key_combo_ = setting::input_setting::get_open_inventory_menu_key_combination();
-        close_inventory_key_combo_ = setting::input_setting::get_open_inventory_menu_key_combination();
 
         if (is_one_combo_empty()) {
             return event_result::kContinue;
@@ -56,22 +54,6 @@ namespace event {
                 continue;
             }
 
-            if (open_key_combo_.contains(key) || close_key_combo_.contains(key) ||
-                open_inventory_key_combo_.contains(key) || close_inventory_key_combo_.contains(key)) {
-                add_key_down(key_down_list_, key);
-            }
-
-            if (ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) || ui->IsMenuOpen(RE::MagicMenu::MENU_NAME)) {
-                if (close_inventory_key_combo_ == key_down_list_ && scaleform::stats_inventory_menu::is_menu_open()) {
-                    log_combo_set(close_inventory_key_combo_, key_down_list_);
-                    scaleform::stats_inventory_menu::close();
-                }
-                if (open_inventory_key_combo_ == key_down_list_ && !scaleform::stats_inventory_menu::is_menu_open()) {
-                    log_combo_set(open_inventory_key_combo_, key_down_list_);
-                    scaleform::stats_inventory_menu::open();
-                }
-            }
-
             if (auto* control_map = RE::ControlMap::GetSingleton(); !control_map->IsMovementControlsEnabled()) {
                 continue;
             }
@@ -86,6 +68,10 @@ namespace event {
             //so let that not happen
             if (ui->IsMenuOpen(RE::CraftingMenu::MENU_NAME)) {
                 continue;
+            }
+
+            if (open_key_combo_.contains(key) || close_key_combo_.contains(key)) {
+                add_key_down(key_down_list_, key);
             }
 
             //logger::info("user event {}, id {}"sv, button->userEvent, button->idCode);
@@ -124,10 +110,7 @@ namespace event {
         }
     }
 
-    bool input_event::is_one_combo_empty() {
-        return open_key_combo_.empty() || close_key_combo_.empty() || open_inventory_key_combo_.empty() ||
-               close_inventory_key_combo_.empty();
-    }
+    bool input_event::is_one_combo_empty() { return open_key_combo_.empty() || close_key_combo_.empty(); }
 
     void input_event::log_combo_set(std::set<uint32_t>& a_needed, std::set<uint32_t>& a_down) {
         logger::trace("key combo needed {}, down list {}"sv,

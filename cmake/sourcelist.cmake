@@ -28,6 +28,8 @@ set(sources ${sources}
 	src/hook/hook.h
 	src/hook/menu_control_hook.cpp
 	src/hook/menu_control_hook.h
+	src/input/menu_key_input_holder.cpp
+	src/input/menu_key_input_holder.h
 	src/main.cpp
 	src/mod/armor_rating_rescaled_remake.cpp
 	src/mod/armor_rating_rescaled_remake.h

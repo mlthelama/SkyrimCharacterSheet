@@ -1,6 +1,8 @@
 ﻿#include "menu_control_hook.h"
+#include "input/menu_key_input_holder.h"
 #include "scaleform/menus/stats_inventory_menu.h"
 #include "setting/input_setting.h"
+#include "util/key_util.h"
 
 namespace hook {
 
@@ -17,22 +19,58 @@ namespace hook {
         RE::BSTEventSource<RE::InputEvent*>* a_source) {
         auto* ui = RE::UI::GetSingleton();
 
-        //TODO handle stuff from input manager here too, that is needed for the inventory/magic menus
         if (a_event && *a_event && is_menu_open(ui)) {
+            auto* inventory_manager = RE::Inventory3DManager::GetSingleton();
+            auto* key_input = input::menu_key_input_holder::get_singleton();
+
             for (auto* event = *a_event; event; event = event->next) {
+                if (inventory_manager && inventory_manager->GetRuntimeData().zoomProgress != 0.f) {
+                    scaleform::stats_inventory_menu::close();
+                } else if (inventory_manager && inventory_manager->GetRuntimeData().zoomProgress == 0.f &&
+                           !scaleform::stats_inventory_menu::is_menu_open() &&
+                           !ui->IsMenuOpen(RE::BookMenu::MENU_NAME)) {
+                    if (!key_input->get_menu_manual_close() &&
+                            setting::input_setting::auto_open_inventory_menu_inventory() &&
+                            ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) ||
+                        setting::input_setting::auto_open_inventory_menu_magic() &&
+                            ui->IsMenuOpen(RE::MagicMenu::MENU_NAME)) {
+                        scaleform::stats_inventory_menu::open();
+                        logger::info("in open auto");
+                    }
+                }
+
+                if (event->eventType != RE::INPUT_EVENT_TYPE::kButton &&
+                    event->eventType != RE::INPUT_EVENT_TYPE::kThumbstick) {
+                    continue;
+                }
+
                 if (event->HasIDCode()) {
-                    auto* inventory_manager = RE::Inventory3DManager::GetSingleton();
-                    if (inventory_manager && inventory_manager->GetRuntimeData().zoomProgress != 0.f) {
+                    auto* button = static_cast<RE::ButtonEvent*>(event);
+                    auto key = button->idCode;
+                    util::key_util::get_key_id(button->device.get(), key);
+
+                    if (button->IsUp()) {
+                        key_input->remove_key_down(key);
+                    }
+
+                    if (!button->IsDown()) {
+                        continue;
+                    }
+
+                    if (key_input->get_open_inventory_key_combo().contains(key) ||
+                        key_input->get_close_inventory_key_combo().contains(key)) {
+                        key_input->add_key_down(key);
+                    }
+
+                    if (key_input->is_down_list_equal(false) && scaleform::stats_inventory_menu::is_menu_open()) {
                         scaleform::stats_inventory_menu::close();
-                    } else if (inventory_manager && inventory_manager->GetRuntimeData().zoomProgress == 0.f &&
-                               !scaleform::stats_inventory_menu::is_menu_open()) {
-                        //TODO fix if it has been manually closed, it should not reopen
-                        if (setting::input_setting::auto_open_inventory_menu_inventory() &&
-                                ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) ||
-                            setting::input_setting::auto_open_inventory_menu_magic() &&
-                                ui->IsMenuOpen(RE::MagicMenu::MENU_NAME)) {
-                            scaleform::stats_inventory_menu::open();
-                        }
+                        key_input->set_menu_manual_close(true);
+                        logger::info("in close");
+                    }
+                    if (key_input->is_down_list_equal(true) && !scaleform::stats_inventory_menu::is_menu_open()) {
+                        scaleform::stats_inventory_menu::open();
+                        key_input->set_menu_manual_close(false);
+                        logger::info("in open");
                     }
                 }
             }
@@ -44,6 +82,4 @@ namespace hook {
     bool menu_control_hook::is_menu_open(RE::UI*& a_ui) {
         return a_ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) || a_ui->IsMenuOpen(RE::MagicMenu::MENU_NAME);
     }
-
-
 }  // hook
