@@ -54,12 +54,6 @@ jobs:
       - name: execute py script 
         run: python ${{ github.workspace }}/main/scripts/archive_artifacts.py --name SkyrimCharacterSheet --dll build/Release/SkyrimCharacterSheet.dll --pdb build/Release/SkyrimCharacterSheet.pdb --dir main
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: SkyrimCharacterSheet
-          path: ${{ github.workspace }}/artifacts/SkyrimCharacterSheet.zip
-
-
       - uses: softprops/action-gh-release@v1
         if: ${{startsWith(github.ref, 'refs/tags/') }}
         with:
