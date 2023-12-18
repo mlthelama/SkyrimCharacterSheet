@@ -21,11 +21,6 @@ namespace event {
 
         //sometimes it can happen, if you press menu button and inventory it opens both
         //that should not happen
-        //if (a_event->opening)
-        /*if (!a_event->menuName.empty()) {
-            logger::info("menu {} {}"sv, a_event->menuName, a_event->opening ? "opening" : "closing");
-        }*/
-
         if (a_event->opening) {
             if (a_event->menuName == RE::InventoryMenu::MENU_NAME || a_event->menuName == RE::MagicMenu::MENU_NAME) {
                 if (scaleform::stats_menu::is_menu_open() || scaleform::faction_menu::is_menu_open()) {
