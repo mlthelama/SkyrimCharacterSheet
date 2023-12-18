@@ -1,4 +1,6 @@
 #include "event/event.h"
+#include "hook/hook.h"
+#include "input/menu_key_input_holder.h"
 #include "mod/mod_manager.h"
 #include "scaleform/scaleform.h"
 #include "setting/config_setting.h"
@@ -95,6 +97,9 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
 
                 scaleform::Register();
                 setting::game_setting::get_singleton()->set_settings();
+                input::menu_key_input_holder::get_singleton()->set_all();
+
+                hook::hook::install();
 
                 logger::info("Done with Data loaded"sv);
                 break;

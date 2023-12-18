@@ -25,7 +25,7 @@ namespace setting {
 
         std::map<menu_data::menu_type, menu_data*> menu_data_map;
 
-        logger::trace("loading menu setting from file {}"sv, file);
+        logger::info("loading menu setting from file {}"sv, file);
 
         nlohmann::json json_setting;
         menu_setting_file >> json_setting;
@@ -100,7 +100,7 @@ namespace setting {
         }
         data->menu_data_map = menu_data_map;
 
-        logger::trace("done loading menu setting file, loaded {}"sv, data->menu_data_map.size());
+        logger::info("done loading menu setting file, loaded {}"sv, data->menu_data_map.size());
     }
 
     void config_setting::load_all_faction_setting_files() {
@@ -108,7 +108,7 @@ namespace setting {
         auto base_name = "SkyrimCharacterSheet_Faction";
 
         auto files = util::file::search_for_config_files(base_name, ".json");
-        logger::trace("got {} files to load"sv, files.size());
+        logger::info("got {} faction files to load"sv, files.size());
 
         if (files.empty()) {
             logger::warn("no files found to load");
@@ -128,7 +128,7 @@ namespace setting {
 
         data->faction_data_map = faction_data_map;
         data->special_faction_data_list = special_faction_data_list;
-        logger::trace("loaded normal {}, special {} faction setting"sv,
+        logger::info("loaded normal {}, special {} faction setting"sv,
             data->faction_data_map.size(),
             data->special_faction_data_list.size());
     }
@@ -138,7 +138,7 @@ namespace setting {
         auto base_name = "SkyrimCharacterSheet_Champion";
 
         auto files = util::file::search_for_config_files(base_name, ".json");
-        logger::trace("got {} files to load"sv, files.size());
+        logger::info("got {} champion files to load"sv, files.size());
 
         if (files.empty()) {
             logger::warn("no files found to load");
@@ -156,7 +156,7 @@ namespace setting {
         }
 
         data->champion_data_list = champion_data_list;
-        logger::trace("loaded {} champion setting"sv, data->champion_data_list.size());
+        logger::info("loaded {} champion setting"sv, data->champion_data_list.size());
     }
 
     void config_setting::load_all_thane_setting_files() {
@@ -164,7 +164,7 @@ namespace setting {
         auto base_name = "SkyrimCharacterSheet_Thane";
 
         auto files = util::file::search_for_config_files(base_name, ".json");
-        logger::trace("got {} files to load"sv, files.size());
+        logger::info("got {} thane files to load"sv, files.size());
 
         if (files.empty()) {
             logger::warn("no files found to load");
@@ -182,7 +182,7 @@ namespace setting {
         }
 
         data->thane_data_list = thane_data_list;
-        logger::trace("loaded {} thane setting"sv, data->thane_data_list.size());
+        logger::info("loaded {} thane setting"sv, data->thane_data_list.size());
     }
 
     void config_setting::load_all_player_setting_files() {
@@ -190,7 +190,7 @@ namespace setting {
         auto base_name = "SkyrimCharacterSheet_Player";
 
         auto files = util::file::search_for_config_files(base_name, ".json");
-        logger::trace("got {} files to load"sv, files.size());
+        logger::info("got {} player files to load"sv, files.size());
 
         if (files.empty()) {
             logger::warn("no files found to load");
@@ -208,7 +208,7 @@ namespace setting {
         }
 
         data->player_data_list = player_data_list;
-        logger::trace("loaded {} player setting"sv, data->player_data_list.size());
+        logger::info("loaded {} player setting"sv, data->player_data_list.size());
     }
 
     setting_data::menu_data::menu_type config_setting::get_next_menu_type(setting_data::menu_data::menu_type a_menu) {
@@ -296,7 +296,7 @@ namespace setting {
             return;
         }
 
-        logger::trace("loading faction setting from file {}"sv, file.c_str());
+        logger::info("loading faction setting from file {}"sv, file.c_str());
 
         nlohmann::json json_setting;
         faction_setting_file >> json_setting;
@@ -399,7 +399,7 @@ namespace setting {
             }
         }
 
-        logger::trace("done loading faction setting, loaded normal {}, special {} factions so far."sv,
+        logger::info("done loading faction setting, loaded normal {}, special {} factions so far."sv,
             a_data.size(),
             a_data_list.size());
     }
@@ -449,7 +449,7 @@ namespace setting {
             return;
         }
 
-        logger::trace("loading champion setting from file {}"sv, file.c_str());
+        logger::info("loading champion setting from file {}"sv, file.c_str());
 
         nlohmann::json json_setting;
         champion_setting_file >> json_setting;
@@ -504,7 +504,7 @@ namespace setting {
                 a_data_list.push_back(champion_data);
             }
         }
-        logger::trace("done loading champion setting, loaded {} champions so far."sv, a_data_list.size());
+        logger::info("done loading champion setting, loaded {} champions so far."sv, a_data_list.size());
     }
 
     void config_setting::load_thane_setting_file(std::vector<thane_data*>& a_data_list, const std::string& file) {
@@ -514,7 +514,7 @@ namespace setting {
             return;
         }
 
-        logger::trace("loading thane setting from file {}"sv, file.c_str());
+        logger::info("loading thane setting from file {}"sv, file.c_str());
 
         nlohmann::json json_setting;
         thane_setting_file >> json_setting;
@@ -653,7 +653,7 @@ namespace setting {
                 a_data_list.push_back(thane_data);
             }
         }
-        logger::trace("done loading thane setting, loaded {} thanes so far."sv, a_data_list.size());
+        logger::info("done loading thane setting, loaded {} thanes so far."sv, a_data_list.size());
     }
 
     void config_setting::load_player_setting_file(std::vector<player_data*>& a_data_list, const std::string& file) {
@@ -663,7 +663,7 @@ namespace setting {
             return;
         }
 
-        logger::trace("loading player setting from file {}"sv, file.c_str());
+        logger::info("loading player setting from file {}"sv, file.c_str());
 
         nlohmann::json json_setting;
         player_setting_file >> json_setting;
@@ -808,6 +808,6 @@ namespace setting {
             }
         }
 
-        logger::trace("done loading player setting, loaded {} player so far."sv, a_data_list.size());
+        logger::info("done loading player setting, loaded {} player so far."sv, a_data_list.size());
     }
 }

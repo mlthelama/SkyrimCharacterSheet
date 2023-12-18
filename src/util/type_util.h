@@ -33,16 +33,15 @@ namespace util {
             }
             return delimited_string;
         }
-        
+
         template <typename T>
         static std::string get_delimited_string(std::set<T>& a_set) {
             auto delimited_string =
                 a_set.empty() ?
                     "" :
-                    std::accumulate(std::begin(a_set),
-                        std::end(a_set),
-                        std::string{},
-                        [](std::string r, const int p) { return std::move(r) + std::to_string(p) + ","; });
+                    std::accumulate(std::begin(a_set), std::end(a_set), std::string{}, [](std::string r, const int p) {
+                        return std::move(r) + std::to_string(p) + ",";
+                    });
             if (!delimited_string.empty()) {
                 delimited_string.pop_back();
             }
@@ -61,7 +60,7 @@ namespace util {
             std::ranges::set_intersection(a_vector_first, a_vector_second, back_inserter(intersection_vector));
             return intersection_vector;
         }
-        
+
     private:
         static std::string cut_string(const std::string& a_value);
     };

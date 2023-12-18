@@ -1,5 +1,5 @@
 ﻿{
-  "debug": true,
+  "debug": false,
   "stat": {
     "open_key_combination": [22],
     "close_key_combination": [22],
