@@ -19,6 +19,9 @@ on:
   schedule:
     - cron: '22 1 * * 6'
 
+env:
+  VCPKG_COMMIT_ID: 93895b28ea7bc8cda10f156c5d336f3fc070f8b1
+  
 jobs:
   analyze:
     name: Analyze
@@ -76,6 +79,7 @@ jobs:
     # - run: |
     #     echo "Run, Build Application using script"
     #     ./location_of_script_within_repo/buildscript.sh
+
     - name: Setup MSVC Environment
       uses: ilammy/msvc-dev-cmd@v1.10.0
 
