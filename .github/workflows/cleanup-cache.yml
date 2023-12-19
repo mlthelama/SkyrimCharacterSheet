@@ -1,4 +1,4 @@
-name: CleanupCachePR
+name: CleanupCacheAfterPullRequestClosed
 on:
   pull_request:
     types:
