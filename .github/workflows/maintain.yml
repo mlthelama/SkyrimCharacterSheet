@@ -1,0 +1,26 @@
+name: maintain
+
+on: 
+  push:
+  workflow_dispatch:
+  
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: run clang-format
+      run: find -type f \( -name *.h -o -name *.cpp \) | xargs clang-format -style=file -i
+
+    - name: add files to cmake
+      run: python ${{ github.workspace }}/scripts/cmake_generate.py
+
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: maintain
