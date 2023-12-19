@@ -32,7 +32,7 @@ jobs:
           submodules: recursive
 
       - name: Setup MSVC Environment
-        uses: ilammy/msvc-dev-cmd@v1.10.0
+        uses: ilammy/msvc-dev-cmd@v1.12.1
 
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
@@ -40,7 +40,7 @@ jobs:
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
 
       - name: Build
-        uses: lukka/run-cmake@v10.0
+        uses: lukka/run-cmake@v10.7
         with:
           cmakeListsTxtPath: ${{ github.workspace }}/main/CMakeLists.txt
           configurePreset: 'vs2022-windows'
