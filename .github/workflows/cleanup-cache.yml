@@ -1,8 +1,9 @@
-name: cleanup caches by a branch
+name: CleanupCachePR
 on:
   pull_request:
     types:
       - closed
+  workflow_dispatch:
 
 jobs:
   cleanup:
