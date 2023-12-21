@@ -1,4 +1,4 @@
-name: Clear Cache
+name: Clear Cache Cron
 
 on:
   schedule:
