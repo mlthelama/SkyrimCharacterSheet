@@ -127,7 +127,6 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Query(co
     pluginInfo->infoVersion = SKSE::PluginInfo::kVersion;
     pluginInfo->version = SKSEPlugin_Version.pluginVersion;
 
-
     if (a_skse->IsEditor()) {
         logger::critical("Loaded in editor, marking as incompatible"sv);
         return false;

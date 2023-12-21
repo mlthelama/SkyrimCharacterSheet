@@ -11,7 +11,6 @@
 #include "magic_enum.hpp"
 #include "nlohmann/json.hpp"
 
-
 using namespace std::literals;
 
 namespace stl {
