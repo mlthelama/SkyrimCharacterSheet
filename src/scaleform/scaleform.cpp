@@ -4,7 +4,6 @@
 #include "scaleform/menus/stats_menu.h"
 #include "setting/input_setting.h"
 
-
 namespace scaleform {
     void Register() {
         stats_menu::Register();

@@ -43,7 +43,6 @@ namespace setting_data {
             std::string column_name;
         };
 
-
         menu_type menu;
         std::string menu_name;
         std::vector<menu_column*> columns;

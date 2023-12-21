@@ -76,7 +76,6 @@ namespace scaleform {
         v_menu->depthPriority = 3;
         v_menu->inputContext = context::kNone;
 
-
         init_extensions();
 
         auto config_setting = setting::config_setting::get_singleton();
@@ -118,7 +117,6 @@ namespace scaleform {
         a_processor->Process("CloseMenu", close_menu);
         a_processor->Process("PrevMenu", prev_menu);
     }
-
 
     void faction_menu::Logger::LogMessageVarg(RE::GFxLogConstants::LogMessageType,
         const char* a_fmt,
