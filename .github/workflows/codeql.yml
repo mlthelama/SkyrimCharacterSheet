@@ -87,7 +87,7 @@ jobs:
 
     - if: matrix.language == 'cpp'
       name: Setup vcpkg
-      uses: lukka/run-vcpkg@v10.0
+      uses: lukka/run-vcpkg@v11
       with:
         vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
 
