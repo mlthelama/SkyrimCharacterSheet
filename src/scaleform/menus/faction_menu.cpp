@@ -2,13 +2,13 @@
 #include "actor/champion.h"
 #include "actor/faction.h"
 #include "actor/thane.h"
+#include "input/menu_key_input_holder.h"
 #include "mod/mod_manager.h"
 #include "scaleform/menus/stats_menu.h"
 #include "setting/config_setting.h"
 #include "setting/input_setting.h"
 #include "setting/key_setting.h"
 #include "util/key_util.h"
-#include "input/menu_key_input_holder.h"
 
 namespace scaleform {
     void faction_menu::Register() {
@@ -379,7 +379,7 @@ namespace scaleform {
             a_event->eventType != RE::INPUT_EVENT_TYPE::kThumbstick) {
             return true;
         }
-        
+
         if (a_event->HasIDCode()) {
             if (a_event->IsUp()) {
                 key_input->remove_key_down(key);
@@ -399,7 +399,7 @@ namespace scaleform {
             }
         }
 
-        
+
         return true;
     }
 

@@ -1,6 +1,6 @@
 ﻿#include "armor_rating_rescaled_remake.h"
 #include "setting/game_setting.h"
-//#include "toml++/toml.h"
+#include "toml++/toml.h"
 #include "util/type_util.h"
 
 namespace mod {
@@ -9,7 +9,7 @@ namespace mod {
     static int overwrite_armor_cap{};
 
     void armor_rating_rescaled_remake::load_config() {
-        /*auto config = toml::parse_file(R"(.\Data\SKSE\Plugins\ArmorRatingRescaledRemake.toml)");
+        auto config = toml::parse_file(R"(.\Data\SKSE\Plugins\ArmorRatingRescaledRemake.toml)");
 
         scaling_factor = config["General"]["ArmorScalingFactor"].value_or(1.0);
         disable_hidden = config["General"]["DisableHiddenArmorRating"].value_or(false);
@@ -19,7 +19,7 @@ namespace mod {
             "Armor rating rescaled remake loaded. scaling factor {}, disable hidden {}, overwrite armor cap {}"sv,
             scaling_factor,
             disable_hidden,
-            overwrite_armor_cap);*/
+            overwrite_armor_cap);
     }
 
     double armor_rating_rescaled_remake::get_scaling_factor() { return scaling_factor; }

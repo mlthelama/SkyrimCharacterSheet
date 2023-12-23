@@ -16,13 +16,6 @@ namespace hook {
         logger::info("Hooked."sv);
     }
 
-
-    static void TweenMenu_CloseTweenMenu() {
-        using func_t = decltype(&TweenMenu_CloseTweenMenu);
-        REL::Relocation<func_t> func{ REL::VariantID(51839, 52711, 0x8FE180) };
-        return func();
-    }
-
     RE::BSEventNotifyControl menu_control_hook::process_event(RE::MenuControls* a_menuControls,
         RE::InputEvent* const* a_event,
         RE::BSTEventSource<RE::InputEvent*>* a_eventSource) {
@@ -134,11 +127,16 @@ namespace hook {
         }
 
         return process_event_(a_menuControls, a_event, a_eventSource);
-        //return process_event_(this, a_event, a_source);
     }
 
     bool menu_control_hook::is_menu_open(RE::UI*& a_ui) {
         return a_ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) || a_ui->IsMenuOpen(RE::MagicMenu::MENU_NAME);
+    }
+    
+    void menu_control_hook::TweenMenu_CloseTweenMenu() {
+        using func_t = decltype(&menu_control_hook::TweenMenu_CloseTweenMenu);
+        REL::Relocation<func_t> func{ REL::VariantID(51839, 52711, 0x8FE180) };
+        return func();
     }
 
 }  // hook
