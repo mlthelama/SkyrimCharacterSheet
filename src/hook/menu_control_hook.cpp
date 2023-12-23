@@ -132,7 +132,7 @@ namespace hook {
     bool menu_control_hook::is_menu_open(RE::UI*& a_ui) {
         return a_ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) || a_ui->IsMenuOpen(RE::MagicMenu::MENU_NAME);
     }
-    
+
     void menu_control_hook::TweenMenu_CloseTweenMenu() {
         using func_t = decltype(&menu_control_hook::TweenMenu_CloseTweenMenu);
         REL::Relocation<func_t> func{ REL::VariantID(51839, 52711, 0x8FE180) };
