@@ -1,27 +1,25 @@
 ﻿{
   "debug": false,
-  "stat": {
-    "open_key_combination": [22],
-    "close_key_combination": [22],
-    "page_next_keys": [
-      32,
-      205,
-      77,
-      274
-    ],
-    "page_previous_keys": [
-      30,
-      203,
-      75,
-      270
-    ],
-    "pause_game": true
-  },
-  "inventory": {
-    "open_key_combination": [11],
-    "close_key_combination": [11],
-    "enabled": true,
-    "auto_show_inventory": true,
-    "auto_show_magic": false
-  }
+  "open_key_combination": [
+    11
+  ],
+  "close_key_combination": [
+    11
+  ],
+  "enabled": true,
+  "auto_show_inventory": true,
+  "auto_show_magic": false,
+  "page_next_keys": [
+    32,
+    205,
+    77,
+    274
+  ],
+  "page_previous_keys": [
+    30,
+    203,
+    75,
+    270
+  ],
+  "pause_game": true
 }

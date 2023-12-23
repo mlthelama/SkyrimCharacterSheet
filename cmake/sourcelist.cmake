@@ -20,8 +20,6 @@ set(sources ${sources}
 	src/event/equip_event.h
 	src/event/event.cpp
 	src/event/event.h
-	src/event/input_event.cpp
-	src/event/input_event.h
 	src/event/menu_open_close_event.cpp
 	src/event/menu_open_close_event.h
 	src/hook/hook.cpp

@@ -8,6 +8,7 @@
 #include "setting/input_setting.h"
 #include "setting/key_setting.h"
 #include "util/key_util.h"
+#include "input/menu_key_input_holder.h"
 
 namespace scaleform {
     void faction_menu::Register() {
@@ -373,6 +374,32 @@ namespace scaleform {
             }
         }
 
+        auto* key_input = input::menu_key_input_holder::get_singleton();
+        if (a_event->eventType != RE::INPUT_EVENT_TYPE::kButton &&
+            a_event->eventType != RE::INPUT_EVENT_TYPE::kThumbstick) {
+            return true;
+        }
+        
+        if (a_event->HasIDCode()) {
+            if (a_event->IsUp()) {
+                key_input->remove_key_down(key);
+            }
+
+            if (!a_event->IsDown()) {
+                return true;
+            }
+
+            if (key_input->get_open_inventory_key_combo().contains(key) ||
+                key_input->get_close_inventory_key_combo().contains(key)) {
+                key_input->add_key_down(key);
+            }
+
+            if (key_input->is_down_list_equal(false)) {
+                close();
+            }
+        }
+
+        
         return true;
     }
 

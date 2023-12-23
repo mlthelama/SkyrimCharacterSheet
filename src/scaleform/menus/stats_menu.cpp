@@ -1,5 +1,6 @@
 #include "scaleform/menus/stats_menu.h"
 #include "actor/player.h"
+#include "input/menu_key_input_holder.h"
 #include "mod/mod_manager.h"
 #include "scaleform/menus/faction_menu.h"
 #include "setting/input_setting.h"
@@ -391,6 +392,31 @@ namespace scaleform {
             if (std::find(next.begin(), next.end(), key) != next.end()) {
                 logger::debug("next menu Key ({}) pressed"sv, key);
                 process_next();
+            }
+        }
+
+        auto* key_input = input::menu_key_input_holder::get_singleton();
+        if (a_event->eventType != RE::INPUT_EVENT_TYPE::kButton &&
+            a_event->eventType != RE::INPUT_EVENT_TYPE::kThumbstick) {
+            return true;
+        }
+
+        if (a_event->HasIDCode()) {
+            if (a_event->IsUp()) {
+                key_input->remove_key_down(key);
+            }
+
+            if (!a_event->IsDown()) {
+                return true;
+            }
+
+            if (key_input->get_open_inventory_key_combo().contains(key) ||
+                key_input->get_close_inventory_key_combo().contains(key)) {
+                key_input->add_key_down(key);
+            }
+
+            if (key_input->is_down_list_equal(false)) {
+                close();
             }
         }
 
