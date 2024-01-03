@@ -20,7 +20,7 @@ namespace input {
         [[nodiscard]] bool get_menu_manual_close() const;
 
         void clear_set();
-        
+
         menu_key_input_holder(const menu_key_input_holder&) = delete;
         menu_key_input_holder(menu_key_input_holder&&) = delete;
         menu_key_input_holder& operator=(const menu_key_input_holder&) = delete;

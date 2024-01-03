@@ -43,7 +43,7 @@ namespace input {
     bool menu_key_input_holder::get_menu_manual_close() const { return menu_manual_close; }
 
     void menu_key_input_holder::clear_set() { key_down_list_.clear(); }
-    
+
     bool menu_key_input_holder::is_down_list_equal(bool a_open) {
         log_combo_set(a_open);
         if (a_open) {
@@ -60,5 +60,5 @@ namespace input {
             util::type_util::get_delimited_string(a_open ? open_inventory_key_combo_ : close_inventory_key_combo_),
             util::type_util::get_delimited_string(key_down_list_));
     }
-    
+
 }  // input
