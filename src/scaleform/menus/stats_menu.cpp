@@ -327,7 +327,10 @@ namespace scaleform {
         logger::debug("Done showing values, processed {} items. return."sv, player_data.size());
     }
 
-    void stats_menu::on_close() {}
+    void stats_menu::on_close() {
+        auto menu_controls = RE::MenuControls::GetSingleton();
+        menu_controls->RemoveHandler(this);
+    }
 
     void stats_menu::disable_item_lists() {
         player_item_list_.Disabled(true);
@@ -417,6 +420,7 @@ namespace scaleform {
 
             if (key_input->is_down_list_equal(false)) {
                 close();
+                key_input->clear_set();
             }
         }
 

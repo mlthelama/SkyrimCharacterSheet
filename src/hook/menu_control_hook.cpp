@@ -67,6 +67,7 @@ namespace hook {
                     if (key_input->is_down_list_equal(true)) {
                         TweenMenu_CloseTweenMenu();
                         scaleform::stats_menu::open();
+                        key_input->clear_set();
                         return RE::BSEventNotifyControl::kStop;
                     }
                 }
@@ -117,10 +118,12 @@ namespace hook {
                     if (key_input->is_down_list_equal(false) && scaleform::stats_inventory_menu::is_menu_open()) {
                         scaleform::stats_inventory_menu::close();
                         key_input->set_menu_manual_close(true);
+                        key_input->clear_set();
                     }
                     if (key_input->is_down_list_equal(true) && !scaleform::stats_inventory_menu::is_menu_open()) {
                         scaleform::stats_inventory_menu::open();
                         key_input->set_menu_manual_close(false);
+                        key_input->clear_set();
                     }
                 }
             }
@@ -132,11 +135,10 @@ namespace hook {
     bool menu_control_hook::is_menu_open(RE::UI*& a_ui) {
         return a_ui->IsMenuOpen(RE::InventoryMenu::MENU_NAME) || a_ui->IsMenuOpen(RE::MagicMenu::MENU_NAME);
     }
-    
+
     void menu_control_hook::TweenMenu_CloseTweenMenu() {
         using func_t = decltype(&menu_control_hook::TweenMenu_CloseTweenMenu);
         REL::Relocation<func_t> func{ REL::VariantID(51839, 52711, 0x8FE180) };
         return func();
     }
-
 }  // hook

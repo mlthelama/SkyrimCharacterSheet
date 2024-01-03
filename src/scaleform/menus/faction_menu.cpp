@@ -317,7 +317,10 @@ namespace scaleform {
             "right");
     }
 
-    void faction_menu::on_close() {}
+    void faction_menu::on_close() {
+        auto menu_controls = RE::MenuControls::GetSingleton();
+        menu_controls->RemoveHandler(this);
+    }
 
     void faction_menu::disable_item_lists() {
         faction_item_list_.Disabled(true);
@@ -396,6 +399,7 @@ namespace scaleform {
 
             if (key_input->is_down_list_equal(false)) {
                 close();
+                key_input->clear_set();
             }
         }
 
