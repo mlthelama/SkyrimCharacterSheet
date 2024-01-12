@@ -68,7 +68,8 @@ namespace event {
 
             //for whatever reason I can open the menu while at a crafting station
             //so let that not happen
-            if (ui->IsMenuOpen(RE::CraftingMenu::MENU_NAME) || input::menu_key_input_holder::is_one_ignore_menu_open()) {
+            if (ui->IsMenuOpen(RE::CraftingMenu::MENU_NAME) ||
+                input::menu_key_input_holder::is_one_ignore_menu_open()) {
                 continue;
             }
 
