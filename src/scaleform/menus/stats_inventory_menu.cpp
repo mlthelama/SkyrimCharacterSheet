@@ -34,7 +34,6 @@ namespace scaleform {
     }
 
     stats_inventory_menu::stats_inventory_menu() {
-
         auto* v_menu = static_cast<IMenu*>(this);
         auto* scaleform_manager = RE::BSScaleformManager::GetSingleton();
         const auto success = scaleform_manager->LoadMovieEx(v_menu,
