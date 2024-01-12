@@ -36,7 +36,6 @@ namespace scaleform {
 
     stats_menu::stats_menu() {
         using context = RE::UserEvents::INPUT_CONTEXT_ID;
-        using flag = RE::UI_MENU_FLAGS;
 
         auto* v_menu = static_cast<IMenu*>(this);
         auto* scaleform_manager = RE::BSScaleformManager::GetSingleton();
@@ -61,17 +60,15 @@ namespace scaleform {
         view_ = v_menu->uiMovie;
 
         if (mod::mod_manager::get_singleton()->get_skyrim_souls() || !setting::input_setting::get_menu_pause_game()) {
-            v_menu->menuFlags.set(flag::kAllowSaving,
-                flag::kUsesCursor,
-                flag::kDisablePauseMenu,
-                flag::kUpdateUsesCursor,
-                flag::kTopmostRenderedMenu);
+            v_menu->menuFlags.set(Flag::kAllowSaving,
+                Flag::kUsesCursor,
+                Flag::kUpdateUsesCursor,
+                Flag::kTopmostRenderedMenu);
         } else {
-            v_menu->menuFlags.set(flag::kPausesGame,
-                flag::kUsesCursor,
-                flag::kDisablePauseMenu,
-                flag::kUpdateUsesCursor,
-                flag::kTopmostRenderedMenu);
+            v_menu->menuFlags.set(Flag::kPausesGame,
+                Flag::kUsesCursor,
+                Flag::kUpdateUsesCursor,
+                Flag::kTopmostRenderedMenu);
         }
         v_menu->depthPriority = 3;
         v_menu->inputContext = context::kNone;
@@ -413,8 +410,7 @@ namespace scaleform {
                 return true;
             }
 
-            if (key_input->get_open_inventory_key_combo().contains(key) ||
-                key_input->get_close_inventory_key_combo().contains(key)) {
+            if (key_input->get_open_key_combo().contains(key) || key_input->get_close_key_combo().contains(key)) {
                 key_input->add_key_down(key);
             }
 

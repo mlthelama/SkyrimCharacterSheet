@@ -21,5 +21,6 @@
     75,
     270
   ],
-  "pause_game": true
+  "pause_game": true,
+  "tween_menu_only": false
 }

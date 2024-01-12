@@ -22,53 +22,55 @@ namespace hook {
         auto* ui = RE::UI::GetSingleton();
         auto* key_input = input::menu_key_input_holder::get_singleton();
 
-        auto IsTopMostInteractionMenu = [](const RE::UI* ui, const RE::GPtr<RE::IMenu>& iMenu) -> bool {
-            for (auto iter = ui->menuStack.end() - 1; iter >= ui->menuStack.begin(); iter--) {
-                auto menu = iter->get();
-                if (menu && (menu->inputContext.get() < RE::IMenu::Context::kTotal || menu->PausesGame() ||
-                                menu->UsesCursor())) {
-                    return menu == iMenu.get();
-                }
-            }
-
-            return false;
-        };
-
-        const auto menuStringsHolder = RE::InterfaceStrings::GetSingleton();
-        const auto tweenMenu = ui->GetMenu<RE::TweenMenu>(menuStringsHolder->tweenMenu);
-
-        if (a_event && *a_event && !a_menuControls->remapMode && !a_menuControls->isProcessing && tweenMenu &&
-            tweenMenu->OnStack() && IsTopMostInteractionMenu(ui, tweenMenu) &&
-            !ui->IsMenuOpen(menuStringsHolder->inventoryMenu)) {
-            for (auto* event = *a_event; event; event = event->next) {
-                if (event->eventType != RE::INPUT_EVENT_TYPE::kButton &&
-                    event->eventType != RE::INPUT_EVENT_TYPE::kThumbstick) {
-                    continue;
-                }
-
-                if (event->HasIDCode()) {
-                    auto* button = static_cast<RE::ButtonEvent*>(event);
-                    auto key = button->idCode;
-                    util::key_util::get_key_id(button->device.get(), key);
-
-                    if (button->IsUp()) {
-                        key_input->remove_key_down(key);
+        if (setting::input_setting::get_tween_menu_only()) {
+            auto IsTopMostInteractionMenu = [](const RE::UI* ui, const RE::GPtr<RE::IMenu>& iMenu) -> bool {
+                for (auto iter = ui->menuStack.end() - 1; iter >= ui->menuStack.begin(); iter--) {
+                    auto menu = iter->get();
+                    if (menu && (menu->inputContext.get() < RE::IMenu::Context::kTotal || menu->PausesGame() ||
+                                    menu->UsesCursor())) {
+                        return menu == iMenu.get();
                     }
+                }
 
-                    if (!button->IsDown()) {
+                return false;
+            };
+
+            const auto menuStringsHolder = RE::InterfaceStrings::GetSingleton();
+            const auto tweenMenu = ui->GetMenu<RE::TweenMenu>(menuStringsHolder->tweenMenu);
+
+            if (a_event && *a_event && !a_menuControls->remapMode && !a_menuControls->isProcessing && tweenMenu &&
+                tweenMenu->OnStack() && IsTopMostInteractionMenu(ui, tweenMenu) &&
+                !ui->IsMenuOpen(menuStringsHolder->inventoryMenu)) {
+                for (auto* event = *a_event; event; event = event->next) {
+                    if (event->eventType != RE::INPUT_EVENT_TYPE::kButton &&
+                        event->eventType != RE::INPUT_EVENT_TYPE::kThumbstick) {
                         continue;
                     }
 
-                    if (key_input->get_open_inventory_key_combo().contains(key) ||
-                        key_input->get_close_inventory_key_combo().contains(key)) {
-                        key_input->add_key_down(key);
-                    }
+                    if (event->HasIDCode()) {
+                        auto* button = static_cast<RE::ButtonEvent*>(event);
+                        auto key = button->idCode;
+                        util::key_util::get_key_id(button->device.get(), key);
 
-                    if (key_input->is_down_list_equal(true)) {
-                        TweenMenu_CloseTweenMenu();
-                        scaleform::stats_menu::open();
-                        key_input->clear_set();
-                        return RE::BSEventNotifyControl::kStop;
+                        if (button->IsUp()) {
+                            key_input->remove_key_down(key);
+                        }
+
+                        if (!button->IsDown()) {
+                            continue;
+                        }
+
+                        if (key_input->get_open_key_combo().contains(key) ||
+                            key_input->get_close_key_combo().contains(key)) {
+                            key_input->add_key_down(key);
+                        }
+
+                        if (key_input->is_down_list_equal(true)) {
+                            TweenMenu_CloseTweenMenu();
+                            scaleform::stats_menu::open();
+                            key_input->clear_set();
+                            return RE::BSEventNotifyControl::kStop;
+                        }
                     }
                 }
             }
@@ -110,8 +112,8 @@ namespace hook {
                         continue;
                     }
 
-                    if (key_input->get_open_inventory_key_combo().contains(key) ||
-                        key_input->get_close_inventory_key_combo().contains(key)) {
+                    if (key_input->get_open_key_combo().contains(key) ||
+                        key_input->get_close_key_combo().contains(key)) {
                         key_input->add_key_down(key);
                     }
 

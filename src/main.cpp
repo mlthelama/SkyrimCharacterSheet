@@ -1,12 +1,10 @@
 #include "event/event.h"
 #include "hook/hook.h"
 #include "input/menu_key_input_holder.h"
-#include "mod/mod_manager.h"
+#include "mod/mod.h"
 #include "scaleform/scaleform.h"
-#include "setting/config_setting.h"
-#include "setting/game_setting.h"
 #include "setting/input_setting.h"
-#include "setting/key_setting.h"
+#include "setting/setting.h"
 
 void init_logger() {
     if (static bool initialized = false; !initialized) {
@@ -51,28 +49,9 @@ void init_logger() {
     }
 }
 
-void init_mod_support() {
-    auto* mod_manager = mod::mod_manager::get_singleton();
-    auto* data_handler = RE::TESDataHandler::GetSingleton();
-
-    //check for mods here
-    mod_manager->set_armor_rating_rescaled_remake(LoadLibrary(L"Data/SKSE/Plugins/ArmorRatingRescaledRemake.dll"));
-    mod_manager->set_hand_to_hand(LoadLibrary(L"Data/SKSE/Plugins/HandToHand.dll"));
-    mod_manager->set_blade_and_blunt(LoadLibrary(L"Data/SKSE/Plugins/BladeAndBlunt.dll"));
-
-    mod_manager->set_skyrim_unbound((data_handler && data_handler->LookupModByName("Skyrim Unbound.esp")));
-    mod_manager->set_skyrim_souls(LoadLibrary(L"Data/SKSE/Plugins/SkyrimSoulsRE.dll"));
-}
-
 void init_config_setting() {
-    auto* config_setting = setting::config_setting::get_singleton();
     try {
-        config_setting->load_menu_setting_file();
-        config_setting->load_all_faction_setting_files();
-        config_setting->load_all_champion_setting_files();
-        config_setting->load_all_thane_setting_files();
-        config_setting->load_all_player_setting_files();
-        setting::key_setting::load_setting();
+        setting::setting::load_all_setting();
     } catch (const std::exception& e) {
         logger::warn("failed to load json setting {}"sv, e.what());
     }
@@ -92,11 +71,10 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
                 logger::info("Begin Data loaded"sv);
                 event::sink_event_handlers();
 
-                init_mod_support();
                 init_config_setting();
+                mod::mod::init_mod_support();
 
                 scaleform::Register();
-                setting::game_setting::get_singleton()->set_settings();
                 input::menu_key_input_holder::get_singleton()->set_all();
 
                 hook::hook::install();

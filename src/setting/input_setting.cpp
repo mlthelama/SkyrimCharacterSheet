@@ -10,6 +10,7 @@ namespace setting {
     static bool pause_game;
     static std::vector<uint32_t> page_next_keys;
     static std::vector<uint32_t> page_previous_keys;
+    static bool tween_menu_only;
 
     void input_setting::load_setting() {
         logger::info("loading input setting file"sv);
@@ -20,7 +21,7 @@ namespace setting {
             return;
         }
 
-        logger::info("loading key setting from file {}"sv, file);
+        logger::info("loading input setting from file {}"sv, file);
 
         nlohmann::json json_setting;
         input_setting_file >> json_setting;
@@ -79,6 +80,10 @@ namespace setting {
             pause_game = paused;
         }
 
+        if (auto& tween_menu = json_setting.at("tween_menu_only"); tween_menu.is_boolean()) {
+            tween_menu_only = tween_menu;
+        }
+
         logger::info("done loading input setting file"sv);
     }
 
@@ -94,28 +99,25 @@ namespace setting {
 
     bool input_setting::get_menu_pause_game() { return pause_game; }
 
-    std::set<uint32_t> input_setting::get_open_inventory_menu_key_combination() { return open_key_combination; }
-
-    std::set<uint32_t> input_setting::get_close_inventory_menu_key_combination() { return close_key_combination; }
-
     bool input_setting::is_inventory_menu_enabled() { return is_enabled; }
 
     bool input_setting::auto_open_inventory_menu_inventory() { return auto_show_inventory; }
 
     bool input_setting::auto_open_inventory_menu_magic() { return auto_show_magic; }
 
+    bool input_setting::get_tween_menu_only() { return tween_menu_only; }
+
     void input_setting::log() {
         logger::debug(
-            "menu: open {}, close {}, next {}, previous {}, paused {}. inventory: open {}, close {}, enabled {}, auto_inventory {}, auto_magic {}"sv,
+            "menu: open {}, close {}, next {}, previous {}, paused {}. enabled {}, auto_inventory {}, auto_magic {}, tween menu {}"sv,
             open_key_combination.size(),
             close_key_combination.size(),
             page_next_keys.size(),
             close_key_combination.size(),
             pause_game,
-            open_key_combination.size(),
-            close_key_combination.size(),
             is_enabled,
             auto_show_inventory,
-            auto_show_magic);
+            auto_show_magic,
+            tween_menu_only);
     }
 }  // setting

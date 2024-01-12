@@ -39,4 +39,10 @@ namespace mod {
         logger::trace("set blade and blunt to {}"sv, blade_and_blunt);
     }
     bool mod_manager::get_blade_and_blunt() const { return blade_and_blunt; }
+
+    void mod_manager::set_wait_menu_redirected(bool a_value) {
+        wait_menu_redirected = a_value;
+        logger::trace("set wait menu redirected to {}"sv, wait_menu_redirected);
+    }
+    bool mod_manager::get_wait_menu_redirected() const { return wait_menu_redirected; }
 }
