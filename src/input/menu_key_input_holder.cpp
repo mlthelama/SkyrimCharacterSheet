@@ -42,13 +42,13 @@ namespace input {
 
     void menu_key_input_holder::clear_set() { key_down_list_.clear(); }
 
-    bool menu_key_input_holder::is_one_ignore_menu_open() { 
+    bool menu_key_input_holder::is_one_ignore_menu_open() {
         auto ignore_menu_list = setting::input_setting::get_ignore_input_menu_list();
 
-        if (ignore_menu_list.empty()){
+        if (ignore_menu_list.empty()) {
             return false;
         }
-        
+
         auto* ui = RE::UI::GetSingleton();
         auto open = false;
         for (auto& menu : ignore_menu_list) {
@@ -58,10 +58,10 @@ namespace input {
                 return open;
             }
         }
-        
+
         return open;
     }
-    
+
     bool menu_key_input_holder::is_down_list_equal(bool a_open) {
         log_combo_set(a_open);
         if (a_open) {

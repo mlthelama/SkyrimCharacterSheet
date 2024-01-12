@@ -94,7 +94,7 @@ namespace setting {
             }
             ignore_input_menu_list = menus;
         }
-        
+
         logger::info("done loading input setting file"sv);
     }
 
@@ -119,7 +119,7 @@ namespace setting {
     bool input_setting::get_tween_menu_only() { return tween_menu_only; }
 
     std::vector<std::string> input_setting::get_ignore_input_menu_list() { return ignore_input_menu_list; }
-    
+
     void input_setting::log() {
         logger::debug(
             "open(size) {}, close(size) {}, next(size) {}, previous(size) {}, paused {}. enabled {}, auto_inventory {}, auto_magic {}, tween menu {}, ignore_input_menu(size) {}"sv,
@@ -134,5 +134,5 @@ namespace setting {
             tween_menu_only,
             ignore_input_menu_list.size());
     }
-    
+
 }  // setting
