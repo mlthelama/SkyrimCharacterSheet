@@ -21,6 +21,8 @@ namespace input {
 
         void clear_set();
 
+        static bool is_one_ignore_menu_open();
+        
         menu_key_input_holder(const menu_key_input_holder&) = delete;
         menu_key_input_holder(menu_key_input_holder&&) = delete;
         menu_key_input_holder& operator=(const menu_key_input_holder&) = delete;

@@ -22,5 +22,6 @@
     270
   ],
   "pause_game": true,
-  "tween_menu_only": false
+  "tween_menu_only": false,
+  "ignore_input_menu": ["CustomMenu"]
 }

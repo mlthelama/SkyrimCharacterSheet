@@ -68,7 +68,7 @@ namespace event {
 
             //for whatever reason I can open the menu while at a crafting station
             //so let that not happen
-            if (ui->IsMenuOpen(RE::CraftingMenu::MENU_NAME)) {
+            if (ui->IsMenuOpen(RE::CraftingMenu::MENU_NAME) || input::menu_key_input_holder::is_one_ignore_menu_open()) {
                 continue;
             }
 
@@ -79,17 +79,18 @@ namespace event {
             if (key_input->is_down_list_equal(false)) {
                 if (scaleform::stats_menu::is_menu_open()) {
                     scaleform::stats_menu::close();
+                    key_input->clear_set();
                 }
                 if (scaleform::faction_menu::is_menu_open()) {
                     scaleform::faction_menu::close();
+                    key_input->clear_set();
                 }
-                key_input->clear_set();
             }
             if (key_input->is_down_list_equal(true)) {
                 if (!scaleform::stats_menu::is_menu_open() && !scaleform::faction_menu::is_menu_open()) {
                     scaleform::stats_menu::open();
+                    key_input->clear_set();
                 }
-                key_input->clear_set();
             }
         }
 

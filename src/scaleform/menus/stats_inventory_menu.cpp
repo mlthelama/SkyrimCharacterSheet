@@ -41,10 +41,10 @@ namespace scaleform {
             file_name,
             RE::BSScaleformManager::ScaleModeType::kExactFit,
             [&](RE::GFxMovieDef* a_def) -> void {
-                /*fxDelegate.reset(new RE::FxDelegate);
+                fxDelegate.reset(new RE::FxDelegate);
                 fxDelegate->RegisterHandler(this);
-                a_def->SetState(RE::GFxState::StateType::kLog, fxDelegate.get());
-                fxDelegate->Release();*/
+                a_def->SetState(RE::GFxState::StateType::kExternalInterface, fxDelegate.get());
+                fxDelegate->Release();
 
                 logger::trace("FPS: {}, Width: {}, Height: {}"sv,
                     a_def->GetFrameRate(),

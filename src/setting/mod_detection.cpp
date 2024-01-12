@@ -47,6 +47,9 @@ namespace setting {
             wait_menu_redirected_json.is_boolean()) {
             wait_menu_redirected = wait_menu_redirected_json;
         }
+        
+        logger::info("done loading input setting file"sv);
+        log();
     }
 
     void mod_detection::log() {

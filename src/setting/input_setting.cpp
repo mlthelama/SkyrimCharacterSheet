@@ -11,6 +11,7 @@ namespace setting {
     static std::vector<uint32_t> page_next_keys;
     static std::vector<uint32_t> page_previous_keys;
     static bool tween_menu_only;
+    static std::vector<std::string> ignore_input_menu_list;
 
     void input_setting::load_setting() {
         logger::info("loading input setting file"sv);
@@ -84,6 +85,16 @@ namespace setting {
             tween_menu_only = tween_menu;
         }
 
+        if (auto& ignore_input_menus = json_setting.at("ignore_input_menu"); ignore_input_menus.is_array()) {
+            std::vector<std::string> menus;
+            for (auto& menu : ignore_input_menus) {
+                if (menu.is_string()) {
+                    menus.push_back(menu);
+                }
+            }
+            ignore_input_menu_list = menus;
+        }
+        
         logger::info("done loading input setting file"sv);
     }
 
@@ -107,9 +118,11 @@ namespace setting {
 
     bool input_setting::get_tween_menu_only() { return tween_menu_only; }
 
+    std::vector<std::string> input_setting::get_ignore_input_menu_list() { return ignore_input_menu_list; }
+    
     void input_setting::log() {
         logger::debug(
-            "menu: open {}, close {}, next {}, previous {}, paused {}. enabled {}, auto_inventory {}, auto_magic {}, tween menu {}"sv,
+            "open(size) {}, close(size) {}, next(size) {}, previous(size) {}, paused {}. enabled {}, auto_inventory {}, auto_magic {}, tween menu {}, ignore_input_menu(size) {}"sv,
             open_key_combination.size(),
             close_key_combination.size(),
             page_next_keys.size(),
@@ -118,6 +131,8 @@ namespace setting {
             is_enabled,
             auto_show_inventory,
             auto_show_magic,
-            tween_menu_only);
+            tween_menu_only,
+            ignore_input_menu_list.size());
     }
+    
 }  // setting
