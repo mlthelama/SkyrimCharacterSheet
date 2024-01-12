@@ -1,9 +1,9 @@
 ﻿#include "menu_open_close_event.h"
+#include "input/menu_key_input_holder.h"
 #include "scaleform/menus/faction_menu.h"
 #include "scaleform/menus/stats_inventory_menu.h"
 #include "scaleform/menus/stats_menu.h"
 #include "setting/input_setting.h"
-#include "input/menu_key_input_holder.h"
 
 namespace event {
 
@@ -49,12 +49,14 @@ namespace event {
                 scaleform::stats_inventory_menu::close();
             }
         }
-        
-        if ( a_event->menuName == scaleform::stats_menu::menu_name || a_event->menuName == scaleform::faction_menu::menu_name || a_event->menuName == scaleform::stats_inventory_menu::menu_name) {
+
+        if (a_event->menuName == scaleform::stats_menu::menu_name ||
+            a_event->menuName == scaleform::faction_menu::menu_name ||
+            a_event->menuName == scaleform::stats_inventory_menu::menu_name) {
             auto* key_input = input::menu_key_input_holder::get_singleton();
             key_input->clear_set();
         }
-        
+
         return event_result::kContinue;
     }
 }
