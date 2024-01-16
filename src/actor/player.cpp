@@ -154,7 +154,7 @@ namespace actor {
             a_player_data->value += a_player_data_element->ending;
         }
         if (!mod::mod_manager::get_singleton()->get_blade_and_blunt()) {
-            a_player_data->value += handle_max_handling(a_player_data_element, resist_damage);   
+            a_player_data->value += handle_max_handling(a_player_data_element, resist_damage);
         }
     }
 
