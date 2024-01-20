@@ -2,6 +2,7 @@
 #include "scaleform/menus/faction_menu.h"
 #include "scaleform/menus/stats_inventory_menu.h"
 #include "scaleform/menus/stats_menu.h"
+#include "scaleform/menus/tween_hint_menu.h"
 #include "setting/input_setting.h"
 
 namespace scaleform {
@@ -10,6 +11,9 @@ namespace scaleform {
         faction_menu::Register();
         if (setting::input_setting::is_inventory_menu_enabled()) {
             stats_inventory_menu::Register();
+        }
+        if (setting::input_setting::get_tween_menu_only()) {
+            tween_hint_menu::Register();
         }
         logger::info("Registered all forms");
     }

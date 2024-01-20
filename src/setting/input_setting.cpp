@@ -4,14 +4,16 @@ namespace setting {
     static bool is_debug;
     static std::set<uint32_t> open_key_combination;
     static std::set<uint32_t> close_key_combination;
-    static bool is_enabled;
-    static bool auto_show_inventory;
-    static bool auto_show_magic;
     static bool pause_game;
     static std::vector<uint32_t> page_next_keys;
     static std::vector<uint32_t> page_previous_keys;
     static bool tween_menu_only;
     static std::vector<std::string> ignore_input_menu_list;
+    static std::set<uint32_t> inventory_open_key_combination;
+    static std::set<uint32_t> inventory_close_key_combination;
+    static bool is_enabled;
+    static bool auto_show_inventory;
+    static bool auto_show_magic;
 
     void input_setting::load_setting() {
         logger::info("loading input setting file"sv);
@@ -49,18 +51,6 @@ namespace setting {
             close_key_combination = keys;
         }
 
-        if (auto& enabled = json_setting.at("enabled"); enabled.is_boolean()) {
-            is_enabled = enabled;
-        }
-
-        if (auto& show_inventory = json_setting.at("auto_show_inventory"); show_inventory.is_boolean()) {
-            auto_show_inventory = show_inventory;
-        }
-
-        if (auto& show_magic = json_setting.at("auto_show_magic"); show_magic.is_boolean()) {
-            auto_show_magic = show_magic;
-        }
-
         if (auto& next_keys = json_setting.at("page_next_keys"); next_keys.is_array()) {
             std::vector<uint32_t> keys;
             for (auto& key : next_keys) {
@@ -95,6 +85,38 @@ namespace setting {
             ignore_input_menu_list = menus;
         }
 
+        if (auto& inventory_open_keys = json_setting.at("inventory_open_key_combination");
+            inventory_open_keys.is_array()) {
+            std::set<uint32_t> keys;
+            for (auto& key : inventory_open_keys) {
+                //cast needed in this case
+                keys.insert(static_cast<uint32_t>(key));
+            }
+            inventory_open_key_combination = keys;
+        }
+
+        if (auto& inventory_close_keys = json_setting.at("inventory_close_key_combination");
+            inventory_close_keys.is_array()) {
+            std::set<uint32_t> keys;
+            for (auto& key : inventory_close_keys) {
+                //cast needed in this case
+                keys.insert(static_cast<uint32_t>(key));
+            }
+            inventory_close_key_combination = keys;
+        }
+
+        if (auto& enabled = json_setting.at("inventory_enabled"); enabled.is_boolean()) {
+            is_enabled = enabled;
+        }
+
+        if (auto& show_inventory = json_setting.at("inventory_auto_show_inventory"); show_inventory.is_boolean()) {
+            auto_show_inventory = show_inventory;
+        }
+
+        if (auto& show_magic = json_setting.at("inventory_auto_show_magic"); show_magic.is_boolean()) {
+            auto_show_magic = show_magic;
+        }
+
         logger::info("done loading input setting file"sv);
     }
 
@@ -110,6 +132,14 @@ namespace setting {
 
     bool input_setting::get_menu_pause_game() { return pause_game; }
 
+    std::set<uint32_t> input_setting::get_open_inventory_menu_key_combination() {
+        return inventory_open_key_combination;
+    }
+
+    std::set<uint32_t> input_setting::get_close_inventory_menu_key_combination() {
+        return inventory_close_key_combination;
+    }
+
     bool input_setting::is_inventory_menu_enabled() { return is_enabled; }
 
     bool input_setting::auto_open_inventory_menu_inventory() { return auto_show_inventory; }
@@ -122,7 +152,7 @@ namespace setting {
 
     void input_setting::log() {
         logger::debug(
-            "open(size) {}, close(size) {}, next(size) {}, previous(size) {}, paused {}. enabled {}, auto_inventory {}, auto_magic {}, tween menu {}, ignore_input_menu(size) {}"sv,
+            "open(size) {}, close(size) {}, next(size) {}, previous(size) {}, paused {}. enabled {}, auto_inventory {}, auto_magic {}, tween menu {}, ignore_input_menu(size) {}, open_inv(size) {}, close_inv(size) {}, "sv,
             open_key_combination.size(),
             close_key_combination.size(),
             page_next_keys.size(),
@@ -132,7 +162,8 @@ namespace setting {
             auto_show_inventory,
             auto_show_magic,
             tween_menu_only,
-            ignore_input_menu_list.size());
+            ignore_input_menu_list.size(),
+            inventory_open_key_combination.size(),
+            inventory_close_key_combination.size());
     }
-
 }  // setting

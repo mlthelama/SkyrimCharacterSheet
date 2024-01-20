@@ -6,7 +6,6 @@
 #include "setting/data/menu_data.h"
 
 namespace scaleform {
-
     class stats_inventory_menu final : public RE::IMenu {
     public:
         static constexpr std::string_view menu_name = "ShowStatsInventory";

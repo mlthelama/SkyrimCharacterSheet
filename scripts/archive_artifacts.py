@@ -28,12 +28,13 @@ def make_rel_archive(a_args):
                   "Interface/ShowStatsInventory.swf")
     archive.write(os.path.join(v_pwd, "swf", "Translations", "SkyrimCharacterSheet_english.txt"),
                   "Interface/Translations/SkyrimCharacterSheet_english.txt")
-    
+
     for lang in languages:
         archive.write(os.path.join(v_pwd, "swf", "Translations", "SkyrimCharacterSheet_english.txt"),
                       "Interface/Translations/SkyrimCharacterSheet_" + lang + ".txt")
 
     archive.write(os.path.join(v_pwd, "extern", "skyui", "swf", "icons_item_psychosteve_merged.swf"), "Interface/skyui/icons_item_psychosteve_merged.swf")
+    archive.write(os.path.join(v_pwd, "extern", "hint_button_menu", "bin", "hint_button_menu.swf"), "Interface/ShowTweenHintMenu.swf")
 
 
 def parse_arguments():

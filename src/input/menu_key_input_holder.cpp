@@ -13,9 +13,17 @@ namespace input {
 
     std::set<uint32_t> menu_key_input_holder::get_close_key_combo() const { return close_key_combo_; }
 
+    std::set<uint32_t> menu_key_input_holder::get_inventory_open_key_combo() const { return inventory_open_key_combo_; }
+
+    std::set<uint32_t> menu_key_input_holder::get_inventory_close_key_combo() const {
+        return inventory_close_key_combo_;
+    }
+
     void menu_key_input_holder::set_all() {
         open_key_combo_ = setting::input_setting::get_open_menu_key_combination();
         close_key_combo_ = setting::input_setting::get_close_menu_key_combination();
+        inventory_open_key_combo_ = setting::input_setting::get_open_inventory_menu_key_combination();
+        inventory_close_key_combo_ = setting::input_setting::get_close_inventory_menu_key_combination();
     }
 
     void menu_key_input_holder::add_key_down(uint32_t a_key) {
@@ -62,21 +70,36 @@ namespace input {
         return open;
     }
 
-    bool menu_key_input_holder::is_down_list_equal(bool a_open) {
-        log_combo_set(a_open);
-        if (a_open) {
-            return key_down_list_ == open_key_combo_;
+    bool menu_key_input_holder::is_down_list_equal(bool a_open, menu_type menu_type) {
+        if (menu_type == menu_type::stats_inventory) {
+            log_combo_set(a_open, menu_type);
+            if (a_open) {
+                return key_down_list_ == inventory_open_key_combo_;
+            } else {
+                return key_down_list_ == inventory_close_key_combo_;
+            }
         } else {
-            return key_down_list_ == close_key_combo_;
+            log_combo_set(a_open);
+            if (a_open) {
+                return key_down_list_ == open_key_combo_;
+            } else {
+                return key_down_list_ == close_key_combo_;
+            }
         }
     }
 
     menu_key_input_holder::menu_key_input_holder() = default;
 
-    void menu_key_input_holder::log_combo_set(bool a_open) {
-        logger::trace("key combo needed {}, down list {}"sv,
-            util::type_util::get_delimited_string(a_open ? open_key_combo_ : close_key_combo_),
-            util::type_util::get_delimited_string(key_down_list_));
+    void menu_key_input_holder::log_combo_set(bool a_open, menu_type menu_type) {
+        if (menu_type == menu_type::stats_inventory) {
+            logger::trace("key combo needed {}, down list {}"sv,
+                util::type_util::get_delimited_string(a_open ? inventory_open_key_combo_ : inventory_close_key_combo_),
+                util::type_util::get_delimited_string(key_down_list_));
+        } else {
+            logger::trace("key combo needed {}, down list {}"sv,
+                util::type_util::get_delimited_string(a_open ? open_key_combo_ : close_key_combo_),
+                util::type_util::get_delimited_string(key_down_list_));
+        }
     }
 
 }  // input

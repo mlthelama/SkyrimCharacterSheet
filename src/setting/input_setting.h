@@ -17,6 +17,10 @@ namespace setting {
 
         static bool get_menu_pause_game();
 
+        static std::set<uint32_t> get_open_inventory_menu_key_combination();
+
+        static std::set<uint32_t> get_close_inventory_menu_key_combination();
+
         static bool is_inventory_menu_enabled();
 
         static bool auto_open_inventory_menu_inventory();

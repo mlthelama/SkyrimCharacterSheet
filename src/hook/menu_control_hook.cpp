@@ -2,10 +2,13 @@
 #include "input/menu_key_input_holder.h"
 #include "scaleform/menus/stats_inventory_menu.h"
 #include "scaleform/menus/stats_menu.h"
+#include "setting/data/menu_data.h"
 #include "setting/input_setting.h"
 #include "util/key_util.h"
 
 namespace hook {
+
+    using menu_type = setting_data::menu_data::menu_type;
 
     void menu_control_hook::install() {
         logger::info("Hooking ..."sv);
@@ -112,17 +115,19 @@ namespace hook {
                         continue;
                     }
 
-                    if (key_input->get_open_key_combo().contains(key) ||
-                        key_input->get_close_key_combo().contains(key)) {
+                    if (key_input->get_inventory_open_key_combo().contains(key) ||
+                        key_input->get_inventory_close_key_combo().contains(key)) {
                         key_input->add_key_down(key);
                     }
 
-                    if (key_input->is_down_list_equal(false) && scaleform::stats_inventory_menu::is_menu_open()) {
+                    if (key_input->is_down_list_equal(false, menu_type::stats_inventory) &&
+                        scaleform::stats_inventory_menu::is_menu_open()) {
                         scaleform::stats_inventory_menu::close();
                         key_input->set_menu_manual_close(true);
                         key_input->clear_set();
                     }
-                    if (key_input->is_down_list_equal(true) && !scaleform::stats_inventory_menu::is_menu_open()) {
+                    if (key_input->is_down_list_equal(true, menu_type::stats_inventory) &&
+                        !scaleform::stats_inventory_menu::is_menu_open()) {
                         scaleform::stats_inventory_menu::open();
                         key_input->set_menu_manual_close(false);
                         key_input->clear_set();

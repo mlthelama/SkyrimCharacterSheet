@@ -7,6 +7,7 @@ set(sources ${sources}
 	src/CLIK/MovieClip.h
 	src/CLIK/Object.h
 	src/CLIK/TextField.h
+	src/CLIK/TweenMainWidget.h
 	src/PCH.h
 	src/actor/champion.cpp
 	src/actor/champion.h
@@ -45,6 +46,8 @@ set(sources ${sources}
 	src/scaleform/menus/stats_inventory_menu.h
 	src/scaleform/menus/stats_menu.cpp
 	src/scaleform/menus/stats_menu.h
+	src/scaleform/menus/tween_hint_menu.cpp
+	src/scaleform/menus/tween_hint_menu.h
 	src/scaleform/scaleform.cpp
 	src/scaleform/scaleform.h
 	src/setting/config_setting.cpp

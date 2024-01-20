@@ -3,6 +3,7 @@
 #include "scaleform/menus/faction_menu.h"
 #include "scaleform/menus/stats_inventory_menu.h"
 #include "scaleform/menus/stats_menu.h"
+#include "scaleform/menus/tween_hint_menu.h"
 #include "setting/input_setting.h"
 
 namespace event {
@@ -47,6 +48,14 @@ namespace event {
         if (!a_event->opening) {
             if (a_event->menuName == RE::InventoryMenu::MENU_NAME || a_event->menuName == RE::MagicMenu::MENU_NAME) {
                 scaleform::stats_inventory_menu::close();
+            }
+        }
+
+        if (setting::input_setting::get_tween_menu_only() && a_event->menuName == RE::TweenMenu::MENU_NAME) {
+            if (a_event->opening) {
+                scaleform::tween_hint_menu::open();
+            } else {
+                scaleform::tween_hint_menu::close();
             }
         }
 

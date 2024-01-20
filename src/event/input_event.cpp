@@ -35,7 +35,6 @@ namespace event {
             return event_result::kContinue;
         }
 
-        //clear_key_down(key_down_list_);
         for (auto* event = *a_event; event; event = event->next) {
             if (event->eventType != RE::INPUT_EVENT_TYPE::kButton) {
                 continue;

@@ -1,14 +1,11 @@
 ﻿{
   "debug": false,
   "open_key_combination": [
-    11
+    22
   ],
   "close_key_combination": [
-    11
+    22
   ],
-  "enabled": true,
-  "auto_show_inventory": true,
-  "auto_show_magic": false,
   "page_next_keys": [
     32,
     205,
@@ -23,5 +20,14 @@
   ],
   "pause_game": true,
   "tween_menu_only": false,
-  "ignore_input_menu": ["CustomMenu"]
+  "ignore_input_menu": ["CustomMenu"],
+  "inventory_open_key_combination": [
+    11
+  ],
+  "inventory_close_key_combination": [
+    11
+  ],
+  "inventory_enabled": true,
+  "inventory_auto_show_inventory": true,
+  "inventory_auto_show_magic": false
 }
