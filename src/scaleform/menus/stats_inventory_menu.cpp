@@ -34,8 +34,6 @@ namespace scaleform {
     }
 
     stats_inventory_menu::stats_inventory_menu() {
-        using flag = RE::UI_MENU_FLAGS;
-
         auto* v_menu = static_cast<IMenu*>(this);
         auto* scaleform_manager = RE::BSScaleformManager::GetSingleton();
         const auto success = scaleform_manager->LoadMovieEx(v_menu,
@@ -55,11 +53,11 @@ namespace scaleform {
             });
         logger::debug("Loading Menu {} was successful {}"sv, file_name, success);
         view_ = v_menu->uiMovie;
-        //_view->SetMouseCursorCount(0);
-        v_menu->menuFlags |= flag::kUsesCursor;
 
-        //menu->depthPriority = 0;
-        //menu->inputContext = Context::kNone;
+        menuFlags.set(Flag::kRequiresUpdate, Flag::kUpdateUsesCursor, Flag::kCustomRendering, Flag::kUsesCursor);
+
+        v_menu->depthPriority = 0;
+        v_menu->inputContext = Context::kNone;
 
         init_extensions();
 
@@ -77,7 +75,7 @@ namespace scaleform {
 
     void stats_inventory_menu::PostCreate() { on_open(); }
 
-    RE::UI_MESSAGE_RESULTS stats_inventory_menu::ProcessMessage(RE::UIMessage& a_message) {
+    RE::UI_MESSAGE_RESULTS stats_inventory_menu::ProcessMessage([[maybe_unused]] RE::UIMessage& a_message) {
         /*switch (*a_message.type) {
                 case RE::UI_MESSAGE_TYPE::kHide:
                     OnClose();
@@ -86,9 +84,9 @@ namespace scaleform {
                     return RE::IMenu::ProcessMessage(a_message);
             }*/
 
-        if (a_message.menu == menu_name) {
+        /*if (a_message.menu == menu_name) {
             return RE::UI_MESSAGE_RESULTS::kHandled;
-        }
+        }*/
         return RE::UI_MESSAGE_RESULTS::kPassOn;
     }
 

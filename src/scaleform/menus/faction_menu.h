@@ -85,7 +85,7 @@ namespace scaleform {
 
         void update_bottom_values() const;
 
-        static void on_close();
+        void on_close();
 
         void disable_item_lists();
 

@@ -2,6 +2,7 @@
 #include "actor/champion.h"
 #include "actor/faction.h"
 #include "actor/thane.h"
+#include "input/menu_key_input_holder.h"
 #include "mod/mod_manager.h"
 #include "scaleform/menus/stats_menu.h"
 #include "setting/config_setting.h"
@@ -39,7 +40,6 @@ namespace scaleform {
 
     faction_menu::faction_menu() {
         using context = RE::UserEvents::INPUT_CONTEXT_ID;
-        using flag = RE::UI_MENU_FLAGS;
 
         auto* v_menu = static_cast<IMenu*>(this);
         auto* scaleform_manager = RE::BSScaleformManager::GetSingleton();
@@ -61,17 +61,15 @@ namespace scaleform {
         logger::debug("Loading Menu {} was successful {}"sv, file_name, success);
         view_ = v_menu->uiMovie;
         if (mod::mod_manager::get_singleton()->get_skyrim_souls() || !setting::input_setting::get_menu_pause_game()) {
-            v_menu->menuFlags.set(flag::kAllowSaving,
-                flag::kUsesCursor,
-                flag::kDisablePauseMenu,
-                flag::kUpdateUsesCursor,
-                flag::kTopmostRenderedMenu);
+            v_menu->menuFlags.set(Flag::kAllowSaving,
+                Flag::kUsesCursor,
+                Flag::kUpdateUsesCursor,
+                Flag::kTopmostRenderedMenu);
         } else {
-            v_menu->menuFlags.set(flag::kPausesGame,
-                flag::kUsesCursor,
-                flag::kDisablePauseMenu,
-                flag::kUpdateUsesCursor,
-                flag::kTopmostRenderedMenu);
+            v_menu->menuFlags.set(Flag::kPausesGame,
+                Flag::kUsesCursor,
+                Flag::kUpdateUsesCursor,
+                Flag::kTopmostRenderedMenu);
         }
         v_menu->depthPriority = 3;
         v_menu->inputContext = context::kNone;
@@ -316,7 +314,10 @@ namespace scaleform {
             "right");
     }
 
-    void faction_menu::on_close() {}
+    void faction_menu::on_close() {
+        auto menu_controls = RE::MenuControls::GetSingleton();
+        menu_controls->RemoveHandler(this);
+    }
 
     void faction_menu::disable_item_lists() {
         faction_item_list_.Disabled(true);
@@ -372,6 +373,32 @@ namespace scaleform {
                 process_prev();
             }
         }
+
+        auto* key_input = input::menu_key_input_holder::get_singleton();
+        if (a_event->eventType != RE::INPUT_EVENT_TYPE::kButton &&
+            a_event->eventType != RE::INPUT_EVENT_TYPE::kThumbstick) {
+            return true;
+        }
+
+        if (a_event->HasIDCode()) {
+            if (a_event->IsUp()) {
+                key_input->remove_key_down(key);
+            }
+
+            if (!a_event->IsDown()) {
+                return true;
+            }
+
+            if (key_input->get_open_key_combo().contains(key) || key_input->get_close_key_combo().contains(key)) {
+                key_input->add_key_down(key);
+            }
+
+            if (key_input->is_down_list_equal(false)) {
+                close();
+                key_input->clear_set();
+            }
+        }
+
 
         return true;
     }

@@ -7,6 +7,7 @@ set(sources ${sources}
 	src/CLIK/MovieClip.h
 	src/CLIK/Object.h
 	src/CLIK/TextField.h
+	src/CLIK/TweenMainWidget.h
 	src/PCH.h
 	src/actor/champion.cpp
 	src/actor/champion.h
@@ -35,6 +36,8 @@ set(sources ${sources}
 	src/mod/armor_rating_rescaled_remake.h
 	src/mod/blade_and_blunt.cpp
 	src/mod/blade_and_blunt.h
+	src/mod/mod.cpp
+	src/mod/mod.h
 	src/mod/mod_manager.cpp
 	src/mod/mod_manager.h
 	src/scaleform/menus/faction_menu.cpp
@@ -43,6 +46,8 @@ set(sources ${sources}
 	src/scaleform/menus/stats_inventory_menu.h
 	src/scaleform/menus/stats_menu.cpp
 	src/scaleform/menus/stats_menu.h
+	src/scaleform/menus/tween_hint_menu.cpp
+	src/scaleform/menus/tween_hint_menu.h
 	src/scaleform/scaleform.cpp
 	src/scaleform/scaleform.h
 	src/setting/config_setting.cpp
@@ -58,6 +63,10 @@ set(sources ${sources}
 	src/setting/input_setting.h
 	src/setting/key_setting.cpp
 	src/setting/key_setting.h
+	src/setting/mod_detection.cpp
+	src/setting/mod_detection.h
+	src/setting/setting.cpp
+	src/setting/setting.h
 	src/util/file.cpp
 	src/util/file.h
 	src/util/form.cpp

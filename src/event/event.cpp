@@ -6,15 +6,16 @@
 
 namespace event {
     void sink_event_handlers() {
-        input_event::sink();
-        logger::info("Added Input Event"sv);
-
         if (setting::input_setting::is_inventory_menu_enabled()) {
             menu_open_close_event::sink();
             logger::info("Added Menu Event"sv);
 
             equip_event::sink();
             logger::info("Added Equip Event"sv);
+        }
+        if (!setting::input_setting::get_tween_menu_only()) {
+            input_event::sink();
+            logger::info("Added Input Event"sv);
         }
     }
 }

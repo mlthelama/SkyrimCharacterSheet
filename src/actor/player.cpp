@@ -153,7 +153,9 @@ namespace actor {
         if (!a_player_data_element->ending.empty()) {
             a_player_data->value += a_player_data_element->ending;
         }
-        a_player_data->value += handle_max_handling(a_player_data_element, resist_damage);
+        if (!mod::mod_manager::get_singleton()->get_blade_and_blunt()) {
+            a_player_data->value += handle_max_handling(a_player_data_element, resist_damage);
+        }
     }
 
     void player::handle_ending(setting_data::player_data*& a_player_data_element,

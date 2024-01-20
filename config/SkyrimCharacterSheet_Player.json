@@ -1074,9 +1074,12 @@
       "key": "fall_damage_mod",
       "display_name": "$ShowFallDamageMod",
       "ending": "%",
+      "result_handling": "multiply",
+      "result_handling_value": 100,
       "icon_string": "default_misc",
-      "stats_column": "none",
-      "stats_inventory_column": "none"
+      "stats_column": "player",
+      "stats_inventory_column": "none",
+      "hide_value_when_zero": true
     },
     {
       "key": "warmth",

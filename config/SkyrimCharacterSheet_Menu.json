@@ -69,6 +69,10 @@
           "name": "$ShowStatsInventoryEffectTitle"
         }
       ]
+    },
+    {
+      "key": "tween_hint",
+      "name": "$ShowTweenHint"
     }
   ]
 }

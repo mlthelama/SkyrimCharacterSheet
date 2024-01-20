@@ -27,6 +27,10 @@ namespace setting {
 
         static bool auto_open_inventory_menu_magic();
 
+        static bool get_tween_menu_only();
+
+        static std::vector<std::string> get_ignore_input_menu_list();
+
         static void log();
     };
 }  // setting

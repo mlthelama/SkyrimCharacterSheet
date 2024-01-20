@@ -1,3 +1,7 @@
 [submodule "extern/skyui"]
 	path = extern/skyui
 	url = https://github.com/mlthelama/skyui.git
+[submodule "extern/hint_button_menu"]
+	path = extern/hint_button_menu
+	url = https://github.com/mlthelama/hint_button_menu.git
+	branch = main

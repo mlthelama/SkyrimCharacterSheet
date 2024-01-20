@@ -1,4 +1,5 @@
 ﻿#include "input_event.h"
+#include "input/menu_key_input_holder.h"
 #include "scaleform/menus/faction_menu.h"
 #include "scaleform/menus/stats_inventory_menu.h"
 #include "scaleform/menus/stats_menu.h"
@@ -15,14 +16,15 @@ namespace event {
 
     input_event::event_result input_event::ProcessEvent(RE::InputEvent* const* a_event,
         [[maybe_unused]] RE::BSTEventSource<RE::InputEvent*>* a_event_source) {
-        open_key_combo_ = setting::input_setting::get_open_menu_key_combination();
-        close_key_combo_ = setting::input_setting::get_close_menu_key_combination();
-
-        if (is_one_combo_empty()) {
+        if (!a_event) {
             return event_result::kContinue;
         }
 
-        if (!a_event) {
+        auto* key_input = input::menu_key_input_holder::get_singleton();
+        open_key_combo_ = key_input->get_open_key_combo();
+        close_key_combo_ = key_input->get_close_key_combo();
+
+        if (is_one_combo_empty()) {
             return event_result::kContinue;
         }
 
@@ -33,7 +35,6 @@ namespace event {
             return event_result::kContinue;
         }
 
-        //clear_key_down(key_down_list_);
         for (auto* event = *a_event; event; event = event->next) {
             if (event->eventType != RE::INPUT_EVENT_TYPE::kButton) {
                 continue;
@@ -47,7 +48,7 @@ namespace event {
             util::key_util::get_key_id(button->device.get(), key);
 
             if (button->IsUp()) {
-                remove_key_down(key_down_list_, key);
+                key_input->remove_key_down(key);
             }
 
             if (!button->IsDown()) {
@@ -66,29 +67,29 @@ namespace event {
 
             //for whatever reason I can open the menu while at a crafting station
             //so let that not happen
-            if (ui->IsMenuOpen(RE::CraftingMenu::MENU_NAME)) {
+            if (ui->IsMenuOpen(RE::CraftingMenu::MENU_NAME) ||
+                input::menu_key_input_holder::is_one_ignore_menu_open()) {
                 continue;
             }
 
             if (open_key_combo_.contains(key) || close_key_combo_.contains(key)) {
-                add_key_down(key_down_list_, key);
+                key_input->add_key_down(key);
             }
 
-            //logger::info("user event {}, id {}"sv, button->userEvent, button->idCode);
-
-            if (close_key_combo_ == key_down_list_) {
-                log_combo_set(close_key_combo_, key_down_list_);
+            if (key_input->is_down_list_equal(false)) {
                 if (scaleform::stats_menu::is_menu_open()) {
                     scaleform::stats_menu::close();
+                    key_input->clear_set();
                 }
                 if (scaleform::faction_menu::is_menu_open()) {
                     scaleform::faction_menu::close();
+                    key_input->clear_set();
                 }
             }
-            if (open_key_combo_ == key_down_list_) {
-                log_combo_set(open_key_combo_, key_down_list_);
+            if (key_input->is_down_list_equal(true)) {
                 if (!scaleform::stats_menu::is_menu_open() && !scaleform::faction_menu::is_menu_open()) {
                     scaleform::stats_menu::open();
+                    key_input->clear_set();
                 }
             }
         }
@@ -96,25 +97,5 @@ namespace event {
         return event_result::kContinue;
     }
 
-    void input_event::add_key_down(std::set<uint32_t>& a_set, uint32_t key) {
-        a_set.insert(key);
-        if (!a_set.empty()) {
-            logger::trace("size {}, down list {}"sv, a_set.size(), util::type_util::get_delimited_string(a_set));
-        }
-    }
-
-    void input_event::remove_key_down(std::set<uint32_t>& a_set, uint32_t key) {
-        a_set.erase(key);
-        if (!a_set.empty()) {
-            logger::trace("size {}, down list {}"sv, a_set.size(), util::type_util::get_delimited_string(a_set));
-        }
-    }
-
     bool input_event::is_one_combo_empty() { return open_key_combo_.empty() || close_key_combo_.empty(); }
-
-    void input_event::log_combo_set(std::set<uint32_t>& a_needed, std::set<uint32_t>& a_down) {
-        logger::trace("key combo needed {}, down list {}"sv,
-            util::type_util::get_delimited_string(a_needed),
-            util::type_util::get_delimited_string(a_down));
-    }
 }

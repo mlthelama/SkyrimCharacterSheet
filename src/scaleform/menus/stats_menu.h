@@ -86,7 +86,7 @@ namespace scaleform {
 
         void update_menu_values() const;
 
-        static void on_close();
+        void on_close();
 
         void disable_item_lists();
 

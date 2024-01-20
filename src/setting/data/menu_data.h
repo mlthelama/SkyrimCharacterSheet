@@ -3,7 +3,7 @@
 namespace setting_data {
     class menu_data {
     public:
-        enum class menu_type { stats, faction, stats_inventory, total };
+        enum class menu_type { stats, faction, stats_inventory, tween_hint, total };
 
         enum class stats_column_type : std::uint32_t {
             none,
