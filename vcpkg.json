@@ -6,8 +6,12 @@
   "license": "GPL-2.0-or-later",
   "dependencies": [ 
     "tomlplusplus",
-    "commonlibsse-ng",
     "nlohmann-json",
-    "magic-enum"
+    "magic-enum",
+    "fmt",
+    "spdlog",
+    "rapidcsv",
+    "directxtk",
+    "rsm-binary-io"
   ]
 }

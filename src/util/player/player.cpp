@@ -116,7 +116,7 @@ namespace util {
 
     float player::get_fall_damage_mod(RE::PlayerCharacter*& a_player) {
         if (a_player->HasPerkEntries(RE::BGSEntryPoint::ENTRY_POINTS::kModFallingDamage)) {
-            auto perk_visit = util::perk_visitor();
+            auto perk_visit = util::perk_visitor(a_player, 0.f);
             a_player->ForEachPerkEntry(RE::BGSEntryPoint::ENTRY_POINTS::kModFallingDamage, perk_visit);
             auto fall_damage_mod = perk_visit.get_result();
             logger::trace("perk visit got {} for falling damage"sv, fall_damage_mod);
@@ -173,15 +173,15 @@ namespace util {
         if (mod::mod_manager::get_singleton()->get_armor_rating_rescaled_remake()) {
             return mod::armor_rating_rescaled_remake::calculate_armor_damage_resistance(a_armor_rating, a_pieces_worn);
         }
-
-        auto resistance = a_armor_rating * game_settings->get_armor_scaling_factor() +
-                          game_settings->get_armor_base_factor() * 100 * a_pieces_worn;
-
+        
         if (mod::mod_manager::get_singleton()->get_blade_and_blunt()) {
+            auto resistance = a_armor_rating * game_settings->get_armor_scaling_factor() + 0.03f * 100 * a_pieces_worn;
+
             return mod::blade_and_blunt::calculate_armor_damage_resistance(resistance);
         }
-
-        return resistance;
+        
+        return a_armor_rating * game_settings->get_armor_scaling_factor() +
+               game_settings->get_armor_base_factor() * 100 * a_pieces_worn;
     }
 
 }  // util

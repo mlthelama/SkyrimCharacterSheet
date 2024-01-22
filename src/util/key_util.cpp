@@ -14,8 +14,8 @@ namespace util {
                 break;
             case RE::INPUT_DEVICE::kNone:
             case RE::INPUT_DEVICE::kVirtualKeyboard:
-            case RE::INPUT_DEVICE::kVRRight:
-            case RE::INPUT_DEVICE::kVRLeft:
+            //case RE::INPUT_DEVICE::kVRRight:
+            //case RE::INPUT_DEVICE::kVRLeft:
             case RE::INPUT_DEVICE::kTotal:
                 break;
         }
