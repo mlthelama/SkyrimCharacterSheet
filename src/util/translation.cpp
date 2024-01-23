@@ -5,27 +5,30 @@ namespace util {
         static translation singleton;
         return std::addressof(singleton);
     }
-    
+
     std::string translation::get_game_language() {
         const auto ini_setting = RE::INISettingCollection::GetSingleton();
         const auto setting = ini_setting ? ini_setting->GetSetting("sLanguage:General") : nullptr;
-        
-        return (setting && setting->GetType() == RE::Setting::Type::kString) ? clib_util::string::toupper(setting->data.s) : "ENGLISH"s;
+
+        return (setting && setting->GetType() == RE::Setting::Type::kString) ?
+                   clib_util::string::toupper(setting->data.s) :
+                   "ENGLISH"s;
     }
-    
+
     void translation::build_translation_map() {
-        std::filesystem::path path{ fmt::format(R"(Data\Interface\Translations\SkyrimCharacterSheet_{}.txt)", get_game_language()) };
-        
+        std::filesystem::path path{ fmt::format(R"(Data\Interface\Translations\SkyrimCharacterSheet_{}.txt)",
+            get_game_language()) };
+
         if (!load_translation(path)) {
             load_translation(R"(Data\Interface\Translations\SkyrimCharacterSheet_ENGLISH.txt)"sv);
         }
     }
-    
+
     bool translation::load_translation(const std::filesystem::path& a_path) {
         if (!std::filesystem::exists(a_path)) {
             return false;
         }
-        
+
         std::wfstream filestream(a_path, std::wfstream::in | std::wfstream::binary);
         if (!filestream.good()) {
             return false;
@@ -33,7 +36,8 @@ namespace util {
             logger::info("Reading translations from {}...", a_path.string());
         }
 
-        filestream.imbue(std::locale(filestream.getloc(), new std::codecvt_utf16<wchar_t, 0x10FFFF, std::little_endian>));
+        filestream.imbue(
+            std::locale(filestream.getloc(), new std::codecvt_utf16<wchar_t, 0x10FFFF, std::little_endian>));
 
         // check if the BOM is UTF-16
         constexpr wchar_t BOM_UTF16LE = 0xFEFF;

@@ -11,19 +11,17 @@
 
 #include "magic_enum.hpp"
 #include "nlohmann/json.hpp"
-#include <ankerl/unordered_dense.h>
 #include <ClibUtil/string.hpp>
+#include <ankerl/unordered_dense.h>
 #include <codecvt>
 
 using namespace std::literals;
 
-struct string_hash
-{
+struct string_hash {
     using is_transparent = void;  // enable heterogeneous overloads
     using is_avalanching = void;  // mark class as high quality avalanching hash
-                                  
-    [[nodiscard]] std::uint64_t operator()(std::string_view str) const noexcept
-    {
+
+    [[nodiscard]] std::uint64_t operator()(std::string_view str) const noexcept {
         return ankerl::unordered_dense::hash<std::string_view>{}(str);
     }
 };

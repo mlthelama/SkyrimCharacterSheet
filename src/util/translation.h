@@ -36,7 +36,7 @@ namespace util {
     private:
         string_map<std::string> translation_map{};
     };
-    
+
 }  // util
 
 #define TRANSLATE(STR) util::translation::get_singleton()->get_translation(STR).c_str()

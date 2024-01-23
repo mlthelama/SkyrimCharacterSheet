@@ -76,7 +76,7 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
                 mod::mod::init_mod_support();
 
                 util::translation::get_singleton()->build_translation_map();
-                
+
                 scaleform::Register();
                 input::menu_key_input_holder::get_singleton()->set_all();
 
