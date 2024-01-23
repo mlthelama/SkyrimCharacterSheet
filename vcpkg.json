@@ -8,6 +8,8 @@
     "tomlplusplus",
     "nlohmann-json",
     "magic-enum",
+    "unordered-dense",
+    "clib-util",
     "fmt",
     "spdlog",
     "rapidcsv",

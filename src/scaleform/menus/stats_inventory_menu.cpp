@@ -3,6 +3,7 @@
 #include "setting/config_setting.h"
 #include "setting/data/menu_data.h"
 #include "util/player/player.h"
+#include "util/translation.h"
 
 namespace scaleform {
 
@@ -171,9 +172,9 @@ namespace scaleform {
         logger::debug("Shown all Values for Menu {}"sv, menu_name);
     }
 
-    void stats_inventory_menu::update_text(CLIK::TextField a_field, const std::string_view a_string) {
+    void stats_inventory_menu::update_text(CLIK::TextField a_field, std::string_view a_string) {
         a_field.AutoSize(CLIK::Object{ "left" });
-        a_field.HTMLText(a_string);
+        a_field.HTMLText(TRANSLATE(a_string));
         a_field.Visible(true);
     }
 
@@ -189,7 +190,7 @@ namespace scaleform {
         const std::string_view& a_icon) const {
         RE::GFxValue value;
         view_->CreateObject(std::addressof(value));
-        value.SetMember("displayName", { a_key });
+        value.SetMember("displayName", { TRANSLATE(a_key) });
         value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
         value.SetMember("iconKey", { a_icon });
         value.SetMember("iconScale", { 18 });
@@ -199,7 +200,7 @@ namespace scaleform {
     RE::GFxValue stats_inventory_menu::build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
         RE::GFxValue value;
         view_->CreateObject(std::addressof(value));
-        value.SetMember("displayName", { a_key });
+        value.SetMember("displayName", { TRANSLATE(a_key) });
         value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
         value.SetMember("iconScale", { 18 });
         return value;

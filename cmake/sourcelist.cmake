@@ -79,6 +79,8 @@ set(sources ${sources}
 	src/util/player/player.h
 	src/util/quest/quest.cpp
 	src/util/quest/quest.h
+	src/util/translation.cpp
+	src/util/translation.h
 	src/util/type_util.cpp
 	src/util/type_util.h
 )

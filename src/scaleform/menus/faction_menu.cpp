@@ -9,6 +9,7 @@
 #include "setting/input_setting.h"
 #include "setting/key_setting.h"
 #include "util/key_util.h"
+#include "util/translation.h"
 
 namespace scaleform {
     void faction_menu::Register() {
@@ -197,7 +198,7 @@ namespace scaleform {
 
     void faction_menu::update_text(CLIK::TextField a_field, const std::string_view a_string) {
         a_field.AutoSize(CLIK::Object{ "left" });
-        a_field.HTMLText(a_string);
+        a_field.HTMLText(TRANSLATE(a_string));
         a_field.Visible(true);
     }
 
@@ -205,7 +206,7 @@ namespace scaleform {
         const std::string_view a_string,
         const std::string& a_auto_size) {
         a_field.AutoSize(CLIK::Object{ a_auto_size });
-        a_field.HTMLText(a_string);
+        a_field.HTMLText(TRANSLATE(a_string));
         a_field.Visible(true);
     }
 
@@ -220,8 +221,9 @@ namespace scaleform {
     RE::GFxValue faction_menu::build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
         RE::GFxValue value;
         view_->CreateObject(std::addressof(value));
-        value.SetMember("displayName", { a_key });
-        value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
+        value.SetMember("displayName", { TRANSLATE(a_key) });
+        //value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
+        value.SetMember("displayValue", { TRANSLATE(a_val) });
         return value;
     }
 
