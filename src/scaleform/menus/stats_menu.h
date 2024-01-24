@@ -70,9 +70,8 @@ namespace scaleform {
 
         void update_headers() const;
 
-        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key,
-            const std::string& a_val,
-            const std::string_view& a_icon) const;
+        RE::GFxValue
+            build_gfx_value(std::string& a_key, const std::string& a_val, const std::string_view& a_icon) const;
 
         void clear_providers();
 

@@ -18,10 +18,12 @@ namespace util {
             }
 
             static std::string str = "TRANSLATION FAILED";
-            //static auto str = static_cast<std::string>(a_key);
             return str;
-            //return static_cast<std::string>(a_key);
         }
+
+        static bool needs_translation(std::string& a_key);
+
+        static bool needs_translation(std::string_view& a_key);
 
         translation(const translation&) = delete;
         translation(translation&&) = delete;
@@ -36,7 +38,5 @@ namespace util {
     private:
         string_map<std::string> translation_map{};
     };
-    
-}  // util
 
-#define TRANSLATE(STR) util::translation::get_singleton()->get_translation(STR).c_str()
+}  // util

@@ -16,7 +16,7 @@ namespace actor {
         }
         logger::trace("name {}, value {}, icon {}, column {}"sv, name, value, icon, column_name);
     }
-    
+
     std::vector<actor_player_data*> player::get_player_data(RE::PlayerCharacter*& a_player,
         setting_data::menu_data::menu_type a_menu) {
         if (!a_player) {

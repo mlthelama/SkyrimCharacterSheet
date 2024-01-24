@@ -196,34 +196,46 @@ namespace scaleform {
         logger::debug("Shown all Values for Menu {}"sv, menu_name);
     }
 
-    void faction_menu::update_text(CLIK::TextField a_field, const std::string_view a_string) {
+    void faction_menu::update_text(CLIK::TextField a_field, std::string_view a_string) {
+        if (util::translation::needs_translation(a_string)) {
+            a_string = util::translation::get_singleton()->get_translation(a_string);
+        }
+
         a_field.AutoSize(CLIK::Object{ "left" });
-        a_field.HTMLText(TRANSLATE(a_string));
+        a_field.HTMLText(a_string);
         a_field.Visible(true);
     }
 
-    void faction_menu::update_text(CLIK::TextField a_field,
-        const std::string_view a_string,
-        const std::string& a_auto_size) {
+    void faction_menu::update_text(CLIK::TextField a_field, std::string_view a_string, const std::string& a_auto_size) {
+        if (util::translation::needs_translation(a_string)) {
+            a_string = util::translation::get_singleton()->get_translation(a_string);
+        }
+
         a_field.AutoSize(CLIK::Object{ a_auto_size });
-        a_field.HTMLText(TRANSLATE(a_string));
+        a_field.HTMLText(a_string);
         a_field.Visible(true);
     }
 
-    void faction_menu::update_title() const { update_text(title_, menu_name_); }
+    void faction_menu::update_title() { update_text(title_, menu_name_); }
 
-    void faction_menu::update_headers() const {
+    void faction_menu::update_headers() {
         update_text(faction_header_, get_column_name(setting_data::menu_data::faction_column_type::faction));
         update_text(thane_header_, get_column_name(setting_data::menu_data::faction_column_type::thane));
         update_text(champion_header_, get_column_name(setting_data::menu_data::faction_column_type::champion));
     }
 
-    RE::GFxValue faction_menu::build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
+    RE::GFxValue faction_menu::build_gfx_value(std::string_view a_key, std::string& a_val) const {
+        if (util::translation::needs_translation(a_key)) {
+            a_key = util::translation::get_singleton()->get_translation(a_key);
+        }
+        if (util::translation::needs_translation(a_val)) {
+            a_val = util::translation::get_singleton()->get_translation(a_val);
+        }
+
         RE::GFxValue value;
         view_->CreateObject(std::addressof(value));
-        value.SetMember("displayName", { TRANSLATE(a_key) });
-        //value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
-        value.SetMember("displayValue", { TRANSLATE(a_val) });
+        value.SetMember("displayName", { a_key });
+        value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
         return value;
     }
 

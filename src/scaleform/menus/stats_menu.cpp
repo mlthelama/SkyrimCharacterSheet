@@ -215,16 +215,23 @@ namespace scaleform {
         logger::debug("Shown all Values for Menu {}"sv, menu_name);
     }
 
-    void stats_menu::update_text(CLIK::TextField a_field, const std::string_view a_string) {
+    void stats_menu::update_text(CLIK::TextField a_field, std::string_view a_string) {
+        if (util::translation::needs_translation(a_string)) {
+            a_string = util::translation::get_singleton()->get_translation(a_string);
+        }
+
         a_field.AutoSize(CLIK::Object{ "left" });
-        a_field.HTMLText(TRANSLATE(a_string));
+        a_field.HTMLText(a_string);
         a_field.Visible(true);
     }
-    void stats_menu::update_text(CLIK::TextField a_field,
-        const std::string_view a_string,
-        const std::string& a_auto_size) {
+
+    void stats_menu::update_text(CLIK::TextField a_field, std::string_view a_string, const std::string& a_auto_size) {
+        if (util::translation::needs_translation(a_string)) {
+            a_string = util::translation::get_singleton()->get_translation(a_string);
+        }
+
         a_field.AutoSize(CLIK::Object{ a_auto_size });
-        a_field.HTMLText(TRANSLATE(a_string));
+        a_field.HTMLText(a_string);
         a_field.Visible(true);
     }
     void stats_menu::update_title() const { update_text(title_, menu_name_); }
@@ -238,12 +245,16 @@ namespace scaleform {
         update_text(perks_thief_header_, get_column_name(setting_data::menu_data::stats_column_type::thief));
     }
 
-    RE::GFxValue stats_menu::build_gfx_value(const std::string_view& a_key,
+    RE::GFxValue stats_menu::build_gfx_value(std::string& a_key,
         const std::string& a_val,
         const std::string_view& a_icon) const {
+        if (util::translation::needs_translation(a_key)) {
+            a_key = util::translation::get_singleton()->get_translation(a_key);
+        }
+
         RE::GFxValue value;
         view_->CreateObject(std::addressof(value));
-        value.SetMember("displayName", { TRANSLATE(a_key) });
+        value.SetMember("displayName", { static_cast<std::string_view>(a_key) });
         value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
         value.SetMember("iconKey", { a_icon });
         value.SetMember("iconScale", { 22 });

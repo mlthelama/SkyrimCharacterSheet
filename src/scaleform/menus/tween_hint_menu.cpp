@@ -131,7 +131,11 @@ namespace scaleform {
     }
 
     void tween_hint_menu::update_text(CLIK::TextField a_field, std::string& a_string) {
-        a_field.HTMLText(TRANSLATE(a_string));
+        if (util::translation::needs_translation(a_string)) {
+            a_string = util::translation::get_singleton()->get_translation(a_string);
+        }
+
+        a_field.HTMLText(a_string);
         a_field.Visible(true);
     }
 

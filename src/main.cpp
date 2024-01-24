@@ -76,7 +76,7 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
                 mod::mod::init_mod_support();
 
                 util::translation::get_singleton()->build_translation_map();
-                
+
                 scaleform::Register();
                 input::menu_key_input_holder::get_singleton()->set_all();
 
@@ -103,8 +103,8 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) constinit auto SKSEPlugin_Versio
     return v;
 }();
 
-EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI
-    SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* pluginInfo) {
+EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse,
+    SKSE::PluginInfo* pluginInfo) {
     pluginInfo->name = SKSEPlugin_Version.pluginName;
     pluginInfo->infoVersion = SKSE::PluginInfo::kVersion;
     pluginInfo->version = SKSEPlugin_Version.pluginVersion;
