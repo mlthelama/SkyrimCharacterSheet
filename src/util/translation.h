@@ -38,5 +38,4 @@ namespace util {
     private:
         string_map<std::string> translation_map{};
     };
-
 }  // util
