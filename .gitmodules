@@ -7,5 +7,5 @@
 	branch = main
 [submodule "extern/CommonLibSSE-NG"]
 	path = extern/CommonLibSSE-NG
-	url = https://github.com/alandtse/CommonLibVR.git
+	url = https://github.com/mlthelama/CommonLibSSE.git
 	branch = ng

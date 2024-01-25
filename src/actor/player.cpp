@@ -232,7 +232,7 @@ namespace actor {
                 break;
             case setting_data::player_data::stat::xp:
                 //TODO broken
-                //a_player_data->value = util::player::get_xp(a_player);
+                a_player_data->value = util::player::get_xp(a_player);
                 break;
             case setting_data::player_data::stat::arrow_damage:
                 value = util::player::get_ammo_damage(a_player);

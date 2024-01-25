@@ -95,10 +95,10 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) constinit auto SKSEPlugin_Versio
     SKSE::PluginVersionData v;
     v.PluginName(Version::PROJECT);
     v.AuthorName(Version::AUTHOR);
+    v.AuthorEmail(Version::EMAIL);
     v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH, Version::BETA });
-    v.UsesAddressLibrary(true);
+    v.UsesAddressLibrary();
     v.CompatibleVersions({ SKSE::RUNTIME_SSE_LATEST });
-    //v.HasNoStructUse(true);
     v.UsesNoStructs();
     return v;
 }();
