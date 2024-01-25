@@ -5,6 +5,7 @@
 #include "scaleform/scaleform.h"
 #include "setting/input_setting.h"
 #include "setting/setting.h"
+#include "util/translation.h"
 
 void init_logger() {
     if (static bool initialized = false; !initialized) {
@@ -74,6 +75,8 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(con
                 init_config_setting();
                 mod::mod::init_mod_support();
 
+                util::translation::get_singleton()->build_translation_map();
+
                 scaleform::Register();
                 input::menu_key_input_holder::get_singleton()->set_all();
 
@@ -92,10 +95,11 @@ EXTERN_C [[maybe_unused]] __declspec(dllexport) constinit auto SKSEPlugin_Versio
     SKSE::PluginVersionData v;
     v.PluginName(Version::PROJECT);
     v.AuthorName(Version::AUTHOR);
+    v.AuthorEmail(Version::EMAIL);
     v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH, Version::BETA });
-    v.UsesAddressLibrary(true);
+    v.UsesAddressLibrary();
     v.CompatibleVersions({ SKSE::RUNTIME_SSE_LATEST });
-    v.HasNoStructUse(true);
+    v.UsesNoStructs();
     return v;
 }();
 

@@ -70,9 +70,8 @@ namespace scaleform {
 
         void update_headers() const;
 
-        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key,
-            const std::string& a_val,
-            const std::string_view& a_icon) const;
+        RE::GFxValue
+            build_gfx_value(std::string& a_key, const std::string& a_val, const std::string_view& a_icon) const;
 
         void clear_providers();
 
@@ -103,6 +102,8 @@ namespace scaleform {
         static void process_next();
 
         [[nodiscard]] std::string get_column_name(setting_data::menu_data::stats_column_type a_column) const;
+
+        void update_buttons();
 
         RE::GPtr<RE::GFxMovieView> view_;
         bool is_active_ = false;

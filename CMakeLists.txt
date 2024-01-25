@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 
 set(NAME "SkyrimCharacterSheet")
-set(VERSION 1.1.1.0)
+set(VERSION 1.1.2.0)
 
 # ---- Options ----
 
@@ -85,10 +85,17 @@ set(Boost_USE_STATIC_LIBS ON)
 
 # ---- Dependencies ----
 
-find_package(CommonLibSSE CONFIG REQUIRED)
+#find_package(CommonLibSSE CONFIG REQUIRED)
 find_package(spdlog REQUIRED CONFIG)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(magic_enum CONFIG REQUIRED)
+find_package(unordered_dense CONFIG REQUIRED)
+
+find_path(CLIB_UTIL_INCLUDE_DIRS "ClibUtil/utils.hpp")
+
+set(CommonLibPath "extern/CommonLibSSE-NG")
+set(CommonLibName "CommonLibSSE")
+set(GameVersion "Skyrim")
 
 # ---- Add source files ----
 
@@ -131,14 +138,18 @@ add_library(
 target_compile_features(
 	${PROJECT_NAME}
 	PRIVATE
-		cxx_std_20
+		cxx_std_23
 )
+
+add_subdirectory(${CommonLibPath} ${CommonLibName} EXCLUDE_FROM_ALL)
+
 
 target_include_directories(
 	${PROJECT_NAME}
 	PRIVATE
 		${CMAKE_CURRENT_BINARY_DIR}/include
 		${CMAKE_CURRENT_SOURCE_DIR}/src
+		${CLIB_UTIL_INCLUDE_DIRS}
 )
 
 target_link_libraries(
@@ -148,6 +159,7 @@ target_link_libraries(
 		CommonLibSSE::CommonLibSSE
 		nlohmann_json::nlohmann_json
 		magic_enum::magic_enum
+		unordered_dense::unordered_dense
 )
 
 if (MSVC)

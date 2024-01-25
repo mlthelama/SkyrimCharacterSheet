@@ -65,11 +65,11 @@ namespace scaleform {
 
         static void update_text(CLIK::TextField a_field, std::string_view a_string, const std::string& a_auto_size);
 
-        void update_title() const;
+        void update_title();
 
-        void update_headers() const;
+        void update_headers();
 
-        [[nodiscard]] RE::GFxValue build_gfx_value(const std::string_view& a_key, const std::string& a_val) const;
+        [[nodiscard]] RE::GFxValue build_gfx_value(std::string_view a_key, std::string& a_val) const;
 
         void clear_providers();
 
@@ -98,6 +98,8 @@ namespace scaleform {
         static void process_prev();
 
         [[nodiscard]] std::string get_column_name(setting_data::menu_data::faction_column_type a_column) const;
+
+        void update_buttons();
 
         RE::GPtr<RE::GFxMovieView> view_;
         bool is_active_ = false;

@@ -3,6 +3,7 @@
 #include "setting/config_setting.h"
 #include "setting/data/menu_data.h"
 #include "util/player/player.h"
+#include "util/translation.h"
 
 namespace scaleform {
 
@@ -171,7 +172,11 @@ namespace scaleform {
         logger::debug("Shown all Values for Menu {}"sv, menu_name);
     }
 
-    void stats_inventory_menu::update_text(CLIK::TextField a_field, const std::string_view a_string) {
+    void stats_inventory_menu::update_text(CLIK::TextField a_field, std::string_view a_string) {
+        if (util::translation::needs_translation(a_string)) {
+            a_string = util::translation::get_singleton()->get_translation(a_string);
+        }
+
         a_field.AutoSize(CLIK::Object{ "left" });
         a_field.HTMLText(a_string);
         a_field.Visible(true);
@@ -184,22 +189,26 @@ namespace scaleform {
         update_text(effect_header_, get_column_name(setting_data::menu_data::stats_inventory_column_type::effect));
     }
 
-    RE::GFxValue stats_inventory_menu::build_gfx_value(const std::string_view& a_key,
+    RE::GFxValue stats_inventory_menu::build_gfx_value(std::string& a_key,
         const std::string& a_val,
         const std::string_view& a_icon) const {
+        if (util::translation::needs_translation(a_key)) {
+            a_key = util::translation::get_singleton()->get_translation(a_key);
+        }
+
         RE::GFxValue value;
         view_->CreateObject(std::addressof(value));
-        value.SetMember("displayName", { a_key });
+        value.SetMember("displayName", { static_cast<std::string_view>(a_key) });
         value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
         value.SetMember("iconKey", { a_icon });
         value.SetMember("iconScale", { 18 });
         return value;
     }
 
-    RE::GFxValue stats_inventory_menu::build_gfx_value(const std::string_view& a_key, const std::string& a_val) const {
+    RE::GFxValue stats_inventory_menu::build_gfx_value(const std::string& a_key, const std::string& a_val) const {
         RE::GFxValue value;
         view_->CreateObject(std::addressof(value));
-        value.SetMember("displayName", { a_key });
+        value.SetMember("displayName", { static_cast<std::string_view>(a_key) });
         value.SetMember("displayValue", { static_cast<std::string_view>(a_val) });
         value.SetMember("iconScale", { 18 });
         return value;

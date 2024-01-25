@@ -1,13 +1,19 @@
 {
   "name": "skyrimcharactersheet",
-  "version-string": "1.1.1.0",
+  "version-string": "1.1.2.0",
   "description": "An info page",
   "homepage": "https://github.com/mlthelama/SkyrimCharacterSheet",
   "license": "GPL-2.0-or-later",
   "dependencies": [ 
     "tomlplusplus",
-    "commonlibsse-ng",
     "nlohmann-json",
-    "magic-enum"
+    "magic-enum",
+    "unordered-dense",
+    "clib-util",
+    "fmt",
+    "spdlog",
+    "rapidcsv",
+    "directxtk",
+    "rsm-binary-io"
   ]
 }

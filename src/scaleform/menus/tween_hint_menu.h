@@ -53,7 +53,7 @@ namespace scaleform {
 
         static void log(const RE::FxDelegateArgs& a_params);
 
-        static void update_text(CLIK::TextField a_field, std::string_view a_string);
+        static void update_text(CLIK::TextField a_field, std::string& a_string);
 
         [[nodiscard]] RE::GFxValue build_key_gfx_value(uint32_t a_right_key, uint32_t a_left_key) const;
 

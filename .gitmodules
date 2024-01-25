@@ -5,3 +5,7 @@
 	path = extern/hint_button_menu
 	url = https://github.com/mlthelama/hint_button_menu.git
 	branch = main
+[submodule "extern/CommonLibSSE-NG"]
+	path = extern/CommonLibSSE-NG
+	url = https://github.com/mlthelama/CommonLibSSE.git
+	branch = ng

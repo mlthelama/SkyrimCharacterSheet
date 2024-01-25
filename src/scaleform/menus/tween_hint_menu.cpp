@@ -2,6 +2,7 @@
 #include "input/menu_key_input_holder.h"
 #include "mod/mod_manager.h"
 #include "scaleform/menus/stats_menu.h"
+#include "util/translation.h"
 
 namespace scaleform {
 
@@ -129,7 +130,11 @@ namespace scaleform {
         logger::debug("{}: {}"sv, menu_name, a_params[0].GetString());
     }
 
-    void tween_hint_menu::update_text(CLIK::TextField a_field, const std::string_view a_string) {
+    void tween_hint_menu::update_text(CLIK::TextField a_field, std::string& a_string) {
+        if (util::translation::needs_translation(a_string)) {
+            a_string = util::translation::get_singleton()->get_translation(a_string);
+        }
+
         a_field.HTMLText(a_string);
         a_field.Visible(true);
     }
@@ -146,7 +151,8 @@ namespace scaleform {
         uint32_t key = 0;
         if (mod::mod_manager::get_singleton()->get_wait_menu_redirected()) {
             auto* interface_strings = RE::InterfaceStrings::GetSingleton();
-            update_text(right_hint_text_, interface_strings->sleepWaitMenu);
+            auto name = static_cast<std::string>(interface_strings->sleepWaitMenu);
+            update_text(right_hint_text_, name);
 
             //input switch is noticed this way
             RE::UserEvents* user_events = RE::UserEvents::GetSingleton();

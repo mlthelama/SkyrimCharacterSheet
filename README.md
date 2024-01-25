@@ -1,6 +1,6 @@
 # Skyrim Character Sheet
 ![Platform](https://img.shields.io/static/v1?label=platform&message=windows&color=dimgray&style=for-the-badge&logo=windows)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/mlthelama/SkyrimCharacterSheet?style=for-the-badge)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/mlthelama/SkyrimCharacterSheet?style=for-the-badge&include_prereleases)
 ![GitHub](https://img.shields.io/github/license/mlthelama/SkyrimCharacterSheet?style=for-the-badge)
 ![GitHub top language](https://img.shields.io/github/languages/top/mlthelama/SkyrimCharacterSheet?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/mlthelama/SkyrimCharacterSheet?style=for-the-badge)
@@ -13,11 +13,11 @@
 ## End User Dependencies
 * [SKSE64](https://skse.silverlock.org/)
 * [Address Library for SKSE Plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444)
-* [Scaleform Translation Plus Plus](https://www.nexusmods.com/skyrimspecialedition/mods/22603)
-* [Icons for Skyrim Character Sheet](https://www.nexusmods.com/skyrimspecialedition/mods/71282)
 
 ## Build Dependencies
-* [CommonLibSSE NG](https://github.com/CharmedBaryon/CommonLibSSE-NG)
+* [CommonLibSSE NG](https://github.com/mlthelama/CommonLibSSE/tree/ng)
+  - currently a [fork from](https://github.com/alandtse/CommonLibVR/tree/ng) with minor changes
+  - added as [submodule](extern/CommonLibSSE-NG) 
 * [spdlog](https://github.com/gabime/spdlog)
 * [nlohmann-json](https://github.com/nlohmann/json)
 * [tomlplusplus](https://github.com/marzer/tomlplusplus)
@@ -28,6 +28,16 @@
 * [cmake](https://cmake.org) 
   - installed dir needs to be added to the `PATH` environment variable
   - Version `3.25`
+* [clib-util](https://github.com/powerof3/CLibUtil)
+  - added as vcpkg [port](cmake/ports/clib-util)
+* [unordered-dense](https://github.com/martinus/unordered_dense)
+  - added as vcpkg [port](cmake/ports/unordered-dense)
+
+## Release Dependencies
+* [hint_button_menu](https://github.com/mlthelama/hint_button_menu)
+  - needed [file](extern/hint_button_menu/bin/hint_button_menu.swf)
+* [skyui](https://github.com/mlthelama/skyui)
+  - needed [file](extern/skyui/swf/icons_item_psychosteve_merged.swf)
 
 ## Building
 ```
@@ -36,4 +46,13 @@ cd SkyrimCharacterSheet
 
 cmake --preset vs2022-windows
 cmake --build --preset vs2022-windows --config Release
+```
+
+## Manual Release
+```
+cd SkyrimCharacterSheet
+
+./scripts/run.sh 
+or
+.\scripts\run.sh
 ```
