@@ -1,6 +1,5 @@
 #pragma once
 
-//TODO update clib
 namespace util {
     class perk_visitor : public RE::PerkEntryVisitor {
     public:
