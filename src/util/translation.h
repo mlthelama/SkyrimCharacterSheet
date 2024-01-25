@@ -21,9 +21,13 @@ namespace util {
             return str;
         }
 
-        static bool needs_translation(std::string& a_key);
-
-        static bool needs_translation(std::string_view& a_key);
+        template <class T>
+        static bool needs_translation(T& a_key) {
+            if (a_key.starts_with('$')) {
+                return true;
+            }
+            return false;
+        }
 
         translation(const translation&) = delete;
         translation(translation&&) = delete;

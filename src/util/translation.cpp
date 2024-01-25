@@ -63,19 +63,4 @@ namespace util {
         logger::info("Read translations from {}, count {} ...", a_path.string(), translation_map.size());
         return true;
     }
-
-    bool translation::needs_translation(std::string& a_key) {
-        if (a_key.starts_with('$')) {
-            return true;
-        }
-        return false;
-    }
-
-    bool translation::needs_translation(std::string_view& a_key) {
-        if (a_key.starts_with('$')) {
-            return true;
-        }
-        return false;
-    }
-
 }  // util

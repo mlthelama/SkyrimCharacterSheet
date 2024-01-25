@@ -103,6 +103,8 @@ namespace scaleform {
 
         [[nodiscard]] std::string get_column_name(setting_data::menu_data::stats_column_type a_column) const;
 
+        void update_buttons();
+
         RE::GPtr<RE::GFxMovieView> view_;
         bool is_active_ = false;
 

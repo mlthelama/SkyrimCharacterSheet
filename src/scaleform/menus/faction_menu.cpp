@@ -176,17 +176,13 @@ namespace scaleform {
         view_->CreateArray(std::addressof(champion_item_list_provider_));
         champion_item_list_.DataProvider(CLIK::Array{ champion_item_list_provider_ });
 
-        menu_close_.Label("Close");
-        menu_close_.Disabled(false);
-
         update_title();
         update_headers();
         update_bottom();
 
         update_lists();
 
-        prev_.Label(previous_menu_name_);
-        prev_.Disabled(false);
+        update_buttons();
 
         disable_item_lists();
 
@@ -420,5 +416,20 @@ namespace scaleform {
     faction_menu::~faction_menu() {
         auto menu_controls = RE::MenuControls::GetSingleton();
         menu_controls->RemoveHandler(this);
+    }
+
+    void faction_menu::update_buttons() {
+        auto close = setting::key_setting::get_key(setting::key_setting::key_name::close);
+        if (util::translation::needs_translation(close)) {
+            close = util::translation::get_singleton()->get_translation(close);
+        }
+        menu_close_.Label(close);
+        menu_close_.Disabled(false);
+
+        if (util::translation::needs_translation(previous_menu_name_)) {
+            previous_menu_name_ = util::translation::get_singleton()->get_translation(previous_menu_name_);
+        }
+        prev_.Label(previous_menu_name_);
+        prev_.Disabled(false);
     }
 }

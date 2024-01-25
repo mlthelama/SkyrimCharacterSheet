@@ -4,6 +4,7 @@
 #include "mod/mod_manager.h"
 #include "scaleform/menus/faction_menu.h"
 #include "setting/input_setting.h"
+#include "setting/key_setting.h"
 #include "util/key_util.h"
 #include "util/translation.h"
 
@@ -195,17 +196,13 @@ namespace scaleform {
         view_->CreateArray(std::addressof(perks_thief_item_list_provider_));
         perks_thief_item_list_.DataProvider(CLIK::Array{ perks_thief_item_list_provider_ });
 
-        menu_close_.Label("Close");
-        menu_close_.Disabled(false);
-
         update_title();
         update_headers();
         update_bottom();
 
         update_lists();
 
-        next_.Label(next_menu_name_);
-        next_.Disabled(false);
+        update_buttons();
 
         disable_item_lists();
 
@@ -438,5 +435,20 @@ namespace scaleform {
     stats_menu::~stats_menu() {
         auto menu_controls = RE::MenuControls::GetSingleton();
         menu_controls->RemoveHandler(this);
+    }
+
+    void stats_menu::update_buttons() {
+        auto close = setting::key_setting::get_key(setting::key_setting::key_name::close);
+        if (util::translation::needs_translation(close)) {
+            close = util::translation::get_singleton()->get_translation(close);
+        }
+        menu_close_.Label(close);
+        menu_close_.Disabled(false);
+
+        if (util::translation::needs_translation(next_menu_name_)) {
+            next_menu_name_ = util::translation::get_singleton()->get_translation(next_menu_name_);
+        }
+        next_.Label(next_menu_name_);
+        next_.Disabled(false);
     }
 }
