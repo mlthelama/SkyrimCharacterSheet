@@ -64,6 +64,11 @@ namespace event {
                 !(scaleform::stats_menu::is_menu_open() || scaleform::faction_menu::is_menu_open())) {
                 continue;
             }
+            
+            if (ui->IsItemMenuOpen() ) {
+                continue;
+            }
+            
 
             //for whatever reason I can open the menu while at a crafting station
             //so let that not happen
