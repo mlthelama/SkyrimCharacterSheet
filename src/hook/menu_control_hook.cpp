@@ -81,7 +81,8 @@ namespace hook {
 
         if (a_event && *a_event && is_menu_open(ui)) {
             auto* inventory_manager = RE::Inventory3DManager::GetSingleton();
-
+            auto* control_map = RE::ControlMap::GetSingleton();
+            
             for (auto* event = *a_event; event; event = event->next) {
                 if (inventory_manager && inventory_manager->GetRuntimeData().zoomProgress != 0.f) {
                     scaleform::stats_inventory_menu::close();
@@ -114,7 +115,12 @@ namespace hook {
                     if (!button->IsDown()) {
                         continue;
                     }
-
+                    
+                    if (control_map->GetRuntimeData().textEntryCount > 0) {
+                        logger::trace("continue. due text input, count {}"sv, control_map->GetRuntimeData().textEntryCount);
+                        continue;
+                    }
+                    
                     if (key_input->get_inventory_open_key_combo().contains(key) ||
                         key_input->get_inventory_close_key_combo().contains(key)) {
                         key_input->add_key_down(key);
