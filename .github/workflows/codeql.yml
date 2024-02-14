@@ -98,6 +98,7 @@ jobs:
         cmakeListsTxtPath: ${{ github.workspace }}/main/CMakeLists.txt
         configurePreset: 'vs2022-windows'
         buildPreset: 'vs2022-windows'
+        buildPresetAdditionalArgs: "['--config Release']"
         
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
