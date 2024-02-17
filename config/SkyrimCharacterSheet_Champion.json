@@ -113,19 +113,6 @@
       ]
     },
     {
-      "key": "molag_bal",
-      "name": "$ShowMolagBal",
-      "mod": "Skyrim.esm",
-      "quest_form": "0x00022F08",
-      "quest_stage_favor": [
-        200
-      ],
-      "quest_stage_alternate": [
-        500,
-        550
-      ]
-    },
-    {
       "key": "namira",
       "name": "$ShowNamira",
       "mod": "Skyrim.esm",
