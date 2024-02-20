@@ -175,7 +175,7 @@ namespace util {
         }
 
         if (mod::mod_manager::get_singleton()->get_blade_and_blunt()) {
-            auto resistance = a_armor_rating * game_settings->get_armor_scaling_factor() + 0.03f * 100 * a_pieces_worn;
+            auto resistance = a_armor_rating * game_settings->get_armor_scaling_factor();
 
             return mod::blade_and_blunt::calculate_armor_damage_resistance(resistance);
         }
