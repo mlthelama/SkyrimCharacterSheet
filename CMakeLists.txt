@@ -89,6 +89,7 @@ set(Boost_USE_STATIC_LIBS ON)
 find_package(spdlog REQUIRED CONFIG)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(magic_enum CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
 find_package(unordered_dense CONFIG REQUIRED)
 
 find_path(CLIB_UTIL_INCLUDE_DIRS "ClibUtil/utils.hpp")

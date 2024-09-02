@@ -14,6 +14,7 @@
 #include <ClibUtil/string.hpp>
 #include <ankerl/unordered_dense.h>
 #include <codecvt>
+#include <string_view>
 
 using namespace std::literals;
 
