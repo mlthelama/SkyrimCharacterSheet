@@ -1,9 +1,10 @@
-﻿#include "player.h"
+#include "player.h"
 #include "mod/mod_manager.h"
 #include "setting/config_setting.h"
 #include "setting/game_setting.h"
 #include "util/player/player.h"
 #include "util/type_util.h"
+#include <unordered_set>
 
 namespace actor {
 
@@ -34,6 +35,17 @@ namespace actor {
 
         logger::trace("Got {} item(s) from the config to check"sv, config_player.size());
 
+        // last seed enums
+        const std::unordered_set<setting_data::player_data::stat> ls_enums
+        { 
+            setting_data::player_data::stat::hunger,
+            setting_data::player_data::stat::thirst,
+            setting_data::player_data::stat::fatigue,
+            setting_data::player_data::stat::vitality 
+        };
+
+        auto* mod_manager = mod::mod_manager::get_singleton();
+
         std::vector<actor_player_data*> actor_player_data_list;
         for (auto* player_data_element : config_player) {
             //player_data_element->log();
@@ -43,6 +55,12 @@ namespace actor {
                 (a_menu == setting_data::menu_data::menu_type::stats_inventory &&
                     player_data_element->stats_inventory_column ==
                         setting_data::menu_data::stats_inventory_column_type::none)) {
+                continue;
+            }
+
+            
+            // skip last seed element if last seed is not enabled
+            if (!mod_manager->get_last_seed() && ls_enums.find(player_data_element->key) != ls_enums.end()) {
                 continue;
             }
 
@@ -261,6 +279,18 @@ namespace actor {
                 break;
             case setting_data::player_data::stat::warmth:
                 value = a_player->GetWarmthRating();
+                break;
+            case setting_data::player_data::stat::hunger:
+                a_player_data->value = util::player::get_last_seed_effect(a_player, "Hunger");
+                break;
+            case setting_data::player_data::stat::thirst:
+                a_player_data->value = util::player::get_last_seed_effect(a_player, "Thirst");
+                break;
+            case setting_data::player_data::stat::fatigue:
+                a_player_data->value = util::player::get_last_seed_effect(a_player, "Fatigue");
+                break;
+            case setting_data::player_data::stat::vitality:
+                a_player_data->value = util::player::get_last_seed_effect(a_player, "Vitality");
                 break;
             default:
                 if (a_player_data_element->actor_value.actor_value != RE::ActorValue::kNone) {

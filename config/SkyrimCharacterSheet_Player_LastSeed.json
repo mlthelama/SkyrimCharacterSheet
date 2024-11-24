@@ -1,0 +1,32 @@
+{
+  "player": [
+    {
+      "key": "hunger",
+      "display_name": "$ShowHunger",
+      "icon_string": "default_food",
+      "stats_column": "player",
+      "stats_inventory_column": "none"
+    },
+    {
+      "key": "thirst",
+      "display_name": "$ShowThirst",
+      "icon_string": "av_alchemy",
+      "stats_column": "player",
+      "stats_inventory_column": "none"
+    },
+    {
+      "key": "fatigue",
+      "display_name": "$ShowFatigue",
+      "icon_string": "icon_sleep",
+      "stats_column": "player",
+      "stats_inventory_column": "none"
+    },
+    {
+      "key": "vitality",
+      "display_name": "$ShowVitality",
+      "icon_string": "icon_vitality",
+      "stats_column": "player",
+      "stats_inventory_column": "none"
+    }
+  ]
+}

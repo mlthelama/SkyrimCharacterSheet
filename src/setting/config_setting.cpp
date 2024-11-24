@@ -1,7 +1,8 @@
-﻿#include "config_setting.h"
+#include "config_setting.h"
 #include "util/file.h"
 #include "util/form.h"
 #include "util/type_util.h"
+
 
 namespace setting {
     config_setting* config_setting::get_singleton() {
