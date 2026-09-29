@@ -1,4 +1,4 @@
-﻿#include "mod.h"
+#include "mod.h"
 #include "mod/mod_manager.h"
 #include "setting/mod_detection.h"
 
@@ -26,6 +26,9 @@ namespace mod {
         }
         if (setting::mod_detection::get_wait_menu_redirected()) {
             mod_manager->set_wait_menu_redirected(LoadLibrary(L"Data/SKSE/Plugins/WaitMenuRedirected.dll"));
+        }
+        if (setting::mod_detection::get_last_seed()) {
+            mod_manager->set_last_seed((data_handler && data_handler->LookupModByName("LastSeed.esp")));
         }
     }
 }  // mod

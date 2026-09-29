@@ -23,6 +23,9 @@ namespace mod {
         void set_wait_menu_redirected(bool a_value);
         [[nodiscard]] bool get_wait_menu_redirected() const;
 
+        void set_last_seed(bool a_value);
+        [[nodiscard]] bool get_last_seed() const;
+
     private:
         bool armor_rating_rescaled_remake{};
         bool hand_to_hand{};
@@ -30,5 +33,6 @@ namespace mod {
         bool skyrim_souls{};
         bool blade_and_blunt{};
         bool wait_menu_redirected{};
+        bool last_seed{};
     };
 }

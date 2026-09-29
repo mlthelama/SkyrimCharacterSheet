@@ -1,8 +1,9 @@
-﻿#include "perkvisitor.h"
+#include "perkvisitor.h"
 #include "util/type_util.h"
 
 namespace util {
     RE::BSContainer::ForEachResult perk_visitor::Visit(RE::BGSPerkEntry* perk_entry) {
+
         const auto* entry_point = static_cast<RE::BGSEntryPointPerkEntry*>(perk_entry);
         const auto* perk = entry_point->perk;
 
@@ -11,6 +12,8 @@ namespace util {
             perk->GetName(),
             static_cast<uint32_t>(entry_point->functionData->GetType()),
             entry_point->entryData.function.underlying());
+
+ 
 
         RE::BGSEntryPointFunctionDataOneValue* value = nullptr;
         switch (entry_point->functionData->GetType()) {

@@ -1,4 +1,4 @@
-﻿#include "mod_detection.h"
+#include "mod_detection.h"
 
 namespace setting {
     static bool armor_rating_rescaled_remake;
@@ -7,6 +7,7 @@ namespace setting {
     static bool skyrim_souls;
     static bool blade_and_blunt;
     static bool wait_menu_redirected;
+    static bool last_seed;
 
     void mod_detection::load_setting() {
         logger::info("loading mod detection setting file"sv);
@@ -48,19 +49,24 @@ namespace setting {
             wait_menu_redirected = wait_menu_redirected_json;
         }
 
+        if (auto& last_seed_json = json_setting.at("last_seed"); last_seed_json.is_boolean()) {
+            last_seed = last_seed_json;
+        }
+
         logger::info("done loading input setting file"sv);
         log();
     }
 
     void mod_detection::log() {
         logger::debug(
-            "mod detection: armor_rating_rescaled_remake {}, hand_to_hand {}, skyrim_unbound {}, skyrim_souls {}, blade_and_blunt {}. wait_menu_redirected {}"sv,
+            "mod detection: armor_rating_rescaled_remake {}, hand_to_hand {}, skyrim_unbound {}, skyrim_souls {}, blade_and_blunt {}. wait_menu_redirected {}, last_seed {}"sv,
             armor_rating_rescaled_remake,
             hand_to_hand,
             skyrim_unbound,
             skyrim_souls,
             blade_and_blunt,
-            wait_menu_redirected);
+            wait_menu_redirected,
+            last_seed);
     }
 
     bool mod_detection::get_armor_rating_rescaled_remake() { return armor_rating_rescaled_remake; }
@@ -74,5 +80,7 @@ namespace setting {
     bool mod_detection::get_blade_and_blunt() { return blade_and_blunt; }
 
     bool mod_detection::get_wait_menu_redirected() { return wait_menu_redirected; }
+
+    bool mod_detection::get_last_seed() { return last_seed; }
 
 }  // setting

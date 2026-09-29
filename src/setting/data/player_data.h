@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "setting/data/menu_data.h"
 
 namespace setting_data {
@@ -139,7 +139,11 @@ namespace setting_data {
             weapon_crit_damage_rating_left,
             fall_damage_mod,
             warmth,
-            custom
+            custom,
+            hunger,
+            thirst,
+            fatigue,
+            vitality,
         };
 
         //TODO add default_with_base and default_with_permanent

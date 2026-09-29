@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace util {
     class player {
@@ -26,6 +26,8 @@ namespace util {
         static float get_damage_resistance(RE::PlayerCharacter*& a_player);
 
         static std::string get_is_beast(RE::PlayerCharacter*& a_player);
+
+        static std::string get_last_seed_effect(RE::PlayerCharacter*& a_player, std::string key);
 
     private:
         static RE::InventoryEntryData* get_equipped_weapon(RE::PlayerCharacter*& a_player, bool a_left);

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace setting {
     class mod_detection {
@@ -18,5 +18,7 @@ namespace setting {
         static bool get_blade_and_blunt();
 
         static bool get_wait_menu_redirected();
+
+        static bool get_last_seed();
     };
 }  // setting
