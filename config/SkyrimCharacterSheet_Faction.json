@@ -214,7 +214,7 @@
         },
         {
           "key": "stormblade",
-          "name": "$ShowLegate",
+          "name": "$ShowStormblade",
           "quest": [
             {
               "mod": "Skyrim.esm",
