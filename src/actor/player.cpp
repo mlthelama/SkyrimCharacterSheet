@@ -36,13 +36,10 @@ namespace actor {
         logger::trace("Got {} item(s) from the config to check"sv, config_player.size());
 
         // last seed enums
-        const std::unordered_set<setting_data::player_data::stat> ls_enums
-        { 
-            setting_data::player_data::stat::hunger,
+        const std::unordered_set<setting_data::player_data::stat> ls_enums{ setting_data::player_data::stat::hunger,
             setting_data::player_data::stat::thirst,
             setting_data::player_data::stat::fatigue,
-            setting_data::player_data::stat::vitality 
-        };
+            setting_data::player_data::stat::vitality };
 
         auto* mod_manager = mod::mod_manager::get_singleton();
 
@@ -58,7 +55,7 @@ namespace actor {
                 continue;
             }
 
-            
+
             // skip last seed element if last seed is not enabled
             if (!mod_manager->get_last_seed() && ls_enums.find(player_data_element->key) != ls_enums.end()) {
                 continue;
