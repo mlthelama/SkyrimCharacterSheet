@@ -11,7 +11,7 @@ namespace util {
 
         const bool LeapsOfFaithModDetected = data_handler->LookupModByName("LeapsOfFaith.esp") != nullptr;
 
-        auto* leap_global = datahandler->LookupForm<RE::TESGlobal>(0x0806, "LeapsOfFaith.esp");
+        auto* leap_global = data_handler->LookupForm<RE::TESGlobal>(0x0806, "LeapsOfFaith.esp");
 
         logger::trace("formid {}, name {}, type {}, function {}"sv,
             util::type_util::int_to_hex(perk->GetFormID()),
@@ -41,7 +41,7 @@ namespace util {
         if (LeapsOfFaithModDetected && leap_global) {
             const auto target_priority = static_cast<uint32_t>(leap_global->value) + 1;
 
-            if (entry_point->GetPriority() > targetpriority) {
+            if (entry_point->GetPriority() > target_priority) {
                 return RE::BSContainer::ForEachResult::kContinue;
             }
 
