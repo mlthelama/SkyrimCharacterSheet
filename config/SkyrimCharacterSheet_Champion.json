@@ -108,6 +108,7 @@
         200
       ],
       "quest_stage_alternate": [
+        210,
         500,
         550
       ]

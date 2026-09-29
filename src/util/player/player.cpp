@@ -155,30 +155,29 @@ namespace util {
         return {};
     }
 
-    std::string player::get_last_seed_effect(RE::PlayerCharacter*& a_player, std::string key) { 
-
+    std::string player::get_last_seed_effect(RE::PlayerCharacter*& a_player, std::string key) {
         auto activeEffects = a_player->AsMagicTarget()->GetActiveEffectList();
 
         if (!activeEffects) {
-            logger::trace("no active effects");  
+            logger::trace("no active effects");
             return {};
         }
 
         for (auto effect : *activeEffects) {
             std::string effectName(effect->GetBaseObject()->GetName());
 
-                if (effectName.starts_with(key)) {
-                    auto colonPos = effectName.find(':');
+            if (effectName.starts_with(key)) {
+                auto colonPos = effectName.find(':');
 
-                    if (colonPos != std::string::npos && colonPos + 2 < effectName.length()) {
-                        auto effectVal = effectName.substr(colonPos+2);
-                        logger::trace("value of active effect {} is {}", key, effectVal);
+                if (colonPos != std::string::npos && colonPos + 2 < effectName.length()) {
+                    auto effectVal = effectName.substr(colonPos + 2);
+                    logger::trace("value of active effect {} is {}", key, effectVal);
 
-                        return effectVal;
-                    }
+                    return effectVal;
                 }
+            }
         }
-           
+
         return {};
     }
 

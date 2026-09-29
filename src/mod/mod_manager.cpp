@@ -46,7 +46,7 @@ namespace mod {
     }
     bool mod_manager::get_wait_menu_redirected() const { return wait_menu_redirected; }
 
-    void mod_manager::set_last_seed(bool a_value) { 
+    void mod_manager::set_last_seed(bool a_value) {
         last_seed = a_value;
         logger::trace("set last seed to {}"sv, a_value);
     }
